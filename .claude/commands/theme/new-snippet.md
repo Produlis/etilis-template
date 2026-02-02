@@ -1,11 +1,11 @@
-Crea un snippet reutilizable de Shopify:
+Create a reusable Shopify snippet:
 
 ## Template
 ```liquid
 {%- comment -%}
   {{ SNIPPET_NAME }}
   
-  Description: [Qué hace este snippet]
+  Description: [What this snippet does]
   
   Parameters:
   - param1 {Type} - Description (required/optional)
@@ -20,16 +20,16 @@ Crea un snippet reutilizable de Shopify:
 -%}
 
 <div class="snippet-{{ SNIPPET_NAME }}">
-  {%- comment -%} Contenido del snippet {%- endcomment -%}
+  {%- comment -%} Snippet content {%- endcomment -%}
 </div>
 ```
 
-## Pasos
+## Steps
 
-1. Crea archivo `snippets/{{ snippet-name }}.liquid`
-2. Documenta parámetros claramente
-3. Implementa lógica Liquid
-4. Test con diferentes parámetros
-5. Valida con Theme Check
+1. Create file `snippets/{{ snippet-name }}.liquid`
+2. Document parameters clearly
+3. Implement Liquid logic
+4. Test with different parameters
+5. Validate with Theme Check
 
-Nombre del snippet: $ARGUMENTS
+Snippet name: $ARGUMENTS

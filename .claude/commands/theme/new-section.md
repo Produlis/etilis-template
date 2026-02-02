@@ -1,14 +1,14 @@
-Crea una nueva sección de Shopify siguiendo este template:
+Create a new Shopify section following this template:
 
-## Estructura
+## Structure
 ```liquid
 {%- comment -%}
   {{ SECTION_NAME }}
   
-  Description: [Descripción de la sección]
+  Description: [Section description]
   
   Settings:
-  - [Lista de settings]
+  - [List of settings]
 {%- endcomment -%}
 
 {%- liquid
@@ -29,7 +29,7 @@ Crea una nueva sección de Shopify siguiendo este template:
       <h2 class="section__heading">{{ heading }}</h2>
     {%- endif -%}
 
-    {%- comment -%} Contenido de la sección {%- endcomment -%}
+    {%- comment -%} Section content {%- endcomment -%}
     <div class="section__content">
       {%- for block in section.blocks -%}
         {%- case block.type -%}
@@ -124,14 +124,14 @@ Crea una nueva sección de Shopify siguiendo este template:
 {% endschema %}
 ```
 
-## Pasos
+## Steps
 
-1. Crea archivo `sections/{{ section-name }}.liquid`
-2. Implementa schema completo con settings y blocks
-3. Agrega Liquid logic
-4. Crea CSS en `assets/section-{{ section-name }}.css`
-5. JavaScript si es necesario en `assets/section-{{ section-name }}.js`
-6. Test en theme editor
-7. Valida con Theme Check
+1. Create file `sections/{{ section-name }}.liquid`
+2. Implement complete schema with settings and blocks
+3. Add Liquid logic
+4. Create CSS in `assets/section-{{ section-name }}.css`
+5. JavaScript if needed in `assets/section-{{ section-name }}.js`
+6. Test in theme editor
+7. Validate with Theme Check
 
-Nombre de la sección: $ARGUMENTS
+Section name: $ARGUMENTS

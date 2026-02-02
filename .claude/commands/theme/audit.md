@@ -1,14 +1,14 @@
-Ejecuta un audit completo del theme:
+Run a complete theme audit:
 
-## Checklist de Audit
+## Audit Checklist
 
 ### 1. Theme Check (Liquid)
 ```bash
 shopify theme check
 ```
-- [ ] No errores críticos
-- [ ] No warnings importantes
-- [ ] Best practices seguidas
+- [ ] No critical errors
+- [ ] No important warnings
+- [ ] Best practices followed
 
 ### 2. Lighthouse (Performance)
 - [ ] Mobile score > 90
@@ -20,14 +20,14 @@ shopify theme check
 
 ### 3. Accessibility
 - [ ] Lighthouse a11y score = 100
-- [ ] Keyboard navigation completa
+- [ ] Full keyboard navigation
 - [ ] Screen reader friendly
 - [ ] Color contrast WCAG AA
-- [ ] Form labels apropiados
-- [ ] Alt text en imágenes
+- [ ] Proper form labels
+- [ ] Alt text on images
 
 ### 4. SEO
-- [ ] Meta tags completos
+- [ ] Complete meta tags
 - [ ] Structured data (JSON-LD)
 - [ ] Canonical URLs
 - [ ] Sitemap.xml
@@ -46,14 +46,14 @@ shopify theme check
 - [ ] Touch targets > 44px
 
 ### 7. Code Quality
-- [ ] No console.log en production
-- [ ] CSS sin !important innecesarios
-- [ ] JavaScript ES6+ (transpilado si necesario)
-- [ ] No código muerto (dead code)
+- [ ] No console.log in production
+- [ ] CSS without unnecessary !important
+- [ ] JavaScript ES6+ (transpiled if needed)
+- [ ] No dead code
 
-## Genera Reporte
+## Generate Report
 
-1. Ejecuta audits
-2. Documenta hallazgos
-3. Prioriza fixes (crítico/alto/medio/bajo)
-4. Propón plan de acción
+1. Run audits
+2. Document findings
+3. Prioritize fixes (critical/high/medium/low)
+4. Propose action plan
