@@ -1,0 +1,153 @@
+/**
+ * Design Tokens
+ * Global CSS custom properties for the theme.
+ * Shopify admin overrides are applied via css-variables.liquid.
+ */
+
+:root {
+  /* ===== A) Colors — Raw Scale ===== */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+
+  --color-brand-primary: #111827;
+  --color-brand-secondary: #4b5563;
+  --color-brand-accent: #2563eb;
+
+  /* ===== B) Colors — Semantic ===== */
+  /* Status */
+  --color-success: #16a34a;
+  --color-warning: #ca8a04;
+  --color-danger: #dc2626;
+  --color-info: #2563eb;
+
+  /* UI text */
+  --color-text: #111827;
+  --color-text-muted: #6b7280;
+  --color-text-inverse: #ffffff;
+
+  /* Backgrounds */
+  --color-bg: #ffffff;
+  --color-surface: #f9fafb;
+  --color-surface-2: #f3f4f6;
+
+  /* Borders */
+  --color-border: #e5e7eb;
+  --color-divider: #f3f4f6;
+
+  /* Links */
+  --color-link: #2563eb;
+  --color-link-hover: #1d4ed8;
+
+  /* Focus */
+  --color-focus: #2563eb;
+
+  /* ===== C) Typography ===== */
+  /* Families */
+  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  /* Size scale */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+
+  /* Line heights */
+  --line-height-tight: 1.2;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* Heading semantics */
+  --h1-size: var(--font-size-4xl);
+  --h1-line: var(--line-height-tight);
+  --h2-size: var(--font-size-3xl);
+  --h2-line: var(--line-height-tight);
+  --h3-size: var(--font-size-2xl);
+  --h3-line: var(--line-height-tight);
+  --h4-size: var(--font-size-xl);
+  --h4-line: var(--line-height-tight);
+  --h5-size: var(--font-size-lg);
+  --h5-line: var(--line-height-normal);
+  --h6-size: var(--font-size-base);
+  --h6-line: var(--line-height-normal);
+
+  /* Body */
+  --body-size: var(--font-size-base);
+  --body-line: var(--line-height-normal);
+
+  /* ===== D) Spacing (4px base) ===== */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 28px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 44px;
+  --space-12: 48px;
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-padding: 24px;
+  --section-padding-y: 48px;
+  --grid-gap: 24px;
+
+  /* ===== E) Borders / Radius / Shadow ===== */
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 9999px;
+  --radius-round: 50%;
+  --radius-input: 4px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* ===== F) Motion ===== */
+  --duration-fast: 150ms;
+  --duration-medium: 300ms;
+  --duration-slow: 500ms;
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ===== G) Z-index ===== */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 300;
+  --z-toast: 400;
+}
+
+/* Dark mode placeholder */
+[data-theme="dark"] {
+  /* Override tokens here for dark mode */
+}

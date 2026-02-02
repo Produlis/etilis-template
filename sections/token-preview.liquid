@@ -1,0 +1,133 @@
+<div class="token-preview">
+  <h1>Design Tokens Preview</h1>
+
+  {%- comment -%} Color Swatches — Neutral Scale {%- endcomment -%}
+  <section class="token-preview__section">
+    <h2>Neutral Scale</h2>
+    <div class="token-preview__swatches">
+      <div class="token-preview__swatch" style="background: var(--color-neutral-0); border: 1px solid var(--color-border);"><span>0</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-50);"><span>50</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-100);"><span>100</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-200);"><span>200</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-300);"><span>300</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-400);"><span>400</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-500); color: #fff;"><span>500</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-600); color: #fff;"><span>600</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-700); color: #fff;"><span>700</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-800); color: #fff;"><span>800</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-neutral-900); color: #fff;"><span>900</span></div>
+    </div>
+  </section>
+
+  {%- comment -%} Semantic Colors {%- endcomment -%}
+  <section class="token-preview__section">
+    <h2>Semantic Colors</h2>
+    <div class="token-preview__swatches">
+      <div class="token-preview__swatch" style="background: var(--color-bg); border: 1px solid var(--color-border);"><span>bg</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-surface);"><span>surface</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-text); color: #fff;"><span>text</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-text-muted); color: #fff;"><span>muted</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-link); color: #fff;"><span>link</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-success); color: #fff;"><span>success</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-warning); color: #fff;"><span>warning</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-danger); color: #fff;"><span>danger</span></div>
+      <div class="token-preview__swatch" style="background: var(--color-info); color: #fff;"><span>info</span></div>
+    </div>
+  </section>
+
+  {%- comment -%} Typography Scale {%- endcomment -%}
+  <section class="token-preview__section">
+    <h2>Typography Scale</h2>
+    <div class="token-preview__type-scale">
+      <div style="font-size: var(--h1-size); line-height: var(--h1-line);">H1 — The quick brown fox</div>
+      <div style="font-size: var(--h2-size); line-height: var(--h2-line);">H2 — The quick brown fox</div>
+      <div style="font-size: var(--h3-size); line-height: var(--h3-line);">H3 — The quick brown fox</div>
+      <div style="font-size: var(--h4-size); line-height: var(--h4-line);">H4 — The quick brown fox</div>
+      <div style="font-size: var(--h5-size); line-height: var(--h5-line);">H5 — The quick brown fox</div>
+      <div style="font-size: var(--h6-size); line-height: var(--h6-line);">H6 — The quick brown fox</div>
+      <div style="font-size: var(--body-size); line-height: var(--body-line);">Body — The quick brown fox jumps over the lazy dog.</div>
+    </div>
+  </section>
+
+  {%- comment -%} Spacing Scale {%- endcomment -%}
+  <section class="token-preview__section">
+    <h2>Spacing Scale</h2>
+    <div class="token-preview__spacing">
+      <div class="token-preview__space-row"><span>1 (4px)</span><div style="width: var(--space-1);"></div></div>
+      <div class="token-preview__space-row"><span>2 (8px)</span><div style="width: var(--space-2);"></div></div>
+      <div class="token-preview__space-row"><span>3 (12px)</span><div style="width: var(--space-3);"></div></div>
+      <div class="token-preview__space-row"><span>4 (16px)</span><div style="width: var(--space-4);"></div></div>
+      <div class="token-preview__space-row"><span>5 (20px)</span><div style="width: var(--space-5);"></div></div>
+      <div class="token-preview__space-row"><span>6 (24px)</span><div style="width: var(--space-6);"></div></div>
+      <div class="token-preview__space-row"><span>7 (28px)</span><div style="width: var(--space-7);"></div></div>
+      <div class="token-preview__space-row"><span>8 (32px)</span><div style="width: var(--space-8);"></div></div>
+    </div>
+  </section>
+</div>
+
+{% stylesheet %}
+  .token-preview {
+    padding: 2rem 0;
+  }
+  .token-preview h1 {
+    margin-bottom: 2rem;
+  }
+  .token-preview__section {
+    margin-bottom: 2.5rem;
+  }
+  .token-preview__section h2 {
+    margin-bottom: 1rem;
+    font-size: var(--font-size-xl);
+  }
+  .token-preview__swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .token-preview__swatch {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 5rem;
+    height: 5rem;
+    border-radius: var(--radius-md);
+    padding: 0.25rem;
+    font-size: var(--font-size-xs);
+  }
+  .token-preview__type-scale > * {
+    margin-bottom: 0.75rem;
+  }
+  .token-preview__spacing {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .token-preview__space-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .token-preview__space-row span {
+    width: 5rem;
+    font-size: var(--font-size-sm);
+    flex-shrink: 0;
+  }
+  .token-preview__space-row div {
+    height: 1rem;
+    background: var(--color-brand-accent);
+    border-radius: var(--radius-xs);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Token Preview",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Token Preview",
+      "category": "Dev"
+    }
+  ]
+}
+{% endschema %}
