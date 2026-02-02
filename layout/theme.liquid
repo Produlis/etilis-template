@@ -23,8 +23,21 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
 
+    {% # Global component styles %}
+    {{ 'components.css' | asset_url | stylesheet_tag }}
+
+    {% # Style guide layout (conditional) %}
+    {% if template.suffix == 'style-guide' %}
+      {{ 'style-guide.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
+
+    {% # Block indexing for internal pages %}
+    {% if template.suffix == 'style-guide' %}
+      <meta name="robots" content="noindex,nofollow">
+    {% endif %}
 
     {{ content_for_header }}
   </head>
