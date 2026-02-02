@@ -1,0 +1,1 @@
+/Users/sebastianacostaalonso/Documents/produlis/etilis-template/AGENTS.md
