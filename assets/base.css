@@ -1,0 +1,148 @@
+/*
+ * base.css — Modern CSS Reset + Accessibility Baseline
+ *
+ * Purpose: Provide a predictable, minimal baseline for building
+ * a custom design system. No branding, layout system, or component styles.
+ *
+ * Based on: Josh Comeau's Modern CSS Reset + Andy Bell's reset
+ */
+
+/* ============================================
+   1. BOX MODEL
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================
+   2. TYPOGRAPHY
+   ============================================ */
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+body {
+  min-height: 100svh;
+  line-height: 1.5;
+  font-family: inherit;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+}
+
+/* ============================================
+   3. MEDIA ELEMENTS
+   ============================================ */
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+picture {
+  height: auto;
+}
+
+/* ============================================
+   4. FORM ELEMENTS
+   ============================================ */
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* ============================================
+   5. LINKS & INTERACTIVE
+   ============================================ */
+
+a {
+  color: inherit;
+}
+
+/* ============================================
+   6. LISTS
+   ============================================ */
+
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* ============================================
+   7. TABLES
+   ============================================ */
+
+table {
+  border-collapse: collapse;
+}
+
+/* ============================================
+   8. ACCESSIBILITY
+   ============================================ */
+
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ============================================
+   9. SCROLL
+   ============================================ */
+
+html:has(dialog[open]) {
+  overflow: hidden;
+}

@@ -6,20 +6,11 @@
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
-    {% # Load and preload the critical CSS %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {% # Load and preload the base CSS reset %}
+    {{ 'base.css' | asset_url | stylesheet_tag: preload: true }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
-
-    {% style %}
-      main {
-        text-align: center;
-      }
-      main img {
-        display: unset;
-      }
-    {% endstyle %}
 
     {{ content_for_header }}
   </head>
