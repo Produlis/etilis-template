@@ -1,0 +1,12 @@
+{
+  "sections": {
+    "style-guide": {
+      "type": "style-guide",
+      "settings": {}
+    }
+  },
+  "order": ["style-guide"]
+}
+
+
+
