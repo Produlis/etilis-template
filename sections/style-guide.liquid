@@ -4,10 +4,10 @@
 {% endcomment %}
 
 <div class="sg">
-  <!-- Warning Banner -->
+  {%- comment -%} Warning Banner {%- endcomment -%}
   <div class="sg-banner">⚠ Internal style guide — do not share</div>
 
-  <!-- Sidebar Nav -->
+  {%- comment -%} Sidebar Nav {%- endcomment -%}
   <nav class="sg-nav" aria-label="Style guide navigation">
     <span class="sg-nav__heading">Foundations</span>
     <a class="sg-nav__link" href="#colors">Colors</a>
@@ -27,12 +27,12 @@
     <a class="sg-nav__link" href="#tables">Tables</a>
   </nav>
 
-  <!-- Main Content -->
+  {%- comment -%} Main Content {%- endcomment -%}
   <main class="sg-main">
 
     {%- comment -%}========== FOUNDATIONS =========={%- endcomment -%}
 
-    <!-- Colors -->
+    {%- comment -%} Colors {%- endcomment -%}
     <section id="colors" class="sg-section">
       <h2 class="sg-section__title">Colors</h2>
 
@@ -120,7 +120,7 @@
       </div>
     </section>
 
-    <!-- Typography -->
+    {%- comment -%} Typography {%- endcomment -%}
     <section id="typography" class="sg-section">
       <h2 class="sg-section__title">Typography</h2>
 
@@ -139,7 +139,7 @@
       </div>
     </section>
 
-    <!-- Spacing -->
+    {%- comment -%} Spacing {%- endcomment -%}
     <section id="spacing" class="sg-section">
       <h2 class="sg-section__title">Spacing</h2>
 
@@ -155,7 +155,7 @@
       </div>
     </section>
 
-    <!-- Borders & Radius -->
+    {%- comment -%} Borders & Radius {%- endcomment -%}
     <section id="borders" class="sg-section">
       <h2 class="sg-section__title">Borders &amp; Radius</h2>
 
@@ -177,7 +177,7 @@
       </div>
     </section>
 
-    <!-- Shadows -->
+    {%- comment -%} Shadows {%- endcomment -%}
     <section id="shadows" class="sg-section">
       <h2 class="sg-section__title">Shadows</h2>
 
@@ -191,7 +191,7 @@
       </div>
     </section>
 
-    <!-- Motion & Focus -->
+    {%- comment -%} Motion & Focus {%- endcomment -%}
     <section id="motion" class="sg-section">
       <h2 class="sg-section__title">Motion &amp; Focus</h2>
 
@@ -199,9 +199,9 @@
 
       <h3>Transition Speeds</h3>
       <div class="sg-demo">
-        <div class="sg-box" style="transition: transform var(--duration-fast) var(--ease-standard); cursor: pointer" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">fast</div>
-        <div class="sg-box" style="transition: transform var(--duration-medium) var(--ease-standard); cursor: pointer" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">medium</div>
-        <div class="sg-box" style="transition: transform var(--duration-slow) var(--ease-emphasized); cursor: pointer" onmouseenter="this.style.transform='scale(1.1)'" onmouseleave="this.style.transform='scale(1)'">slow</div>
+        <div class="sg-box sg-motion-demo" style="transition: transform var(--duration-fast) var(--ease-standard)">fast</div>
+        <div class="sg-box sg-motion-demo" style="transition: transform var(--duration-medium) var(--ease-standard)">medium</div>
+        <div class="sg-box sg-motion-demo" style="transition: transform var(--duration-slow) var(--ease-emphasized)">slow</div>
       </div>
 
       <h3>Focus Ring</h3>
@@ -213,7 +213,7 @@
 
     {%- comment -%}========== COMPONENTS =========={%- endcomment -%}
 
-    <!-- Buttons -->
+    {%- comment -%} Buttons {%- endcomment -%}
     <section id="buttons" class="sg-section">
       <h2 class="sg-section__title">Buttons</h2>
 
@@ -248,7 +248,7 @@
       </div>
     </section>
 
-    <!-- Forms -->
+    {%- comment -%} Forms {%- endcomment -%}
     <section id="forms" class="sg-section">
       <h2 class="sg-section__title">Forms</h2>
 
@@ -263,8 +263,8 @@
 
         <div class="form-group has-error">
           <label class="form-label" for="sg-input-err">Input with Error</label>
-          <input class="form-input" type="text" id="sg-input-err" value="Bad value">
-          <span class="form-error">This field is required.</span>
+          <input class="form-input" type="text" id="sg-input-err" value="Bad value" aria-invalid="true" aria-describedby="sg-input-err-msg">
+          <span class="form-error" id="sg-input-err-msg">This field is required.</span>
         </div>
 
         <div class="form-group">
@@ -318,7 +318,7 @@
       </div>
     </section>
 
-    <!-- Rich Text -->
+    {%- comment -%} Rich Text {%- endcomment -%}
     <section id="rich-text" class="sg-section">
       <h2 class="sg-section__title">Rich Text</h2>
 
@@ -342,7 +342,7 @@
       </div>
     </section>
 
-    <!-- Badges -->
+    {%- comment -%} Badges {%- endcomment -%}
     <section id="badges" class="sg-section">
       <h2 class="sg-section__title">Badges</h2>
 
@@ -357,7 +357,7 @@
       </div>
     </section>
 
-    <!-- Alerts -->
+    {%- comment -%} Alerts {%- endcomment -%}
     <section id="alerts" class="sg-section">
       <h2 class="sg-section__title">Alerts</h2>
 
@@ -372,7 +372,7 @@
       </div>
     </section>
 
-    <!-- Cards -->
+    {%- comment -%} Cards {%- endcomment -%}
     <section id="cards" class="sg-section">
       <h2 class="sg-section__title">Cards</h2>
 
@@ -394,7 +394,7 @@
       </div>
     </section>
 
-    <!-- Tables -->
+    {%- comment -%} Tables {%- endcomment -%}
     <section id="tables" class="sg-section">
       <h2 class="sg-section__title">Tables</h2>
 
@@ -443,6 +443,10 @@
   "name": "Style Guide",
   "tag": "section",
   "class": "style-guide-section",
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"],
+    "templates": ["index", "collection", "product", "blog", "article", "cart", "search", "404", "list-collections", "customers/account", "customers/login", "customers/register", "customers/order", "customers/reset_password", "customers/activate_account", "customers/addresses"]
+  },
   "settings": []
 }
 {% endschema %}

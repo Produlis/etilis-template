@@ -189,6 +189,15 @@
   color: var(--color-text-muted);
 }
 
+/* ===== Motion Demo ===== */
+.sg-motion-demo {
+  cursor: pointer;
+}
+
+.sg-motion-demo:hover {
+  transform: scale(1.1);
+}
+
 /* ===== Forms layout ===== */
 .sg-form-grid {
   display: grid;
