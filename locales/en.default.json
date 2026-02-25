@@ -170,6 +170,24 @@
       "save_badge": "Save 50%+",
       "offer_ends": "Offer ends today",
       "add_to_cart": "Add to cart"
+    },
+    "collection": {
+      "name": "Collection",
+      "sale": "Sale",
+      "filters_label": "Collection filters",
+      "filter_collection": "Collection",
+      "filter_category": "Category",
+      "filter_price": "Price",
+      "filter_sort": "Sort by",
+      "filter_all": "All filters",
+      "products_label": "Collection products",
+      "rating_label": "Rated {{ rating }} out of 5",
+      "pagination_label": "Collection pagination",
+      "price_from": "From",
+      "price_to": "To",
+      "apply": "Apply",
+      "clear_all": "Clear all",
+      "no_products": "No products match your filters."
     }
   },
   "testimonials": {

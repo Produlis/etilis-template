@@ -283,6 +283,15 @@
         }
       }
     },
+    "collection_page": {
+      "name": "Collection",
+      "description_info": "Shown when collection has no description",
+      "collection_list": "Collections to show",
+      "show_filters": "Show filter bar",
+      "columns_desktop": "Columns (desktop)",
+      "columns_mobile": "Columns (mobile)",
+      "products_per_page": "Products per page"
+    },
     "footer": {
       "name": "Footer",
       "settings": {
