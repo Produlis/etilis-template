@@ -71,22 +71,22 @@
     align-self: flex-start;
     background-color: var(--theme-surface-alt);
     color: var(--theme-primary);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: var(--letter-spacing-wider);
     padding: 4px 12px;
-    border-radius: 28px;
+    border-radius: var(--theme-radius-badge);
     line-height: normal;
   }
 
   .faq__heading {
-    font-size: 52px;
+    font-size: var(--font-size-5xl);
     color: var(--theme-primary);
     line-height: normal;
-    letter-spacing: -2.08px;
+    letter-spacing: var(--letter-spacing-tighter);
     margin: 0;
-    font-weight: 400;
+    font-weight: var(--font-weight-regular);
   }
 
   .faq__right {
@@ -126,19 +126,19 @@
   .faq__question:focus-visible {
     outline: 2px solid var(--color-focus, var(--theme-primary));
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .faq__question-text {
-    font-size: 20px;
+    font-size: var(--font-size-xl);
     color: var(--theme-primary);
     line-height: normal;
-    font-weight: 400;
-    letter-spacing: -0.8px;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tighter);
   }
 
   .faq__item--active .faq__question-text {
-    font-weight: 500;
+    font-weight: var(--font-weight-medium);
   }
 
   .faq__icon {
@@ -196,10 +196,10 @@
 
   .faq__answer-inner {
     min-height: 0;
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     color: var(--theme-text-secondary);
-    line-height: 20px;
+    line-height: var(--line-height-snug);
   }
 
   .faq__answer-inner p {
@@ -225,9 +225,9 @@
     }
 
     .faq__heading {
-      font-size: 32px;
-      line-height: 40px;
-      letter-spacing: -1.28px;
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
     }
   }
 {% endstylesheet %}

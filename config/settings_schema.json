@@ -72,9 +72,13 @@
           {
             "value": "ember",
             "label": "t:options.theme_preset.ember"
+          },
+          {
+            "value": "violet",
+            "label": "t:options.theme_preset.violet"
           }
         ],
-        "default": "nature"
+        "default": "ocean"
       },
       {
         "type": "header",

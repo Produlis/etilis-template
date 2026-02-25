@@ -15,12 +15,10 @@
         "tag_text": "Collections",
         "show_filters": true,
         "columns_desktop": 4,
-        "columns_mobile": 2,
+        "columns_mobile": "2",
         "products_per_page": 20
       }
     }
   },
-  "order": [
-    "main"
-  ]
+  "order": ["main"]
 }

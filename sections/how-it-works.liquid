@@ -106,27 +106,27 @@
     display: inline-block;
     background-color: var(--theme-surface-alt);
     color: var(--theme-primary);
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--letter-spacing-wider);
     padding: 6px 16px;
     border-radius: var(--theme-radius-badge);
     margin-bottom: 16px;
   }
 
   .how-it-works__heading {
-    font-size: 52px;
-    line-height: 1.15;
-    font-weight: 700;
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-bold);
     color: var(--theme-primary);
     margin-bottom: 16px;
   }
 
   .how-it-works__description {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     color: var(--theme-text-secondary);
     max-width: 502px;
-    line-height: 1.5;
+    line-height: var(--line-height-normal);
   }
 
   .how-it-works__body {
@@ -167,7 +167,7 @@
     display: block;
     width: 20px;
     height: 20px;
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     background-color: var(--theme-accent);
     flex-shrink: 0;
   }
@@ -190,26 +190,26 @@
     display: inline-block;
     background-color: var(--theme-accent);
     color: var(--theme-primary);
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: var(--letter-spacing-wider);
     padding: 4px 14px;
     border-radius: var(--theme-radius-badge);
     align-self: flex-start;
   }
 
   .how-it-works__step-title {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
-    letter-spacing: 1.68px;
+    letter-spacing: var(--letter-spacing-wider);
     color: var(--theme-primary);
   }
 
   .how-it-works__step-description {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     color: var(--theme-text-secondary);
-    line-height: 1.5;
+    line-height: var(--line-height-normal);
   }
 
   .how-it-works__aside {
@@ -268,22 +268,22 @@
   }
 
   .how-it-works__upsell-title {
-    font-size: 16px;
-    font-weight: 600;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
   }
 
   .how-it-works__upsell-badge {
     display: inline-block;
     background-color: var(--theme-accent);
     color: var(--theme-primary);
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     padding: 4px 10px;
     border-radius: var(--theme-radius-badge);
     white-space: nowrap;
   }
 
   .how-it-works__upsell-subtitle {
-    font-size: 14px;
+    font-size: var(--font-size-sm);
     color: var(--theme-text-secondary);
   }
 
@@ -294,12 +294,12 @@
   }
 
   .how-it-works__upsell-price-current {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-bold);
   }
 
   .how-it-works__upsell-price-compare {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: var(--theme-text-secondary);
     text-decoration: line-through;
   }
@@ -308,8 +308,8 @@
     display: inline-block;
     background-color: var(--theme-primary);
     color: var(--theme-text-on-primary);
-    font-size: 14px;
-    font-weight: 600;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
     text-align: center;
     padding: 10px 24px;
@@ -320,7 +320,7 @@
 
   @media screen and (max-width: 749px) {
     .how-it-works__heading {
-      font-size: 32px;
+      font-size: var(--font-size-3xl);
     }
 
     .how-it-works__body {

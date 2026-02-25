@@ -200,26 +200,26 @@
     background: rgba(255, 255, 255, 0.2);
     border-radius: var(--theme-radius-badge);
     padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: 1.44px;
+    letter-spacing: var(--letter-spacing-wider);
     color: var(--theme-text-on-primary);
-    line-height: 1.5;
+    line-height: var(--line-height-normal);
   }
 
   .home-collection__heading {
-    font-size: 52px;
-    line-height: 64px;
-    letter-spacing: -2.08px;
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tighter);
     color: var(--theme-text-on-primary);
     margin: 0;
-    font-weight: 700;
+    font-weight: var(--font-weight-bold);
   }
 
   .home-collection__subtitle {
-    font-size: 16px;
-    line-height: 24px;
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
     color: var(--theme-text-muted);
     margin: 0;
     max-width: 560px;
@@ -257,7 +257,7 @@
     justify-content: center;
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     border: 1px solid rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
@@ -333,11 +333,11 @@
     background: var(--theme-accent);
     border-radius: var(--theme-radius-badge);
     padding: 4px 8px;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
     color: var(--theme-primary);
-    line-height: 1;
+    line-height: var(--line-height-none);
   }
 
   .home-collection__badge-icon {
@@ -353,12 +353,12 @@
   }
 
   .home-collection__card-title {
-    font-size: 24px;
-    line-height: 32px;
-    letter-spacing: -0.72px;
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tighter);
     color: var(--theme-text-on-primary);
     margin: 0;
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
   }
 
   .home-collection__card-title a {
@@ -373,7 +373,7 @@
   .home-collection__card-title a:focus-visible {
     outline: 2px solid var(--color-focus, var(--theme-text-on-primary));
     outline-offset: 2px;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .home-collection__card-rating {
@@ -383,7 +383,7 @@
   }
 
   .home-collection__review-count {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: var(--theme-text-muted);
     margin-left: 4px;
   }
@@ -395,13 +395,13 @@
   }
 
   .home-collection__price {
-    font-size: 16px;
+    font-size: var(--font-size-base);
     color: var(--theme-text-on-primary);
-    font-weight: 600;
+    font-weight: var(--font-weight-semibold);
   }
 
   .home-collection__compare-price {
-    font-size: 12px;
+    font-size: var(--font-size-xs);
     color: var(--theme-text-muted);
     text-decoration: line-through;
   }
@@ -413,8 +413,8 @@
     height: 48px;
     background: var(--theme-text-on-primary);
     border-radius: var(--theme-radius-button);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
     color: var(--theme-primary);
     text-decoration: none;
     cursor: pointer;
@@ -443,9 +443,9 @@
     }
 
     .home-collection__heading {
-      font-size: 32px;
-      line-height: 40px;
-      letter-spacing: -1.28px;
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
     }
 
   }

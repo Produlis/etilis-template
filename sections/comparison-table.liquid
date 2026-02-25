@@ -78,20 +78,20 @@
     align-self: flex-start;
     background-color: rgba(255, 255, 255, 0.2);
     color: var(--theme-text-on-primary);
-    font-size: 12px;
-    font-weight: 500;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: var(--letter-spacing-wider);
     padding: 4px 12px;
-    border-radius: 28px;
+    border-radius: var(--theme-radius-badge);
     line-height: normal;
   }
 
   .comparison-table__heading {
-    font-size: 52px;
+    font-size: var(--font-size-5xl);
     line-height: normal;
-    font-weight: 400;
-    letter-spacing: -2.08px;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tighter);
     color: var(--theme-text-on-primary);
     margin: 0;
   }
@@ -108,7 +108,7 @@
     align-items: flex-end;
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 24px;
+    border-radius: var(--radius-3xl);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     padding: 8px 8px 8px 24px;
@@ -128,10 +128,10 @@
     min-height: 48px;
     display: flex;
     align-items: center;
-    font-size: 16px;
-    font-weight: 400;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
-    line-height: 24px;
+    line-height: var(--line-height-normal);
   }
 
   /* ── Brand column ── */
@@ -142,7 +142,7 @@
     gap: 16px;
     align-items: center;
     background-color: var(--theme-accent);
-    border-radius: 16px;
+    border-radius: var(--radius-xl);
     padding: 16px 0;
   }
 
@@ -157,7 +157,7 @@
     flex-direction: column;
     gap: 16px;
     align-items: center;
-    border-radius: 16px;
+    border-radius: var(--radius-xl);
     padding: 16px 0;
   }
 
@@ -171,10 +171,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    font-weight: 400;
-    letter-spacing: -0.64px;
-    line-height: 24px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tighter);
+    line-height: var(--line-height-normal);
   }
 
   .comparison-table__cell {
@@ -189,14 +189,14 @@
     display: block;
     width: 16px;
     height: 16px;
-    border-radius: 50%;
+    border-radius: var(--radius-round);
     background-color: var(--theme-primary);
   }
 
   .comparison-table__other-text {
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-snug);
     color: var(--theme-text-dim);
     text-align: center;
   }
@@ -218,15 +218,15 @@
     }
 
     .comparison-table__heading {
-      font-size: 32px;
-      line-height: 1.2;
-      letter-spacing: -1.28px;
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
     }
 
     .comparison-table__glass {
       padding: 8px;
       gap: 4px;
-      border-radius: 16px;
+      border-radius: var(--radius-xl);
     }
 
     .comparison-table__labels {

@@ -421,7 +421,8 @@
     "theme_preset": {
       "nature": "Nature",
       "ocean": "Ocean",
-      "ember": "Ember"
+      "ember": "Ember",
+      "violet": "Violet"
     }
   }
 }

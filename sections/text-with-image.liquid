@@ -94,7 +94,7 @@
   .twi__card {
     flex: 0 0 72%;
     background-color: var(--theme-primary);
-    border-radius: 24px;
+    border-radius: var(--radius-3xl);
     padding: 32px;
     display: flex;
     flex-direction: column;
@@ -111,31 +111,31 @@
   .twi__tag {
     display: inline-block;
     align-self: flex-start;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: 1.2px;
+    letter-spacing: var(--letter-spacing-wider);
     color: var(--theme-text-on-primary);
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 28px;
+    border-radius: var(--theme-radius-badge);
     padding: 4px 12px;
     line-height: normal;
   }
 
   .twi__heading {
-    font-size: 52px;
-    line-height: 1.15;
-    font-weight: 400;
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
-    letter-spacing: -2.08px;
+    letter-spacing: var(--letter-spacing-tighter);
     margin: 0;
     max-width: 616px;
   }
 
   .twi__body {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
     color: var(--theme-text-muted);
     max-width: 548px;
     margin: 0;
@@ -146,14 +146,14 @@
     align-self: flex-start;
     background-color: var(--theme-text-on-primary);
     color: var(--theme-primary);
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    letter-spacing: -0.32px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-tight);
     text-decoration: none;
     text-align: center;
     padding: 12px 24px;
-    border-radius: 48px;
+    border-radius: var(--theme-radius-button);
     transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
   }
 
@@ -176,7 +176,7 @@
   /* ── Side image ── */
   .twi__side-image {
     flex: 1;
-    border-radius: 24px;
+    border-radius: var(--radius-3xl);
     overflow: hidden;
     min-height: 0;
     background-color: var(--theme-surface-alt);
@@ -192,7 +192,7 @@
   .twi__bottom {
     position: relative;
     aspect-ratio: 1176 / 440;
-    border-radius: 24px;
+    border-radius: var(--radius-3xl);
     overflow: hidden;
     background-color: var(--theme-surface-alt);
   }
@@ -218,7 +218,7 @@
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: rgba(255, 255, 255, 0.12);
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 24px;
   }
 
@@ -243,18 +243,18 @@
   }
 
   .twi__feature-title {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
     color: var(--theme-text-on-primary);
-    letter-spacing: -0.8px;
+    letter-spacing: var(--letter-spacing-tighter);
     line-height: normal;
     margin: 0;
   }
 
   .twi__feature-description {
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
     color: var(--theme-text-on-primary);
     margin: 0;
   }
@@ -276,9 +276,9 @@
     }
 
     .twi__heading {
-      font-size: 32px;
-      line-height: 1.2;
-      letter-spacing: -1.28px;
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
     }
 
     .twi__side-image {
@@ -300,12 +300,12 @@
     }
 
     .twi__feature-title {
-      font-size: 16px;
+      font-size: var(--font-size-base);
     }
 
     .twi__feature-description {
-      font-size: 14px;
-      line-height: 20px;
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-snug);
     }
   }
 
@@ -316,7 +316,7 @@
     }
 
     .twi__heading {
-      font-size: 40px;
+      font-size: var(--font-size-4xl);
     }
 
     .twi__overlay {
