@@ -5,12 +5,138 @@
   {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
   {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
+  {% # Set default theme variables based on selected preset %}
+  {% case settings.theme_preset %}
+    {% when 'ocean' %}
+      {% assign preset_primary = '#0f2942' %}
+      {% assign preset_primary_hover = '#0a1e33' %}
+      {% assign preset_primary_light = '#1e4976' %}
+      {% assign preset_accent = '#7dd3fc' %}
+      {% assign preset_accent_hover = '#5bc0f5' %}
+      {% assign preset_surface = '#f0f7ff' %}
+      {% assign preset_surface_alt = '#e0edf9' %}
+      {% assign preset_surface_muted = '#b8cce0' %}
+      {% assign preset_text = '#0f2942' %}
+      {% assign preset_text_secondary = '#4a5568' %}
+      {% assign preset_text_on_primary = '#ffffff' %}
+      {% assign preset_text_muted = '#94b8d4' %}
+      {% assign preset_text_dim = '#7a9ab5' %}
+      {% assign preset_input_border = '#3a6891' %}
+      {% assign preset_star = '#FFB800' %}
+      {% assign preset_border = '#b8c0d0' %}
+      {% assign preset_surface_emphasis = '#c8d0e0' %}
+      {% assign preset_primary_dark = '#071420' %}
+      {% assign preset_radius_card = '16px' %}
+      {% assign preset_radius_button = '12px' %}
+      {% assign preset_radius_badge = '20px' %}
+      {% assign preset_radius_image = '12px' %}
+    {% when 'ember' %}
+      {% assign preset_primary = '#4a1a0a' %}
+      {% assign preset_primary_hover = '#3a1208' %}
+      {% assign preset_primary_light = '#7a3a20' %}
+      {% assign preset_accent = '#fbbf24' %}
+      {% assign preset_accent_hover = '#e5a90f' %}
+      {% assign preset_surface = '#fffbf5' %}
+      {% assign preset_surface_alt = '#fef3e2' %}
+      {% assign preset_surface_muted = '#e8d5be' %}
+      {% assign preset_text = '#4a1a0a' %}
+      {% assign preset_text_secondary = '#5c4033' %}
+      {% assign preset_text_on_primary = '#ffffff' %}
+      {% assign preset_text_muted = '#c9a88e' %}
+      {% assign preset_text_dim = '#a8907a' %}
+      {% assign preset_input_border = '#8a5a3a' %}
+      {% assign preset_star = '#FFB800' %}
+      {% assign preset_border = '#c0a888' %}
+      {% assign preset_surface_emphasis = '#dcc8b0' %}
+      {% assign preset_primary_dark = '#1a0a04' %}
+      {% assign preset_radius_card = '12px' %}
+      {% assign preset_radius_button = '8px' %}
+      {% assign preset_radius_badge = '16px' %}
+      {% assign preset_radius_image = '8px' %}
+    {% else %}
+      {% # Nature (default) %}
+      {% assign preset_primary = '#1c3a13' %}
+      {% assign preset_primary_hover = '#15300f' %}
+      {% assign preset_primary_light = '#37522f' %}
+      {% assign preset_accent = '#d3fa99' %}
+      {% assign preset_accent_hover = '#c4f080' %}
+      {% assign preset_surface = '#fcfcf7' %}
+      {% assign preset_surface_alt = '#f2f3e7' %}
+      {% assign preset_surface_muted = '#d2d4c4' %}
+      {% assign preset_text = '#1c3a13' %}
+      {% assign preset_text_secondary = '#434141' %}
+      {% assign preset_text_on_primary = '#ffffff' %}
+      {% assign preset_text_muted = '#cdd1cc' %}
+      {% assign preset_text_dim = '#a8afa6' %}
+      {% assign preset_input_border = '#4f6748' %}
+      {% assign preset_star = '#FFB800' %}
+      {% assign preset_border = '#c0c2bf' %}
+      {% assign preset_surface_emphasis = '#d8ddce' %}
+      {% assign preset_primary_dark = '#0b1807' %}
+      {% assign preset_radius_card = '24px' %}
+      {% assign preset_radius_button = '48px' %}
+      {% assign preset_radius_badge = '28px' %}
+      {% assign preset_radius_image = '16px' %}
+  {% endcase %}
+
+  {% # Apply individual color overrides if set by the merchant %}
+  {% if settings.color_primary != blank %}
+    {% assign preset_primary = settings.color_primary %}
+    {% assign preset_text = settings.color_primary %}
+  {% endif %}
+
+  {% if settings.color_accent != blank %}
+    {% assign preset_accent = settings.color_accent %}
+  {% endif %}
+
+  {% if settings.color_surface != blank %}
+    {% assign preset_surface = settings.color_surface %}
+  {% endif %}
+
+  {% if settings.color_surface_alt != blank %}
+    {% assign preset_surface_alt = settings.color_surface_alt %}
+  {% endif %}
+
+  {% if settings.color_text_secondary != blank %}
+    {% assign preset_text_secondary = settings.color_text_secondary %}
+  {% endif %}
+
   :root {
+    /* Typography */
     --font-sans: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --color-bg: {{ settings.background_color }};
-    --color-text: {{ settings.foreground_color }};
+
+    /* Layout */
     --container-max: {{ settings.max_page_width }};
     --container-padding: {{ settings.min_page_margin }}px;
-    --radius-input: {{ settings.input_corner_radius }}px;
+
+    /* Theme colors */
+    --theme-primary: {{ preset_primary }};
+    --theme-primary-hover: {{ preset_primary_hover }};
+    --theme-primary-light: {{ preset_primary_light }};
+    --theme-accent: {{ preset_accent }};
+    --theme-accent-hover: {{ preset_accent_hover }};
+    --theme-surface: {{ preset_surface }};
+    --theme-surface-alt: {{ preset_surface_alt }};
+    --theme-surface-muted: {{ preset_surface_muted }};
+    --theme-text: {{ preset_text }};
+    --theme-text-secondary: {{ preset_text_secondary }};
+    --theme-text-on-primary: {{ preset_text_on_primary }};
+    --theme-text-muted: {{ preset_text_muted }};
+    --theme-text-dim: {{ preset_text_dim }};
+    --theme-input-border: {{ preset_input_border }};
+    --theme-star: {{ preset_star }};
+    --theme-border: {{ preset_border }};
+    --theme-surface-emphasis: {{ preset_surface_emphasis }};
+    --theme-primary-dark: {{ preset_primary_dark }};
+
+    /* Theme radii */
+    --theme-radius-card: {{ preset_radius_card }};
+    --theme-radius-button: {{ preset_radius_button }};
+    --theme-radius-badge: {{ preset_radius_badge }};
+    --theme-radius-image: {{ preset_radius_image }};
+
+    /* Legacy aliases */
+    --color-bg: {{ preset_surface }};
+    --color-text: {{ preset_text }};
   }
 {% endstyle %}

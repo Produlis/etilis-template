@@ -48,5 +48,146 @@
     "submit": "Search",
     "no_results_html": "No results found for {{ terms }}",
     "results_for_html": "{{ count }} results found for {{ terms }}"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "quantity": "Quantity",
+    "five_star_reviews": "FIVE-STAR REVIEWS",
+    "free_shipping": "Free shipping",
+    "money_back_guarantee": "30 day money-back guarantee",
+    "secure_checkout": "Secure checkout",
+    "compare_at": "Compare at",
+    "sale": "Sale",
+    "bottle_single": "1 Bottle",
+    "bottle_double": "2 Bottle",
+    "bottle_triple": "3 Bottle",
+    "popular": "POPULAR",
+    "save_percent": "Save {{ percent }}",
+    "hero": {
+      "five_star_reviews": "FIVE-STAR REVIEWS",
+      "review_count": "{{ count }} five-star reviews",
+      "rating_label": "Rated {{ rating }} out of 5",
+      "thumbnail_gallery": "Product image thumbnails",
+      "thumbnail_label": "View image {{ index }}",
+      "select_quantity": "Select quantity",
+      "bundle_1": "1 Bottle",
+      "bundle_1_subtitle": "Offer ends today",
+      "bundle_2": "2 Bottles",
+      "bundle_2_subtitle": "Offer ends today",
+      "bundle_3": "3 Bottles",
+      "bundle_3_subtitle": "Offer ends today",
+      "badge_popular": "POPULAR",
+      "badge_save": "SAVE 50%+",
+      "badge_save_best": "SAVE 60%+",
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out"
+    }
+  },
+  "sections": {
+    "logo_marquee": {
+      "name": "Logo marquee",
+      "aria_label": "Partner logos"
+    },
+    "text_with_image": {
+      "name": "Text with image",
+      "learn_more": "Learn more"
+    },
+    "how_it_works": {
+      "name": "How it works",
+      "step": "Step {{ number }}",
+      "bundle": "Bundle",
+      "save_badge": "Save 50%+",
+      "offer_ends": "Offer ends today",
+      "offer_ends_today": "Offer ends today",
+      "add_to_cart": "Add to cart"
+    },
+    "product_benefits": {
+      "name": "Product benefits"
+    },
+    "guarantee_banner": {
+      "name": "Guarantee banner"
+    },
+    "comparison_table": {
+      "name": "Comparison table",
+      "get_your_bottle": "Get your bottle",
+      "yes": "Yes",
+      "no": "No",
+      "features_header": "Features"
+    },
+    "testimonials": {
+      "name": "Testimonials"
+    },
+    "faq": {
+      "name": "FAQ"
+    },
+    "product_hero": {
+      "name": "Product hero"
+    },
+    "home_hero": {
+      "name": "Home hero",
+      "shop_now": "Shop Now",
+      "review_stars": "five-star reviews"
+    },
+    "home_collection": {
+      "name": "Home collection",
+      "add_to_cart": "Add to cart",
+      "sale": "Sale",
+      "aria_products": "Product cards",
+      "star_rating": "5 out of 5 stars"
+    },
+    "home_benefits": {
+      "name": "Benefits",
+      "learn_more": "Learn more"
+    },
+    "home_steps": {
+      "name": "How it works",
+      "step": "Step {{ number }}"
+    },
+    "home_comparison": {
+      "name": "Comparison",
+      "orders_remaining": "{{ count }} orders at this price remaining",
+      "free_shipping": "FREE Shipping & Returns",
+      "money_back": "30 day money-back guarantee"
+    },
+    "home_testimonials": {
+      "name": "Testimonials",
+      "five_star_reviews": "FIVE-STAR REVIEWS",
+      "play_video": "Play testimonial video"
+    },
+    "product_timeline": {
+      "name": "Benefits timeline",
+      "bundle": "Bundle",
+      "save_badge": "Save 50%+",
+      "offer_ends": "Offer ends today",
+      "add_to_cart": "Add to cart"
+    }
+  },
+  "testimonials": {
+    "section_label": "Testimonials",
+    "star_rating": "{{ rating }} out of 5 stars",
+    "five_star_reviews": "{{ count }} FIVE-STAR REVIEWS"
+  },
+  "faq": {
+    "section_label": "Frequently asked questions"
+  },
+  "footer": {
+    "navigation": "Footer navigation",
+    "description": "Pioneering microbiome science [R+D] for human and planetary health since 2015.",
+    "newsletter_heading": "Subscribe our newsletter",
+    "email_placeholder": "Your email address",
+    "subscribe": "Get Started",
+    "copyright_html": "\u00a9 {{ year }} {{ shop_name }}"
+  },
+  "header": {
+    "navigation": "Main navigation",
+    "cart": "Cart",
+    "menu_toggle": "Menu",
+    "close_menu": "Close menu"
+  },
+  "accessibility": {
+    "checkmark": "Yes",
+    "x_mark": "No"
   }
 }

@@ -1,0 +1,325 @@
+<div class="home-steps full-width">
+  <div class="home-steps__header">
+    {% if section.settings.tag_text != blank %}
+      <span class="home-steps__tag">{{ section.settings.tag_text }}</span>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="home-steps__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="home-steps__subtitle">{{ section.settings.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="home-steps__track">
+    {% for block in section.blocks %}
+      <div class="home-steps__step" {{ block.shopify_attributes }}>
+        <div class="home-steps__indicator">
+          <span class="home-steps__dashed-line"></span>
+          <span class="home-steps__badge">
+            <span class="home-steps__badge-inner">
+              {{ 'sections.home_steps.step' | t: number: forloop.index }}
+            </span>
+          </span>
+          <span class="home-steps__dashed-line"></span>
+        </div>
+
+        <div class="home-steps__content">
+          {% if block.settings.image != blank %}
+            <div class="home-steps__image-wrapper">
+              {{
+                block.settings.image
+                | image_url: width: 800
+                | image_tag:
+                  class: 'home-steps__image',
+                  loading: 'lazy',
+                  widths: '280,400,600,800'
+              }}
+            </div>
+          {% else %}
+            <div class="home-steps__image-wrapper home-steps__image-wrapper--placeholder">
+              {{ 'lifestyle-1' | placeholder_svg_tag: 'home-steps__image-placeholder' }}
+            </div>
+          {% endif %}
+
+          {% if block.settings.title != blank %}
+            <h3 class="home-steps__step-title">{{ block.settings.title }}</h3>
+          {% endif %}
+
+          {% if block.settings.description != blank %}
+            <p class="home-steps__step-description">{{ block.settings.description }}</p>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .home-steps {
+    background-color: var(--theme-surface);
+    padding: 52px var(--container-padding, 24px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 52px;
+  }
+
+  .home-steps__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    max-width: 720px;
+  }
+
+  .home-steps__tag {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--theme-surface-alt);
+    border-radius: var(--theme-radius-badge);
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.44px;
+    color: var(--theme-primary);
+    line-height: 1.4;
+  }
+
+  .home-steps__heading {
+    font-size: 52px;
+    line-height: 64px;
+    letter-spacing: -2.08px;
+    color: var(--theme-primary);
+    margin: 0;
+    text-align: center;
+  }
+
+  .home-steps__subtitle {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--theme-text-secondary);
+    margin: 0;
+    text-align: center;
+  }
+
+  .home-steps__track {
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 1200px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .home-steps__track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-steps__step {
+    flex: 0 0 400px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    scroll-snap-align: start;
+  }
+
+  .home-steps__indicator {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    gap: 0;
+  }
+
+  .home-steps__dashed-line {
+    flex: 1;
+    height: 0;
+    border-top: 1px dashed color-mix(in srgb, var(--theme-primary) 25%, transparent);
+  }
+
+  .home-steps__badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: 1px solid color-mix(in srgb, var(--theme-primary) 12%, transparent);
+    border-radius: var(--theme-radius-badge);
+    background: transparent;
+  }
+
+  .home-steps__badge-inner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--theme-accent);
+    border-radius: var(--theme-radius-badge);
+    height: 28px;
+    padding: 0 12px;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    color: var(--theme-primary);
+    white-space: nowrap;
+  }
+
+  .home-steps__content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 24px;
+  }
+
+  .home-steps__image-wrapper {
+    width: 100%;
+    height: 253px;
+    border-radius: var(--theme-radius-image);
+    overflow: hidden;
+  }
+
+  .home-steps__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .home-steps__image-wrapper--placeholder {
+    background-color: var(--theme-surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-steps__image-placeholder {
+    width: 100%;
+    height: 100%;
+  }
+
+  .home-steps__step-title {
+    font-size: 20px;
+    line-height: 28px;
+    color: var(--theme-primary);
+    margin: 0;
+  }
+
+  .home-steps__step-description {
+    font-size: 16px;
+    line-height: 24px;
+    color: var(--theme-text-secondary);
+    margin: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .home-steps {
+      padding: 24px 20px;
+      gap: 32px;
+    }
+
+    .home-steps__heading {
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -1.28px;
+    }
+
+    .home-steps__step {
+      flex: 0 0 280px;
+    }
+
+    .home-steps__image-wrapper {
+      height: 200px;
+    }
+
+    .home-steps__content {
+      padding: 0 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.home_steps.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "HOW IT WORK"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Engineered to work with your body"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "Built on microbiome science to deliver targeted, effective gut support."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "t:sections.home_steps.blocks.step.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title",
+          "default": "Step title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:labels.description",
+          "default": "Step description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.home_steps.name",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Advanced Delivery Technology",
+            "description": "Our capsule-in-capsule system protects probiotics from stomach acid, helping them reach the gut intact."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Targeted Release",
+            "description": "Probiotics are released in the colon—where they can effectively support the microbiome."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Clinically Studied Strains",
+            "description": "Each strain is carefully selected based on scientific research and clinical evidence."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,442 @@
+<section class="twi full-width">
+  <div class="twi__container">
+    <div class="twi__top">
+      <div class="twi__card">
+        <div class="twi__card-text">
+          {% if section.settings.tag_text != blank %}
+            <span class="twi__tag">{{ section.settings.tag_text }}</span>
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <h2 class="twi__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          {% if section.settings.body_text != blank %}
+            <p class="twi__body">{{ section.settings.body_text }}</p>
+          {% endif %}
+        </div>
+
+        {% if section.settings.button_text != blank %}
+          <a
+            href="{{ section.settings.button_url }}"
+            class="twi__button"
+          >
+            {{ section.settings.button_text }}
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="twi__side-image">
+        {% if section.settings.side_image %}
+          {{ section.settings.side_image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'twi__placeholder' }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="twi__bottom">
+      <div class="twi__bottom-image">
+        {% if section.settings.bottom_image %}
+          {{ section.settings.bottom_image | image_url: width: 2400 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'twi__placeholder' }}
+        {% endif %}
+      </div>
+
+      {% assign features = section.blocks | where: 'type', 'feature' %}
+      {% if features.size > 0 %}
+        <div class="twi__overlay">
+          {% for block in features %}
+            <div class="twi__feature" {{ block.shopify_attributes }}>
+              {% if block.settings.icon %}
+                <div class="twi__feature-icon">
+                  {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy' }}
+                </div>
+              {% endif %}
+
+              {% if block.settings.title != blank %}
+                <h3 class="twi__feature-title">{{ block.settings.title }}</h3>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <p class="twi__feature-description">{{ block.settings.description }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .twi {
+    background-color: var(--theme-surface);
+    padding: 52px;
+  }
+
+  .twi__container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: var(--container-max, 1200px);
+    margin: 0 auto;
+  }
+
+  /* ── Top row ── */
+  .twi__top {
+    display: flex;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .twi__card {
+    flex: 0 0 72%;
+    background-color: var(--theme-primary);
+    border-radius: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    justify-content: center;
+  }
+
+  .twi__card-text {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .twi__tag {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--theme-text-on-primary);
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 28px;
+    padding: 4px 12px;
+    line-height: normal;
+  }
+
+  .twi__heading {
+    font-size: 52px;
+    line-height: 1.15;
+    font-weight: 400;
+    color: var(--theme-text-on-primary);
+    letter-spacing: -2.08px;
+    margin: 0;
+    max-width: 616px;
+  }
+
+  .twi__body {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--theme-text-muted);
+    max-width: 548px;
+    margin: 0;
+  }
+
+  .twi__button {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: var(--theme-text-on-primary);
+    color: var(--theme-primary);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    text-decoration: none;
+    text-align: center;
+    padding: 12px 24px;
+    border-radius: 48px;
+    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .twi__button:hover {
+    opacity: 0.85;
+  }
+
+  .twi__button:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+  }
+
+  /* ── Placeholder ── */
+  .twi__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Side image ── */
+  .twi__side-image {
+    flex: 1;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: 0;
+    background-color: var(--theme-surface-alt);
+  }
+
+  .twi__side-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Bottom row ── */
+  .twi__bottom {
+    position: relative;
+    aspect-ratio: 1176 / 440;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: var(--theme-surface-alt);
+  }
+
+  .twi__bottom-image {
+    position: absolute;
+    inset: 0;
+  }
+
+  .twi__bottom-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .twi__overlay {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    gap: 10px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 24px;
+  }
+
+  .twi__feature {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .twi__feature-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .twi__feature-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .twi__feature-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--theme-text-on-primary);
+    letter-spacing: -0.8px;
+    line-height: normal;
+    margin: 0;
+  }
+
+  .twi__feature-description {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    color: var(--theme-text-on-primary);
+    margin: 0;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .twi {
+      padding: 24px 20px;
+    }
+
+    .twi__top {
+      flex-direction: column;
+    }
+
+    .twi__card {
+      flex: none;
+      gap: 24px;
+      padding: 24px;
+    }
+
+    .twi__heading {
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -1.28px;
+    }
+
+    .twi__side-image {
+      height: 280px;
+    }
+
+    .twi__bottom {
+      aspect-ratio: auto;
+      min-height: 480px;
+    }
+
+    .twi__overlay {
+      flex-direction: column;
+      gap: 16px;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      padding: 16px;
+    }
+
+    .twi__feature-title {
+      font-size: 16px;
+    }
+
+    .twi__feature-description {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  /* ── Tablet ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .twi {
+      padding: 32px;
+    }
+
+    .twi__heading {
+      font-size: 40px;
+    }
+
+    .twi__overlay {
+      flex-wrap: wrap;
+    }
+
+    .twi__feature {
+      flex: 1 0 calc(50% - 10px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.text_with_image.name",
+  "tag": "section",
+  "class": "text-with-image-section",
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "t:sections.text_with_image.feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title",
+          "default": "Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:labels.description",
+          "default": "Feature description goes here."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "Try today"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Feel the difference of a truly healthy gut."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "t:labels.body_text",
+      "default": "From digestion and immunity to skin and heart health, our daily formula helps you feel lighter, healthier, and more in control—every single day."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:labels.button_text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:labels.button_url"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "t:labels.side_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_image",
+      "label": "t:labels.bottom_image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.text_with_image.name",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Diverse Probiotic Strains",
+            "description": "24 strains support microbial diversity, the foundation of a healthy gut."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Engineered to Survive",
+            "description": "ViaCap® delivery system safeguards probiotics all the way to the colon."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Feeds Good Gut Microbes",
+            "description": "Antioxidant-promoting prebiotic feeds beneficial gut microbes."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Proven in 4 Clinical Trials",
+            "description": "Scientifically validated in four, gold-standard clinical trials."
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

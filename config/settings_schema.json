@@ -54,29 +54,61 @@
     ]
   },
   {
-    "name": "t:general.colors",
+    "name": "t:general.theme",
     "settings": [
       {
-        "type": "color",
-        "id": "background_color",
-        "default": "#FFFFFF",
-        "label": "t:labels.background"
+        "type": "select",
+        "id": "theme_preset",
+        "label": "t:labels.theme_preset",
+        "options": [
+          {
+            "value": "nature",
+            "label": "t:options.theme_preset.nature"
+          },
+          {
+            "value": "ocean",
+            "label": "t:options.theme_preset.ocean"
+          },
+          {
+            "value": "ember",
+            "label": "t:options.theme_preset.ember"
+          }
+        ],
+        "default": "nature"
+      },
+      {
+        "type": "header",
+        "content": "t:labels.color_overrides"
       },
       {
         "type": "color",
-        "id": "foreground_color",
-        "default": "#333333",
-        "label": "t:labels.foreground"
+        "id": "color_primary",
+        "label": "t:labels.color_primary",
+        "info": "t:labels.color_override_info"
       },
       {
-        "type": "range",
-        "id": "input_corner_radius",
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.input_corner_radius",
-        "default": 4
+        "type": "color",
+        "id": "color_accent",
+        "label": "t:labels.color_accent",
+        "info": "t:labels.color_override_info"
+      },
+      {
+        "type": "color",
+        "id": "color_surface",
+        "label": "t:labels.color_surface",
+        "info": "t:labels.color_override_info"
+      },
+      {
+        "type": "color",
+        "id": "color_surface_alt",
+        "label": "t:labels.color_surface_alt",
+        "info": "t:labels.color_override_info"
+      },
+      {
+        "type": "color",
+        "id": "color_text_secondary",
+        "label": "t:labels.color_text_secondary",
+        "info": "t:labels.color_override_info"
       }
     ]
   }

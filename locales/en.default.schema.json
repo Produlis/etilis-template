@@ -31,23 +31,341 @@
     "sidebar": "Sidebar",
     "text": "Text",
     "theme": "Theme",
+    "theme_preset": "Theme preset",
     "typography": "Typography"
+  },
+  "sections": {
+    "logo_marquee": {
+      "name": "Logo marquee",
+      "logo": "Logo"
+    },
+    "text_with_image": {
+      "name": "Text with image",
+      "feature": "Feature"
+    },
+    "guarantee_banner": {
+      "name": "Guarantee banner"
+    },
+    "testimonials": {
+      "name": "Testimonials",
+      "settings": {
+        "tag_text": "Tag text",
+        "heading": "Heading",
+        "rating": "Rating",
+        "review_count": "Review count"
+      },
+      "blocks": {
+        "testimonial": {
+          "name": "Testimonial",
+          "settings": {
+            "quote": "Quote",
+            "author_name": "Author name",
+            "author_role": "Author role",
+            "author_image": "Author image"
+          }
+        }
+      }
+    },
+    "faq": {
+      "name": "FAQ",
+      "settings": {
+        "tag_text": "Tag text",
+        "heading": "Heading"
+      },
+      "blocks": {
+        "faq_item": {
+          "name": "FAQ item",
+          "settings": {
+            "question": "Question",
+            "answer": "Answer"
+          }
+        }
+      }
+    },
+    "product_hero": {
+      "name": "Product hero",
+      "settings": {
+        "review_count": {
+          "label": "Review count"
+        },
+        "review_rating": {
+          "label": "Review rating"
+        },
+        "show_trust_badges": {
+          "label": "Show trust badges"
+        },
+        "guarantee_banner_text": {
+          "label": "Guarantee banner text"
+        },
+        "shipping_estimate_text": {
+          "label": "Shipping estimate text"
+        },
+        "show_guarantee_card": {
+          "label": "Show guarantee card"
+        },
+        "guarantee_card_heading": {
+          "label": "Guarantee card heading"
+        },
+        "guarantee_card_body": {
+          "label": "Guarantee card body"
+        },
+        "guarantee_card_claim_text": {
+          "label": "Guarantee card claim text"
+        },
+        "show_social_proof": {
+          "label": "Show social proof"
+        }
+      },
+      "blocks": {
+        "trust_badge": {
+          "name": "Trust badge",
+          "settings": {
+            "icon": {
+              "label": "Icon",
+              "info": "Paste an emoji or icon character"
+            },
+            "text": {
+              "label": "Text"
+            }
+          }
+        },
+        "social_proof": {
+          "name": "Social proof",
+          "settings": {
+            "image": {
+              "label": "Image"
+            },
+            "quote": {
+              "label": "Quote"
+            }
+          }
+        },
+        "accordion_item": {
+          "name": "Accordion",
+          "settings": {
+            "title": {
+              "label": "Title"
+            },
+            "content": {
+              "label": "Content"
+            }
+          }
+        }
+      },
+      "presets": {
+        "default": {
+          "name": "Product hero"
+        }
+      }
+    },
+    "how_it_works": {
+      "name": "How it works",
+      "settings": {
+        "tag_text": "Tag text",
+        "side_image": "Side image",
+        "show_upsell": "Show upsell card",
+        "upsell_product": "Upsell product"
+      },
+      "blocks": {
+        "step": {
+          "name": "Step"
+        }
+      }
+    },
+    "product_benefits": {
+      "name": "Product benefits",
+      "settings": {
+        "tag_text": "Tag text"
+      },
+      "blocks": {
+        "benefit": {
+          "name": "Benefit"
+        }
+      }
+    },
+    "home_hero": {
+      "name": "Home hero",
+      "settings": {
+        "review_text": "Review text",
+        "bundle_label": "Bundle label",
+        "bundle_badge": "Bundle badge text",
+        "bundle_description": "Bundle description",
+        "bundle_price": "Bundle price",
+        "bundle_compare_price": "Bundle compare price",
+        "bundle_button_text": "Bundle button text",
+        "bundle_button_url": "Bundle button URL",
+        "bundle_image": "Bundle image"
+      }
+    },
+    "home_collection": {
+      "name": "Home collection",
+      "settings": {
+        "collection": "Collection"
+      }
+    },
+    "home_benefits": {
+      "name": "Benefits",
+      "settings": {
+        "featured_image": "Featured image"
+      },
+      "blocks": {
+        "benefit": {
+          "name": "Benefit"
+        }
+      }
+    },
+    "home_steps": {
+      "name": "How it works",
+      "blocks": {
+        "step": {
+          "name": "Step"
+        }
+      }
+    },
+    "home_comparison": {
+      "name": "Comparison",
+      "settings": {
+        "background_image": "Background image",
+        "brand_name": "Brand name",
+        "competitor_name": "Competitor name"
+      },
+      "blocks": {
+        "comparison_row": {
+          "name": "Comparison row"
+        },
+        "trust_badge": {
+          "name": "Trust badge"
+        }
+      }
+    },
+    "home_testimonials": {
+      "name": "Testimonials",
+      "settings": {
+        "rating": "Rating",
+        "review_count": "Review count"
+      },
+      "blocks": {
+        "video_card": {
+          "name": "Video card"
+        },
+        "quote_card": {
+          "name": "Quote card",
+          "settings": {
+            "quote": "Quote",
+            "author_name": "Author name",
+            "author_role": "Author role",
+            "style": "Card style",
+            "image_position": "Image position"
+          }
+        }
+      }
+    },
+    "comparison_table": {
+      "name": "Comparison table",
+      "settings": {
+        "tag_text": "Tag text",
+        "brand_name": "Brand name",
+        "competitor_name": "Competitor name"
+      },
+      "blocks": {
+        "comparison_row": {
+          "name": "Comparison row",
+          "competitor_text": "Competitor text"
+        }
+      }
+    },
+    "product_timeline": {
+      "name": "Benefits timeline",
+      "settings": {},
+      "blocks": {
+        "milestone": {
+          "name": "Milestone",
+          "settings": {
+            "time_label": "Time label",
+            "benefits": "Benefits"
+          }
+        }
+      }
+    },
+    "footer": {
+      "name": "Footer",
+      "settings": {
+        "description": "Description",
+        "newsletter_heading": "Newsletter heading",
+        "email_placeholder": "Email placeholder",
+        "subscribe_text": "Subscribe button text"
+      }
+    }
   },
   "labels": {
     "alignment": "Alignment",
+    "accent_color": "Accent color",
     "background": "Background",
+    "body_text": "Body text",
+    "bottom_image": "Bottom image",
+    "button_text": "Button text",
+    "button_url": "Button URL",
+    "description": "Description",
+    "feature_label": "Feature label",
     "foreground": "Foreground",
     "grid_gap": "Grid spacing",
     "grid_item_width": "Grid item width",
+    "heading": "Heading",
+    "icon": "Icon",
+    "image": "Image",
     "input_corner_radius": "Input corner radius",
     "layout_direction": "Layout direction",
     "menu": "Menu",
     "padding": "Padding",
     "page_margin": "Page margin",
     "page_width": "Page width",
+    "reverse_layout": "Reverse layout",
     "show_payment_icons": "Show payment icons",
+    "side_image": "Side image",
+    "side_image_2": "Side image 2",
+    "speed": "Speed",
+    "tag": "Tag",
+    "tag_text": "Tag text",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "title": "Title",
+    "collection": "Collection",
+    "featured_image": "Featured image",
+    "background_image": "Background image",
+    "brand_name": "Brand name",
+    "competitor_name": "Competitor name",
+    "quote": "Quote",
+    "author_name": "Author name",
+    "author_role": "Author role",
+    "style": "Style",
+    "image_position": "Image position",
+    "review_text": "Review text",
+    "bundle_label": "Bundle label",
+    "bundle_badge": "Bundle badge",
+    "bundle_price": "Price",
+    "bundle_compare_price": "Compare price",
+    "rating": "Rating",
+    "review_count": "Review count",
+    "label": "Label",
+    "brand_has": "Brand has feature",
+    "competitor_has": "Competitor has feature",
+    "bundle": "Bundle",
+    "price": "Price",
+    "compare_price": "Compare price",
+    "footer_menu_1": "Menu column 1",
+    "footer_menu_2": "Menu column 2",
+    "footer_menu_3": "Menu column 3",
+    "footer_menu_4": "Menu column 4",
+    "footer_menu_5": "Menu column 5",
+    "footer_menu_6": "Menu column 6",
+    "theme_preset": "Theme preset",
+    "color_overrides": "Color overrides",
+    "color_override_info": "Leave empty to use the preset value",
+    "color_primary": "Primary color",
+    "color_accent": "Accent color",
+    "color_surface": "Surface color",
+    "color_surface_alt": "Surface alt color",
+    "color_text_secondary": "Text secondary color"
   },
   "options": {
     "alignment": {
@@ -72,5 +390,18 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "style": {
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "image_position": {
+      "top": "Top",
+      "bottom": "Bottom"
+    },
+    "theme_preset": {
+      "nature": "Nature",
+      "ocean": "Ocean",
+      "ember": "Ember"
+    }
   }
 }

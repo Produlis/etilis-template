@@ -1,0 +1,351 @@
+<section class="comparison-table full-width">
+  <div class="comparison-table__container">
+    <div class="comparison-table__left">
+      {% if section.settings.tag_text != blank %}
+        <span class="comparison-table__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="comparison-table__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+    </div>
+
+    {% assign comparison_rows = section.blocks | where: 'type', 'comparison_row' %}
+
+    <div class="comparison-table__right">
+      <div class="comparison-table__glass">
+        <div class="comparison-table__labels">
+          {% for block in comparison_rows %}
+            <div class="comparison-table__label-cell" {{ block.shopify_attributes }}>
+              {{ block.settings.label }}
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="comparison-table__brand-col">
+          <div class="comparison-table__col-header">
+            {{ section.settings.brand_name }}
+          </div>
+          {% for block in comparison_rows %}
+            <div class="comparison-table__cell">
+              <span class="comparison-table__dot" aria-label="{{ block.settings.label | escape }}"></span>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="comparison-table__other-col">
+          <div class="comparison-table__col-header">
+            {{ section.settings.competitor_name }}
+          </div>
+          {% for block in comparison_rows %}
+            <div class="comparison-table__cell">
+              <span class="comparison-table__other-text">
+                {{ block.settings.competitor_text | default: '—' }}
+              </span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .comparison-table {
+    background-color: var(--theme-primary);
+    padding: 52px 0;
+  }
+
+  .comparison-table__container {
+    display: flex;
+    gap: 24px;
+    max-width: var(--container-max, 1200px);
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 16px);
+    align-items: flex-start;
+  }
+
+  /* ── Left sidebar ── */
+  .comparison-table__left {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .comparison-table__tag {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--theme-text-on-primary);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 4px 12px;
+    border-radius: 28px;
+    line-height: normal;
+  }
+
+  .comparison-table__heading {
+    font-size: 52px;
+    line-height: normal;
+    font-weight: 400;
+    letter-spacing: -2.08px;
+    color: var(--theme-text-on-primary);
+    margin: 0;
+  }
+
+  /* ── Right table ── */
+  .comparison-table__right {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .comparison-table__glass {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    padding: 8px 8px 8px 24px;
+  }
+
+  /* ── Labels column ── */
+  .comparison-table__labels {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0;
+    min-width: 0;
+  }
+
+  .comparison-table__label-cell {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--theme-text-on-primary);
+    line-height: 24px;
+  }
+
+  /* ── Brand column ── */
+  .comparison-table__brand-col {
+    flex: 0 0 168px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    background-color: var(--theme-accent);
+    border-radius: 16px;
+    padding: 16px 0;
+  }
+
+  .comparison-table__brand-col .comparison-table__col-header {
+    color: var(--theme-primary);
+  }
+
+  /* ── Other column ── */
+  .comparison-table__other-col {
+    flex: 0 0 168px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    border-radius: 16px;
+    padding: 16px 0;
+  }
+
+  .comparison-table__other-col .comparison-table__col-header {
+    color: var(--theme-text-on-primary);
+  }
+
+  /* ── Shared ── */
+  .comparison-table__col-header {
+    min-height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: -0.64px;
+    line-height: 24px;
+  }
+
+  .comparison-table__cell {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 2px;
+  }
+
+  .comparison-table__dot {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: var(--theme-primary);
+  }
+
+  .comparison-table__other-text {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--theme-text-dim);
+    text-align: center;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .comparison-table {
+      padding: 24px 0;
+    }
+
+    .comparison-table__container {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .comparison-table__left {
+      flex: none;
+      padding: 0 var(--container-padding, 16px);
+    }
+
+    .comparison-table__heading {
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -1.28px;
+    }
+
+    .comparison-table__glass {
+      padding: 8px;
+      gap: 4px;
+      border-radius: 16px;
+    }
+
+    .comparison-table__labels {
+      padding: 8px 0;
+    }
+
+    .comparison-table__label-cell {
+      font-size: 13px;
+      min-height: 40px;
+    }
+
+    .comparison-table__brand-col,
+    .comparison-table__other-col {
+      flex: 0 0 80px;
+    }
+
+    .comparison-table__col-header {
+      font-size: 13px;
+    }
+
+    .comparison-table__other-text {
+      font-size: 11px;
+      line-height: 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.comparison_table.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:sections.comparison_table.settings.tag_text",
+      "default": "COMPARISON"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "How DS-01® Compares:"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "t:sections.comparison_table.settings.brand_name",
+      "default": "DS-01®"
+    },
+    {
+      "type": "text",
+      "id": "competitor_name",
+      "label": "t:sections.comparison_table.settings.competitor_name",
+      "default": "Other"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_row",
+      "name": "t:sections.comparison_table.blocks.comparison_row.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:labels.feature_label"
+        },
+        {
+          "type": "text",
+          "id": "competitor_text",
+          "label": "t:sections.comparison_table.blocks.comparison_row.competitor_text",
+          "default": "Rare"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.comparison_table.name",
+      "blocks": [
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "24 clinically studied probiotic strains",
+            "competitor_text": "5 or less strains"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Engineered for precision delivery",
+            "competitor_text": "Rarely validated to reach the gut"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Proven in 4 placebo-controlled trials",
+            "competitor_text": "Rare"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Third-party tested for pesticides, allergens, and heavy metals",
+            "competitor_text": "Rare"
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Vegan, gluten and nut tested, low FODMAP",
+            "competitor_text": "Rare"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

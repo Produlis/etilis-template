@@ -1,0 +1,350 @@
+<section class="faq full-width" aria-label="{{ 'faq.section_label' | t }}">
+  <div class="faq__container">
+    <div class="faq__left">
+      <span class="faq__tag">{{ section.settings.tag_text }}</span>
+      <h2 class="faq__heading">{{ section.settings.heading }}</h2>
+    </div>
+
+    <div class="faq__right">
+      {% for block in section.blocks %}
+        <div
+          class="faq__item{% if forloop.first %} faq__item--active{% endif %}"
+          data-faq-item
+          {{ block.shopify_attributes }}
+        >
+          <div class="faq__divider"></div>
+          <button
+            class="faq__question"
+            aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-controls="faq-answer-{{ block.id }}"
+            type="button"
+          >
+            <span class="faq__question-text">{{ block.settings.question }}</span>
+            <span class="faq__icon" aria-hidden="true"></span>
+          </button>
+          <div
+            class="faq__answer"
+            id="faq-answer-{{ block.id }}"
+            role="region"
+            {% unless forloop.first %}
+              hidden
+            {% endunless %}
+          >
+            <div class="faq__answer-inner">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+
+      {% if section.blocks.size > 0 %}
+        <div class="faq__divider faq__divider--bottom"></div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .faq {
+    background-color: var(--theme-surface);
+    padding: 52px 0;
+  }
+
+  .faq__container {
+    max-width: var(--container-max, 1200px);
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 16px);
+    display: flex;
+    gap: 52px;
+  }
+
+  .faq__left {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 419px;
+    flex-shrink: 0;
+  }
+
+  .faq__tag {
+    display: inline-flex;
+    align-self: flex-start;
+    background-color: var(--theme-surface-alt);
+    color: var(--theme-primary);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 4px 12px;
+    border-radius: 28px;
+    line-height: normal;
+  }
+
+  .faq__heading {
+    font-size: 52px;
+    color: var(--theme-primary);
+    line-height: normal;
+    letter-spacing: -2.08px;
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .faq__right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+  }
+
+  .faq__item {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .faq__divider {
+    height: 1px;
+    background-color: var(--theme-border);
+    width: 100%;
+  }
+
+  .faq__question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 16px;
+    font-family: inherit;
+  }
+
+  .faq__question:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .faq__question-text {
+    font-size: 20px;
+    color: var(--theme-primary);
+    line-height: normal;
+    font-weight: 400;
+    letter-spacing: -0.8px;
+  }
+
+  .faq__item--active .faq__question-text {
+    font-weight: 500;
+  }
+
+  .faq__icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+
+  .faq__icon::before,
+  .faq__icon::after {
+    content: "";
+    position: absolute;
+    background-color: var(--theme-text);
+    transition: transform var(--duration-medium, 300ms) var(--ease-standard, ease),
+                opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
+  }
+
+  .faq__icon::before {
+    top: 50%;
+    left: 4px;
+    right: 4px;
+    height: 2px;
+    transform: translateY(-50%);
+  }
+
+  .faq__icon::after {
+    left: 50%;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    transform: translateX(-50%);
+  }
+
+  .faq__item--active .faq__icon::after {
+    transform: translateX(-50%) rotate(90deg);
+    opacity: 0;
+  }
+
+  .faq__answer {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--duration-medium, 300ms) var(--ease-standard, ease);
+    overflow: hidden;
+  }
+
+  .faq__answer[hidden] {
+    display: grid;
+    grid-template-rows: 0fr;
+  }
+
+  .faq__item--active .faq__answer {
+    grid-template-rows: 1fr;
+  }
+
+  .faq__answer-inner {
+    min-height: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--theme-text-secondary);
+    line-height: 20px;
+  }
+
+  .faq__answer-inner p {
+    margin: 0;
+  }
+
+  .faq__divider--bottom {
+    margin-top: 0;
+  }
+
+  @media screen and (max-width: 749px) {
+    .faq {
+      padding: 32px 0;
+    }
+
+    .faq__container {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .faq__left {
+      width: 100%;
+    }
+
+    .faq__heading {
+      font-size: 32px;
+      line-height: 40px;
+      letter-spacing: -1.28px;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    var section = document.querySelector('.faq');
+    if (!section) return;
+
+    var items = section.querySelectorAll('[data-faq-item]');
+
+    items.forEach(function (item) {
+      var button = item.querySelector('.faq__question');
+      var answer = item.querySelector('.faq__answer');
+
+      button.addEventListener('click', function () {
+        var isActive = item.classList.contains('faq__item--active');
+
+        items.forEach(function (otherItem) {
+          var otherButton = otherItem.querySelector('.faq__question');
+          var otherAnswer = otherItem.querySelector('.faq__answer');
+          otherItem.classList.remove('faq__item--active');
+          otherButton.setAttribute('aria-expanded', 'false');
+          otherAnswer.setAttribute('hidden', '');
+        });
+
+        if (!isActive) {
+          item.classList.add('faq__item--active');
+          button.setAttribute('aria-expanded', 'true');
+          answer.removeAttribute('hidden');
+        }
+      });
+    });
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.faq.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:sections.faq.settings.tag_text",
+      "default": "FAQs"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.faq.settings.heading",
+      "default": "Frequently ask questions"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq_item",
+      "name": "t:sections.faq.blocks.faq_item.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "t:sections.faq.blocks.faq_item.settings.question",
+          "default": "Is the bottle glass or plastic?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "t:sections.faq.blocks.faq_item.settings.answer",
+          "default": "<p>Our bottle is glass and the base is stainless steel.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.faq.name",
+      "blocks": [
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Is the bottle glass or plastic?",
+            "answer": "<p>Our bottle is glass and the base is stainless steel.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How long do I need to use this bottle?",
+            "answer": "<p>We recommend using it daily for best results.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "How many bottles do I need to drink in a day?",
+            "answer": "<p>We recommend at least 2-3 full bottles per day for optimal hydration.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Can I use distilled, filtered, or tap water?",
+            "answer": "<p>Yes, you can use any type of water with our bottle.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Does the bottle need a replacement filter?",
+            "answer": "<p>No, the bottle does not require any replacement filters.</p>"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

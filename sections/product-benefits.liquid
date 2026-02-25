@@ -1,0 +1,403 @@
+<section
+  class="product-benefits full-width"
+  data-product-benefits
+>
+  <div class="product-benefits__container">
+    <div class="product-benefits__sidebar">
+      {% if section.settings.tag_text != blank %}
+        <span class="product-benefits__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="product-benefits__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      <nav class="product-benefits__list" aria-label="{{ section.settings.heading | escape }}">
+        {% for block in section.blocks %}
+          {% if block.type == 'benefit' %}
+            <button
+              class="product-benefits__item{% if forloop.first %} product-benefits__item--active{% endif %}"
+              data-benefit-tab="{{ forloop.index0 }}"
+              type="button"
+              {{ block.shopify_attributes }}
+            >
+              <span class="product-benefits__item-number">
+                {{ forloop.index | prepend: '00' | slice: -2, 2 }}
+              </span>
+              <span class="product-benefits__item-title">{{ block.settings.title }}</span>
+            </button>
+          {% endif %}
+        {% endfor %}
+      </nav>
+    </div>
+
+    <div class="product-benefits__details">
+      {% for block in section.blocks %}
+        {% if block.type == 'benefit' %}
+          <div
+            class="product-benefits__detail"
+            id="benefit-panel-{{ block.id }}"
+            data-benefit-panel="{{ forloop.index0 }}"
+            {{ block.shopify_attributes }}
+          >
+            <div class="product-benefits__detail-text">
+              {% if block.settings.title != blank %}
+                <h3 class="product-benefits__detail-title">{{ block.settings.title }}</h3>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <p class="product-benefits__detail-description">{{ block.settings.description }}</p>
+              {% endif %}
+            </div>
+
+            <div class="product-benefits__detail-image">
+              {% if block.settings.image %}
+                {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'product-benefits__placeholder' }}
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-benefits {
+    background-color: var(--theme-surface);
+    padding: 52px 0;
+  }
+
+  .product-benefits__container {
+    display: flex;
+    gap: 48px;
+    max-width: var(--container-max, 1200px);
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 16px);
+    align-items: flex-start;
+  }
+
+  /* ── Sidebar ── */
+  .product-benefits__sidebar {
+    flex: 1;
+    position: sticky;
+    top: 120px;
+    background-color: var(--theme-primary);
+    border-radius: 24px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .product-benefits__tag {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--theme-text-on-primary);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 4px 12px;
+    border-radius: 28px;
+    line-height: normal;
+  }
+
+  .product-benefits__heading {
+    font-size: 52px;
+    line-height: normal;
+    font-weight: 400;
+    color: var(--theme-text-on-primary);
+    letter-spacing: -2.08px;
+    margin: 0;
+  }
+
+  .product-benefits__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .product-benefits__item {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+    border-radius: 8px;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .product-benefits__item:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .product-benefits__item:focus-visible {
+    outline: 2px solid var(--theme-text-on-primary);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+
+  .product-benefits__item--active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .product-benefits__item-number {
+    font-size: 20px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: -0.8px;
+    line-height: normal;
+    width: 28px;
+    flex-shrink: 0;
+  }
+
+  .product-benefits__item-title {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--theme-text-on-primary);
+    letter-spacing: -0.8px;
+    line-height: normal;
+  }
+
+  /* ── Details ── */
+  .product-benefits__details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .product-benefits__detail {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .product-benefits__detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 8px;
+  }
+
+  .product-benefits__detail-title {
+    font-size: 32px;
+    line-height: 40px;
+    font-weight: 500;
+    letter-spacing: -1.28px;
+    color: var(--theme-primary);
+    margin: 0;
+  }
+
+  .product-benefits__detail-description {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--theme-text-secondary);
+    margin: 0;
+  }
+
+  .product-benefits__detail-image {
+    width: 100%;
+    aspect-ratio: 564 / 381;
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: var(--theme-surface-alt);
+  }
+
+  .product-benefits__detail-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-benefits__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .product-benefits {
+      padding: 24px 0;
+    }
+
+    .product-benefits__container {
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .product-benefits__sidebar {
+      position: static;
+      padding: 24px;
+      gap: 24px;
+    }
+
+    .product-benefits__heading {
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -1.28px;
+    }
+
+    .product-benefits__list {
+      display: none;
+    }
+
+    .product-benefits__detail-title {
+      font-size: 24px;
+      line-height: 32px;
+    }
+
+    .product-benefits__detail-image {
+      aspect-ratio: 16 / 9;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function () {
+    var section = document.querySelector('[data-product-benefits]');
+    if (!section) return;
+
+    var tabs = section.querySelectorAll('[data-benefit-tab]');
+
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var index = tab.getAttribute('data-benefit-tab');
+
+        tabs.forEach(function (t) {
+          t.classList.remove('product-benefits__item--active');
+        });
+
+        tab.classList.add('product-benefits__item--active');
+
+        var targetPanel = section.querySelector('[data-benefit-panel="' + index + '"]');
+        if (targetPanel) {
+          targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+
+      tab.addEventListener('keydown', function (e) {
+        var currentIndex = Array.prototype.indexOf.call(tabs, tab);
+        var nextIndex;
+
+        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          nextIndex = (currentIndex + 1) % tabs.length;
+        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          nextIndex = 0;
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          nextIndex = tabs.length - 1;
+        }
+
+        if (nextIndex !== undefined) {
+          tabs[nextIndex].focus();
+          tabs[nextIndex].click();
+        }
+      });
+    });
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.product_benefits.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:sections.product_benefits.settings.tag_text",
+      "default": "BENEFITS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Clinically Proven Benefits You Can Feel"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "t:sections.product_benefits.blocks.benefit.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:labels.description"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_benefits.name",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Relieves Bloating & Gas",
+            "description": "Clinically proven probiotic and prebiotic strains work together to reduce bloating, gas, and digestive discomfort—so you feel lighter and more comfortable after every meal."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Supports Regular Digestion",
+            "description": "Helps restore balance in your gut microbiome, promoting smoother digestion and consistent bowel movements without harsh laxatives or cleanses."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Strengthens Immune Health",
+            "description": "A healthy gut supports a stronger immune system. Our formula helps reinforce your body's natural defenses from the inside out."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Promotes Clear, Healthy Skin",
+            "description": "By improving gut balance and nutrient absorption, this daily supplement supports clearer skin and a healthier-looking complexion."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Supports Heart Health",
+            "description": "A balanced gut microbiome plays a role in cardiovascular wellness, helping support long-term heart health as part of a daily routine."
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

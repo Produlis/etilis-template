@@ -1,0 +1,425 @@
+<section class="product-timeline full-width">
+  <div class="product-timeline__header">
+    {% if section.settings.tag_text != blank %}
+      <span class="product-timeline__tag">{{ section.settings.tag_text }}</span>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="product-timeline__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="product-timeline__description">{{ section.settings.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="product-timeline__body">
+    <div class="product-timeline__steps">
+      {% for block in section.blocks %}
+        {% if block.type == 'milestone' %}
+          <div class="product-timeline__step" {{ block.shopify_attributes }}>
+            <div class="product-timeline__timeline">
+              <span class="product-timeline__dot"></span>
+              {% unless forloop.last %}
+                <span class="product-timeline__line"></span>
+              {% endunless %}
+            </div>
+
+            <div class="product-timeline__step-card">
+              <div class="product-timeline__step-bar">
+                {% if block.settings.time_label != blank %}
+                  <span class="product-timeline__time-badge">
+                    {{ block.settings.time_label }}
+                  </span>
+                {% endif %}
+
+                {% if block.settings.title != blank %}
+                  <span class="product-timeline__step-title">{{ block.settings.title }}</span>
+                {% endif %}
+              </div>
+
+              {% if block.settings.benefits != blank %}
+                <div class="product-timeline__benefits">
+                  {{ block.settings.benefits }}
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="product-timeline__aside">
+      <div class="product-timeline__image product-timeline__image--top">
+        {% if section.settings.side_image %}
+          {{ section.settings.side_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'product-1' | placeholder_svg_tag: 'product-timeline__placeholder' }}
+        {% endif %}
+      </div>
+
+      <div class="product-timeline__image product-timeline__image--bottom">
+        {% if section.settings.side_image_2 %}
+          {{ section.settings.side_image_2 | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {{ 'product-2' | placeholder_svg_tag: 'product-timeline__placeholder' }}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-timeline {
+    background-color: var(--theme-surface);
+    padding: 52px 0;
+  }
+
+  .product-timeline__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: var(--container-max, 1200px);
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 16px);
+    gap: 16px;
+  }
+
+  .product-timeline__tag {
+    display: inline-block;
+    background-color: var(--theme-surface-alt);
+    color: var(--theme-primary);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    padding: 4px 12px;
+    border-radius: 28px;
+    line-height: normal;
+  }
+
+  .product-timeline__heading {
+    font-size: 52px;
+    line-height: normal;
+    font-weight: 400;
+    color: var(--theme-primary);
+    letter-spacing: -2.08px;
+    margin: 0;
+    max-width: 696px;
+  }
+
+  .product-timeline__description {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--theme-text-secondary);
+    line-height: 24px;
+    margin: 0;
+  }
+
+  /* ── Body ── */
+  .product-timeline__body {
+    display: flex;
+    gap: 24px;
+    max-width: var(--container-max, 1200px);
+    margin: 52px auto 0;
+    padding: 0 var(--container-padding, 16px);
+  }
+
+  .product-timeline__steps {
+    flex: 0 0 576px;
+    max-width: 576px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Step ── */
+  .product-timeline__step {
+    display: flex;
+    gap: 16px;
+    padding-bottom: 0;
+  }
+
+  .product-timeline__timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+    padding-top: 4px;
+  }
+
+  .product-timeline__dot {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--theme-primary);
+    flex-shrink: 0;
+  }
+
+  .product-timeline__line {
+    display: block;
+    width: 0;
+    flex: 1;
+    border-left: 1px dashed color-mix(in srgb, var(--theme-primary) 25%, transparent);
+    margin-top: 2px;
+  }
+
+  /* ── Step card ── */
+  .product-timeline__step-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    background-color: var(--theme-surface-alt);
+    border-radius: 24px;
+    padding: 8px;
+    margin-bottom: 24px;
+  }
+
+  .product-timeline__step:last-child .product-timeline__step-card {
+    margin-bottom: 0;
+  }
+
+  .product-timeline__step-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--theme-primary);
+    border-radius: 36px;
+    height: 36px;
+    padding: 4px;
+  }
+
+  .product-timeline__time-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--theme-accent);
+    color: var(--theme-primary);
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    line-height: 20px;
+    padding: 0 12px;
+    height: 28px;
+    border-radius: 28px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .product-timeline__step-title {
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    line-height: 20px;
+    color: var(--theme-text-on-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-timeline__benefits {
+    padding: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--theme-text-secondary);
+    line-height: 24px;
+  }
+
+  .product-timeline__benefits ul {
+    margin: 0;
+    padding-left: 24px;
+    list-style-type: disc;
+  }
+
+  .product-timeline__benefits li {
+    margin-bottom: 0;
+  }
+
+  .product-timeline__benefits p {
+    margin: 0;
+  }
+
+  /* ── Aside ── */
+  .product-timeline__aside {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .product-timeline__image {
+    border-radius: 24px;
+    overflow: hidden;
+    background-color: var(--theme-surface-alt);
+  }
+
+  .product-timeline__image--top {
+    flex: 1;
+    min-height: 0;
+    max-height: 480px;
+  }
+
+  .product-timeline__image--bottom {
+    height: 160px;
+    flex-shrink: 0;
+  }
+
+  .product-timeline__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-timeline__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .product-timeline {
+      padding: 24px 0;
+    }
+
+    .product-timeline__heading {
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -1.28px;
+    }
+
+    .product-timeline__body {
+      flex-direction: column;
+      margin-top: 32px;
+    }
+
+    .product-timeline__steps {
+      flex: 1;
+      max-width: 100%;
+    }
+
+    .product-timeline__step-bar {
+      flex-wrap: wrap;
+      height: auto;
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .product-timeline__step-title {
+      white-space: normal;
+      font-size: 12px;
+    }
+
+    .product-timeline__image {
+      aspect-ratio: 16 / 9;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.product_timeline.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "HOW IT WORK"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "The DS-01® difference: Benefits that build over time"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "Results you can feel in as little as 7 days"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "t:labels.side_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image_2",
+      "label": "t:labels.side_image_2"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "t:sections.product_timeline.blocks.milestone.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time_label",
+          "label": "t:sections.product_timeline.blocks.milestone.settings.time_label",
+          "default": "Days 7"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title"
+        },
+        {
+          "type": "richtext",
+          "id": "benefits",
+          "label": "t:sections.product_timeline.blocks.milestone.settings.benefits"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_timeline.name",
+      "blocks": [
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "Days 7",
+            "title": "Reduces bloating and gas",
+            "benefits": "<ul><li>Clinically proven to reduce bloating</li><li>Alleviates excess gas</li><li>Eases digestive discomfort</li></ul>"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "2 Weeks",
+            "title": "Supports healthy regularity",
+            "benefits": "<ul><li>Promotes daily poops</li><li>Reduces occasional constipation</li><li>Makes pooping easier</li></ul>"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "4 Weeks",
+            "title": "Smooths + clears skin",
+            "benefits": "<ul><li>Supports clear, healthy skin</li><li>Reduces wrinkles and signs of aging</li><li>Enhances the skin barrier</li></ul>"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "3 Months",
+            "title": "Immune + heart support",
+            "benefits": "<ul><li>Promotes immune system resilience</li><li>Balances healthy cholesterol</li><li>Supports healthy aging</li></ul>"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}
