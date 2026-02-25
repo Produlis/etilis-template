@@ -187,14 +187,10 @@
       "name": "Home hero",
       "settings": {
         "review_text": "Review text",
-        "bundle_label": "Bundle label",
-        "bundle_badge": "Bundle badge text",
-        "bundle_description": "Bundle description",
-        "bundle_price": "Bundle price",
-        "bundle_compare_price": "Bundle compare price",
-        "bundle_button_text": "Bundle button text",
-        "bundle_button_url": "Bundle button URL",
-        "bundle_image": "Bundle image"
+        "bundle_image_override": "Image override (uses product image if empty)",
+        "bundle_price_fallback": "Price fallback (used if no product selected)",
+        "bundle_compare_price_fallback": "Compare price fallback (used if no product selected)",
+        "bundle_button_url_fallback": "Button URL fallback (used if no product selected)"
       }
     },
     "home_collection": {
@@ -350,6 +346,7 @@
     "brand_has": "Brand has feature",
     "competitor_has": "Competitor has feature",
     "bundle": "Bundle",
+    "bundle_product": "Bundle product",
     "price": "Price",
     "compare_price": "Compare price",
     "footer_menu_1": "Menu column 1",
@@ -365,7 +362,12 @@
     "color_accent": "Accent color",
     "color_surface": "Surface color",
     "color_surface_alt": "Surface alt color",
-    "color_text_secondary": "Text secondary color"
+    "color_text_secondary": "Text secondary color",
+    "autoplay": "Autoplay",
+    "autoplay_speed": "Autoplay speed",
+    "loop": "Loop",
+    "slides_desktop": "Products per row (desktop)",
+    "slides_mobile": "Products per row (mobile)"
   },
   "options": {
     "alignment": {

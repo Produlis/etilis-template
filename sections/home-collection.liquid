@@ -1,3 +1,5 @@
+{% render 'swiper-loader' %}
+
 <div class="home-collection full-width">
   <div class="home-collection__container">
     <div class="home-collection__header">
@@ -14,99 +16,156 @@
       {% endif %}
     </div>
 
-    <div class="home-collection__row" role="list" aria-label="{{ 'sections.home_collection.aria_products' | t }}">
-      {% if section.settings.collection != blank %}
-        {% for product in section.settings.collection.products limit: 8 %}
-          <article class="home-collection__card" role="listitem">
-            <div class="home-collection__card-image">
-              {% if product.featured_image %}
-                {{ product.featured_image | image_url: width: 400 | image_tag: class: 'home-collection__img', loading: 'lazy' }}
-              {% else %}
-                <div class="home-collection__img-placeholder">
-                  {{ 'product-1' | placeholder_svg_tag: 'home-collection__placeholder-svg' }}
-                </div>
-              {% endif %}
+    <div class="home-collection__slider">
+      <div
+        class="swiper home-collection__swiper"
+        data-section-id="{{ section.id }}"
+        data-autoplay="{{ section.settings.autoplay }}"
+        data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+        data-loop="{{ section.settings.loop }}"
+        data-slides-desktop="{{ section.settings.slides_desktop }}"
+        data-slides-mobile="{{ section.settings.slides_mobile }}"
+        role="list"
+        aria-label="{{ 'sections.home_collection.aria_products' | t }}"
+      >
+        <div class="swiper-wrapper">
+          {% if section.settings.collection != blank %}
+            {% for product in section.settings.collection.products limit: 8 %}
+              <div class="swiper-slide home-collection__slide" role="listitem">
+                <article class="home-collection__card">
+                  <div class="home-collection__card-image">
+                    {% if product.featured_image %}
+                      {{ product.featured_image | image_url: width: 400 | image_tag: class: 'home-collection__img', loading: 'lazy' }}
+                    {% else %}
+                      <div class="home-collection__img-placeholder">
+                        {{ 'product-1' | placeholder_svg_tag: 'home-collection__placeholder-svg' }}
+                      </div>
+                    {% endif %}
 
-              {% if product.compare_at_price > product.price %}
-                <span class="home-collection__badge" aria-label="{{ 'products.sale' | t }}">
-                  <svg class="home-collection__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="var(--theme-primary)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                    <circle cx="3.75" cy="3.75" r="0.75" fill="var(--theme-primary)"/>
-                  </svg>
-                  <span>{{ 'products.sale' | t }}</span>
-                </span>
-              {% endif %}
-            </div>
+                    {% if product.compare_at_price > product.price %}
+                      <span class="home-collection__badge" aria-label="{{ 'products.sale' | t }}">
+                        <svg class="home-collection__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="var(--theme-primary)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle cx="3.75" cy="3.75" r="0.75" fill="var(--theme-primary)"/>
+                        </svg>
+                        <span>{{ 'products.sale' | t }}</span>
+                      </span>
+                    {% endif %}
+                  </div>
 
-            <div class="home-collection__card-info">
-              <h3 class="home-collection__card-title">
-                <a href="{{ product.url }}">{{ product.title }}</a>
-              </h3>
+                  <div class="home-collection__card-info">
+                    <h3 class="home-collection__card-title">
+                      <a href="{{ product.url }}">{{ product.title }}</a>
+                    </h3>
 
-              <div class="home-collection__card-rating" aria-label="{{ 'sections.home_collection.star_rating' | t }}">
-                {% for i in (1..5) %}
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
-                  </svg>
-                {% endfor %}
-                <span class="home-collection__review-count">(1,983)</span>
+                    {%- assign rating = product.metafields.reviews.rating -%}
+                    {%- assign rating_count = product.metafields.reviews.rating_count -%}
+                    {%- if rating != blank -%}
+                      {%- assign rating_value = rating.value.rating | round: 1 -%}
+                      {%- assign rating_whole = rating_value | floor -%}
+                      {%- assign rating_decimal = rating_value | minus: rating_whole -%}
+                      {%- assign rating_next = rating_whole | plus: 1 -%}
+                      <div class="home-collection__card-rating" aria-label="{{ 'sections.home_collection.rating_label' | t: rating: rating_value }}">
+                        {%- for i in (1..5) -%}
+                          {%- if i <= rating_whole -%}
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                            </svg>
+                          {%- elsif i == rating_next -%}
+                            {%- if rating_decimal >= 0.5 -%}
+                              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <defs>
+                                  <clipPath id="half-star-{{ product.id }}-{{ i }}">
+                                    <rect x="0" y="0" width="8" height="16"/>
+                                  </clipPath>
+                                </defs>
+                                <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z" fill="var(--theme-star-empty, #d9d9d9)"/>
+                                <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z" fill="var(--theme-star)" clip-path="url(#half-star-{{ product.id }}-{{ i }})"/>
+                              </svg>
+                            {%- else -%}
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star-empty, #d9d9d9)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                              </svg>
+                            {%- endif -%}
+                          {%- else -%}
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star-empty, #d9d9d9)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                            </svg>
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- if rating_count != blank and rating_count.value > 0 -%}
+                          <span class="home-collection__review-count">({{ rating_count.value }})</span>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    <div class="home-collection__card-price">
+                      <span class="home-collection__price">{{ product.price | money }}</span>
+                      {% if product.compare_at_price > product.price %}
+                        <span class="home-collection__compare-price">{{ product.compare_at_price | money }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  <a href="{{ product.url }}" class="home-collection__card-button" aria-label="{{ 'products.add_to_cart' | t }}: {{ product.title }}">
+                    {{ 'products.add_to_cart' | t }}
+                  </a>
+                </article>
               </div>
+            {% endfor %}
+          {% else %}
+            {%- assign placeholder_names = 'Daily Multivitamin,Sleep + Restore,Daily Synbiotic,Pediatric Synbiotic,Gut Health Plus,Immune Support,Probiotic Boost,Fiber Balance' | split: ',' -%}
+            {%- assign placeholder_images = 'product-1,product-2,product-3,product-4,product-5,product-6,product-1,product-2' | split: ',' -%}
+            {% for name in placeholder_names %}
+              <div class="swiper-slide home-collection__slide" role="listitem">
+                <article class="home-collection__card">
+                  <div class="home-collection__card-image">
+                    <div class="home-collection__img-placeholder">
+                      {{ placeholder_images[forloop.index0] | placeholder_svg_tag: 'home-collection__placeholder-svg' }}
+                    </div>
+                    <span class="home-collection__badge" aria-label="{{ 'products.sale' | t }}">
+                      <svg class="home-collection__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="var(--theme-primary)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="3.75" cy="3.75" r="0.75" fill="var(--theme-primary)"/>
+                      </svg>
+                      <span>{{ 'products.sale' | t }}</span>
+                    </span>
+                  </div>
 
-              <div class="home-collection__card-price">
-                <span class="home-collection__price">{{ product.price | money }}</span>
-                {% if product.compare_at_price > product.price %}
-                  <span class="home-collection__compare-price">{{ product.compare_at_price | money }}</span>
-                {% endif %}
+                  <div class="home-collection__card-info">
+                    <h3 class="home-collection__card-title">{{ name }}</h3>
+
+                    <div class="home-collection__card-rating" aria-label="{{ 'sections.home_collection.star_rating' | t }}">
+                      {% for i in (1..5) %}
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                        </svg>
+                      {% endfor %}
+                      <span class="home-collection__review-count">(1,983)</span>
+                    </div>
+
+                    <div class="home-collection__card-price">
+                      <span class="home-collection__price">$109.00</span>
+                      <span class="home-collection__compare-price">$199.99</span>
+                    </div>
+                  </div>
+
+                  <span class="home-collection__card-button">
+                    {{ 'products.add_to_cart' | t }}
+                  </span>
+                </article>
               </div>
-            </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
 
-            <a href="{{ product.url }}" class="home-collection__card-button" aria-label="{{ 'products.add_to_cart' | t }}: {{ product.title }}">
-              {{ 'products.add_to_cart' | t }}
-            </a>
-          </article>
-        {% endfor %}
-      {% else %}
-        {%- assign placeholder_names = 'Daily Multivitamin,Sleep + Restore,Daily Synbiotic,Pediatric Synbiotic' | split: ',' -%}
-        {%- assign placeholder_images = 'product-1,product-2,product-3,product-4' | split: ',' -%}
-        {% for name in placeholder_names %}
-          <article class="home-collection__card" role="listitem">
-            <div class="home-collection__card-image">
-              <div class="home-collection__img-placeholder">
-                {{ placeholder_images[forloop.index0] | placeholder_svg_tag: 'home-collection__placeholder-svg' }}
-              </div>
-              <span class="home-collection__badge" aria-label="{{ 'products.sale' | t }}">
-                <svg class="home-collection__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="var(--theme-primary)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <circle cx="3.75" cy="3.75" r="0.75" fill="var(--theme-primary)"/>
-                </svg>
-                <span>{{ 'products.sale' | t }}</span>
-              </span>
-            </div>
-
-            <div class="home-collection__card-info">
-              <h3 class="home-collection__card-title">{{ name }}</h3>
-
-              <div class="home-collection__card-rating" aria-label="{{ 'sections.home_collection.star_rating' | t }}">
-                {% for i in (1..5) %}
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
-                  </svg>
-                {% endfor %}
-                <span class="home-collection__review-count">(1,983)</span>
-              </div>
-
-              <div class="home-collection__card-price">
-                <span class="home-collection__price">$109.00</span>
-                <span class="home-collection__compare-price">$199.99</span>
-              </div>
-            </div>
-
-            <span class="home-collection__card-button">
-              {{ 'products.add_to_cart' | t }}
-            </span>
-          </article>
-        {% endfor %}
-      {% endif %}
+      <button class="home-collection__nav-btn home-collection__nav-btn--prev" aria-label="{{ 'sections.home_collection.prev_slide' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="home-collection__nav-btn home-collection__nav-btn--next" aria-label="{{ 'sections.home_collection.next_slide' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
   </div>
 </div>
@@ -166,23 +225,16 @@
     max-width: 560px;
   }
 
-  .home-collection__row {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    padding-bottom: 4px;
+  .home-collection__slider {
+    position: relative;
   }
 
-  .home-collection__row::-webkit-scrollbar {
-    display: none;
+  .home-collection__swiper {
+    overflow: hidden;
   }
 
   .home-collection__card {
-    flex: 0 0 282px;
-    min-width: 282px;
+    width: 100%;
     background: var(--theme-primary-light);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--theme-radius-card);
@@ -190,7 +242,52 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    scroll-snap-align: start;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Navigation */
+  .home-collection__nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--theme-text-on-primary);
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+  }
+
+  .home-collection__nav-btn--prev {
+    left: 8px;
+  }
+
+  .home-collection__nav-btn--next {
+    right: 8px;
+  }
+
+  .home-collection__nav-btn:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+
+  .home-collection__nav-btn:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-text-on-primary));
+    outline-offset: 2px;
+  }
+
+  .home-collection__nav-btn.swiper-button-disabled {
+    opacity: 0;
+    pointer-events: none;
   }
 
   .home-collection__card-image {
@@ -351,12 +448,55 @@
       letter-spacing: -1.28px;
     }
 
-    .home-collection__card {
-      flex: 0 0 240px;
-      min-width: 240px;
-    }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  function initHomeCollectionSwiper(container) {
+    var el = container.querySelector('.home-collection__swiper');
+    if (!el) return;
+
+    if (el.swiper) el.swiper.destroy(true, true);
+
+    var autoplay = el.dataset.autoplay === 'true';
+    var autoplaySpeed = parseInt(el.dataset.autoplaySpeed, 10) || 5000;
+    var loop = el.dataset.loop === 'true';
+    var slidesDesktop = parseInt(el.dataset.slidesDesktop, 10) || 4;
+    var slidesMobile = parseInt(el.dataset.slidesMobile, 10) || 2;
+
+    var parent = el.closest('.home-collection__slider');
+    var prevBtn = parent.querySelector('.home-collection__nav-btn--prev');
+    var nextBtn = parent.querySelector('.home-collection__nav-btn--next');
+
+    new Swiper(el, {
+      slidesPerView: slidesMobile,
+      spaceBetween: 12,
+      loop: loop,
+      autoplay: autoplay ? { delay: autoplaySpeed, disableOnInteraction: false } : false,
+      navigation: {
+        prevEl: prevBtn,
+        nextEl: nextBtn
+      },
+      breakpoints: {
+        750: {
+          slidesPerView: slidesDesktop,
+          spaceBetween: 16
+        }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.home-collection').forEach(initHomeCollectionSwiper);
+  });
+
+  document.addEventListener('shopify:section:load', function (event) {
+    var section = event.target;
+    if (section.querySelector('.home-collection__swiper')) {
+      initHomeCollectionSwiper(section);
+    }
+  });
+{% endjavascript %}
 
 {% schema %}
 {
@@ -384,6 +524,46 @@
       "type": "collection",
       "id": "collection",
       "label": "t:general.collection"
+    },
+    {
+      "type": "range",
+      "id": "slides_desktop",
+      "label": "t:labels.slides_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "slides_mobile",
+      "label": "t:labels.slides_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:labels.autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:labels.autoplay_speed",
+      "min": 2000,
+      "max": 9000,
+      "step": 500,
+      "unit": "ms",
+      "default": 5000
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "t:labels.loop",
+      "default": false
     }
   ],
   "presets": [

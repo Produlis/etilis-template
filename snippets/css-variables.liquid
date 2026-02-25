@@ -1,4 +1,4 @@
-{% style %}
+<style>
   {% # Loads all font variations with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
   {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
@@ -139,4 +139,4 @@
     --color-bg: {{ preset_surface }};
     --color-text: {{ preset_text }};
   }
-{% endstyle %}
+</style>

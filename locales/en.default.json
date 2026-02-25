@@ -128,14 +128,18 @@
     "home_hero": {
       "name": "Home hero",
       "shop_now": "Shop Now",
-      "review_stars": "five-star reviews"
+      "review_stars": "five-star reviews",
+      "add_to_cart": "Add to cart"
     },
     "home_collection": {
       "name": "Home collection",
       "add_to_cart": "Add to cart",
       "sale": "Sale",
       "aria_products": "Product cards",
-      "star_rating": "5 out of 5 stars"
+      "star_rating": "5 out of 5 stars",
+      "rating_label": "Rated {{ rating }} out of 5",
+      "prev_slide": "Previous product",
+      "next_slide": "Next product"
     },
     "home_benefits": {
       "name": "Benefits",
@@ -143,7 +147,9 @@
     },
     "home_steps": {
       "name": "How it works",
-      "step": "Step {{ number }}"
+      "step": "Step {{ number }}",
+      "prev_slide": "Previous step",
+      "next_slide": "Next step"
     },
     "home_comparison": {
       "name": "Comparison",
@@ -154,7 +160,9 @@
     "home_testimonials": {
       "name": "Testimonials",
       "five_star_reviews": "FIVE-STAR REVIEWS",
-      "play_video": "Play testimonial video"
+      "play_video": "Play testimonial video",
+      "prev_slide": "Previous testimonial",
+      "next_slide": "Next testimonial"
     },
     "product_timeline": {
       "name": "Benefits timeline",

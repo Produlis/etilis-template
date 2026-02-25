@@ -31,7 +31,12 @@
       "settings": {
         "tag_text": "Collections",
         "heading": "Greenish Collection",
-        "description": "Whole body health, made possible by your microbiome"
+        "description": "Whole body health, made possible by your microbiome",
+        "slides_desktop": 4,
+        "slides_mobile": 2,
+        "autoplay": true,
+        "autoplay_speed": 3000,
+        "loop": true
       }
     },
     "home-benefits": {
@@ -199,9 +204,9 @@
         "card-5": {
           "type": "quote_card",
           "settings": {
-            "quote": "I've tried many probiotics, but this is the first one that actually made a difference.",
-            "author_name": "Bobby",
-            "author_role": "Influencer",
+            "quote": "After just two weeks, my bloating was gone. I feel like a new person.",
+            "author_name": "Sarah",
+            "author_role": "Verified Buyer",
             "style": "dark",
             "image_position": "bottom"
           }
@@ -209,14 +214,45 @@
         "card-6": {
           "type": "video_card",
           "settings": {}
+        },
+        "card-7": {
+          "type": "quote_card",
+          "settings": {
+            "quote": "The science behind this product is what convinced me. The results kept me coming back.",
+            "author_name": "Marcus",
+            "author_role": "Health Coach",
+            "style": "light",
+            "image_position": "bottom"
+          }
+        },
+        "card-8": {
+          "type": "video_card",
+          "settings": {}
+        },
+        "card-9": {
+          "type": "quote_card",
+          "settings": {
+            "quote": "I recommend this to all my clients. It's the only probiotic that delivers real results.",
+            "author_name": "Dr. Lisa",
+            "author_role": "Nutritionist",
+            "style": "dark",
+            "image_position": "top"
+          }
+        },
+        "card-10": {
+          "type": "video_card",
+          "settings": {}
         }
       },
-      "block_order": ["card-1", "card-2", "card-3", "card-4", "card-5", "card-6"],
+      "block_order": ["card-1", "card-2", "card-3", "card-4", "card-5", "card-6", "card-7", "card-8", "card-9", "card-10"],
       "settings": {
         "tag_text": "Testimonials",
         "heading": "What our customer say?",
         "rating": "4.9",
-        "review_count": "10,078+"
+        "review_count": "10,078+",
+        "autoplay": true,
+        "autoplay_speed": 3000,
+        "loop": true
       }
     }
   },

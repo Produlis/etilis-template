@@ -1,3 +1,5 @@
+{% render 'swiper-loader' %}
+
 <div class="home-testimonials full-width">
   <div class="home-testimonials__container">
     <div class="home-testimonials__header">
@@ -21,42 +23,57 @@
     </div>
   </div>
 
-  <div class="home-testimonials__row">
-    {% for block in section.blocks %}
-      {% case block.type %}
-        {% when 'video_card' %}
-          <div class="home-testimonials__card home-testimonials__card--video" {{ block.shopify_attributes }}>
-            {% if block.settings.image %}
-              {{ block.settings.image | image_url: width: 600, height: 860 | image_tag: class: 'home-testimonials__card-image', loading: 'lazy' }}
-            {% else %}
-              {{ 'lifestyle-1' | placeholder_svg_tag: 'home-testimonials__card-image home-testimonials__card-placeholder' }}
-            {% endif %}
-            <button class="home-testimonials__play-btn" aria-label="{{ 'sections.home_testimonials.play_video' | t }}">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--theme-text-on-primary)" aria-hidden="true"><path d="M8 5v14l11-7L8 5z"/></svg>
-            </button>
-          </div>
-
-        {% when 'quote_card' %}
-          <div class="home-testimonials__card home-testimonials__card--split home-testimonials__card--split-{{ block.settings.image_position }}" {{ block.shopify_attributes }}>
-            <div class="home-testimonials__card-image-half">
-              {% if block.settings.image %}
-                {{ block.settings.image | image_url: width: 600, height: 400 | image_tag: class: 'home-testimonials__card-split-image', loading: 'lazy' }}
-              {% else %}
-                {{ 'lifestyle-2' | placeholder_svg_tag: 'home-testimonials__card-split-image home-testimonials__card-placeholder' }}
-              {% endif %}
-            </div>
-            <div class="home-testimonials__card-quote home-testimonials__card-quote--{{ block.settings.style }}">
-              <div class="home-testimonials__card-quote-inner">
-                <p class="home-testimonials__quote-text">{{ block.settings.quote }}</p>
-                <div class="home-testimonials__quote-author">
-                  <span class="home-testimonials__author-name">{{ block.settings.author_name }}</span>
-                  <span class="home-testimonials__author-role">{{ block.settings.author_role }}</span>
+  <div class="home-testimonials__slider">
+    <div
+      class="swiper home-testimonials__swiper"
+      data-section-id="{{ section.id }}"
+      data-autoplay="{{ section.settings.autoplay }}"
+      data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+      data-loop="{{ section.settings.loop }}"
+    >
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'video_card' %}
+              <div class="swiper-slide home-testimonials__slide" {{ block.shopify_attributes }}>
+                <div class="home-testimonials__card home-testimonials__card--video">
+                  {% if block.settings.image %}
+                    {{ block.settings.image | image_url: width: 600, height: 860 | image_tag: class: 'home-testimonials__card-image', loading: 'lazy' }}
+                  {% else %}
+                    {{ 'lifestyle-1' | placeholder_svg_tag: 'home-testimonials__card-image home-testimonials__card-placeholder' }}
+                  {% endif %}
+                  <button class="home-testimonials__play-btn" aria-label="{{ 'sections.home_testimonials.play_video' | t }}">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="var(--theme-text-on-primary)" aria-hidden="true"><path d="M8 5v14l11-7L8 5z"/></svg>
+                  </button>
                 </div>
               </div>
-            </div>
-          </div>
-      {% endcase %}
-    {% endfor %}
+
+            {% when 'quote_card' %}
+              <div class="swiper-slide home-testimonials__slide" {{ block.shopify_attributes }}>
+                <div class="home-testimonials__card home-testimonials__card--split home-testimonials__card--split-{{ block.settings.image_position }}">
+                  <div class="home-testimonials__card-image-half">
+                    {% if block.settings.image %}
+                      {{ block.settings.image | image_url: width: 600, height: 400 | image_tag: class: 'home-testimonials__card-split-image', loading: 'lazy' }}
+                    {% else %}
+                      {{ 'lifestyle-2' | placeholder_svg_tag: 'home-testimonials__card-split-image home-testimonials__card-placeholder' }}
+                    {% endif %}
+                  </div>
+                  <div class="home-testimonials__card-quote home-testimonials__card-quote--{{ block.settings.style }}">
+                    <div class="home-testimonials__card-quote-inner">
+                      <p class="home-testimonials__quote-text">{{ block.settings.quote }}</p>
+                      <div class="home-testimonials__quote-author">
+                        <span class="home-testimonials__author-name">{{ block.settings.author_name }}</span>
+                        <span class="home-testimonials__author-role">{{ block.settings.author_role }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -151,28 +168,27 @@
     text-transform: uppercase;
   }
 
-  /* Testimonials row */
-  .home-testimonials__row {
-    display: flex;
-    gap: 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    padding: 0 52px;
+  /* Slider container */
+  .home-testimonials__slider {
+    position: relative;
+    width: 100%;
   }
 
-  .home-testimonials__row::-webkit-scrollbar {
-    display: none;
+  .home-testimonials__swiper {
+    padding: 0 52px;
+    overflow: hidden;
+  }
+
+  .home-testimonials__swiper .swiper-slide {
+    width: 276px;
   }
 
   /* Base card */
   .home-testimonials__card {
-    flex: 0 0 276px;
-    width: 276px;
+    width: 100%;
     height: 394px;
-    scroll-snap-align: start;
   }
+
 
   /* Video card */
   .home-testimonials__card--video {
@@ -219,7 +235,7 @@
   .home-testimonials__card--split {
     display: flex;
     flex-direction: column;
-    gap: 0;
+    gap: 16px;
     border-radius: var(--theme-radius-image);
     overflow: hidden;
   }
@@ -342,7 +358,7 @@
       padding: 0 20px;
     }
 
-    .home-testimonials__row {
+    .home-testimonials__swiper {
       padding: 0 20px;
     }
 
@@ -364,12 +380,56 @@
       letter-spacing: -1.28px;
     }
 
-    .home-testimonials__card {
-      flex: 0 0 240px;
+    .home-testimonials__swiper .swiper-slide {
       width: 240px;
+    }
+
+    .home-testimonials__card {
+      height: 340px;
     }
   }
 {% endstylesheet %}
+
+{% javascript %}
+  function initHomeTestimonialsSwiper(container) {
+    var el = container.querySelector('.home-testimonials__swiper');
+    if (!el) return;
+
+    if (el.swiper) el.swiper.destroy(true, true);
+
+    var autoplay = el.dataset.autoplay === 'true';
+    var autoplaySpeed = parseInt(el.dataset.autoplaySpeed, 10) || 5000;
+    var loop = el.dataset.loop === 'true';
+
+    new Swiper(el, {
+      slidesPerView: 'auto',
+      spaceBetween: 24,
+      loop: loop,
+      speed: 800,
+      freeMode: {
+        enabled: true,
+        momentum: true,
+        momentumRatio: 0.5
+      },
+      autoplay: autoplay ? { delay: autoplaySpeed, disableOnInteraction: false } : false,
+      breakpoints: {
+        0: { spaceBetween: 16 },
+        750: { spaceBetween: 24 }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.home-testimonials').forEach(initHomeTestimonialsSwiper);
+  });
+
+  document.addEventListener('shopify:section:load', function (event) {
+    var section = event.target;
+    if (section.querySelector('.home-testimonials__swiper')) {
+      initHomeTestimonialsSwiper(section);
+    }
+  });
+{% endjavascript %}
 
 {% schema %}
 {
@@ -398,6 +458,28 @@
       "id": "review_count",
       "label": "t:labels.review_count",
       "default": "10,078+"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:labels.autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:labels.autoplay_speed",
+      "min": 2000,
+      "max": 9000,
+      "step": 500,
+      "unit": "ms",
+      "default": 5000
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "t:labels.loop",
+      "default": false
     }
   ],
   "blocks": [
