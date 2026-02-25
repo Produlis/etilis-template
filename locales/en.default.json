@@ -15,9 +15,19 @@
   },
   "cart": {
     "checkout": "Checkout",
-    "title": "Cart",
+    "title": "Your Cart",
     "update": "Update",
-    "remove": "Remove"
+    "remove": "Remove",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue shopping",
+    "subtotal": "Subtotal:",
+    "free_shipping_success": "Congrats! You get FREE shipping!",
+    "free_shipping_remaining": "You're {{ amount }} away from FREE shipping!",
+    "save_amount": "SAVE {{ amount }}",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "money_back_guarantee": "30 day money-back guarantee",
+    "happy_customers": "16K+ happy customers"
   },
   "customers": {
     "login": {

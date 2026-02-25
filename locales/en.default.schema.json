@@ -292,6 +292,15 @@
       "columns_mobile": "Columns (mobile)",
       "products_per_page": "Products per page"
     },
+    "cart_drawer": {
+      "name": "Cart drawer",
+      "settings": {
+        "show_free_shipping_bar": "Show free shipping bar",
+        "free_shipping_threshold": "Free shipping threshold",
+        "upsell_heading": "Upsell heading",
+        "upsell_collection": "Upsell collection"
+      }
+    },
     "footer": {
       "name": "Footer",
       "settings": {
