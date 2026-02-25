@@ -1,75 +1,20 @@
 /**
  * Design Tokens
- * Global CSS custom properties for the theme.
- * Shopify admin overrides are applied via css-variables.liquid.
+ * Static CSS custom properties for the theme.
+ *
+ * Color, typography families, and border-radius are set dynamically
+ * by css-variables.liquid based on the active color scheme.
+ * This file defines the fixed scale tokens (spacing, sizing, motion,
+ * shadows) that remain the same across all schemes.
  */
 
 :root {
-  /* ===== A) Colors — Raw Scale ===== */
-  --color-neutral-0: #ffffff;
-  --color-neutral-50: #f9fafb;
-  --color-neutral-100: #f3f4f6;
-  --color-neutral-200: #e5e7eb;
-  --color-neutral-300: #d1d5db;
-  --color-neutral-400: #9ca3af;
-  --color-neutral-500: #6b7280;
-  --color-neutral-600: #4b5563;
-  --color-neutral-700: #374151;
-  --color-neutral-800: #1f2937;
-  --color-neutral-900: #111827;
-
-  --color-brand-primary: #111827;
-  --color-brand-secondary: #4b5563;
-  --color-brand-accent: #2563eb;
-
-  /* Figma palette — available for direct reference */
-  --color-violet-primary: #6200EE;
-  --color-violet-primary-variant: #3700B3;
-  --color-violet-secondary: #03DAC6;
-  --color-violet-secondary-variant: #018786;
-  --color-violet-error: #B00020;
-
-  /* ===== B) Colors — Semantic ===== */
-  /* Status */
-  --color-success: #16a34a;
-  --color-warning: #ca8a04;
-  --color-danger: #dc2626;
-  --color-info: #2563eb;
-
-  /* UI text */
-  --color-text: #111827;
-  --color-text-muted: #6b7280;
-  --color-text-inverse: #ffffff;
-
-  /* Backgrounds */
-  --color-bg: #ffffff;
-  --color-surface: #f9fafb;
-  --color-surface-2: #f3f4f6;
-
-  /* Borders */
-  --color-border: #e5e7eb;
-  --color-divider: #f3f4f6;
-
-  /* Links */
-  --color-link: #2563eb;
-  --color-link-hover: #1d4ed8;
-
-  /* Focus */
-  --color-focus: #2563eb;
-
-  /* ===== C) Typography ===== */
-  /* Families */
-  --font-sans: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: Georgia, 'Times New Roman', Times, serif;
-  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
-
-  /* Weights */
+  /* ===== Typography — Scale ===== */
   --font-weight-regular: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
-  /* Size scale */
   --font-size-xs: 0.75rem;     /* 12px */
   --font-size-sm: 0.875rem;    /* 14px */
   --font-size-base: 1rem;      /* 16px */
@@ -78,17 +23,15 @@
   --font-size-2xl: 1.5rem;     /* 24px */
   --font-size-3xl: 1.875rem;   /* 30px */
   --font-size-4xl: 2.25rem;    /* 36px */
-  --font-size-5xl: 3.25rem;    /* 52px — Figma text-5xl */
-  --font-size-6xl: 3.75rem;    /* 60px — Figma text-6xl */
+  --font-size-5xl: 3.25rem;    /* 52px */
+  --font-size-6xl: 3.75rem;    /* 60px */
 
-  /* Line heights */
   --line-height-none: 1;
   --line-height-tight: 1.2;
   --line-height-snug: 1.3;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.75;
 
-  /* Letter spacing */
   --letter-spacing-tighter: -0.04em;
   --letter-spacing-tight: -0.02em;
   --letter-spacing-normal: 0;
@@ -109,11 +52,14 @@
   --h6-size: var(--font-size-base);
   --h6-line: var(--line-height-normal);
 
-  /* Body */
   --body-size: var(--font-size-base);
   --body-line: var(--line-height-normal);
 
-  /* ===== D) Spacing (4px base) ===== */
+  /* Fallback font stacks — overridden by css-variables.liquid */
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* ===== Spacing (4px base) ===== */
   --space-0: 0;
   --space-1: 4px;
   --space-2: 8px;
@@ -132,16 +78,17 @@
   --space-16: 64px;
   --space-20: 80px;
 
-  /* Layout */
+  /* Layout — defaults, overridden by css-variables.liquid */
   --container-max: 1200px;
   --container-padding: 24px;
   --section-padding-y: 48px;
   --grid-gap: 24px;
 
-  /* ===== E) Borders / Radius / Shadow ===== */
+  /* ===== Borders / Radius / Shadow ===== */
   --border-width-1: 1px;
   --border-width-2: 2px;
 
+  /* Fixed radius scale — for components that don't vary by scheme */
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 8px;
@@ -149,33 +96,31 @@
   --radius-xl: 16px;
   --radius-2xl: 20px;
   --radius-3xl: 24px;
-  --radius-4xl: 32px;
-  --radius-5xl: 40px;
-  --radius-6xl: 48px;
   --radius-pill: 9999px;
   --radius-round: 50%;
+
+  /* Scheme-aware radius — defaults, overridden by css-variables.liquid */
+  --radius-btn: 4px;
+  --radius-card: 8px;
   --radius-input: 4px;
+  --radius-badge: 4px;
+  --radius-image: 8px;
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 
-  /* ===== F) Motion ===== */
+  /* ===== Motion ===== */
   --duration-fast: 150ms;
   --duration-medium: 300ms;
   --duration-slow: 500ms;
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-emphasized: cubic-bezier(0.2, 0, 0, 1);
 
-  /* ===== G) Z-index ===== */
+  /* ===== Z-index ===== */
   --z-dropdown: 100;
   --z-sticky: 200;
   --z-modal: 300;
   --z-toast: 400;
-}
-
-/* Dark mode placeholder */
-[data-theme="dark"] {
-  /* Override tokens here for dark mode */
 }

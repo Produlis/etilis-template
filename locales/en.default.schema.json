@@ -32,6 +32,7 @@
     "text": "Text",
     "theme": "Theme",
     "theme_preset": "Theme preset",
+    "color_scheme": "Color scheme",
     "typography": "Typography"
   },
   "sections": {
@@ -373,14 +374,16 @@
     "footer_menu_4": "Menu column 4",
     "footer_menu_5": "Menu column 5",
     "footer_menu_6": "Menu column 6",
-    "theme_preset": "Theme preset",
+    "heading_font": "Heading font",
+    "body_font": "Body font",
+    "color_scheme": "Color scheme",
+    "color_scheme_info": "Choose a color scheme for your store. Each scheme includes colors, border radius, and recommended typography.",
     "color_overrides": "Color overrides",
-    "color_override_info": "Leave empty to use the preset value",
-    "color_primary": "Primary color",
+    "color_override_info": "Leave empty to use the scheme value",
     "color_accent": "Accent color",
+    "color_bg": "Background color",
+    "color_text_primary": "Text color",
     "color_surface": "Surface color",
-    "color_surface_alt": "Surface alt color",
-    "color_text_secondary": "Text secondary color",
     "autoplay": "Autoplay",
     "autoplay_speed": "Autoplay speed",
     "loop": "Loop",
@@ -423,6 +426,11 @@
       "ocean": "Ocean",
       "ember": "Ember",
       "violet": "Violet"
+    },
+    "color_scheme": {
+      "minimal": "Minimal — Black & white, editorial",
+      "nature": "Nature — Green, organic, wellness",
+      "sky": "Sky — Blue, modern, trust"
     }
   }
 }

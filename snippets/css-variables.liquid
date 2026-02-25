@@ -1,165 +1,227 @@
+{% doc %}
+  Injects CSS custom properties for the active color scheme, typography, and
+  border-radius tokens. The merchant selects a scheme (minimal, nature, sky)
+  from the Theme Editor and all visual tokens update site-wide.
+
+  The snippet also applies individual color overrides when the merchant sets
+  them, so they can fine-tune any scheme without touching code.
+
+  Loaded in layout/theme.liquid inside <head>.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
 <style>
-  {% # Loads all font variations with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  /*
+   * Font face declarations — loaded for heading and body fonts
+   * selected by the merchant in Theme Settings > Typography.
+   * font-display: swap avoids invisible text during load.
+   */
+  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
+  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
+  {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
-  {% # Set default theme variables based on selected preset %}
-  {% case settings.theme_preset %}
-    {% when 'ocean' %}
-      {% assign preset_primary = '#0f2942' %}
-      {% assign preset_primary_hover = '#0a1e33' %}
-      {% assign preset_primary_light = '#1e4976' %}
-      {% assign preset_accent = '#7dd3fc' %}
-      {% assign preset_accent_hover = '#5bc0f5' %}
-      {% assign preset_surface = '#f0f7ff' %}
-      {% assign preset_surface_alt = '#e0edf9' %}
-      {% assign preset_surface_muted = '#b8cce0' %}
-      {% assign preset_text = '#0f2942' %}
-      {% assign preset_text_secondary = '#4a5568' %}
-      {% assign preset_text_on_primary = '#ffffff' %}
-      {% assign preset_text_muted = '#94b8d4' %}
-      {% assign preset_text_dim = '#7a9ab5' %}
-      {% assign preset_input_border = '#3a6891' %}
-      {% assign preset_star = '#FFB800' %}
-      {% assign preset_border = '#b8c0d0' %}
-      {% assign preset_surface_emphasis = '#c8d0e0' %}
-      {% assign preset_primary_dark = '#071420' %}
-      {% assign preset_radius_card = '16px' %}
-      {% assign preset_radius_button = '12px' %}
-      {% assign preset_radius_badge = '20px' %}
-      {% assign preset_radius_image = '12px' %}
-    {% when 'ember' %}
-      {% assign preset_primary = '#4a1a0a' %}
-      {% assign preset_primary_hover = '#3a1208' %}
-      {% assign preset_primary_light = '#7a3a20' %}
-      {% assign preset_accent = '#fbbf24' %}
-      {% assign preset_accent_hover = '#e5a90f' %}
-      {% assign preset_surface = '#fffbf5' %}
-      {% assign preset_surface_alt = '#fef3e2' %}
-      {% assign preset_surface_muted = '#e8d5be' %}
-      {% assign preset_text = '#4a1a0a' %}
-      {% assign preset_text_secondary = '#5c4033' %}
-      {% assign preset_text_on_primary = '#ffffff' %}
-      {% assign preset_text_muted = '#c9a88e' %}
-      {% assign preset_text_dim = '#a8907a' %}
-      {% assign preset_input_border = '#8a5a3a' %}
-      {% assign preset_star = '#FFB800' %}
-      {% assign preset_border = '#c0a888' %}
-      {% assign preset_surface_emphasis = '#dcc8b0' %}
-      {% assign preset_primary_dark = '#1a0a04' %}
-      {% assign preset_radius_card = '12px' %}
-      {% assign preset_radius_button = '8px' %}
-      {% assign preset_radius_badge = '16px' %}
-      {% assign preset_radius_image = '8px' %}
-    {% when 'violet' %}
-      {% assign preset_primary = '#6200EE' %}
-      {% assign preset_primary_hover = '#5000cc' %}
-      {% assign preset_primary_light = '#7c3aed' %}
-      {% assign preset_accent = '#03DAC6' %}
-      {% assign preset_accent_hover = '#02bfae' %}
-      {% assign preset_surface = '#faf9ff' %}
-      {% assign preset_surface_alt = '#ede7f6' %}
-      {% assign preset_surface_muted = '#c4b5d6' %}
-      {% assign preset_text = '#3700B3' %}
-      {% assign preset_text_secondary = '#4a4458' %}
-      {% assign preset_text_on_primary = '#ffffff' %}
-      {% assign preset_text_muted = '#9688a8' %}
-      {% assign preset_text_dim = '#7b6f8c' %}
-      {% assign preset_input_border = '#7c5faa' %}
-      {% assign preset_star = '#FFB800' %}
-      {% assign preset_border = '#c0b3d4' %}
-      {% assign preset_surface_emphasis = '#d1c4e9' %}
-      {% assign preset_primary_dark = '#23005c' %}
-      {% assign preset_radius_card = '16px' %}
-      {% assign preset_radius_button = '20px' %}
-      {% assign preset_radius_badge = '20px' %}
-      {% assign preset_radius_image = '12px' %}
-    {% else %}
-      {% # Nature (default) %}
-      {% assign preset_primary = '#1c3a13' %}
-      {% assign preset_primary_hover = '#15300f' %}
-      {% assign preset_primary_light = '#37522f' %}
-      {% assign preset_accent = '#d3fa99' %}
-      {% assign preset_accent_hover = '#c4f080' %}
-      {% assign preset_surface = '#fcfcf7' %}
-      {% assign preset_surface_alt = '#f2f3e7' %}
-      {% assign preset_surface_muted = '#d2d4c4' %}
-      {% assign preset_text = '#1c3a13' %}
-      {% assign preset_text_secondary = '#434141' %}
-      {% assign preset_text_on_primary = '#ffffff' %}
-      {% assign preset_text_muted = '#cdd1cc' %}
-      {% assign preset_text_dim = '#a8afa6' %}
-      {% assign preset_input_border = '#4f6748' %}
-      {% assign preset_star = '#FFB800' %}
-      {% assign preset_border = '#c0c2bf' %}
-      {% assign preset_surface_emphasis = '#d8ddce' %}
-      {% assign preset_primary_dark = '#0b1807' %}
-      {% assign preset_radius_card = '24px' %}
-      {% assign preset_radius_button = '48px' %}
-      {% assign preset_radius_badge = '28px' %}
-      {% assign preset_radius_image = '16px' %}
-  {% endcase %}
+  {%- comment -%}
+    Color scheme tokens
 
-  {% # Apply individual color overrides if set by the merchant %}
-  {% if settings.color_primary != blank %}
-    {% assign preset_primary = settings.color_primary %}
-    {% assign preset_text = settings.color_primary %}
-  {% endif %}
+    Each scheme defines a complete set of semantic variables so every
+    component in the theme adapts automatically when the merchant
+    switches schemes. The variable names are intentionally generic
+    (--color-bg, --color-accent, etc.) so CSS never references a
+    specific palette.
 
-  {% if settings.color_accent != blank %}
-    {% assign preset_accent = settings.color_accent %}
-  {% endif %}
+    Adding a 4th scheme only requires a new "when" block here
+    and a matching option in config/settings_schema.json.
+  {%- endcomment -%}
+  {% case settings.color_scheme %}
 
-  {% if settings.color_surface != blank %}
-    {% assign preset_surface = settings.color_surface %}
-  {% endif %}
+    {%- when 'nature' -%}
+      {%- comment -%}
+        NATURE — Organic, sustainable, wellness, trust.
+        Earthy greens with warm undertones. DM Sans for a friendly,
+        modern feel. Moderate border-radius signals approachability.
+        CTA green (#2D6A2D) passes WCAG AA on white (7.1:1).
+      {%- endcomment -%}
+      {%- assign scheme_bg = '#F7F9F4' -%}
+      {%- assign scheme_bg_subtle = '#EEF3E8' -%}
+      {%- assign scheme_surface = '#FFFFFF' -%}
+      {%- assign scheme_border = '#C8D9B8' -%}
+      {%- assign scheme_text = '#1C2B1A' -%}
+      {%- assign scheme_text_secondary = '#4A6741' -%}
+      {%- assign scheme_text_disabled = '#9AB88A' -%}
+      {%- assign scheme_accent = '#2D6A2D' -%}
+      {%- assign scheme_accent_hover = '#1F4D1F' -%}
+      {%- assign scheme_accent_text = '#FFFFFF' -%}
+      {%- assign scheme_highlight = '#7AB648' -%}
+      {%- assign scheme_success = '#2D6A2D' -%}
+      {%- assign scheme_error = '#B84040' -%}
+      {%- assign scheme_focus = '#2D6A2D' -%}
+      {%- assign scheme_radius_btn = '6px' -%}
+      {%- assign scheme_radius_card = '8px' -%}
+      {%- assign scheme_radius_input = '4px' -%}
+      {%- assign scheme_radius_badge = '6px' -%}
+      {%- assign scheme_radius_image = '8px' -%}
 
-  {% if settings.color_surface_alt != blank %}
-    {% assign preset_surface_alt = settings.color_surface_alt %}
-  {% endif %}
+    {%- when 'sky' -%}
+      {%- comment -%}
+        SKY — Fresh, modern, technology, trust, health.
+        Cool blues that convey reliability. Plus Jakarta Sans for
+        geometric headings, Inter for body. Generous radius for
+        a soft, approachable feel. CTA blue (#0077B6) passes
+        WCAG AA on white (5.1:1).
+      {%- endcomment -%}
+      {%- assign scheme_bg = '#F4F8FB' -%}
+      {%- assign scheme_bg_subtle = '#E8F2F9' -%}
+      {%- assign scheme_surface = '#FFFFFF' -%}
+      {%- assign scheme_border = '#B8D4E8' -%}
+      {%- assign scheme_text = '#0D1E2E' -%}
+      {%- assign scheme_text_secondary = '#3A6080' -%}
+      {%- assign scheme_text_disabled = '#8AB0C8' -%}
+      {%- assign scheme_accent = '#0077B6' -%}
+      {%- assign scheme_accent_hover = '#005F8E' -%}
+      {%- assign scheme_accent_text = '#FFFFFF' -%}
+      {%- assign scheme_highlight = '#48B8D8' -%}
+      {%- assign scheme_success = '#0077B6' -%}
+      {%- assign scheme_error = '#C0392B' -%}
+      {%- assign scheme_focus = '#0077B6' -%}
+      {%- assign scheme_radius_btn = '10px' -%}
+      {%- assign scheme_radius_card = '14px' -%}
+      {%- assign scheme_radius_input = '8px' -%}
+      {%- assign scheme_radius_badge = '10px' -%}
+      {%- assign scheme_radius_image = '14px' -%}
 
-  {% if settings.color_text_secondary != blank %}
-    {% assign preset_text_secondary = settings.color_text_secondary %}
-  {% endif %}
+    {%- else -%}
+      {%- comment -%}
+        MINIMAL (default) — Quiet luxury, editorial, high fashion.
+        Pure black-and-white palette with zero border-radius for
+        sharp, architectural lines. Playfair Display headings bring
+        editorial sophistication; Inter body stays neutral.
+        CTA black (#0A0A0A) on white passes WCAG AAA (19.5:1).
+      {%- endcomment -%}
+      {%- assign scheme_bg = '#FFFFFF' -%}
+      {%- assign scheme_bg_subtle = '#F5F5F5' -%}
+      {%- assign scheme_surface = '#FAFAFA' -%}
+      {%- assign scheme_border = '#E0E0E0' -%}
+      {%- assign scheme_text = '#0A0A0A' -%}
+      {%- assign scheme_text_secondary = '#555555' -%}
+      {%- assign scheme_text_disabled = '#AAAAAA' -%}
+      {%- assign scheme_accent = '#0A0A0A' -%}
+      {%- assign scheme_accent_hover = '#333333' -%}
+      {%- assign scheme_accent_text = '#FFFFFF' -%}
+      {%- assign scheme_highlight = '#0A0A0A' -%}
+      {%- assign scheme_success = '#1A1A1A' -%}
+      {%- assign scheme_error = '#CC0000' -%}
+      {%- assign scheme_focus = '#0A0A0A' -%}
+      {%- assign scheme_radius_btn = '0px' -%}
+      {%- assign scheme_radius_card = '0px' -%}
+      {%- assign scheme_radius_input = '0px' -%}
+      {%- assign scheme_radius_badge = '0px' -%}
+      {%- assign scheme_radius_image = '0px' -%}
+
+  {%- endcase -%}
+
+  /*
+   * Merchant color overrides — applied on top of the active scheme
+   * so the merchant can tweak individual values without switching
+   * the entire palette.
+   */
+  {%- if settings.color_override_accent != blank -%}
+    {%- assign scheme_accent = settings.color_override_accent -%}
+  {%- endif -%}
+  {%- if settings.color_override_bg != blank -%}
+    {%- assign scheme_bg = settings.color_override_bg -%}
+  {%- endif -%}
+  {%- if settings.color_override_text != blank -%}
+    {%- assign scheme_text = settings.color_override_text -%}
+  {%- endif -%}
+  {%- if settings.color_override_surface != blank -%}
+    {%- assign scheme_surface = settings.color_override_surface -%}
+  {%- endif -%}
 
   :root {
-    /* Typography */
-    --font-sans: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
+    /* ===== Typography ===== */
+    --font-heading: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
+    --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-sans: var(--font-body);
 
-    /* Layout */
+    /* ===== Layout ===== */
     --container-max: {{ settings.max_page_width }};
     --container-padding: {{ settings.min_page_margin }}px;
 
-    /* Theme colors */
-    --theme-primary: {{ preset_primary }};
-    --theme-primary-hover: {{ preset_primary_hover }};
-    --theme-primary-light: {{ preset_primary_light }};
-    --theme-accent: {{ preset_accent }};
-    --theme-accent-hover: {{ preset_accent_hover }};
-    --theme-surface: {{ preset_surface }};
-    --theme-surface-alt: {{ preset_surface_alt }};
-    --theme-surface-muted: {{ preset_surface_muted }};
-    --theme-text: {{ preset_text }};
-    --theme-text-secondary: {{ preset_text_secondary }};
-    --theme-text-on-primary: {{ preset_text_on_primary }};
-    --theme-text-muted: {{ preset_text_muted }};
-    --theme-text-dim: {{ preset_text_dim }};
-    --theme-input-border: {{ preset_input_border }};
-    --theme-star: {{ preset_star }};
-    --theme-border: {{ preset_border }};
-    --theme-surface-emphasis: {{ preset_surface_emphasis }};
-    --theme-primary-dark: {{ preset_primary_dark }};
+    /* ===== Color scheme — semantic tokens ===== */
 
-    /* Theme radii */
-    --theme-radius-card: {{ preset_radius_card }};
-    --theme-radius-button: {{ preset_radius_button }};
-    --theme-radius-badge: {{ preset_radius_badge }};
-    --theme-radius-image: {{ preset_radius_image }};
+    /* Backgrounds */
+    --color-bg: {{ scheme_bg }};
+    --color-bg-subtle: {{ scheme_bg_subtle }};
+    --color-surface: {{ scheme_surface }};
 
-    /* Legacy aliases */
-    --color-bg: {{ preset_surface }};
-    --color-text: {{ preset_text }};
+    /* Text */
+    --color-text: {{ scheme_text }};
+    --color-text-muted: {{ scheme_text_secondary }};
+    --color-text-disabled: {{ scheme_text_disabled }};
+    --color-text-inverse: {{ scheme_accent_text }};
+
+    /* Accent / CTA */
+    --color-accent: {{ scheme_accent }};
+    --color-accent-hover: {{ scheme_accent_hover }};
+    --color-accent-text: {{ scheme_accent_text }};
+    --color-highlight: {{ scheme_highlight }};
+
+    /* Borders */
+    --color-border: {{ scheme_border }};
+    --color-divider: {{ scheme_bg_subtle }};
+
+    /* Status */
+    --color-success: {{ scheme_success }};
+    --color-error: {{ scheme_error }};
+    --color-danger: {{ scheme_error }};
+    --color-warning: #CA8A04;
+    --color-info: {{ scheme_accent }};
+
+    /* Interactive */
+    --color-focus: {{ scheme_focus }};
+    --color-link: {{ scheme_accent }};
+    --color-link-hover: {{ scheme_accent_hover }};
+
+    /* Legacy aliases — keeps existing components working */
+    --color-brand-primary: {{ scheme_accent }};
+    --color-brand-secondary: {{ scheme_text_secondary }};
+    --color-brand-accent: {{ scheme_highlight }};
+    --color-surface-2: {{ scheme_bg_subtle }};
+    --color-neutral-0: {{ scheme_surface }};
+
+    /* ===== Theme-specific aliases for sections ===== */
+    --theme-primary: {{ scheme_accent }};
+    --theme-primary-hover: {{ scheme_accent_hover }};
+    --theme-primary-light: {{ scheme_text_secondary }};
+    --theme-primary-dark: {{ scheme_text }};
+    --theme-accent: {{ scheme_highlight }};
+    --theme-accent-hover: {{ scheme_accent_hover }};
+    --theme-surface: {{ scheme_bg }};
+    --theme-surface-alt: {{ scheme_bg_subtle }};
+    --theme-surface-muted: {{ scheme_border }};
+    --theme-surface-emphasis: {{ scheme_border }};
+    --theme-text: {{ scheme_text }};
+    --theme-text-secondary: {{ scheme_text_secondary }};
+    --theme-text-on-primary: {{ scheme_accent_text }};
+    --theme-text-muted: {{ scheme_text_disabled }};
+    --theme-text-dim: {{ scheme_text_disabled }};
+    --theme-border: {{ scheme_border }};
+    --theme-input-border: {{ scheme_border }};
+    --theme-star: #FFB800;
+
+    /* ===== Border radius per scheme ===== */
+    --radius-btn: {{ scheme_radius_btn }};
+    --radius-card: {{ scheme_radius_card }};
+    --radius-input: {{ scheme_radius_input }};
+    --radius-badge: {{ scheme_radius_badge }};
+    --radius-image: {{ scheme_radius_image }};
+    --theme-radius-card: {{ scheme_radius_card }};
+    --theme-radius-button: {{ scheme_radius_btn }};
+    --theme-radius-badge: {{ scheme_radius_badge }};
+    --theme-radius-image: {{ scheme_radius_image }};
   }
 </style>

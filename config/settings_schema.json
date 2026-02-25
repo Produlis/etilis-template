@@ -16,9 +16,15 @@
       },
       {
         "type": "font_picker",
-        "id": "type_primary_font",
-        "default": "work_sans_n4",
-        "label": "t:general.primary"
+        "id": "type_heading_font",
+        "default": "playfair_display_n7",
+        "label": "t:labels.heading_font"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "inter_n4",
+        "label": "t:labels.body_font"
       }
     ]
   },
@@ -54,31 +60,28 @@
     ]
   },
   {
-    "name": "t:general.theme",
+    "name": "t:general.color_scheme",
     "settings": [
       {
         "type": "select",
-        "id": "theme_preset",
-        "label": "t:labels.theme_preset",
+        "id": "color_scheme",
+        "label": "t:labels.color_scheme",
+        "info": "t:labels.color_scheme_info",
         "options": [
           {
+            "value": "minimal",
+            "label": "t:options.color_scheme.minimal"
+          },
+          {
             "value": "nature",
-            "label": "t:options.theme_preset.nature"
+            "label": "t:options.color_scheme.nature"
           },
           {
-            "value": "ocean",
-            "label": "t:options.theme_preset.ocean"
-          },
-          {
-            "value": "ember",
-            "label": "t:options.theme_preset.ember"
-          },
-          {
-            "value": "violet",
-            "label": "t:options.theme_preset.violet"
+            "value": "sky",
+            "label": "t:options.color_scheme.sky"
           }
         ],
-        "default": "ocean"
+        "default": "minimal"
       },
       {
         "type": "header",
@@ -86,32 +89,26 @@
       },
       {
         "type": "color",
-        "id": "color_primary",
-        "label": "t:labels.color_primary",
-        "info": "t:labels.color_override_info"
-      },
-      {
-        "type": "color",
-        "id": "color_accent",
+        "id": "color_override_accent",
         "label": "t:labels.color_accent",
         "info": "t:labels.color_override_info"
       },
       {
         "type": "color",
-        "id": "color_surface",
+        "id": "color_override_bg",
+        "label": "t:labels.color_bg",
+        "info": "t:labels.color_override_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_text",
+        "label": "t:labels.color_text_primary",
+        "info": "t:labels.color_override_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_surface",
         "label": "t:labels.color_surface",
-        "info": "t:labels.color_override_info"
-      },
-      {
-        "type": "color",
-        "id": "color_surface_alt",
-        "label": "t:labels.color_surface_alt",
-        "info": "t:labels.color_override_info"
-      },
-      {
-        "type": "color",
-        "id": "color_text_secondary",
-        "label": "t:labels.color_text_secondary",
         "info": "t:labels.color_override_info"
       }
     ]

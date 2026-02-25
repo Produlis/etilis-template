@@ -30,7 +30,9 @@ When the user mentions Figma or a design file, **always start** by using the Fig
 ## PHASE 1 — Extract Design Tokens from Figma
 
 ### Colors
+
 Pull all Figma color styles and convert to CSS:
+
 ```css
 :root {
   /* Brand */
@@ -52,21 +54,22 @@ Pull all Figma color styles and convert to CSS:
 ```
 
 ### Typography
+
 ```css
 :root {
   /* Font families */
-  --font-sans: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
 
   /* Scale (based on Figma text styles) */
-  --text-xs: 0.75rem;     /* 12px */
-  --text-sm: 0.875rem;    /* 14px */
-  --text-base: 1rem;      /* 16px */
-  --text-lg: 1.125rem;    /* 18px */
-  --text-xl: 1.25rem;     /* 20px */
-  --text-2xl: 1.5rem;     /* 24px */
-  --text-3xl: 1.875rem;   /* 30px */
-  --text-4xl: 2.25rem;    /* 36px */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
 
   /* Weight */
   --font-regular: 400;
@@ -87,24 +90,26 @@ Pull all Figma color styles and convert to CSS:
 ```
 
 ### Spacing & Sizing
+
 ```css
 :root {
   /* 4px base grid */
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.25rem;   /* 20px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-10: 2.5rem;   /* 40px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
-  --space-20: 5rem;     /* 80px */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+  --space-20: 5rem; /* 80px */
 }
 ```
 
 ### Border Radius & Shadows
+
 ```css
 :root {
   --radius-sm: 0.25rem;
@@ -113,14 +118,15 @@ Pull all Figma color styles and convert to CSS:
   --radius-xl: 1rem;
   --radius-full: 9999px;
 
-  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 ```
 
 ### Z-Index & Motion
+
 ```css
 :root {
   --z-base: 0;
@@ -190,19 +196,21 @@ Always implement dark mode with `prefers-color-scheme` AND a manual toggle class
 ```
 
 ### Toggle Script (Vanilla JS)
+
 ```js
-const toggle = document.getElementById('theme-toggle');
+const toggle = document.getElementById("theme-toggle");
 const root = document.documentElement;
 
-const saved = localStorage.getItem('theme')
-  ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+const saved =
+  localStorage.getItem("theme") ??
+  (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
 
 root.dataset.theme = saved;
 
-toggle.addEventListener('click', () => {
-  const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+toggle.addEventListener("click", () => {
+  const next = root.dataset.theme === "dark" ? "light" : "dark";
   root.dataset.theme = next;
-  localStorage.setItem('theme', next);
+  localStorage.setItem("theme", next);
 });
 ```
 
@@ -228,8 +236,11 @@ index.html
 ```
 
 ### Base Reset
+
 ```css
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -249,12 +260,16 @@ body {
   background-color: var(--bg-base);
 }
 
-img, video {
+img,
+video {
   max-width: 100%;
   display: block;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font: inherit;
 }
 ```
@@ -324,7 +339,9 @@ For each component from Figma, document:
 .btn--primary {
   background: var(--interactive-primary);
   color: var(--interactive-primary-text);
-  &:hover:not(:disabled) { background: var(--interactive-primary-hover); }
+  &:hover:not(:disabled) {
+    background: var(--interactive-primary-hover);
+  }
 }
 ```
 
@@ -345,7 +362,9 @@ Always validate against WCAG 2.1 AA:
 ```css
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
@@ -371,40 +390,55 @@ https://www.figma.com/file/ABC123XYZ/Mi-Proyecto?node-id=10%3A5
 ### Comandos MCP disponibles y cuando usarlos
 
 #### 1. `get_file` — Leer archivo completo
+
 Usar cuando el usuario pasa una URL de Figma o quiere una auditoria completa.
+
 ```
 Input: file_key = "ABC123XYZ"
 Output: documento completo con paginas, componentes, estilos y variables
 ```
+
 -> Usalo para extraer TODOS los design tokens del proyecto de una sola vez.
 
 #### 2. `get_node` — Leer un nodo especifico
+
 Usar cuando el usuario selecciona un componente, frame o seccion especifica.
+
 ```
 Input: file_key + node_id = "10:5"
 Output: propiedades detalladas del nodo y sus hijos
 ```
+
 -> Ideal para documentar un componente individual sin procesar todo el archivo.
 
 #### 3. `get_file_styles` — Extraer estilos globales
+
 Usar siempre al inicio para mapear el sistema de diseno.
+
 ```
 Output: colores, tipografias, efectos y grillas definidos como estilos en Figma
 ```
+
 -> Son los que aparecen en el panel "Styles" de Figma. Conviertelos directamente a tokens CSS.
 
 #### 4. `get_file_components` — Extraer componentes
+
 Usar para documentar la libreria de componentes completa.
+
 ```
 Output: lista de todos los componentes y sus variantes (Component Sets)
 ```
+
 -> Usalo para generar el inventario de componentes del style guide.
 
 #### 5. `get_file_variables` — Extraer variables de Figma
+
 Usar cuando el proyecto usa el sistema de Variables nativo de Figma (2023+).
+
 ```
 Output: variables y colecciones (ej: "Light", "Dark", "Brand")
 ```
+
 -> **Estas son tus design tokens nativos**. Mapealos 1:1 a CSS Custom Properties.
 
 ---
@@ -428,6 +462,7 @@ Output: variables y colecciones (ej: "Light", "Dark", "Brand")
 ### Mapeo Figma -> CSS
 
 #### Variables de Figma -> CSS Custom Properties
+
 ```
 Figma Variable: "color/brand/primary/500" = #3b5bdb
 -> CSS: --color-brand-primary-500: #3b5bdb;
@@ -437,48 +472,52 @@ Figma Variable Collection: "Light" / "Dark"
 ```
 
 #### Auto-Layout -> Flexbox/Grid
-| Figma | CSS |
-|-------|-----|
-| Horizontal layout | `display: flex; flex-direction: row;` |
-| Vertical layout | `display: flex; flex-direction: column;` |
-| Gap | `gap: var(--space-N)` |
-| Padding (uniform) | `padding: var(--space-N)` |
-| Padding (mixed) | `padding: top right bottom left` |
-| Hug contents | sin `width`/`height` explicito |
-| Fill container | `flex: 1` o `width: 100%` |
-| Fixed size | `width: Xpx; height: Xpx;` |
-| Align: center | `align-items: center; justify-content: center;` |
-| Wrap | `flex-wrap: wrap;` |
-| Grid layout | `display: grid; grid-template-columns: repeat(N, 1fr);` |
+
+| Figma             | CSS                                                     |
+| ----------------- | ------------------------------------------------------- |
+| Horizontal layout | `display: flex; flex-direction: row;`                   |
+| Vertical layout   | `display: flex; flex-direction: column;`                |
+| Gap               | `gap: var(--space-N)`                                   |
+| Padding (uniform) | `padding: var(--space-N)`                               |
+| Padding (mixed)   | `padding: top right bottom left`                        |
+| Hug contents      | sin `width`/`height` explicito                          |
+| Fill container    | `flex: 1` o `width: 100%`                               |
+| Fixed size        | `width: Xpx; height: Xpx;`                              |
+| Align: center     | `align-items: center; justify-content: center;`         |
+| Wrap              | `flex-wrap: wrap;`                                      |
+| Grid layout       | `display: grid; grid-template-columns: repeat(N, 1fr);` |
 
 #### Efectos -> CSS
-| Figma | CSS |
-|-------|-----|
-| Drop shadow | `box-shadow: X Y blur spread color` |
-| Inner shadow | `box-shadow: inset X Y blur spread color` |
-| Layer blur | `filter: blur(Xpx)` |
-| Background blur | `backdrop-filter: blur(Xpx)` |
+
+| Figma             | CSS                                                |
+| ----------------- | -------------------------------------------------- |
+| Drop shadow       | `box-shadow: X Y blur spread color`                |
+| Inner shadow      | `box-shadow: inset X Y blur spread color`          |
+| Layer blur        | `filter: blur(Xpx)`                                |
+| Background blur   | `backdrop-filter: blur(Xpx)`                       |
 | Gradient (linear) | `background: linear-gradient(deg, color1, color2)` |
 
 #### Constraints -> CSS Responsive
-| Figma | CSS |
-|-------|-----|
+
+| Figma        | CSS                                 |
+| ------------ | ----------------------------------- |
 | Left & Right | `width: 100%` o `left: X; right: X` |
-| Top & Bottom | `height: 100%` |
-| Center | `margin: auto` |
-| Scale | `width: %; height: %` |
+| Top & Bottom | `height: 100%`                      |
+| Center       | `margin: auto`                      |
+| Scale        | `width: %; height: %`               |
 
 ---
 
 ### Prompts de ejemplo que activaran este skill
 
 El usuario puede decir:
-- *"Genera los tokens de este archivo: figma.com/file/ABC..."*
-- *"Convierte este nodo a HTML/CSS: node-id=24:108"*
-- *"Crea la guia de estilos completa de mi proyecto de Figma"*
-- *"Extrae los colores y tipografias de mi Figma"*
-- *"Implementa dark mode basado en mis variables de Figma"*
-- *"Documenta el componente Button de mi Figma"*
+
+- _"Genera los tokens de este archivo: figma.com/file/ABC..."_
+- _"Convierte este nodo a HTML/CSS: node-id=24:108"_
+- _"Crea la guia de estilos completa de mi proyecto de Figma"_
+- _"Extrae los colores y tipografias de mi Figma"_
+- _"Implementa dark mode basado en mis variables de Figma"_
+- _"Documenta el componente Button de mi Figma"_
 
 ---
 
