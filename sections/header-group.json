@@ -18,10 +18,15 @@
     "cart-drawer": {
       "type": "cart-drawer",
       "settings": {}
+    },
+    "search-drawer": {
+      "type": "search-drawer",
+      "settings": {}
     }
   },
   "order": [
     "header",
-    "cart-drawer"
+    "cart-drawer",
+    "search-drawer"
   ]
 }

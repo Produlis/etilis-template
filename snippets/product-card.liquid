@@ -1,0 +1,382 @@
+{% doc %}
+  Renders a product card with image, sale badge, title, star ratings, price,
+  and an AJAX add-to-cart button.
+
+  Reused on collection pages and search results for consistent styling.
+
+  @param {product} product - The product object to render
+  @param {string} [loading] - Image loading strategy, defaults to "lazy"
+
+  @example
+  {% render 'product-card', product: product %}
+  {% render 'product-card', product: product, loading: 'eager' %}
+{% enddoc %}
+
+{%- assign loading = loading | default: 'lazy' -%}
+{%- assign first_available_variant = product.selected_or_first_available_variant -%}
+
+<article class="product-card" role="listitem">
+  <a href="{{ product.url }}" class="product-card__link" aria-label="{{ product.title }}">
+    <div class="product-card__image">
+      {% if product.featured_image %}
+        {{ product.featured_image | image_url: width: 400, height: 400, crop: 'center' | image_tag: class: 'product-card__img', loading: loading }}
+      {% else %}
+        <div class="product-card__img-placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder-svg' }}
+        </div>
+      {% endif %}
+
+      {% if product.compare_at_price > product.price %}
+        <span class="product-card__badge" aria-label="{{ 'products.sale' | t }}">
+          <svg class="product-card__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="3.75" cy="3.75" r="0.75" fill="currentColor"/>
+          </svg>
+          <span>{{ 'products.sale' | t }}</span>
+        </span>
+      {% endif %}
+    </div>
+
+    <div class="product-card__info">
+      <div class="product-card__details">
+        <h2 class="product-card__title">{{ product.title }}</h2>
+
+        {%- assign rating = product.metafields.reviews.rating -%}
+        {%- assign rating_count = product.metafields.reviews.rating_count -%}
+        {%- if rating != blank -%}
+          {%- assign rating_value = rating.value.rating | round: 1 -%}
+          {%- assign rating_whole = rating_value | floor -%}
+          {%- assign rating_decimal = rating_value | minus: rating_whole -%}
+          {%- assign rating_next = rating_whole | plus: 1 -%}
+          <div class="product-card__rating" aria-label="{{ 'sections.collection.rating_label' | t: rating: rating_value }}">
+            {%- for i in (1..5) -%}
+              {%- if i <= rating_whole -%}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                </svg>
+              {%- elsif i == rating_next -%}
+                {%- if rating_decimal >= 0.5 -%}
+                  <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                      <clipPath id="half-star-{{ product.id }}-{{ i }}">
+                        <rect x="0" y="0" width="8" height="16"/>
+                      </clipPath>
+                    </defs>
+                    <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z" fill="var(--theme-star-empty, #d9d9d9)"/>
+                    <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z" fill="var(--theme-star)" clip-path="url(#half-star-{{ product.id }}-{{ i }})"/>
+                  </svg>
+                {%- else -%}
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star-empty, #d9d9d9)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                  </svg>
+                {%- endif -%}
+              {%- else -%}
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star-empty, #d9d9d9)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                </svg>
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if rating_count != blank and rating_count.value > 0 -%}
+              <span class="product-card__review-count">({{ rating_count.value | default: 0 }})</span>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="product-card__price">
+        <span class="product-card__current-price">{{ product.price | money }}</span>
+        {% if product.compare_at_price > product.price %}
+          <span class="product-card__compare-price">{{ product.compare_at_price | money }}</span>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+
+  {%- comment -%} Add to cart button {%- endcomment -%}
+  <div class="product-card__action">
+    {% if product.available %}
+      <form method="post" action="{{ routes.cart_add_url }}" class="product-card__atc-form" data-product-card-atc>
+        <input type="hidden" name="id" value="{{ first_available_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button
+          type="submit"
+          class="product-card__atc-btn"
+          aria-label="{{ 'products.add_to_cart' | t }} — {{ product.title }}"
+        >
+          <svg class="product-card__atc-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 3.33v9.34M3.33 8h9.34" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <span>{{ 'products.add_to_cart' | t }}</span>
+        </button>
+      </form>
+    {% else %}
+      <button class="product-card__atc-btn product-card__atc-btn--disabled" disabled>
+        {{ 'products.sold_out' | t }}
+      </button>
+    {% endif %}
+  </div>
+</article>
+
+{% stylesheet %}
+  /* Product card */
+  .product-card {
+    background: var(--theme-surface-alt);
+    border-radius: var(--theme-radius-card);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .product-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 16px 0;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    box-sizing: border-box;
+  }
+
+  .product-card__link:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-text));
+    outline-offset: -2px;
+    border-radius: var(--theme-radius-card);
+  }
+
+  .product-card__image {
+    position: relative;
+    height: 200px;
+    border-radius: var(--theme-radius-image);
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.02);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .product-card__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.04);
+  }
+
+  .product-card__placeholder-svg {
+    width: 60%;
+    height: auto;
+    opacity: 0.4;
+  }
+
+  .product-card__badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--theme-accent);
+    border-radius: var(--theme-radius-badge);
+    padding: 4px 8px;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--theme-text-on-primary);
+    line-height: var(--line-height-normal);
+  }
+
+  .product-card__badge-icon {
+    flex-shrink: 0;
+  }
+
+  /* Card info */
+  .product-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .product-card__details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+    width: 100%;
+  }
+
+  .product-card__title {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--theme-text);
+    margin: 0;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .product-card__rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .product-card__review-count {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+    color: #717171;
+    margin-left: 4px;
+  }
+
+  .product-card__price {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .product-card__current-price {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text);
+    font-weight: var(--font-weight-regular);
+  }
+
+  .product-card__compare-price {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+    color: rgba(28, 58, 19, 0.4);
+    text-decoration: line-through;
+  }
+
+  /* Add to cart */
+  .product-card__action {
+    padding: 0 16px 16px;
+    margin-top: auto;
+    padding-top: 12px;
+  }
+
+  .product-card__atc-form {
+    width: 100%;
+  }
+
+  .product-card__atc-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    height: 40px;
+    padding: 0 16px;
+    background-color: var(--theme-primary);
+    color: var(--theme-text-on-primary);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    line-height: var(--line-height-normal);
+    border: none;
+    border-radius: var(--theme-radius-button);
+    cursor: pointer;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .product-card__atc-btn:hover {
+    background-color: var(--theme-primary-hover);
+  }
+
+  .product-card__atc-btn:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+  }
+
+  .product-card__atc-btn--disabled {
+    background-color: var(--color-border, #e0e0e0);
+    color: var(--color-text-disabled, #aaa);
+    cursor: not-allowed;
+  }
+
+  .product-card__atc-btn--disabled:hover {
+    background-color: var(--color-border, #e0e0e0);
+  }
+
+  .product-card__atc-icon {
+    flex-shrink: 0;
+  }
+
+  .product-card__atc-spinner {
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: productCardAtcSpin 0.5s linear infinite;
+  }
+
+  @keyframes productCardAtcSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 749px) {
+    .product-card__image {
+      height: 160px;
+    }
+
+    .product-card__title {
+      font-size: var(--font-size-lg);
+      line-height: var(--line-height-snug);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (function() {
+    document.addEventListener('submit', function(e) {
+      var form = e.target.closest('[data-product-card-atc]');
+      if (!form) return;
+      e.preventDefault();
+
+      var btn = form.querySelector('.product-card__atc-btn');
+      if (!btn || btn.disabled) return;
+
+      var originalHTML = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<span class="product-card__atc-spinner"></span>';
+
+      fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+        body: new URLSearchParams(new FormData(form)).toString()
+      })
+      .then(function(res) { return res.json(); })
+      .then(function() {
+        btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Added!</span>';
+
+        /* Open cart drawer if available */
+        var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+        if (cartTrigger) {
+          setTimeout(function() { cartTrigger.click(); }, 600);
+        }
+
+        setTimeout(function() {
+          btn.innerHTML = originalHTML;
+          btn.disabled = false;
+        }, 1500);
+      })
+      .catch(function() {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+      });
+    });
+  })();
+{% endjavascript %}

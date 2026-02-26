@@ -60,10 +60,23 @@
   },
   "search": {
     "title": "Search",
-    "placeholder": "Search articles, pages, or products",
+    "placeholder": "Search products, articles, pages...",
     "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "cancel": "Cancel",
+    "clear": "Clear search",
+    "start_typing": "Start typing to search",
+    "loading": "Searching...",
+    "no_results": "No results found",
+    "no_results_html": "No results found for \"{{ terms }}\"",
+    "try_different": "Try a different search term or browse our collections",
+    "results_for_html": "{{ count }} results for \"{{ terms }}\"",
+    "view_all_results": "View all results",
+    "products": "Products",
+    "articles": "Articles",
+    "pages": "Pages",
+    "pagination": "Search results pages",
+    "previous": "Previous",
+    "next": "Next"
   },
   "products": {
     "add_to_cart": "Add to cart",
