@@ -57,11 +57,31 @@
           <div class="home-hero__bundle-info">
             <div class="home-hero__bundle-details">
               <div class="home-hero__bundle-header">
-                {%- if section.settings.bundle_label != blank -%}
-                  <span class="home-hero__bundle-label">{{ section.settings.bundle_label }}</span>
+                {%- liquid
+                  if section.settings.bundle_label != blank
+                    assign bundle_label_text = section.settings.bundle_label
+                  elsif bundle_product != blank
+                    assign bundle_label_text = bundle_product.title
+                  else
+                    assign bundle_label_text = ''
+                  endif
+
+                  assign bundle_badge_text = ''
+                  if section.settings.bundle_badge != blank
+                    assign bundle_badge_text = section.settings.bundle_badge
+                  elsif bundle_product != blank
+                    if bundle_product.compare_at_price > bundle_product.price
+                      assign savings = bundle_product.compare_at_price | minus: bundle_product.price
+                      assign pct = savings | times: 100 | divided_by: bundle_product.compare_at_price
+                      assign bundle_badge_text = 'SAVE ' | append: pct | append: '%+'
+                    endif
+                  endif
+                -%}
+                {%- if bundle_label_text != blank -%}
+                  <span class="home-hero__bundle-label">{{ bundle_label_text }}</span>
                 {%- endif -%}
-                {%- if section.settings.bundle_badge != blank -%}
-                  <span class="home-hero__bundle-badge">{{ section.settings.bundle_badge }}</span>
+                {%- if bundle_badge_text != blank -%}
+                  <span class="home-hero__bundle-badge">{{ bundle_badge_text }}</span>
                 {%- endif -%}
               </div>
 
@@ -96,7 +116,11 @@
                     {% unless bundle_product.available %}disabled{% endunless %}
                   >
                     {%- if bundle_product.available -%}
-                      {{ section.settings.bundle_button_text | default: 'products.add_to_cart' | t }}
+                      {%- if section.settings.bundle_button_text != blank -%}
+                        {{ section.settings.bundle_button_text }}
+                      {%- else -%}
+                        {{ 'products.hero.add_to_cart' | t }}
+                      {%- endif -%}
                     {%- else -%}
                       {{ 'products.sold_out' | t }}
                     {%- endif -%}

@@ -100,16 +100,7 @@
       "rating_label": "Rated {{ rating }} out of 5",
       "thumbnail_gallery": "Product image thumbnails",
       "thumbnail_label": "View image {{ index }}",
-      "select_quantity": "Select quantity",
-      "bundle_1": "1 Bottle",
-      "bundle_1_subtitle": "Offer ends today",
-      "bundle_2": "2 Bottles",
-      "bundle_2_subtitle": "Offer ends today",
-      "bundle_3": "3 Bottles",
-      "bundle_3_subtitle": "Offer ends today",
-      "badge_popular": "POPULAR",
-      "badge_save": "SAVE 50%+",
-      "badge_save_best": "SAVE 60%+",
+      "select_variant": "Select variant",
       "add_to_cart": "Add to cart",
       "sold_out": "Sold out"
     }

@@ -30,36 +30,36 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="testimonials__cards" role="list">
-      {% for block in section.blocks %}
-        <article
-          class="testimonials__card"
-          role="listitem"
-          {{ block.shopify_attributes }}
-        >
-          <div class="testimonials__card-avatar">
-            {% if block.settings.author_image %}
-              {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
-            {% else %}
-              {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
+  <div class="testimonials__cards" role="list">
+    {% for block in section.blocks %}
+      <article
+        class="testimonials__card"
+        role="listitem"
+        {{ block.shopify_attributes }}
+      >
+        <div class="testimonials__card-avatar">
+          {% if block.settings.author_image %}
+            {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
+          {% endif %}
+        </div>
+
+        <div class="testimonials__card-content">
+          <blockquote class="testimonials__card-quote">
+            {{ block.settings.quote }}
+          </blockquote>
+          <div class="testimonials__card-author">
+            <span class="testimonials__card-name">{{ block.settings.author_name }}</span>
+            {% if block.settings.author_role != blank %}
+              <span class="testimonials__card-role">{{ block.settings.author_role }}</span>
             {% endif %}
           </div>
-
-          <div class="testimonials__card-content">
-            <blockquote class="testimonials__card-quote">
-              {{ block.settings.quote }}
-            </blockquote>
-            <div class="testimonials__card-author">
-              <span class="testimonials__card-name">{{ block.settings.author_name }}</span>
-              {% if block.settings.author_role != blank %}
-                <span class="testimonials__card-role">{{ block.settings.author_role }}</span>
-              {% endif %}
-            </div>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
+        </div>
+      </article>
+    {% endfor %}
   </div>
 </section>
 
@@ -67,6 +67,7 @@
   .testimonials {
     background-color: var(--theme-surface);
     padding: 52px 0;
+    overflow: hidden;
   }
 
   .testimonials__container {
@@ -165,8 +166,6 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
     padding: 0 52px 8px;
-    margin-left: calc(-1 * (100vw - var(--container-max, 1200px)) / 2 - 52px);
-    width: 100vw;
   }
 
   .testimonials__cards::-webkit-scrollbar {
@@ -273,8 +272,6 @@
 
     .testimonials__cards {
       padding: 0 20px 8px;
-      margin-left: -20px;
-      width: 100vw;
     }
 
     .testimonials__card {

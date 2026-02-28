@@ -1,7 +1,6 @@
 {%- comment -%}
   Product hero section — two-column layout with image gallery (left) and
-  product details with bundle selector, trust badges, social proof,
-  guarantee card, and accordions (right).
+  product details with variant selector, app blocks slot, and accordions (right).
 
   Designed for the product template. Uses the global `product` object.
 {%- endcomment -%}
@@ -11,7 +10,7 @@
   assign featured_image = product.featured_image
 -%}
 
-<div class="product-hero full-width">
+<div class="product-hero full-width" data-money-format="{{ shop.money_format | escape }}">
   <div class="product-hero__inner">
     {%- comment -%} ===== Left column: Image gallery ===== {%- endcomment -%}
     <div class="product-hero__gallery">
@@ -81,7 +80,7 @@
     {%- comment -%} ===== Right column: Product details ===== {%- endcomment -%}
     <div class="product-hero__details">
 
-      {%- comment -%} Group 1: Review badge + Title + Description + Price {%- endcomment -%}
+      {%- comment -%} Review badge + Title + Description + Price {%- endcomment -%}
       <div class="product-hero__info-group">
         <div class="product-hero__review-badge" aria-label="{{ 'products.hero.rating_label' | t: rating: section.settings.review_rating }}">
           <svg class="product-hero__review-badge-star" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -97,228 +96,138 @@
             {{ product.description }}
           </div>
         {%- endif -%}
-        <div class="product-hero__price">
-          <span class="product-hero__price-current">
+        <div class="product-hero__price" data-product-hero-price>
+          <span class="product-hero__price-current" data-price-current>
             {{ current_variant.price | money }}
           </span>
           {%- if current_variant.compare_at_price > current_variant.price -%}
-            <span class="product-hero__price-compare">
+            <span class="product-hero__price-compare" data-price-compare>
               {{ current_variant.compare_at_price | money }}
             </span>
           {%- endif -%}
         </div>
       </div>
 
-      {%- comment -%} Group 2: Guarantee banner {%- endcomment -%}
-      {%- if section.settings.guarantee_banner_text != blank -%}
-        <div class="product-hero__guarantee-banner">
-          <span class="product-hero__guarantee-banner-text">
-            {{ section.settings.guarantee_banner_text }}
-          </span>
-        </div>
-      {%- endif -%}
+      {%- comment -%} Check if an app block is present — if so, skip native buy buttons {%- endcomment -%}
+      {%- liquid
+        assign has_app_block = false
+        for block in section.blocks
+          if block.type == '@app'
+            assign has_app_block = true
+            break
+          endif
+        endfor
+      -%}
 
-      {%- comment -%} Group 3: Bundle selector {%- endcomment -%}
-      {% form 'product', product, id: 'product-hero-form', class: 'product-hero__form' %}
-        <fieldset class="product-hero__bundles" aria-label="{{ 'products.hero.select_quantity' | t }}">
-          <legend class="visually-hidden">{{ 'products.hero.select_quantity' | t }}</legend>
-
-          {%- for i in (1..3) -%}
-            {%- liquid
-              if i == 1
-                assign bundle_label = 'products.hero.bundle_1'
-                assign bundle_subtitle = 'products.hero.bundle_1_subtitle'
-                assign bundle_save_badge = ''
-                assign bundle_qty = 1
-                assign is_popular = true
-              elsif i == 2
-                assign bundle_label = 'products.hero.bundle_2'
-                assign bundle_subtitle = 'products.hero.bundle_2_subtitle'
-                assign bundle_save_badge = 'products.hero.badge_save'
-                assign bundle_qty = 2
-                assign is_popular = false
-              else
-                assign bundle_label = 'products.hero.bundle_3'
-                assign bundle_subtitle = 'products.hero.bundle_3_subtitle'
-                assign bundle_save_badge = 'products.hero.badge_save_best'
-                assign bundle_qty = 3
-                assign is_popular = false
-              endif
-
-              assign bundle_price = current_variant.price | times: bundle_qty
-              assign bundle_compare = current_variant.compare_at_price | times: bundle_qty
-            -%}
-            <label class="product-hero__bundle{% if i == 1 %} product-hero__bundle--selected{% endif %}">
-              {%- if is_popular -%}
-                <span class="product-hero__bundle-ribbon" aria-hidden="true">
-                  {{ 'products.hero.badge_popular' | t }}
-                </span>
-              {%- endif -%}
-              <input
-                type="radio"
-                name="quantity"
-                value="{{ bundle_qty }}"
-                class="visually-hidden"
-                {% if i == 1 %}checked{% endif %}
-                data-bundle-index="{{ i }}"
-              >
-              <span class="product-hero__bundle-inner">
-                <span class="product-hero__bundle-radio" aria-hidden="true"></span>
-                <span class="product-hero__bundle-info">
-                  <span class="product-hero__bundle-title-row">
-                    <span class="product-hero__bundle-title">{{ bundle_label | t }}</span>
-                    {%- if bundle_save_badge != blank -%}
-                      <span class="product-hero__bundle-save-badge">{{ bundle_save_badge | t }}</span>
-                    {%- endif -%}
-                  </span>
-                  <span class="product-hero__bundle-subtitle">{{ bundle_subtitle | t }}</span>
-                </span>
-                <span class="product-hero__bundle-price-box">
-                  <span class="product-hero__bundle-price">{{ bundle_price | money }}</span>
-                  {%- if current_variant.compare_at_price > current_variant.price -%}
-                    <span class="product-hero__bundle-compare">{{ bundle_compare | money }}</span>
-                  {%- endif -%}
-                </span>
-              </span>
-            </label>
-          {%- endfor -%}
-        </fieldset>
-
-        <input type="hidden" name="id" value="{{ current_variant.id }}">
-      {% endform %}
-
-      {%- comment -%} Group 4: Add to cart + Shipping estimate {%- endcomment -%}
-      <div class="product-hero__cta-group">
-        <button
-          type="submit"
-          form="product-hero-form"
-          class="product-hero__add-to-cart"
-          {% unless current_variant.available %}disabled{% endunless %}
-        >
-          {%- if current_variant.available -%}
-            {{ 'products.hero.add_to_cart' | t }}
-          {%- else -%}
-            {{ 'products.hero.sold_out' | t }}
-          {%- endif -%}
-        </button>
-        {%- if section.settings.shipping_estimate_text != blank -%}
-          <p class="product-hero__shipping-estimate">
-            {{ section.settings.shipping_estimate_text }}
-          </p>
-        {%- endif -%}
-      </div>
-
-      {%- comment -%} 9. Trust badges {%- endcomment -%}
-      {%- if section.settings.show_trust_badges -%}
-        {%- assign trust_badge_blocks = section.blocks | where: 'type', 'trust_badge' -%}
-        {%- if trust_badge_blocks.size > 0 -%}
-          <div class="product-hero__trust-badges">
-            {%- for block in trust_badge_blocks -%}
-              <div class="product-hero__trust-badge" {{ block.shopify_attributes }}>
-                {%- if block.settings.icon != blank -%}
-                  <span class="product-hero__trust-badge-icon" aria-hidden="true">
-                    {{ block.settings.icon }}
-                  </span>
-                {%- endif -%}
-                <span class="product-hero__trust-badge-text">
-                  {{ block.settings.text }}
-                </span>
-              </div>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
-      {%- endif -%}
-
-      {%- comment -%} 10. Money-back guarantee card {%- endcomment -%}
-      {%- if section.settings.show_guarantee_card -%}
-        <div class="product-hero__guarantee-card">
-          <div class="product-hero__guarantee-card-header">
-            <div class="product-hero__guarantee-card-badge" aria-hidden="true">
-              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M32 2.6L37.8 8.2L45.4 6.2L48.2 13.4L55.8 14.2L55 21.8L61.4 26.2L57.4 33L61.4 39.8L55 44.2L55.8 51.8L48.2 52.6L45.4 59.8L37.8 57.8L32 63.4L26.2 57.8L18.6 59.8L15.8 52.6L8.2 51.8L9 44.2L2.6 39.8L6.6 33L2.6 26.2L9 21.8L8.2 14.2L15.8 13.4L18.6 6.2L26.2 8.2L32 2.6Z" fill="#1B79B0"/>
-                <text x="32" y="30" text-anchor="middle" font-size="14" font-weight="800" fill="var(--theme-text-on-primary)">90</text>
-                <text x="32" y="42" text-anchor="middle" font-size="8" font-weight="800" fill="var(--theme-text-on-primary)">DAY</text>
-              </svg>
-            </div>
-            <span class="product-hero__guarantee-card-heading">
-              {{ section.settings.guarantee_card_heading }}
-            </span>
-          </div>
-          {%- if section.settings.guarantee_card_body != blank -%}
-            <p class="product-hero__guarantee-card-body">
-              {{ section.settings.guarantee_card_body }}
-            </p>
-          {%- endif -%}
-          {%- if section.settings.guarantee_card_claim_text != blank -%}
-            <div class="product-hero__guarantee-card-claim">
-              <span class="product-hero__guarantee-card-claim-text">
-                {{ section.settings.guarantee_card_claim_text }}
-              </span>
-            </div>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
-
-      {%- comment -%} 11. Social proof images {%- endcomment -%}
-      {%- assign social_proof_blocks = section.blocks | where: 'type', 'social_proof' -%}
-      {%- if section.settings.show_social_proof -%}
-        {%- if social_proof_blocks.size > 0 -%}
-          <div class="product-hero__social-proof">
-            {%- for block in social_proof_blocks -%}
-              <div class="product-hero__social-proof-item" {{ block.shopify_attributes }}>
-                {%- if block.settings.image -%}
-                  <div class="product-hero__social-proof-image">
-                    {{
-                      block.settings.image
-                      | image_url: width: 400, height: 382, crop: 'center'
-                      | image_tag:
-                        class: 'product-hero__social-proof-img',
-                        loading: 'lazy',
-                        widths: '200,300,400',
-                        sizes: '(min-width: 1024px) 130px, 45vw'
-                    }}
-                  </div>
-                {%- endif -%}
-                <div class="product-hero__social-proof-text">
-                  <div class="product-hero__social-proof-stars" aria-hidden="true">
-                    {%- for s in (1..5) -%}
-                      <svg width="14" height="14" viewBox="0 0 20 20" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10 1.12l2.24 5.36 5.76.56-4.36 3.8 1.28 5.64L10 13.64l-4.92 2.84 1.28-5.64-4.36-3.8 5.76-.56L10 1.12z"/>
-                      </svg>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'buy_buttons' and has_app_block == false -%}
+          {%- comment -%} Native product form — auto-hidden when app block is present {%- endcomment -%}
+          <div {{ block.shopify_attributes }}>
+            {% form 'product', product, id: 'product-hero-form', class: 'product-hero__form' %}
+              {%- if product.has_only_default_variant == false -%}
+                <div class="product-hero__variant-selector">
+                  <label for="product-hero-variant" class="visually-hidden">
+                    {{ 'products.hero.select_variant' | t }}
+                  </label>
+                  <select
+                    id="product-hero-variant"
+                    name="id"
+                    class="product-hero__variant-select"
+                    data-product-hero-variant-select
+                  >
+                    {%- for variant in product.variants -%}
+                      <option
+                        value="{{ variant.id }}"
+                        {% if variant == current_variant %}selected{% endif %}
+                        {% unless variant.available %}disabled{% endunless %}
+                        data-price="{{ variant.price }}"
+                        data-compare-price="{{ variant.compare_at_price }}"
+                        {%- if variant.featured_image -%}
+                          data-image-url="{{ variant.featured_image | image_url: width: 1136 }}"
+                          data-image-srcset="{{ variant.featured_image | image_url: width: 568 }} 568w, {{ variant.featured_image | image_url: width: 852 }} 852w, {{ variant.featured_image | image_url: width: 1136 }} 1136w"
+                          data-image-alt="{{ variant.featured_image.alt | escape }}"
+                        {%- endif -%}
+                        data-available="{{ variant.available }}"
+                      >
+                        {{ variant.title }} — {{ variant.price | money }}
+                      </option>
                     {%- endfor -%}
-                  </div>
-                  {%- if block.settings.quote != blank -%}
-                    <p class="product-hero__social-proof-quote">{{ block.settings.quote }}</p>
-                  {%- endif -%}
+                  </select>
                 </div>
+              {%- else -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
+              {%- endif -%}
+
+              <div class="product-hero__cta-group">
+                <button
+                  type="submit"
+                  class="product-hero__add-to-cart"
+                  data-product-hero-atc
+                  data-add-text="{{ 'products.hero.add_to_cart' | t | escape }}"
+                  data-sold-text="{{ 'products.hero.sold_out' | t | escape }}"
+                  {% unless current_variant.available %}disabled{% endunless %}
+                >
+                  {%- if current_variant.available -%}
+                    {{ 'products.hero.add_to_cart' | t }}
+                  {%- else -%}
+                    {{ 'products.hero.sold_out' | t }}
+                  {%- endif -%}
+                </button>
+                {%- if section.settings.shipping_estimate_text != blank -%}
+                  <p class="product-hero__shipping-estimate">
+                    {{ section.settings.shipping_estimate_text }}
+                  </p>
+                {%- endif -%}
               </div>
+            {% endform %}
+          </div>
+        {%- elsif block.type == '@app' -%}
+          {% render block %}
+        {%- elsif block.type == 'accordions' -%}
+          <div class="product-hero__accordions" {{ block.shopify_attributes }}>
+            {%- for i in (1..6) -%}
+              {%- liquid
+                case i
+                  when 1
+                    assign acc_title = block.settings.title_1
+                    assign acc_content = block.settings.content_1
+                  when 2
+                    assign acc_title = block.settings.title_2
+                    assign acc_content = block.settings.content_2
+                  when 3
+                    assign acc_title = block.settings.title_3
+                    assign acc_content = block.settings.content_3
+                  when 4
+                    assign acc_title = block.settings.title_4
+                    assign acc_content = block.settings.content_4
+                  when 5
+                    assign acc_title = block.settings.title_5
+                    assign acc_content = block.settings.content_5
+                  when 6
+                    assign acc_title = block.settings.title_6
+                    assign acc_content = block.settings.content_6
+                endcase
+              -%}
+              {%- if acc_title != blank -%}
+                <details class="product-hero__accordion">
+                  <summary class="product-hero__accordion-header">
+                    <span class="product-hero__accordion-title">{{ acc_title }}</span>
+                    <span class="product-hero__accordion-icon" aria-hidden="true">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                        <line class="product-hero__accordion-icon-h" x1="5" y1="12" x2="19" y2="12"/>
+                        <line class="product-hero__accordion-icon-v" x1="12" y1="5" x2="12" y2="19"/>
+                      </svg>
+                    </span>
+                  </summary>
+                  <div class="product-hero__accordion-content">
+                    {{ acc_content }}
+                  </div>
+                </details>
+              {%- endif -%}
             {%- endfor -%}
           </div>
         {%- endif -%}
-      {%- endif -%}
-
-      {%- comment -%} 12 & 13. Accordions {%- endcomment -%}
-      {%- assign accordion_blocks = section.blocks | where: 'type', 'accordion_item' -%}
-      {%- if accordion_blocks.size > 0 -%}
-        <div class="product-hero__accordions">
-          {%- for block in accordion_blocks -%}
-            <details class="product-hero__accordion" {{ block.shopify_attributes }}>
-              <summary class="product-hero__accordion-header">
-                <span class="product-hero__accordion-title">{{ block.settings.title }}</span>
-                <span class="product-hero__accordion-icon" aria-hidden="true">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                    <line class="product-hero__accordion-icon-h" x1="5" y1="12" x2="19" y2="12"/>
-                    <line class="product-hero__accordion-icon-v" x1="12" y1="5" x2="12" y2="19"/>
-                  </svg>
-                </span>
-              </summary>
-              <div class="product-hero__accordion-content">
-                {{ block.settings.content }}
-              </div>
-            </details>
-          {%- endfor -%}
-        </div>
-      {%- endif -%}
+      {%- endfor -%}
 
     </div>
   </div>
@@ -485,199 +394,40 @@
     text-decoration: line-through;
   }
 
-  /* ===== Guarantee banner (full-width pill) ===== */
-  .product-hero__guarantee-banner {
-    background-color: var(--theme-accent);
-    border-radius: var(--radius-5xl);
-    padding: 8px 24px;
-    text-align: center;
-  }
-
-  .product-hero__guarantee-banner-text {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    color: var(--theme-text-on-primary);
-  }
-
-  /* ===== Bundle selector ===== */
-  .product-hero__bundles {
+  /* ===== Variant selector ===== */
+  .product-hero__variant-selector {
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    border: none;
-    padding: 0;
-    margin: 0;
   }
 
-  .product-hero__bundle {
-    position: relative;
-    cursor: pointer;
-    display: block;
-  }
-
-  .product-hero__bundle-inner {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 12px 12px 16px;
+  .product-hero__variant-select {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--theme-primary);
     background-color: var(--theme-surface-alt);
+    border: 1px solid var(--theme-border);
     border-radius: var(--radius-xl);
-    border: 1px solid transparent;
-    transition:
-      border-color var(--duration-fast) var(--ease-standard),
-      box-shadow var(--duration-fast) var(--ease-standard);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 44px;
   }
 
-  .product-hero__bundle input:checked + .product-hero__bundle-inner,
-  .product-hero__bundle--selected .product-hero__bundle-inner {
-    border-color: var(--theme-primary);
-  }
-
-  .product-hero__bundle input:focus-visible + .product-hero__bundle-inner {
+  .product-hero__variant-select:focus-visible {
     outline: 2px solid var(--color-focus, var(--theme-primary));
     outline-offset: 2px;
   }
 
-  /* Bundle ribbon (POPULAR) */
-  .product-hero__bundle-ribbon {
-    position: absolute;
-    top: -12px;
-    right: 24px;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    height: 20px;
-    padding: 0 16px;
-    background-color: var(--theme-primary);
-    color: var(--theme-text-on-primary);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    line-height: var(--line-height-normal);
-    border-bottom-left-radius: var(--radius-md);
-    border-bottom-right-radius: var(--radius-md);
-  }
-
-  .product-hero__bundle-ribbon::before,
-  .product-hero__bundle-ribbon::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 0;
-    height: 0;
-    border-bottom: 12px solid var(--theme-primary-dark);
-  }
-
-  .product-hero__bundle-ribbon::before {
-    right: 100%;
-    border-left: 12px solid transparent;
-  }
-
-  .product-hero__bundle-ribbon::after {
-    left: 100%;
-    border-right: 12px solid transparent;
-  }
-
-  /* Bundle radio circle */
-  .product-hero__bundle-radio {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: var(--radius-round);
-    border: 2px solid var(--theme-border);
-    box-sizing: border-box;
-    position: relative;
-    transition: border-color var(--duration-fast) var(--ease-standard);
-  }
-
-  .product-hero__bundle input:checked ~ .product-hero__bundle-inner .product-hero__bundle-radio {
-    border-color: var(--theme-primary);
-  }
-
-  .product-hero__bundle input:checked ~ .product-hero__bundle-inner .product-hero__bundle-radio::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 10px;
-    height: 10px;
-    border-radius: var(--radius-round);
-    background-color: var(--theme-primary);
-  }
-
-  /* Bundle info */
-  .product-hero__bundle-info {
+  /* ===== Product form ===== */
+  .product-hero__form {
     display: flex;
     flex-direction: column;
-    gap: 2px;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .product-hero__bundle-title-row {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .product-hero__bundle-title {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-normal);
-    color: var(--theme-primary);
-  }
-
-  .product-hero__bundle-subtitle {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-snug);
-    font-weight: var(--font-weight-regular);
-    color: var(--theme-text-secondary);
-  }
-
-  .product-hero__bundle-save-badge {
-    display: inline-flex;
-    padding: 4px 8px;
-    background-color: var(--theme-accent);
-    color: var(--theme-text-on-primary);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    border-radius: var(--theme-radius-badge);
-    line-height: var(--line-height-none);
-  }
-
-  /* Bundle price box */
-  .product-hero__bundle-price-box {
-    flex-shrink: 0;
-    width: 148px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background-color: var(--theme-surface-emphasis);
-    border-radius: var(--radius-md);
-    align-self: stretch;
-  }
-
-  .product-hero__bundle-price {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-normal);
-    color: var(--theme-primary);
-  }
-
-  .product-hero__bundle-compare {
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-snug);
-    color: color-mix(in srgb, var(--theme-primary) 40%, transparent);
-    text-decoration: line-through;
-    text-align: right;
+    gap: 16px;
   }
 
   /* ===== Add to cart ===== */
@@ -720,136 +470,6 @@
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
     color: var(--theme-text-secondary);
-    margin: 0;
-  }
-
-  /* ===== Trust badges ===== */
-  .product-hero__trust-badges {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .product-hero__trust-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background-color: var(--theme-surface-alt);
-    border-radius: var(--radius-5xl);
-    white-space: nowrap;
-    overflow: hidden;
-  }
-
-  .product-hero__trust-badge-icon {
-    display: inline-flex;
-    align-items: center;
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-none);
-    flex-shrink: 0;
-  }
-
-  .product-hero__trust-badge-text {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-regular);
-    color: var(--theme-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* ===== Guarantee card ===== */
-  .product-hero__guarantee-card {
-    background-color: var(--theme-surface-alt);
-    border-radius: var(--radius-xl);
-    padding: 12px 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .product-hero__guarantee-card-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .product-hero__guarantee-card-badge {
-    flex-shrink: 0;
-    width: 64px;
-    height: 64px;
-  }
-
-  .product-hero__guarantee-card-heading {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-snug);
-    color: var(--theme-primary);
-  }
-
-  .product-hero__guarantee-card-body {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-snug);
-    color: var(--theme-text-secondary);
-    margin: 0;
-  }
-
-  .product-hero__guarantee-card-claim {
-    background-color: var(--theme-accent);
-    border-radius: var(--radius-5xl);
-    padding: 6px 16px;
-    text-align: center;
-  }
-
-  .product-hero__guarantee-card-claim-text {
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    color: var(--theme-text-on-primary);
-  }
-
-  /* ===== Social proof images ===== */
-  .product-hero__social-proof {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-  }
-
-  .product-hero__social-proof-item {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .product-hero__social-proof-image {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    height: 191px;
-  }
-
-  .product-hero__social-proof-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .product-hero__social-proof-text {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .product-hero__social-proof-stars {
-    display: flex;
-    gap: 4px;
-  }
-
-  .product-hero__social-proof-quote {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-snug);
-    color: var(--theme-primary);
     margin: 0;
   }
 
@@ -970,27 +590,11 @@
     .product-hero__price-compare {
       font-size: var(--font-size-lg);
     }
-
-    .product-hero__social-proof {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .product-hero__social-proof-image {
-      height: 160px;
-    }
   }
 
   @media (max-width: 639px) {
     .product-hero {
       padding: 16px;
-    }
-
-    .product-hero__trust-badges {
-      grid-template-columns: 1fr;
-    }
-
-    .product-hero__trust-badge {
-      white-space: normal;
     }
 
     .product-hero__grid-images {
@@ -1005,20 +609,6 @@
     .product-hero__img {
       height: auto;
       aspect-ratio: 1 / 1;
-    }
-
-    .product-hero__bundle-price-box {
-      width: auto;
-      min-width: 100px;
-    }
-
-    .product-hero__social-proof {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 12px;
-    }
-
-    .product-hero__social-proof-image {
-      height: 140px;
     }
   }
 {% endstylesheet %}
@@ -1054,21 +644,67 @@
       });
     }
 
-    /* Bundle selector: sync selected state class */
-    var bundles = section.querySelectorAll('.product-hero__bundle');
-    bundles.forEach(function(bundle) {
-      var input = bundle.querySelector('input[type="radio"]');
-      if (!input) return;
+    /* Variant selector: update price, image, URL, and ATC state */
+    var variantSelect = section.querySelector('[data-product-hero-variant-select]');
+    if (variantSelect) {
+      var priceCurrent = section.querySelector('[data-price-current]');
+      var priceCompare = section.querySelector('[data-price-compare]');
+      var priceContainer = section.querySelector('[data-product-hero-price]');
+      var atcButton = section.querySelector('[data-product-hero-atc]');
+      var moneyFormat = section.getAttribute('data-money-format') || '$amount';
 
-      input.addEventListener('change', function() {
-        bundles.forEach(function(b) {
-          b.classList.remove('product-hero__bundle--selected');
-        });
-        if (this.checked) {
-          bundle.classList.add('product-hero__bundle--selected');
+      function formatMoney(cents) {
+        var amount = (cents / 100).toFixed(2);
+        return moneyFormat.replace('amount', amount);
+      }
+
+      variantSelect.addEventListener('change', function() {
+        var selected = this.options[this.selectedIndex];
+        var price = parseInt(selected.getAttribute('data-price'), 10);
+        var comparePrice = parseInt(selected.getAttribute('data-compare-price'), 10);
+        var available = selected.getAttribute('data-available') === 'true';
+        var imageUrl = selected.getAttribute('data-image-url');
+        var imageSrcset = selected.getAttribute('data-image-srcset');
+        var imageAlt = selected.getAttribute('data-image-alt');
+
+        if (priceCurrent) {
+          priceCurrent.textContent = formatMoney(price);
+        }
+
+        if (comparePrice && comparePrice > price) {
+          if (priceCompare) {
+            priceCompare.textContent = formatMoney(comparePrice);
+            priceCompare.style.display = '';
+          } else if (priceContainer) {
+            var span = document.createElement('span');
+            span.className = 'product-hero__price-compare';
+            span.setAttribute('data-price-compare', '');
+            span.textContent = formatMoney(comparePrice);
+            priceContainer.appendChild(span);
+            priceCompare = span;
+          }
+        } else if (priceCompare) {
+          priceCompare.style.display = 'none';
+        }
+
+        if (mainImg && imageUrl) {
+          mainImg.src = imageUrl;
+          if (imageSrcset) mainImg.srcset = imageSrcset;
+          if (imageAlt !== null) mainImg.alt = imageAlt;
+        }
+
+        var url = new URL(window.location.href);
+        url.searchParams.set('variant', selected.value);
+        window.history.replaceState({}, '', url.toString());
+
+        if (atcButton) {
+          atcButton.disabled = !available;
+          atcButton.textContent = available
+            ? atcButton.getAttribute('data-add-text')
+            : atcButton.getAttribute('data-sold-text');
         }
       });
-    });
+    }
   })();
 {% endjavascript %}
 
@@ -1091,99 +727,82 @@
       "default": "4.9"
     },
     {
-      "type": "checkbox",
-      "id": "show_trust_badges",
-      "label": "t:sections.product_hero.settings.show_trust_badges.label",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "guarantee_banner_text",
-      "label": "t:sections.product_hero.settings.guarantee_banner_text.label",
-      "default": "90 DAY FEEL BETTER GUARANTEE!"
-    },
-    {
       "type": "text",
       "id": "shipping_estimate_text",
       "label": "t:sections.product_hero.settings.shipping_estimate_text.label"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_guarantee_card",
-      "label": "t:sections.product_hero.settings.show_guarantee_card.label",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "guarantee_card_heading",
-      "label": "t:sections.product_hero.settings.guarantee_card_heading.label",
-      "default": "90 Day Money Back Guarantee"
-    },
-    {
-      "type": "textarea",
-      "id": "guarantee_card_body",
-      "label": "t:sections.product_hero.settings.guarantee_card_body.label"
-    },
-    {
-      "type": "text",
-      "id": "guarantee_card_claim_text",
-      "label": "t:sections.product_hero.settings.guarantee_card_claim_text.label",
-      "default": "LESS THAN 1% CLAIMED"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_social_proof",
-      "label": "t:sections.product_hero.settings.show_social_proof.label",
-      "default": true
     }
   ],
   "blocks": [
     {
-      "type": "trust_badge",
-      "name": "t:sections.product_hero.blocks.trust_badge.name",
-      "settings": [
-        {
-          "type": "text",
-          "id": "icon",
-          "label": "t:sections.product_hero.blocks.trust_badge.settings.icon.label",
-          "info": "t:sections.product_hero.blocks.trust_badge.settings.icon.info"
-        },
-        {
-          "type": "text",
-          "id": "text",
-          "label": "t:sections.product_hero.blocks.trust_badge.settings.text.label"
-        }
-      ]
+      "type": "buy_buttons",
+      "name": "t:sections.product_hero.blocks.buy_buttons.name",
+      "limit": 1
     },
+    { "type": "@app" },
     {
-      "type": "social_proof",
-      "name": "t:sections.product_hero.blocks.social_proof.name",
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "t:sections.product_hero.blocks.social_proof.settings.image.label"
-        },
-        {
-          "type": "text",
-          "id": "quote",
-          "label": "t:sections.product_hero.blocks.social_proof.settings.quote.label"
-        }
-      ]
-    },
-    {
-      "type": "accordion_item",
-      "name": "t:sections.product_hero.blocks.accordion_item.name",
+      "type": "accordions",
+      "name": "t:sections.product_hero.blocks.accordions.name",
+      "limit": 1,
       "settings": [
         {
           "type": "text",
-          "id": "title",
-          "label": "t:sections.product_hero.blocks.accordion_item.settings.title.label"
+          "id": "title_1",
+          "label": "t:sections.product_hero.blocks.accordions.settings.title_1.label"
         },
         {
           "type": "richtext",
-          "id": "content",
-          "label": "t:sections.product_hero.blocks.accordion_item.settings.content.label"
+          "id": "content_1",
+          "label": "t:sections.product_hero.blocks.accordions.settings.content_1.label"
+        },
+        {
+          "type": "text",
+          "id": "title_2",
+          "label": "t:sections.product_hero.blocks.accordions.settings.title_2.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content_2",
+          "label": "t:sections.product_hero.blocks.accordions.settings.content_2.label"
+        },
+        {
+          "type": "text",
+          "id": "title_3",
+          "label": "t:sections.product_hero.blocks.accordions.settings.title_3.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content_3",
+          "label": "t:sections.product_hero.blocks.accordions.settings.content_3.label"
+        },
+        {
+          "type": "text",
+          "id": "title_4",
+          "label": "t:sections.product_hero.blocks.accordions.settings.title_4.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content_4",
+          "label": "t:sections.product_hero.blocks.accordions.settings.content_4.label"
+        },
+        {
+          "type": "text",
+          "id": "title_5",
+          "label": "t:sections.product_hero.blocks.accordions.settings.title_5.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content_5",
+          "label": "t:sections.product_hero.blocks.accordions.settings.content_5.label"
+        },
+        {
+          "type": "text",
+          "id": "title_6",
+          "label": "t:sections.product_hero.blocks.accordions.settings.title_6.label"
+        },
+        {
+          "type": "richtext",
+          "id": "content_6",
+          "label": "t:sections.product_hero.blocks.accordions.settings.content_6.label"
         }
       ]
     }
@@ -1193,45 +812,15 @@
       "name": "t:sections.product_hero.presets.default.name",
       "blocks": [
         {
-          "type": "trust_badge",
-          "settings": {
-            "icon": "\uD83D\uDE9A",
-            "text": "Ships by Fri, Jan 24th"
-          }
+          "type": "buy_buttons"
         },
         {
-          "type": "trust_badge",
+          "type": "accordions",
           "settings": {
-            "icon": "\uD83D\uDD25",
-            "text": "16 orders at this price remaining"
-          }
-        },
-        {
-          "type": "trust_badge",
-          "settings": {
-            "icon": "\u2708\uFE0F",
-            "text": "FREE Shipping & Returns"
-          }
-        },
-        {
-          "type": "trust_badge",
-          "settings": {
-            "icon": "\u2705",
-            "text": "30 day money-back guarantee"
-          }
-        },
-        {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Benefits",
-            "content": "<ul><li>Relieves bloating and gas</li><li>Supports regular digestion</li><li>Strengthens immune health</li><li>Promotes clear, healthy skin</li><li>Supports heart health</li></ul>"
-          }
-        },
-        {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Ingredients",
-            "content": "<p>24 clinically studied probiotic strains with prebiotic fiber blend.</p>"
+            "title_1": "Benefits",
+            "content_1": "<ul><li>Relieves bloating and gas</li><li>Supports regular digestion</li><li>Strengthens immune health</li><li>Promotes clear, healthy skin</li><li>Supports heart health</li></ul>",
+            "title_2": "Ingredients",
+            "content_2": "<p>24 clinically studied probiotic strains with prebiotic fiber blend.</p>"
           }
         }
       ]

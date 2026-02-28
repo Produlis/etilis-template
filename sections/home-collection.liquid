@@ -7,12 +7,21 @@
         <span class="home-collection__tag">{{ section.settings.tag_text }}</span>
       {% endif %}
 
-      {% if section.settings.heading != blank %}
-        <h2 class="home-collection__heading">{{ section.settings.heading }}</h2>
+      {%- liquid
+        if section.settings.collection != blank
+          assign heading_text = section.settings.collection.title
+          assign description_text = section.settings.collection.description | strip_html
+        else
+          assign heading_text = section.settings.heading
+          assign description_text = section.settings.description
+        endif
+      -%}
+      {% if heading_text != blank %}
+        <h2 class="home-collection__heading">{{ heading_text }}</h2>
       {% endif %}
 
-      {% if section.settings.description != blank %}
-        <p class="home-collection__subtitle">{{ section.settings.description }}</p>
+      {% if description_text != blank %}
+        <p class="home-collection__subtitle">{{ description_text }}</p>
       {% endif %}
     </div>
 
@@ -107,9 +116,20 @@
                     </div>
                   </div>
 
-                  <a href="{{ product.url }}" class="home-collection__card-button" aria-label="{{ 'products.add_to_cart' | t }}: {{ product.title }}">
-                    {{ 'products.add_to_cart' | t }}
-                  </a>
+                  {%- assign first_available_variant = product.selected_or_first_available_variant -%}
+                  <button
+                    type="button"
+                    class="home-collection__card-button"
+                    data-add-to-cart="{{ first_available_variant.id }}"
+                    aria-label="{{ 'products.add_to_cart' | t }}: {{ product.title }}"
+                    {% unless first_available_variant.available %}disabled{% endunless %}
+                  >
+                    {%- if first_available_variant.available -%}
+                      {{ 'products.add_to_cart' | t }}
+                    {%- else -%}
+                      {{ 'products.sold_out' | t }}
+                    {%- endif -%}
+                  </button>
                 </article>
               </div>
             {% endfor %}
@@ -359,6 +379,10 @@
     color: var(--theme-text-on-primary);
     margin: 0;
     font-weight: var(--font-weight-semibold);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 
   .home-collection__card-title a {
@@ -432,6 +456,11 @@
     outline-offset: 2px;
   }
 
+  .home-collection__card-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   @media (max-width: 749px) {
     .home-collection {
       padding: 0 12px;
@@ -495,6 +524,37 @@
     if (section.querySelector('.home-collection__swiper')) {
       initHomeCollectionSwiper(section);
     }
+  });
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-add-to-cart]');
+    if (!btn) return;
+
+    var variantId = btn.dataset.addToCart;
+    var originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = '...';
+
+    fetch('/cart/add.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: variantId, quantity: 1 })
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('Add to cart failed');
+        return res.json();
+      })
+      .then(function () {
+        btn.textContent = originalText;
+        btn.disabled = false;
+
+        var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+        if (cartTrigger) cartTrigger.click();
+      })
+      .catch(function () {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      });
   });
 {% endjavascript %}
 

@@ -41,9 +41,25 @@
           {%- for block in comparison_rows -%}
             <div class="home-comparison__check-row">
               {%- if block.settings.brand_has -%}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="{{ 'accessibility.checkmark' | t }}"><circle cx="12" cy="12" r="10" fill="var(--theme-accent)"/><path d="M8 12l3 3 5-5" stroke="var(--theme-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-label="{{ 'accessibility.checkmark' | t }}"
+                >
+                  <circle cx="12" cy="12" r="10" fill="var(--theme-accent)"/><path d="M8 12l3 3 5-5" stroke="var(--theme-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               {%- else -%}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="{{ 'accessibility.x_mark' | t }}"><circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)"/><path d="M9 9l6 6M15 9l-6 6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/></svg>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-label="{{ 'accessibility.x_mark' | t }}"
+                >
+                  <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)"/><path d="M9 9l6 6M15 9l-6 6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
               {%- endif -%}
             </div>
           {%- endfor -%}
@@ -56,9 +72,25 @@
           {%- for block in comparison_rows -%}
             <div class="home-comparison__check-row">
               {%- if block.settings.competitor_has -%}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="{{ 'accessibility.checkmark' | t }}"><circle cx="12" cy="12" r="10" fill="var(--theme-accent)"/><path d="M8 12l3 3 5-5" stroke="var(--theme-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-label="{{ 'accessibility.checkmark' | t }}"
+                >
+                  <circle cx="12" cy="12" r="10" fill="var(--theme-accent)"/><path d="M8 12l3 3 5-5" stroke="var(--theme-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
               {%- else -%}
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-label="{{ 'accessibility.x_mark' | t }}"><circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)"/><path d="M9 9l6 6M15 9l-6 6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/></svg>
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-label="{{ 'accessibility.x_mark' | t }}"
+                >
+                  <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)"/><path d="M9 9l6 6M15 9l-6 6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
               {%- endif -%}
             </div>
           {%- endfor -%}
@@ -164,7 +196,8 @@
   .home-comparison__table-area {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    justify-content: center;
+    gap: 36px;
   }
 
   .home-comparison__table-card {
@@ -173,15 +206,14 @@
     background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: var(--theme-radius-card);
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
     min-height: 392px;
     padding: 8px 8px 8px 24px;
   }
 
   .home-comparison__labels-col {
-    width: 463px;
-    flex-shrink: 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -202,7 +234,7 @@
   }
 
   .home-comparison__brand-col {
-    flex: 1;
+    min-width: 0;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background: rgba(255, 255, 255, 0.12);
@@ -216,7 +248,7 @@
   }
 
   .home-comparison__competitor-col {
-    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -294,13 +326,9 @@
     }
 
     .home-comparison__table-card {
+      grid-template-columns: 1.5fr 1fr 1fr;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-    }
-
-    .home-comparison__labels-col {
-      width: 200px;
-      min-width: 200px;
     }
 
     .home-comparison__label-row {

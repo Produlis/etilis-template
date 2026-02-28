@@ -308,7 +308,7 @@
   }
 
   .site-header__cart {
-    display: inline-flex;
+    display: none;
     align-items: center;
     gap: var(--space-1, 4px);
     height: 40px;
@@ -340,7 +340,7 @@
 
   /* --- Search trigger --- */
   .site-header__search-trigger {
-    display: inline-flex;
+    display: none;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -551,6 +551,14 @@
 
     .site-header__nav {
       display: flex;
+    }
+
+    .site-header__search-trigger {
+      display: inline-flex;
+    }
+
+    .site-header__cart {
+      display: inline-flex;
     }
 
     .site-header__menu-toggle {

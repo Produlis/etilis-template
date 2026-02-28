@@ -12,61 +12,24 @@
     "product-hero": {
       "type": "product-hero",
       "blocks": {
-        "trust-1": {
-          "type": "trust_badge",
-          "settings": {
-            "icon": "\uD83D\uDE9A",
-            "text": "Ships by Fri, Jan 24th"
-          }
+        "buy-buttons": {
+          "type": "buy_buttons"
         },
-        "trust-2": {
-          "type": "trust_badge",
+        "accordions": {
+          "type": "accordions",
           "settings": {
-            "icon": "\uD83D\uDD25",
-            "text": "16 orders at this price remaining"
-          }
-        },
-        "trust-3": {
-          "type": "trust_badge",
-          "settings": {
-            "icon": "\u2708\uFE0F",
-            "text": "FREE Shipping & Returns"
-          }
-        },
-        "trust-4": {
-          "type": "trust_badge",
-          "settings": {
-            "icon": "\u2705",
-            "text": "30 day money-back guarantee"
-          }
-        },
-        "accordion-1": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Benefits",
-            "content": "<ul><li>Relieves bloating and gas</li><li>Supports regular digestion</li><li>Strengthens immune health</li><li>Promotes clear, healthy skin</li><li>Supports heart health</li></ul>"
-          }
-        },
-        "accordion-2": {
-          "type": "accordion_item",
-          "settings": {
-            "title": "Ingredients",
-            "content": "<p>24 clinically studied probiotic strains with prebiotic fiber blend.</p>"
+            "title_1": "Benefits",
+            "content_1": "<ul><li>Relieves bloating and gas</li><li>Supports regular digestion</li><li>Strengthens immune health</li><li>Promotes clear, healthy skin</li><li>Supports heart health</li></ul>",
+            "title_2": "Ingredients",
+            "content_2": "<p>24 clinically studied probiotic strains with prebiotic fiber blend.</p>"
           }
         }
       },
-      "block_order": ["trust-1", "trust-2", "trust-3", "trust-4", "accordion-1", "accordion-2"],
+      "block_order": ["buy-buttons", "accordions"],
       "settings": {
         "review_count": "10,078+",
         "review_rating": "4.9",
-        "show_trust_badges": true,
-        "guarantee_banner_text": "90 DAY FEEL BETTER GUARANTEE!",
-        "shipping_estimate_text": "Get it between Monday, February 2nd and Thursday, February 5th.",
-        "show_guarantee_card": true,
-        "guarantee_card_heading": "90 Day Money Back Guarantee",
-        "guarantee_card_body": "We believe in our products so much, we don't want you to spend a dime until you are 100% certain that it works for you.",
-        "guarantee_card_claim_text": "LESS THAN 1% CLAIMED",
-        "show_social_proof": true
+        "shipping_estimate_text": "Get it between Monday, February 2nd and Thursday, February 5th."
       }
     },
     "product-logo-marquee": {
