@@ -149,7 +149,7 @@
     height: 200px;
     border-radius: var(--theme-radius-image);
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.02);
+    background: var(--color-hover-subtle-3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -167,7 +167,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.04);
+    background: var(--color-hover-subtle-2);
   }
 
   .product-card__placeholder-svg {
@@ -178,8 +178,8 @@
 
   .product-card__badge {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -233,8 +233,8 @@
   .product-card__review-count {
     font-size: var(--font-size-xs);
     line-height: var(--line-height-normal);
-    color: #717171;
-    margin-left: 4px;
+    color: var(--theme-text-dim);
+    margin-inline-start: 4px;
   }
 
   .product-card__price {
@@ -253,7 +253,7 @@
   .product-card__compare-price {
     font-size: var(--font-size-xs);
     line-height: var(--line-height-normal);
-    color: rgba(28, 58, 19, 0.4);
+    color: var(--color-on-dark-green);
     text-decoration: line-through;
   }
 
@@ -315,7 +315,7 @@
     display: block;
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 2px solid var(--color-on-primary-subtle);
     border-top-color: currentColor;
     border-radius: 50%;
     animation: productCardAtcSpin 0.5s linear infinite;
@@ -341,7 +341,7 @@
 
 {% javascript %}
   (function() {
-    document.addEventListener('submit', function(e) {
+    document.addEventListener('submit', async function(e) {
       var form = e.target.closest('[data-product-card-atc]');
       if (!form) return;
       e.preventDefault();
@@ -353,13 +353,14 @@
       btn.disabled = true;
       btn.innerHTML = '<span class="product-card__atc-spinner"></span>';
 
-      fetch('/cart/add.js', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
-        body: new URLSearchParams(new FormData(form)).toString()
-      })
-      .then(function(res) { return res.json(); })
-      .then(function() {
+      try {
+        var res = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
+          body: new URLSearchParams(new FormData(form)).toString()
+        });
+        await res.json();
+
         btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Added!</span>';
 
         /* Open cart drawer if available */
@@ -372,11 +373,10 @@
           btn.innerHTML = originalHTML;
           btn.disabled = false;
         }, 1500);
-      })
-      .catch(function() {
+      } catch (err) {
         btn.innerHTML = originalHTML;
         btn.disabled = false;
-      });
+      }
     });
   })();
 {% endjavascript %}

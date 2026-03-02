@@ -67,9 +67,10 @@
 
       <a href="{{ routes.cart_url }}" class="site-header__cart" data-cart-drawer-trigger>
         <span class="site-header__cart-text">{{ 'header.cart' | t }}</span>
-        {%- if cart.item_count > 0 -%}
-          <span class="site-header__cart-count">({{ cart.item_count }})</span>
-        {%- endif -%}
+        <span
+          class="site-header__cart-count"
+          {%- if cart.item_count == 0 %} hidden{% endif %}
+        >{{ cart.item_count }}</span>
       </a>
 
       <button
@@ -156,7 +157,7 @@
   /* ===== Site Header ===== */
   .site-header {
     position: sticky;
-    top: 0;
+    inset-block-start: 0;
     z-index: var(--z-sticky, 200);
     background-color: var(--theme-surface);
   }
@@ -243,7 +244,7 @@
   }
 
   .site-header__nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
   }
 
   .site-header__nav-link:focus-visible {
@@ -264,8 +265,8 @@
   .site-header__dropdown {
     display: none;
     position: absolute;
-    top: 100%;
-    left: 0;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
     min-width: 200px;
     padding: var(--space-2, 8px) 0;
     margin-top: var(--space-1, 4px);
@@ -291,7 +292,7 @@
   }
 
   .site-header__dropdown-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
   }
 
   .site-header__dropdown-link:focus-visible {
@@ -308,9 +309,9 @@
   }
 
   .site-header__cart {
+    position: relative;
     display: none;
     align-items: center;
-    gap: var(--space-1, 4px);
     height: 40px;
     padding: 0 20px;
     background-color: var(--theme-primary);
@@ -333,9 +334,29 @@
     outline-offset: 2px;
   }
 
-  .site-header__cart-text,
-  .site-header__cart-count {
+  .site-header__cart-text {
     color: var(--theme-text-on-primary);
+  }
+
+  .site-header__cart-count {
+    position: absolute;
+    inset-block-start: -6px;
+    inset-inline-end: -6px;
+    display: grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 5px;
+    border-radius: var(--radius-round);
+    background-color: var(--theme-accent);
+    color: var(--theme-text-on-primary);
+    font-size: 11px;
+    font-weight: var(--font-weight-bold, 700);
+    line-height: 1;
+  }
+
+  .site-header__cart-count[hidden] {
+    display: none;
   }
 
   /* --- Search trigger --- */
@@ -356,7 +377,7 @@
   }
 
   .site-header__search-trigger:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
     color: var(--theme-primary);
   }
 
@@ -395,7 +416,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color-overlay);
     z-index: var(--z-modal, 300);
     opacity: 0;
     transition: opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
@@ -409,9 +430,8 @@
   /* --- Drawer --- */
   .site-header__drawer {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    inset-block: 0;
+    inset-inline-end: 0;
     width: 320px;
     max-width: 85vw;
     background-color: var(--theme-text-on-primary);
@@ -433,7 +453,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: var(--border-width-1, 1px) solid var(--color-border);
+    border-block-end: var(--border-width-1, 1px) solid var(--color-border);
   }
 
   .site-header__drawer-close {
@@ -452,7 +472,7 @@
   }
 
   .site-header__drawer-close:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
   }
 
   .site-header__drawer-close:focus-visible {
@@ -510,7 +530,7 @@
   }
 
   .site-header__drawer-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
   }
 
   .site-header__drawer-link:focus-visible {
@@ -535,7 +555,7 @@
   }
 
   .site-header__drawer-sublink:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
   }
 
   .site-header__drawer-sublink:focus-visible {
@@ -621,7 +641,7 @@
     });
 
     /* Desktop dropdown toggle */
-    dropdownBtns.forEach(function (btn) {
+    for (const btn of dropdownBtns) {
       var dropdownId = btn.getAttribute('aria-controls');
       var dropdown = document.getElementById(dropdownId);
 
@@ -629,7 +649,7 @@
         var isExpanded = btn.getAttribute('aria-expanded') === 'true';
 
         /* Close all other dropdowns first */
-        dropdownBtns.forEach(function (otherBtn) {
+        for (const otherBtn of dropdownBtns) {
           if (otherBtn !== btn) {
             otherBtn.setAttribute('aria-expanded', 'false');
             var otherId = otherBtn.getAttribute('aria-controls');
@@ -638,7 +658,7 @@
               otherDropdown.classList.remove('is-open');
             }
           }
-        });
+        }
 
         if (isExpanded) {
           btn.setAttribute('aria-expanded', 'false');
@@ -648,24 +668,24 @@
           if (dropdown) dropdown.classList.add('is-open');
         }
       });
-    });
+    }
 
     /* Close dropdowns when clicking outside */
     document.addEventListener('click', function (e) {
       if (!e.target.closest('.site-header__nav-item--has-dropdown')) {
-        dropdownBtns.forEach(function (btn) {
+        for (const btn of dropdownBtns) {
           btn.setAttribute('aria-expanded', 'false');
           var dropdownId = btn.getAttribute('aria-controls');
           var dropdown = document.getElementById(dropdownId);
           if (dropdown) dropdown.classList.remove('is-open');
-        });
+        }
       }
     });
 
     /* Close dropdowns on Escape key */
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
-        dropdownBtns.forEach(function (btn) {
+        for (const btn of dropdownBtns) {
           if (btn.getAttribute('aria-expanded') === 'true') {
             btn.setAttribute('aria-expanded', 'false');
             var dropdownId = btn.getAttribute('aria-controls');
@@ -673,7 +693,7 @@
             if (dropdown) dropdown.classList.remove('is-open');
             btn.focus();
           }
-        });
+        }
       }
     });
   })();

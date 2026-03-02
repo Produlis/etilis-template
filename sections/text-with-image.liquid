@@ -116,7 +116,7 @@
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
     color: var(--theme-text-on-primary);
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-on-primary-subtle);
     border-radius: var(--theme-radius-badge);
     padding: 4px 12px;
     line-height: normal;
@@ -210,14 +210,13 @@
 
   .twi__overlay {
     position: absolute;
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
+    inset-block-end: 16px;
+    inset-inline: 16px;
     display: flex;
     gap: 10px;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: var(--color-glass-bg);
     border-radius: var(--radius-md);
     padding: 24px;
   }
@@ -293,9 +292,8 @@
     .twi__overlay {
       flex-direction: column;
       gap: 16px;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
+      inset-block-end: 12px;
+      inset-inline: 12px;
       padding: 16px;
     }
 

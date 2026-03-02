@@ -42,23 +42,25 @@
             <div class="home-comparison__check-row">
               {%- if block.settings.brand_has -%}
                 <svg
+                  class="home-comparison__icon-check"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   aria-label="{{ 'accessibility.checkmark' | t }}"
                 >
-                  <circle cx="12" cy="12" r="10" fill="var(--theme-accent)"/><path d="M8 12l3 3 5-5" stroke="var(--theme-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               {%- else -%}
                 <svg
+                  class="home-comparison__icon-x"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   aria-label="{{ 'accessibility.x_mark' | t }}"
                 >
-                  <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)"/><path d="M9 9l6 6M15 9l-6 6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="12" cy="12" r="10"/><path d="M9 9l6 6M15 9l-6 6" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               {%- endif -%}
             </div>
@@ -73,23 +75,25 @@
             <div class="home-comparison__check-row">
               {%- if block.settings.competitor_has -%}
                 <svg
+                  class="home-comparison__icon-check"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   aria-label="{{ 'accessibility.checkmark' | t }}"
                 >
-                  <circle cx="12" cy="12" r="10" fill="var(--theme-accent)"/><path d="M8 12l3 3 5-5" stroke="var(--theme-primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               {%- else -%}
                 <svg
+                  class="home-comparison__icon-x"
                   width="24"
                   height="24"
                   viewBox="0 0 24 24"
                   fill="none"
                   aria-label="{{ 'accessibility.x_mark' | t }}"
                 >
-                  <circle cx="12" cy="12" r="10" fill="rgba(255,255,255,0.15)"/><path d="M9 9l6 6M15 9l-6 6" stroke="rgba(255,255,255,0.5)" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="12" cy="12" r="10"/><path d="M9 9l6 6M15 9l-6 6" stroke-width="2" stroke-linecap="round"/>
                 </svg>
               {%- endif -%}
             </div>
@@ -145,8 +149,8 @@
     z-index: 1;
     -webkit-backdrop-filter: blur(50px);
     backdrop-filter: blur(50px);
-    background: rgba(19, 19, 19, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--color-dark-glass-bg);
+    border: 1px solid var(--color-glass-border);
     border-radius: var(--theme-radius-card);
     padding: 16px;
     display: flex;
@@ -165,7 +169,7 @@
 
   .home-comparison__tag {
     display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--color-on-primary-subtle);
     border-radius: var(--theme-radius-badge);
     padding: 4px 12px;
     font-size: var(--font-size-xs);
@@ -203,8 +207,8 @@
   .home-comparison__table-card {
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
     border-radius: var(--theme-radius-card);
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
@@ -237,8 +241,8 @@
     min-width: 0;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
     border-radius: var(--theme-radius-card);
     display: flex;
     flex-direction: column;
@@ -275,6 +279,22 @@
     justify-content: center;
   }
 
+  .home-comparison__icon-check circle {
+    fill: var(--theme-text-on-primary);
+  }
+
+  .home-comparison__icon-check path {
+    stroke: var(--theme-primary);
+  }
+
+  .home-comparison__icon-x circle {
+    fill: var(--color-x-mark-bg);
+  }
+
+  .home-comparison__icon-x path {
+    stroke: var(--color-x-mark-stroke);
+  }
+
   .home-comparison__badges {
     display: flex;
     gap: 8px;
@@ -286,8 +306,8 @@
     height: 44px;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
     border-radius: var(--theme-radius-card);
     display: flex;
     align-items: center;

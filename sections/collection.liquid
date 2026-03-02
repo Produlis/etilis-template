@@ -389,7 +389,7 @@
   }
 
   .collection-page__filter-count {
-    margin-left: 2px;
+    margin-inline-start: 2px;
   }
 
   .collection-page__filter-chevron {
@@ -406,8 +406,8 @@
   /* Dropdown panel */
   .collection-page__filter-panel {
     position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
+    inset-block-start: calc(100% + 8px);
+    inset-inline-start: 0;
     z-index: var(--z-dropdown, 100);
     background: var(--theme-surface);
     border: 1px solid var(--theme-border);
@@ -804,10 +804,9 @@
 
     .collection-page__filter-panel {
       position: fixed;
-      top: auto;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      inset-block-start: auto;
+      inset-block-end: 0;
+      inset-inline: 0;
       max-height: 60vh;
       border-radius: var(--radius-xl) var(--radius-xl) 0 0;
       z-index: var(--z-modal, 300);
@@ -829,48 +828,48 @@
       var dropdowns = container.querySelectorAll('[data-filter-dropdown]');
 
       /* Toggle dropdown panels */
-      dropdowns.forEach(function(dropdown) {
-        var toggle = dropdown.querySelector('[data-filter-toggle]');
-        var panel = dropdown.querySelector('[data-filter-panel]');
-        if (!toggle || !panel) return;
+      for (const dropdown of dropdowns) {
+        const toggle = dropdown.querySelector('[data-filter-toggle]');
+        const panel = dropdown.querySelector('[data-filter-panel]');
+        if (!toggle || !panel) continue;
 
         toggle.addEventListener('click', function() {
           var isOpen = toggle.getAttribute('aria-expanded') === 'true';
 
           /* Close all other dropdowns */
-          dropdowns.forEach(function(other) {
+          for (const other of dropdowns) {
             var otherToggle = other.querySelector('[data-filter-toggle]');
             var otherPanel = other.querySelector('[data-filter-panel]');
             if (other !== dropdown && otherToggle && otherPanel) {
               otherToggle.setAttribute('aria-expanded', 'false');
               otherPanel.hidden = true;
             }
-          });
+          }
 
           /* Toggle current */
           toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
           panel.hidden = isOpen;
         });
-      });
+      }
 
       /* Close dropdowns on outside click */
       document.addEventListener('click', function(e) {
         if (!e.target.closest('[data-filter-dropdown]')) {
-          dropdowns.forEach(function(dropdown) {
+          for (const dropdown of dropdowns) {
             var toggle = dropdown.querySelector('[data-filter-toggle]');
             var panel = dropdown.querySelector('[data-filter-panel]');
             if (toggle && panel) {
               toggle.setAttribute('aria-expanded', 'false');
               panel.hidden = true;
             }
-          });
+          }
         }
       });
 
       /* Close on Escape */
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-          dropdowns.forEach(function(dropdown) {
+          for (const dropdown of dropdowns) {
             var toggle = dropdown.querySelector('[data-filter-toggle]');
             var panel = dropdown.querySelector('[data-filter-panel]');
             if (toggle && panel && toggle.getAttribute('aria-expanded') === 'true') {
@@ -878,17 +877,17 @@
               panel.hidden = true;
               toggle.focus();
             }
-          });
+          }
         }
       });
 
       /* Auto-submit on checkbox/radio change */
       var inputs = container.querySelectorAll('[data-filter-input]');
-      inputs.forEach(function(input) {
+      for (const input of inputs) {
         input.addEventListener('change', function() {
           submitFilters(container);
         });
-      });
+      }
     }
 
     function submitFilters(container) {
@@ -899,9 +898,9 @@
 
       /* Collect checked filters */
       var checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
-      checkboxes.forEach(function(cb) {
+      for (const cb of checkboxes) {
         params.append(cb.name, cb.value);
-      });
+      }
 
       /* Collect sort */
       var sortRadio = form.querySelector('input[name="sort_by"]:checked');
@@ -911,19 +910,18 @@
 
       /* Collect price range */
       var priceInputs = form.querySelectorAll('.collection-page__price-input');
-      priceInputs.forEach(function(input) {
+      for (const input of priceInputs) {
         if (input.value !== '' && input.name) {
           params.set(input.name, input.value);
         }
-      });
+      }
 
       /* Navigate */
-      var url = window.location.pathname;
-      var paramString = params.toString();
-      if (paramString) {
-        url += '?' + paramString;
+      var navUrl = new URL(window.location.pathname, window.location.origin);
+      for (const [key, value] of params.entries()) {
+        navUrl.searchParams.append(key, value);
       }
-      window.location.href = url;
+      window.location.href = navUrl.toString();
     }
 
     initCollectionFilters(section);

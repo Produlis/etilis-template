@@ -267,7 +267,7 @@
     display: none;
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color-overlay);
     z-index: var(--z-modal, 300);
     opacity: 0;
     transition: opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
@@ -280,9 +280,8 @@
 
   .cart-drawer__panel {
     position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
+    inset-block: 0;
+    inset-inline-end: 0;
     width: 608px;
     max-width: 100vw;
     background-color: var(--theme-surface);
@@ -340,7 +339,7 @@
   }
 
   .cart-drawer__close:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: var(--color-hover-subtle);
   }
 
   .cart-drawer__close:focus-visible {
@@ -378,8 +377,8 @@
 
   .cart-drawer__progress-fill {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
     height: 100%;
     width: var(--progress, 0%);
     max-width: 100%;
@@ -390,10 +389,10 @@
 
   .cart-drawer__progress-icon {
     position: absolute;
-    top: 50%;
-    left: var(--progress, 0%);
+    inset-block-start: 50%;
+    inset-inline-start: var(--progress, 0%);
     transform: translate(-50%, -50%);
-    transition: left var(--duration-medium, 300ms) var(--ease-standard, ease);
+    transition: inset-inline-start var(--duration-medium, 300ms) var(--ease-standard, ease);
   }
 
   /* --- Cart items --- */
@@ -501,7 +500,7 @@
     line-height: var(--line-height-snug);
     color: var(--theme-text-dim);
     text-decoration: line-through;
-    text-align: right;
+    text-align: end;
   }
 
   .cart-drawer__item-bottom {
@@ -682,8 +681,8 @@
 
   .cart-drawer__upsell-badge {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -738,8 +737,8 @@
 
   .cart-drawer__upsell-review-count {
     font-size: var(--font-size-xs);
-    color: #717171;
-    margin-left: 4px;
+    color: var(--theme-text-dim);
+    margin-inline-start: 4px;
   }
 
   .cart-drawer__upsell-prices {
@@ -794,8 +793,8 @@
 
   /* --- Sticky footer --- */
   .cart-drawer__footer {
-    border-top: 1px solid rgba(255, 255, 255, 0.8);
-    background-color: rgba(255, 255, 255, 0.88);
+    border-block-start: 1px solid var(--color-glass-border-heavy);
+    background-color: var(--color-glass-bg-heavy);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 24px;
@@ -1000,9 +999,9 @@
     window.closeCartDrawer = close;
 
     overlay.addEventListener('click', close);
-    closeBtns.forEach(function (btn) {
+    for (const btn of closeBtns) {
       btn.addEventListener('click', close);
-    });
+    }
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && panel.classList.contains('is-open')) {
@@ -1011,119 +1010,121 @@
     });
 
     /* --- Cart API helpers --- */
-    function fetchCart() {
-      return fetch('/cart.js', {
+    async function fetchCart() {
+      var r = await fetch('/cart.js', {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
-      }).then(function (r) { return r.json(); });
+      });
+      return r.json();
     }
 
-    function updateCartItem(key, quantity) {
-      return fetch('/cart/change.js', {
+    async function updateCartItem(key, quantity) {
+      var r = await fetch('/cart/change.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: key, quantity: quantity })
-      }).then(function (r) { return r.json(); });
+      });
+      return r.json();
     }
 
-    function addToCart(variantId, quantity) {
-      return fetch('/cart/add.js', {
+    async function addToCart(variantId, quantity) {
+      var r = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: [{ id: variantId, quantity: quantity || 1 }] })
-      }).then(function (r) { return r.json(); });
+      });
+      return r.json();
     }
 
     /* --- Refresh the entire cart drawer via section rendering API --- */
-    function refreshCartDrawer() {
+    async function refreshCartDrawer() {
       var sectionId = container.closest('.shopify-section').id.replace('shopify-section-', '');
-      return fetch('/?sections=' + sectionId)
-        .then(function (r) { return r.json(); })
-        .then(function (data) {
-          var html = data[sectionId];
-          if (!html) return;
-          var temp = document.createElement('div');
-          temp.innerHTML = html;
-          var newPanel = temp.querySelector('[data-cart-drawer-panel]');
-          if (newPanel) {
-            /* Preserve open state */
-            var wasOpen = panel.classList.contains('is-open');
-            panel.innerHTML = newPanel.innerHTML;
-            if (wasOpen) {
-              panel.classList.add('is-open');
-            }
-            bindItemEvents();
-          }
-          /* Update header cart count */
-          updateHeaderCartCount();
-        });
+      var r = await fetch('/?sections=' + sectionId);
+      var data = await r.json();
+      var html = data[sectionId];
+      if (!html) return;
+      var temp = document.createElement('div');
+      temp.innerHTML = html;
+      var newPanel = temp.querySelector('[data-cart-drawer-panel]');
+      if (newPanel) {
+        /* Preserve open state */
+        var wasOpen = panel.classList.contains('is-open');
+        panel.innerHTML = newPanel.innerHTML;
+        if (wasOpen) {
+          panel.classList.add('is-open');
+        }
+        bindItemEvents();
+      }
+      /* Update header cart count */
+      updateHeaderCartCount();
     }
 
-    function updateHeaderCartCount() {
-      fetchCart().then(function (cart) {
-        var countEl = document.querySelector('.site-header__cart-count');
-        if (countEl) {
-          if (cart.item_count > 0) {
-            countEl.textContent = '(' + cart.item_count + ')';
-            countEl.style.display = '';
-          } else {
-            countEl.textContent = '';
-            countEl.style.display = 'none';
-          }
+    async function updateHeaderCartCount() {
+      var cart = await fetchCart();
+      var countEl = document.querySelector('.site-header__cart-count');
+      if (countEl) {
+        if (cart.item_count > 0) {
+          countEl.textContent = cart.item_count;
+          countEl.hidden = false;
+        } else {
+          countEl.textContent = '';
+          countEl.hidden = true;
         }
-      });
+      }
     }
 
     /* --- Item event bindings --- */
     function bindItemEvents() {
       /* Quantity buttons */
-      panel.querySelectorAll('[data-quantity-selector]').forEach(function (selector) {
+      for (const selector of panel.querySelectorAll('[data-quantity-selector]')) {
         var item = selector.closest('[data-cart-item]');
         var key = item.getAttribute('data-line-key');
         var valueEl = selector.querySelector('[data-quantity-value]');
         var minusBtn = selector.querySelector('[data-quantity-minus]');
         var plusBtn = selector.querySelector('[data-quantity-plus]');
 
-        minusBtn.addEventListener('click', function () {
+        minusBtn.addEventListener('click', async function () {
           var qty = parseInt(valueEl.textContent, 10);
           if (qty <= 1) return;
           item.classList.add('is-loading');
-          updateCartItem(key, qty - 1).then(refreshCartDrawer);
+          await updateCartItem(key, qty - 1);
+          await refreshCartDrawer();
         });
 
-        plusBtn.addEventListener('click', function () {
+        plusBtn.addEventListener('click', async function () {
           var qty = parseInt(valueEl.textContent, 10);
           item.classList.add('is-loading');
-          updateCartItem(key, qty + 1).then(refreshCartDrawer);
+          await updateCartItem(key, qty + 1);
+          await refreshCartDrawer();
         });
-      });
+      }
 
       /* Remove buttons */
-      panel.querySelectorAll('[data-remove-item]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
+      for (const btn of panel.querySelectorAll('[data-remove-item]')) {
+        btn.addEventListener('click', async function () {
           var item = btn.closest('[data-cart-item]');
           var key = item.getAttribute('data-line-key');
           item.classList.add('is-loading');
-          updateCartItem(key, 0).then(refreshCartDrawer);
+          await updateCartItem(key, 0);
+          await refreshCartDrawer();
         });
-      });
+      }
 
       /* Upsell ATC buttons */
-      panel.querySelectorAll('[data-upsell-atc]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
+      for (const btn of panel.querySelectorAll('[data-upsell-atc]')) {
+        btn.addEventListener('click', async function () {
           var variantId = parseInt(btn.getAttribute('data-variant-id'), 10);
           btn.disabled = true;
           btn.textContent = '...';
-          addToCart(variantId, 1).then(function () {
-            refreshCartDrawer();
-          });
+          await addToCart(variantId, 1);
+          await refreshCartDrawer();
         });
-      });
+      }
 
       /* Close buttons (re-bind after refresh) */
-      panel.querySelectorAll('[data-cart-drawer-close]').forEach(function (btn) {
+      for (const btn of panel.querySelectorAll('[data-cart-drawer-close]')) {
         btn.addEventListener('click', close);
-      });
+      }
     }
 
     /* Initial binding */
@@ -1139,22 +1140,19 @@
     });
 
     /* --- Open cart drawer after add-to-cart form submission --- */
-    document.addEventListener('submit', function (e) {
+    document.addEventListener('submit', async function (e) {
       var form = e.target;
       if (!form.matches('form[action="/cart/add"]')) return;
       e.preventDefault();
 
       var formData = new FormData(form);
-      fetch('/cart/add.js', {
+      var r = await fetch('/cart/add.js', {
         method: 'POST',
         body: formData
-      })
-        .then(function (r) { return r.json(); })
-        .then(function () {
-          refreshCartDrawer().then(function () {
-            open();
-          });
-        });
+      });
+      await r.json();
+      await refreshCartDrawer();
+      open();
     });
 
     /* --- Theme editor support --- */

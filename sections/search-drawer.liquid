@@ -134,7 +134,7 @@
   .search-drawer__overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--color-overlay);
     z-index: var(--z-modal, 300);
     animation: searchOverlayIn var(--duration-medium, 300ms) var(--ease-standard, ease);
   }
@@ -147,9 +147,8 @@
   /* --- Panel --- */
   .search-drawer__panel {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
+    inset-block-start: 0;
+    inset-inline: 0;
     max-height: 80vh;
     background-color: var(--color-bg, #fff);
     z-index: var(--z-modal, 300);
@@ -172,7 +171,7 @@
     align-items: center;
     gap: 12px;
     padding: 16px 24px;
-    border-bottom: 1px solid var(--color-border, #e0e0e0);
+    border-block-end: 1px solid var(--color-border, #e0e0e0);
   }
 
   .search-drawer__form {
@@ -483,7 +482,7 @@
   /* --- View all --- */
   .search-drawer__view-all {
     padding: 12px 24px 16px;
-    border-top: 1px solid var(--color-border, #e0e0e0);
+    border-block-start: 1px solid var(--color-border, #e0e0e0);
     margin-top: 8px;
   }
 
@@ -666,27 +665,27 @@
     }
 
     /* ===== Predictive Search API ===== */
-    function fetchResults(query) {
+    async function fetchResults(query) {
       if (abortController) abortController.abort();
       abortController = new AbortController();
 
       showState('loading');
 
-      var url = '/search/suggest.json?q=' + encodeURIComponent(query)
-        + '&resources[type]=product,article,page'
-        + '&resources[limit]=6'
-        + '&resources[options][unavailable_products]=last';
+      var searchUrl = new URL('/search/suggest.json', window.location.origin);
+      searchUrl.searchParams.set('q', query);
+      searchUrl.searchParams.set('resources[type]', 'product,article,page');
+      searchUrl.searchParams.set('resources[limit]', '6');
+      searchUrl.searchParams.set('resources[options][unavailable_products]', 'last');
 
-      fetch(url, { signal: abortController.signal })
-        .then(function (res) { return res.json(); })
-        .then(function (data) {
-          renderResults(data, query);
-        })
-        .catch(function (err) {
-          if (err.name !== 'AbortError') {
-            showState('empty');
-          }
-        });
+      try {
+        var res = await fetch(searchUrl, { signal: abortController.signal });
+        var data = await res.json();
+        renderResults(data, query);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          showState('empty');
+        }
+      }
     }
 
     /* ===== Render results ===== */
@@ -772,7 +771,10 @@
       }
 
       /* View all link */
-      viewAllLink.href = '/search?q=' + encodeURIComponent(query) + '&type=product,article,page';
+      var viewAllUrl = new URL('/search', window.location.origin);
+      viewAllUrl.searchParams.set('q', query);
+      viewAllUrl.searchParams.set('type', 'product,article,page');
+      viewAllLink.href = viewAllUrl.toString();
 
       showState('results');
     }
@@ -787,10 +789,10 @@
     function highlightMatch(text, query) {
       var escaped = escapeHtml(text);
       var words = query.split(/\s+/).filter(function (w) { return w.length > 0; });
-      words.forEach(function (word) {
+      for (const word of words) {
         var regex = new RegExp('(' + word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
         escaped = escaped.replace(regex, '<mark>$1</mark>');
-      });
+      }
       return escaped;
     }
 

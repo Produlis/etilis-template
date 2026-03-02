@@ -7,34 +7,23 @@
 
     <div class="faq__right">
       {% for block in section.blocks %}
-        <div
-          class="faq__item{% if forloop.first %} faq__item--active{% endif %}"
+        <details
+          class="faq__item"
           data-faq-item
+          {% if forloop.first %}open{% endif %}
           {{ block.shopify_attributes }}
         >
           <div class="faq__divider"></div>
-          <button
-            class="faq__question"
-            aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
-            aria-controls="faq-answer-{{ block.id }}"
-            type="button"
-          >
+          <summary class="faq__question">
             <span class="faq__question-text">{{ block.settings.question }}</span>
             <span class="faq__icon" aria-hidden="true"></span>
-          </button>
-          <div
-            class="faq__answer"
-            id="faq-answer-{{ block.id }}"
-            role="region"
-            {% unless forloop.first %}
-              hidden
-            {% endunless %}
-          >
+          </summary>
+          <div class="faq__answer">
             <div class="faq__answer-inner">
               {{ block.settings.answer }}
             </div>
           </div>
-        </div>
+        </details>
       {% endfor %}
 
       {% if section.blocks.size > 0 %}
@@ -118,9 +107,19 @@
     background: none;
     border: none;
     cursor: pointer;
-    text-align: left;
+    text-align: start;
     gap: 16px;
     font-family: inherit;
+    list-style: none;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::marker {
+    display: none;
+    content: '';
   }
 
   .faq__question:focus-visible {
@@ -137,7 +136,7 @@
     letter-spacing: var(--letter-spacing-tighter);
   }
 
-  .faq__item--active .faq__question-text {
+  .faq__item[open] .faq__question-text {
     font-weight: var(--font-weight-medium);
   }
 
@@ -158,22 +157,20 @@
   }
 
   .faq__icon::before {
-    top: 50%;
-    left: 4px;
-    right: 4px;
+    inset-block-start: 50%;
+    inset-inline: 4px;
     height: 2px;
     transform: translateY(-50%);
   }
 
   .faq__icon::after {
-    left: 50%;
-    top: 4px;
-    bottom: 4px;
+    inset-inline-start: 50%;
+    inset-block: 4px;
     width: 2px;
     transform: translateX(-50%);
   }
 
-  .faq__item--active .faq__icon::after {
+  .faq__item[open] .faq__icon::after {
     transform: translateX(-50%) rotate(90deg);
     opacity: 0;
   }
@@ -185,12 +182,7 @@
     overflow: hidden;
   }
 
-  .faq__answer[hidden] {
-    display: grid;
-    grid-template-rows: 0fr;
-  }
-
-  .faq__item--active .faq__answer {
+  .faq__item[open] .faq__answer {
     grid-template-rows: 1fr;
   }
 
@@ -239,28 +231,17 @@
 
     var items = section.querySelectorAll('[data-faq-item]');
 
-    items.forEach(function (item) {
-      var button = item.querySelector('.faq__question');
-      var answer = item.querySelector('.faq__answer');
+    for (const item of items) {
+      item.addEventListener('toggle', function () {
+        if (!item.open) return;
 
-      button.addEventListener('click', function () {
-        var isActive = item.classList.contains('faq__item--active');
-
-        items.forEach(function (otherItem) {
-          var otherButton = otherItem.querySelector('.faq__question');
-          var otherAnswer = otherItem.querySelector('.faq__answer');
-          otherItem.classList.remove('faq__item--active');
-          otherButton.setAttribute('aria-expanded', 'false');
-          otherAnswer.setAttribute('hidden', '');
-        });
-
-        if (!isActive) {
-          item.classList.add('faq__item--active');
-          button.setAttribute('aria-expanded', 'true');
-          answer.removeAttribute('hidden');
+        for (const other of items) {
+          if (other !== item && other.open) {
+            other.removeAttribute('open');
+          }
         }
       });
-    });
+    }
   })();
 {% endjavascript %}
 

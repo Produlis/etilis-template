@@ -22,7 +22,6 @@
   "cart": {
     "checkout": "Checkout",
     "title": "Your Cart",
-    "update": "Update",
     "remove": "Remove",
     "empty": "Your cart is empty",
     "continue_shopping": "Continue shopping",
@@ -34,14 +33,6 @@
     "increase_quantity": "Increase quantity",
     "money_back_guarantee": "30 day money-back guarantee",
     "happy_customers": "16K+ happy customers"
-  },
-  "customers": {
-    "login": {
-      "email": "Email",
-      "password": "Password",
-      "submit": "Sign in",
-      "title": "Login"
-    }
   },
   "collections": {
     "title": "Collections"
@@ -73,32 +64,15 @@
     "view_all_results": "View all results",
     "products": "Products",
     "articles": "Articles",
-    "pages": "Pages",
-    "pagination": "Search results pages",
-    "previous": "Previous",
-    "next": "Next"
+    "pages": "Pages"
   },
   "products": {
     "add_to_cart": "Add to cart",
     "sold_out": "Sold out",
-    "unavailable": "Unavailable",
-    "quantity": "Quantity",
-    "five_star_reviews": "FIVE-STAR REVIEWS",
-    "free_shipping": "Free shipping",
-    "money_back_guarantee": "30 day money-back guarantee",
-    "secure_checkout": "Secure checkout",
-    "compare_at": "Compare at",
     "sale": "Sale",
-    "bottle_single": "1 Bottle",
-    "bottle_double": "2 Bottle",
-    "bottle_triple": "3 Bottle",
-    "popular": "POPULAR",
-    "save_percent": "Save {{ percent }}",
     "hero": {
       "five_star_reviews": "FIVE-STAR REVIEWS",
-      "review_count": "{{ count }} five-star reviews",
       "rating_label": "Rated {{ rating }} out of 5",
-      "thumbnail_gallery": "Product image thumbnails",
       "thumbnail_label": "View image {{ index }}",
       "select_variant": "Select variant",
       "add_to_cart": "Add to cart",
@@ -107,99 +81,36 @@
   },
   "sections": {
     "logo_marquee": {
-      "name": "Logo marquee",
       "aria_label": "Partner logos"
     },
-    "text_with_image": {
-      "name": "Text with image",
-      "learn_more": "Learn more"
-    },
     "how_it_works": {
-      "name": "How it works",
       "step": "Step {{ number }}",
       "bundle": "Bundle",
       "save_badge": "Save 50%+",
       "offer_ends": "Offer ends today",
-      "offer_ends_today": "Offer ends today",
       "add_to_cart": "Add to cart"
-    },
-    "product_benefits": {
-      "name": "Product benefits"
-    },
-    "guarantee_banner": {
-      "name": "Guarantee banner"
     },
     "comparison_table": {
-      "name": "Comparison table",
-      "get_your_bottle": "Get your bottle",
-      "yes": "Yes",
-      "no": "No",
       "features_header": "Features"
     },
-    "testimonials": {
-      "name": "Testimonials"
-    },
-    "faq": {
-      "name": "FAQ"
-    },
-    "product_hero": {
-      "name": "Product hero"
-    },
-    "home_hero": {
-      "name": "Home hero",
-      "shop_now": "Shop Now",
-      "review_stars": "five-star reviews",
-      "add_to_cart": "Add to cart"
-    },
     "home_collection": {
-      "name": "Home collection",
-      "add_to_cart": "Add to cart",
-      "sale": "Sale",
       "aria_products": "Product cards",
       "star_rating": "5 out of 5 stars",
       "rating_label": "Rated {{ rating }} out of 5",
       "prev_slide": "Previous product",
       "next_slide": "Next product"
     },
-    "home_benefits": {
-      "name": "Benefits",
-      "learn_more": "Learn more"
-    },
     "home_steps": {
-      "name": "How it works",
-      "step": "Step {{ number }}",
-      "prev_slide": "Previous step",
-      "next_slide": "Next step"
-    },
-    "home_comparison": {
-      "name": "Comparison",
-      "orders_remaining": "{{ count }} orders at this price remaining",
-      "free_shipping": "FREE Shipping & Returns",
-      "money_back": "30 day money-back guarantee"
+      "step": "Step {{ number }}"
     },
     "home_testimonials": {
-      "name": "Testimonials",
       "five_star_reviews": "FIVE-STAR REVIEWS",
-      "play_video": "Play testimonial video",
-      "prev_slide": "Previous testimonial",
-      "next_slide": "Next testimonial"
-    },
-    "product_timeline": {
-      "name": "Benefits timeline",
-      "bundle": "Bundle",
-      "save_badge": "Save 50%+",
-      "offer_ends": "Offer ends today",
-      "add_to_cart": "Add to cart"
+      "play_video": "Play testimonial video"
     },
     "collection": {
-      "name": "Collection",
-      "sale": "Sale",
       "filters_label": "Collection filters",
       "filter_collection": "Collection",
-      "filter_category": "Category",
-      "filter_price": "Price",
       "filter_sort": "Sort by",
-      "filter_all": "All filters",
       "products_label": "Collection products",
       "rating_label": "Rated {{ rating }} out of 5",
       "pagination_label": "Collection pagination",
@@ -212,19 +123,15 @@
   },
   "testimonials": {
     "section_label": "Testimonials",
-    "star_rating": "{{ rating }} out of 5 stars",
-    "five_star_reviews": "{{ count }} FIVE-STAR REVIEWS"
+    "star_rating": "{{ rating }} out of 5 stars"
   },
   "faq": {
     "section_label": "Frequently asked questions"
   },
   "footer": {
     "navigation": "Footer navigation",
-    "description": "Pioneering microbiome science [R+D] for human and planetary health since 2015.",
-    "newsletter_heading": "Subscribe our newsletter",
     "email_placeholder": "Your email address",
-    "subscribe": "Get Started",
-    "copyright_html": "\u00a9 {{ year }} {{ shop_name }}"
+    "copyright_html": "© {{ year }} {{ shop_name }}"
   },
   "header": {
     "navigation": "Main navigation",

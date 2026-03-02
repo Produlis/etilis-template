@@ -211,15 +211,15 @@
 
   .home-testimonials__play-btn {
     position: absolute;
-    top: 12px;
-    left: 12px;
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 12px;
     border-radius: var(--theme-radius-card);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--color-glass-border);
+    background: var(--color-glass-bg);
     backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px);
     cursor: pointer;
@@ -420,7 +420,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.home-testimonials').forEach(initHomeTestimonialsSwiper);
+    for (const el of document.querySelectorAll('.home-testimonials')) {
+      initHomeTestimonialsSwiper(el);
+    }
   });
 
   document.addEventListener('shopify:section:load', function (event) {

@@ -13,39 +13,38 @@
     {% assign comparison_rows = section.blocks | where: 'type', 'comparison_row' %}
 
     <div class="comparison-table__right">
-      <div class="comparison-table__glass">
-        <div class="comparison-table__labels">
+      <table class="comparison-table__glass" role="table">
+        <thead>
+          <tr class="comparison-table__header-row">
+            <th class="comparison-table__label-header" scope="col">
+              <span class="visually-hidden">{{ 'sections.comparison_table.features_header' | t }}</span>
+            </th>
+            <th class="comparison-table__brand-header" scope="col">
+              {{ section.settings.brand_name }}
+            </th>
+            <th class="comparison-table__other-header" scope="col">
+              {{ section.settings.competitor_name }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
           {% for block in comparison_rows %}
-            <div class="comparison-table__label-cell" {{ block.shopify_attributes }}>
-              {{ block.settings.label }}
-            </div>
+            <tr class="comparison-table__row" {{ block.shopify_attributes }}>
+              <td class="comparison-table__label-cell">
+                {{ block.settings.label }}
+              </td>
+              <td class="comparison-table__brand-cell">
+                <span class="comparison-table__dot" aria-label="{{ block.settings.label | escape }}"></span>
+              </td>
+              <td class="comparison-table__other-cell">
+                <span class="comparison-table__other-text">
+                  {{ block.settings.competitor_text | default: '—' }}
+                </span>
+              </td>
+            </tr>
           {% endfor %}
-        </div>
-
-        <div class="comparison-table__brand-col">
-          <div class="comparison-table__col-header">
-            {{ section.settings.brand_name }}
-          </div>
-          {% for block in comparison_rows %}
-            <div class="comparison-table__cell">
-              <span class="comparison-table__dot" aria-label="{{ block.settings.label | escape }}"></span>
-            </div>
-          {% endfor %}
-        </div>
-
-        <div class="comparison-table__other-col">
-          <div class="comparison-table__col-header">
-            {{ section.settings.competitor_name }}
-          </div>
-          {% for block in comparison_rows %}
-            <div class="comparison-table__cell">
-              <span class="comparison-table__other-text">
-                {{ block.settings.competitor_text | default: '—' }}
-              </span>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   </div>
 </section>
@@ -76,7 +75,7 @@
   .comparison-table__tag {
     display: inline-block;
     align-self: flex-start;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-on-primary-subtle);
     color: var(--theme-text-on-primary);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -103,94 +102,73 @@
   }
 
   .comparison-table__glass {
-    display: flex;
-    gap: 10px;
-    align-items: flex-end;
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 10px 0;
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
     border-radius: var(--radius-3xl);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    padding: 8px 8px 8px 24px;
+    padding: 8px;
   }
 
-  /* ── Labels column ── */
-  .comparison-table__labels {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding: 16px 0;
-    min-width: 0;
+  /* ── Header row ── */
+  .comparison-table__label-header {
+    padding: 0;
   }
 
-  .comparison-table__label-cell {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-regular);
-    color: var(--theme-text-on-primary);
-    line-height: var(--line-height-normal);
-  }
-
-  /* ── Brand column ── */
-  .comparison-table__brand-col {
-    flex: 0 0 168px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    background-color: var(--theme-accent);
-    border-radius: var(--radius-xl);
-    padding: 16px 0;
-  }
-
-  .comparison-table__brand-col .comparison-table__col-header {
-    color: var(--theme-text-on-primary);
-  }
-
-  /* ── Other column ── */
-  .comparison-table__other-col {
-    flex: 0 0 168px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    align-items: center;
-    border-radius: var(--radius-xl);
-    padding: 16px 0;
-  }
-
-  .comparison-table__other-col .comparison-table__col-header {
-    color: var(--theme-text-on-primary);
-  }
-
-  /* ── Shared ── */
-  .comparison-table__col-header {
-    min-height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .comparison-table__brand-header,
+  .comparison-table__other-header {
+    width: 168px;
+    padding: 16px 0 8px;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
     letter-spacing: var(--letter-spacing-tighter);
     line-height: var(--line-height-normal);
+    color: var(--theme-text-on-primary);
+    text-align: center;
   }
 
-  .comparison-table__cell {
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 2px;
+  .comparison-table__brand-header {
+    background-color: var(--theme-accent);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  }
+
+  /* ── Body rows ── */
+  .comparison-table__label-cell {
+    padding: 12px 16px 12px 16px;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-primary);
+    line-height: var(--line-height-normal);
+    text-align: start;
+  }
+
+  .comparison-table__brand-cell {
+    background-color: var(--theme-accent);
+    text-align: center;
+    padding: 12px 0;
+  }
+
+  .comparison-table__other-cell {
+    text-align: center;
+    padding: 12px 2px;
+  }
+
+  /* Last row rounds bottom of brand column */
+  .comparison-table__row:last-child .comparison-table__brand-cell {
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    padding-bottom: 16px;
   }
 
   .comparison-table__dot {
-    display: block;
+    display: inline-block;
     width: 16px;
     height: 16px;
     border-radius: var(--radius-round);
     background-color: var(--theme-primary);
+    vertical-align: middle;
   }
 
   .comparison-table__other-text {
@@ -198,7 +176,19 @@
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-snug);
     color: var(--theme-text-dim);
-    text-align: center;
+  }
+
+  /* ── Visually hidden utility ── */
+  .comparison-table .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
   }
 
   /* ── Mobile ── */
@@ -225,25 +215,18 @@
 
     .comparison-table__glass {
       padding: 8px;
-      gap: 4px;
+      border-spacing: 4px 0;
       border-radius: var(--radius-xl);
-    }
-
-    .comparison-table__labels {
-      padding: 8px 0;
     }
 
     .comparison-table__label-cell {
       font-size: 13px;
-      min-height: 40px;
+      padding: 8px 4px 8px 8px;
     }
 
-    .comparison-table__brand-col,
-    .comparison-table__other-col {
-      flex: 0 0 80px;
-    }
-
-    .comparison-table__col-header {
+    .comparison-table__brand-header,
+    .comparison-table__other-header {
+      width: 80px;
       font-size: 13px;
     }
 

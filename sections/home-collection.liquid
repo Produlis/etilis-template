@@ -217,7 +217,7 @@
 
   .home-collection__tag {
     display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--color-on-primary-subtle);
     border-radius: var(--theme-radius-badge);
     padding: 4px 12px;
     font-size: var(--font-size-xs);
@@ -256,7 +256,7 @@
   .home-collection__card {
     width: 100%;
     background: var(--theme-primary-light);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--color-glass-border);
     border-radius: var(--theme-radius-card);
     padding: 16px;
     display: flex;
@@ -269,7 +269,7 @@
   /* Navigation */
   .home-collection__nav-btn {
     position: absolute;
-    top: 50%;
+    inset-block-start: 50%;
     transform: translateY(-50%);
     z-index: 2;
     display: flex;
@@ -278,8 +278,8 @@
     width: 44px;
     height: 44px;
     border-radius: var(--radius-round);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-on-primary-subtle);
+    background: var(--color-on-primary-muted);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: var(--theme-text-on-primary);
@@ -288,16 +288,16 @@
   }
 
   .home-collection__nav-btn--prev {
-    left: 8px;
+    inset-inline-start: 8px;
   }
 
   .home-collection__nav-btn--next {
-    right: 8px;
+    inset-inline-end: 8px;
   }
 
   .home-collection__nav-btn:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.4);
+    background-color: var(--color-on-primary-subtle);
+    border-color: var(--color-on-primary-hover);
   }
 
   .home-collection__nav-btn:focus-visible {
@@ -315,7 +315,7 @@
     height: 200px;
     border-radius: var(--theme-radius-image);
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--color-on-primary-faint);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -333,7 +333,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--color-on-primary-dim);
   }
 
   .home-collection__placeholder-svg {
@@ -344,8 +344,8 @@
 
   .home-collection__badge {
     position: absolute;
-    top: 8px;
-    left: 8px;
+    inset-block-start: 8px;
+    inset-inline-start: 8px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -409,7 +409,7 @@
   .home-collection__review-count {
     font-size: var(--font-size-xs);
     color: var(--theme-text-muted);
-    margin-left: 4px;
+    margin-inline-start: 4px;
   }
 
   .home-collection__card-price {
@@ -516,7 +516,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.home-collection').forEach(initHomeCollectionSwiper);
+    for (const el of document.querySelectorAll('.home-collection')) {
+      initHomeCollectionSwiper(el);
+    }
   });
 
   document.addEventListener('shopify:section:load', function (event) {
@@ -526,7 +528,7 @@
     }
   });
 
-  document.addEventListener('click', function (e) {
+  document.addEventListener('click', async function (e) {
     var btn = e.target.closest('[data-add-to-cart]');
     if (!btn) return;
 
@@ -535,26 +537,24 @@
     btn.disabled = true;
     btn.textContent = '...';
 
-    fetch('/cart/add.js', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id: variantId, quantity: 1 })
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error('Add to cart failed');
-        return res.json();
-      })
-      .then(function () {
-        btn.textContent = originalText;
-        btn.disabled = false;
-
-        var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-        if (cartTrigger) cartTrigger.click();
-      })
-      .catch(function () {
-        btn.textContent = originalText;
-        btn.disabled = false;
+    try {
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
       });
+      if (!res.ok) throw new Error('Add to cart failed');
+      await res.json();
+
+      btn.textContent = originalText;
+      btn.disabled = false;
+
+      var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+      if (cartTrigger) cartTrigger.click();
+    } catch (err) {
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
   });
 {% endjavascript %}
 

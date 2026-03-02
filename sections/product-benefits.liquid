@@ -83,7 +83,7 @@
   .product-benefits__sidebar {
     flex: 1;
     position: sticky;
-    top: 120px;
+    inset-block-start: 120px;
     background-color: var(--theme-primary);
     border-radius: var(--radius-3xl);
     padding: 32px;
@@ -95,7 +95,7 @@
   .product-benefits__tag {
     display: inline-block;
     align-self: flex-start;
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: var(--color-on-primary-subtle);
     color: var(--theme-text-on-primary);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -129,7 +129,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    text-align: left;
+    text-align: start;
     width: 100%;
     font-family: inherit;
     border-radius: var(--radius-md);
@@ -137,7 +137,7 @@
   }
 
   .product-benefits__item:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: var(--color-on-primary-faint);
   }
 
   .product-benefits__item:focus-visible {
@@ -147,13 +147,13 @@
   }
 
   .product-benefits__item--active {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--color-on-primary-muted);
   }
 
   .product-benefits__item-number {
     font-size: var(--font-size-xl);
     font-weight: var(--font-weight-medium);
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--color-x-mark-stroke);
     letter-spacing: var(--letter-spacing-tighter);
     line-height: normal;
     width: 28px;
@@ -271,13 +271,13 @@
 
     var tabs = section.querySelectorAll('[data-benefit-tab]');
 
-    tabs.forEach(function (tab) {
+    for (const tab of tabs) {
       tab.addEventListener('click', function () {
         var index = tab.getAttribute('data-benefit-tab');
 
-        tabs.forEach(function (t) {
+        for (const t of tabs) {
           t.classList.remove('product-benefits__item--active');
-        });
+        }
 
         tab.classList.add('product-benefits__item--active');
 
@@ -310,7 +310,7 @@
           tabs[nextIndex].click();
         }
       });
-    });
+    }
   })();
 {% endjavascript %}
 
