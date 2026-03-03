@@ -1,8 +1,8 @@
 <section class="guarantee-banner full-width">
   <div class="guarantee-banner__wrapper">
-    <div class="guarantee-banner__bg">
+    <div class="guarantee-banner__image">
       {% if section.settings.image %}
-        {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'lazy', class: 'guarantee-banner__bg-image' }}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'guarantee-banner__img' }}
       {% else %}
         {{ 'lifestyle-1' | placeholder_svg_tag: 'guarantee-banner__placeholder' }}
       {% endif %}
@@ -33,29 +33,28 @@
   }
 
   .guarantee-banner__wrapper {
-    position: relative;
     max-width: var(--container-max, 1200px);
     margin: 0 auto;
-    border-radius: var(--radius-3xl);
-    overflow: hidden;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 16px;
-    min-height: 524px;
+    gap: 48px;
+    align-items: stretch;
   }
 
-  /* ── Background image ── */
-  .guarantee-banner__bg {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+  /* ── Image column ── */
+  .guarantee-banner__image {
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    position: relative;
   }
 
-  .guarantee-banner__bg-image {
+  .guarantee-banner__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    border-radius: var(--radius-card);
   }
 
   .guarantee-banner__placeholder {
@@ -66,13 +65,11 @@
 
   /* ── Content card ── */
   .guarantee-banner__card {
-    position: relative;
-    z-index: 1;
+    flex: 1 1 0;
+    min-width: 0;
     background-color: var(--theme-primary);
-    border-radius: var(--radius-3xl);
+    border-radius: var(--radius-card);
     padding: 32px;
-    width: 564px;
-    max-width: 100%;
     min-height: 524px;
     display: flex;
     flex-direction: column;
@@ -96,7 +93,7 @@
 
   .guarantee-banner__heading {
     font-size: var(--font-size-5xl);
-    line-height: normal;
+    line-height: var(--line-height-tight);
     font-weight: var(--font-weight-regular);
     letter-spacing: var(--letter-spacing-tighter);
     color: var(--theme-text-on-primary);
@@ -105,7 +102,7 @@
 
   .guarantee-banner__body {
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
     color: var(--theme-text-muted);
   }
@@ -119,29 +116,48 @@
     color: var(--theme-text-on-primary);
   }
 
+  /* ── Tablet ── */
+  @media screen and (max-width: 989px) {
+    .guarantee-banner {
+      padding: 32px;
+    }
+
+    .guarantee-banner__wrapper {
+      gap: 24px;
+    }
+
+    .guarantee-banner__card {
+      min-height: auto;
+      padding: 24px;
+    }
+
+    .guarantee-banner__heading {
+      font-size: var(--font-size-4xl);
+    }
+  }
+
   /* ── Mobile ── */
   @media screen and (max-width: 749px) {
     .guarantee-banner {
-      padding: 24px 20px;
+      padding: 24px 16px;
     }
 
     .guarantee-banner__wrapper {
       flex-direction: column;
-      min-height: auto;
-      padding: 0;
+      gap: 0;
     }
 
-    .guarantee-banner__bg {
-      position: relative;
-      height: 280px;
-      border-radius: var(--radius-3xl) var(--radius-3xl) 0 0;
-      overflow: hidden;
+    .guarantee-banner__image {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      aspect-ratio: 16 / 10;
+    }
+
+    .guarantee-banner__img {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
     }
 
     .guarantee-banner__card {
-      width: 100%;
-      min-height: auto;
-      border-radius: 0 0 var(--radius-3xl) var(--radius-3xl);
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
       padding: 24px;
     }
 

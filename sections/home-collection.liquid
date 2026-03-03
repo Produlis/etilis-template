@@ -471,11 +471,14 @@
   .home-collection__pagination .swiper-pagination-bullet {
     width: 8px;
     height: 8px;
+    padding: 10px;
     background: var(--theme-text-on-primary);
+    background-clip: content-box;
     opacity: 0.3;
     border-radius: var(--radius-round);
     transition: opacity var(--duration-fast) var(--ease-standard),
                 width var(--duration-fast) var(--ease-standard);
+    cursor: pointer;
   }
 
   .home-collection__pagination .swiper-pagination-bullet-active {
@@ -529,7 +532,7 @@
     }
 
     .home-collection__card-button {
-      height: 40px;
+      height: 44px;
       font-size: var(--font-size-xs);
     }
   }

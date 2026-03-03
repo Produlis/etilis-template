@@ -93,6 +93,9 @@
     "comparison_table": {
       "features_header": "Features"
     },
+    "product_timeline": {
+      "add_to_cart": "Add to cart"
+    },
     "home_collection": {
       "aria_products": "Product cards",
       "star_rating": "5 out of 5 stars",

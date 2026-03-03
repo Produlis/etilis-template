@@ -1,50 +1,89 @@
 <section class="comparison-table full-width">
   <div class="comparison-table__container">
     <div class="comparison-table__left">
-      {% if section.settings.tag_text != blank %}
-        <span class="comparison-table__tag">{{ section.settings.tag_text }}</span>
-      {% endif %}
+      <div class="comparison-table__left-content">
+        <div class="comparison-table__left-header">
+          {% if section.settings.tag_text != blank %}
+            <span class="comparison-table__tag">{{ section.settings.tag_text }}</span>
+          {% endif %}
 
-      {% if section.settings.heading != blank %}
-        <h2 class="comparison-table__heading">{{ section.settings.heading }}</h2>
+          {% if section.settings.heading != blank %}
+            <h2 class="comparison-table__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+        </div>
+
+        {% assign trust_badges = section.blocks | where: 'type', 'trust_badge' %}
+        {% if trust_badges.size > 0 %}
+          <ul class="comparison-table__badges" role="list">
+            {% for block in trust_badges %}
+              <li class="comparison-table__badge" {{ block.shopify_attributes }}>
+                {% if block.settings.icon %}
+                  <span class="comparison-table__badge-icon">
+                    {{ block.settings.icon | image_url: width: 32 | image_tag: loading: 'lazy' }}
+                  </span>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <span class="comparison-table__badge-text">{{ block.settings.text }}</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+
+      {% if section.settings.button_text != blank %}
+        <a
+          class="comparison-table__cta"
+          {% if section.settings.button_url != blank %}
+            href="{{ section.settings.button_url }}"
+          {% endif %}
+        >
+          {{ section.settings.button_text }}
+        </a>
       {% endif %}
     </div>
 
     {% assign comparison_rows = section.blocks | where: 'type', 'comparison_row' %}
 
     <div class="comparison-table__right">
-      <table class="comparison-table__glass" role="table">
-        <thead>
-          <tr class="comparison-table__header-row">
-            <th class="comparison-table__label-header" scope="col">
-              <span class="visually-hidden">{{ 'sections.comparison_table.features_header' | t }}</span>
-            </th>
-            <th class="comparison-table__brand-header" scope="col">
-              {{ section.settings.brand_name }}
-            </th>
-            <th class="comparison-table__other-header" scope="col">
-              {{ section.settings.competitor_name }}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+      <div class="comparison-table__glass">
+        <div class="comparison-table__labels">
+          <div class="comparison-table__cell comparison-table__cell--header">
+            <span class="visually-hidden">{{ 'sections.comparison_table.features_header' | t }}</span>
+          </div>
           {% for block in comparison_rows %}
-            <tr class="comparison-table__row" {{ block.shopify_attributes }}>
-              <td class="comparison-table__label-cell">
-                {{ block.settings.label }}
-              </td>
-              <td class="comparison-table__brand-cell">
-                <span class="comparison-table__dot" aria-label="{{ block.settings.label | escape }}"></span>
-              </td>
-              <td class="comparison-table__other-cell">
-                <span class="comparison-table__other-text">
-                  {{ block.settings.competitor_text | default: '—' }}
-                </span>
-              </td>
-            </tr>
+            <div class="comparison-table__cell" {{ block.shopify_attributes }}>
+              <span class="comparison-table__label-text">{{ block.settings.label }}</span>
+            </div>
           {% endfor %}
-        </tbody>
-      </table>
+        </div>
+
+        <div class="comparison-table__brand-col">
+          <div class="comparison-table__cell comparison-table__cell--header">
+            <span class="comparison-table__col-title">{{ section.settings.brand_name }}</span>
+          </div>
+          {% for block in comparison_rows %}
+            <div class="comparison-table__cell">
+              <span class="comparison-table__icon comparison-table__icon--check" aria-label="{{ block.settings.label | escape }}">
+                {{ 'icon-check-circle.svg' | inline_asset_content }}
+              </span>
+            </div>
+          {% endfor %}
+        </div>
+
+        <div class="comparison-table__other-col">
+          <div class="comparison-table__cell comparison-table__cell--header">
+            <span class="comparison-table__col-title">{{ section.settings.competitor_name }}</span>
+          </div>
+          {% for block in comparison_rows %}
+            <div class="comparison-table__cell">
+              <span class="comparison-table__icon comparison-table__icon--close" aria-label="{{ block.settings.competitor_text | default: 'No' | escape }}">
+                {{ 'icon-close-circle.svg' | inline_asset_content }}
+              </span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -67,6 +106,18 @@
   /* ── Left sidebar ── */
   .comparison-table__left {
     flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .comparison-table__left-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .comparison-table__left-header {
     display: flex;
     flex-direction: column;
     gap: 16px;
@@ -95,87 +146,167 @@
     margin: 0;
   }
 
-  /* ── Right table ── */
+  /* ── Trust badges ── */
+  .comparison-table__badges {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .comparison-table__badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+  }
+
+  .comparison-table__badge-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  .comparison-table__badge-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .comparison-table__badge-text {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-primary);
+    line-height: 20px;
+  }
+
+  /* ── CTA button ── */
+  .comparison-table__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 12px 24px;
+    background-color: var(--theme-text-on-primary);
+    color: var(--theme-primary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    border-radius: 48px;
+    text-decoration: none;
+    transition: opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
+  }
+
+  .comparison-table__cta:hover {
+    opacity: 0.9;
+  }
+
+  /* ── Right glass card ── */
   .comparison-table__right {
     flex: 1;
     min-width: 0;
   }
 
   .comparison-table__glass {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 10px 0;
+    display: flex;
+    gap: 10px;
     background: var(--color-glass-bg);
     border: 1px solid var(--color-glass-border);
-    border-radius: var(--radius-3xl);
+    border-radius: 24px;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    padding: 8px;
+    padding: 8px 8px 8px 24px;
   }
 
-  /* ── Header row ── */
-  .comparison-table__label-header {
-    padding: 0;
+  /* ── Columns ── */
+  .comparison-table__labels {
+    flex: 0 0 auto;
+    width: 463px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px 0;
   }
 
-  .comparison-table__brand-header,
-  .comparison-table__other-header {
-    width: 168px;
-    padding: 16px 0 8px;
+  .comparison-table__brand-col,
+  .comparison-table__other-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 0;
+    border-radius: 16px;
+  }
+
+  .comparison-table__brand-col {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+  }
+
+  /* ── Cells ── */
+  .comparison-table__cell {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+  }
+
+  .comparison-table__cell--header {
+    min-height: auto;
+  }
+
+  .comparison-table__labels .comparison-table__cell--header {
+    color: transparent;
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-regular);
-    letter-spacing: var(--letter-spacing-tighter);
-    line-height: var(--line-height-normal);
-    color: var(--theme-text-on-accent);
-    text-align: center;
+    line-height: 24px;
   }
 
-  .comparison-table__brand-header {
-    background-color: var(--theme-accent);
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  .comparison-table__brand-col .comparison-table__cell,
+  .comparison-table__other-col .comparison-table__cell {
+    justify-content: center;
   }
 
-  /* ── Body rows ── */
-  .comparison-table__label-cell {
-    padding: 12px 16px 12px 16px;
+  .comparison-table__col-title {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
-    line-height: var(--line-height-normal);
-    text-align: start;
+    line-height: 24px;
+    letter-spacing: -0.64px;
   }
 
-  .comparison-table__brand-cell {
-    background-color: var(--theme-accent);
-    text-align: center;
-    padding: 12px 0;
-  }
-
-  .comparison-table__other-cell {
-    text-align: center;
-    padding: 12px 2px;
-  }
-
-  /* Last row rounds bottom of brand column */
-  .comparison-table__row:last-child .comparison-table__brand-cell {
-    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-    padding-bottom: 16px;
-  }
-
-  .comparison-table__dot {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    border-radius: var(--radius-round);
-    background-color: var(--theme-primary);
-    vertical-align: middle;
-  }
-
-  .comparison-table__other-text {
-    font-size: var(--font-size-sm);
+  .comparison-table__label-text {
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-snug);
-    color: var(--theme-text-dim);
+    color: var(--theme-text-on-primary);
+    line-height: 24px;
+  }
+
+  /* ── Icons ── */
+  .comparison-table__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+  }
+
+  .comparison-table__icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  .comparison-table__icon--check {
+    color: var(--theme-text-on-primary);
+  }
+
+  .comparison-table__icon--close {
+    color: var(--theme-text-on-primary);
   }
 
   /* ── Visually hidden utility ── */
@@ -204,7 +335,6 @@
 
     .comparison-table__left {
       flex: none;
-      padding: 0 var(--container-padding, 16px);
     }
 
     .comparison-table__heading {
@@ -214,25 +344,38 @@
     }
 
     .comparison-table__glass {
-      padding: 8px;
-      border-spacing: 4px 0;
-      border-radius: var(--radius-xl);
+      padding: 8px 8px 8px 12px;
+      border-radius: 16px;
+      gap: 4px;
     }
 
-    .comparison-table__label-cell {
+    .comparison-table__labels {
+      width: auto;
+      flex: 1;
+      gap: 12px;
+    }
+
+    .comparison-table__brand-col,
+    .comparison-table__other-col {
+      flex: 0 0 60px;
+      gap: 12px;
+    }
+
+    .comparison-table__label-text {
       font-size: 13px;
-      padding: 8px 4px 8px 8px;
     }
 
-    .comparison-table__brand-header,
-    .comparison-table__other-header {
-      width: 80px;
+    .comparison-table__col-title {
       font-size: 13px;
     }
 
-    .comparison-table__other-text {
-      font-size: 11px;
-      line-height: 16px;
+    .comparison-table__cell {
+      min-height: 40px;
+    }
+
+    .comparison-table__icon svg {
+      width: 20px;
+      height: 20px;
     }
   }
 {% endstylesheet %}
@@ -264,6 +407,17 @@
       "id": "competitor_name",
       "label": "t:sections.comparison_table.settings.competitor_name",
       "default": "Other"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:labels.button_text",
+      "default": "Get your bottle"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:labels.button_url"
     }
   ],
   "blocks": [
@@ -281,6 +435,22 @@
           "id": "competitor_text",
           "label": "t:sections.comparison_table.blocks.comparison_row.competitor_text",
           "default": "Rare"
+        }
+      ]
+    },
+    {
+      "type": "trust_badge",
+      "name": "t:sections.comparison_table.blocks.trust_badge.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text"
         }
       ]
     }
@@ -322,6 +492,24 @@
           "settings": {
             "label": "Vegan, gluten and nut tested, low FODMAP",
             "competitor_text": "Rare"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "text": "16 orders at this price remaining"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "text": "FREE Shipping & Returns"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "text": "30 day money-back guarantee"
           }
         }
       ]

@@ -1,45 +1,45 @@
-<section
-  class="product-benefits full-width"
-  data-product-benefits
->
+<section class="product-benefits full-width">
   <div class="product-benefits__container">
     <div class="product-benefits__sidebar">
-      {% if section.settings.tag_text != blank %}
-        <span class="product-benefits__tag">{{ section.settings.tag_text }}</span>
-      {% endif %}
+      <div class="product-benefits__sidebar-header">
+        {% if section.settings.tag_text != blank %}
+          <span class="product-benefits__tag">{{ section.settings.tag_text }}</span>
+        {% endif %}
 
-      {% if section.settings.heading != blank %}
-        <h2 class="product-benefits__heading">{{ section.settings.heading }}</h2>
-      {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="product-benefits__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+      </div>
 
-      <nav class="product-benefits__list" aria-label="{{ section.settings.heading | escape }}">
+      <ul class="product-benefits__list" role="list">
         {% for block in section.blocks %}
           {% if block.type == 'benefit' %}
-            <button
-              class="product-benefits__item{% if forloop.first %} product-benefits__item--active{% endif %}"
-              data-benefit-tab="{{ forloop.index0 }}"
-              type="button"
-              {{ block.shopify_attributes }}
-            >
-              <span class="product-benefits__item-number">
-                {{ forloop.index | prepend: '00' | slice: -2, 2 }}
-              </span>
-              <span class="product-benefits__item-title">{{ block.settings.title }}</span>
-            </button>
+            <li class="product-benefits__item" {{ block.shopify_attributes }}>
+              {% if block.settings.icon %}
+                <div class="product-benefits__icon">
+                  {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
+                </div>
+              {% endif %}
+
+              <div class="product-benefits__item-text">
+                {% if block.settings.title != blank %}
+                  <h3 class="product-benefits__item-title">{{ block.settings.title }}</h3>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <p class="product-benefits__item-desc">{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+            </li>
           {% endif %}
         {% endfor %}
-      </nav>
+      </ul>
     </div>
 
     <div class="product-benefits__details">
       {% for block in section.blocks %}
         {% if block.type == 'benefit' %}
-          <div
-            class="product-benefits__detail"
-            id="benefit-panel-{{ block.id }}"
-            data-benefit-panel="{{ forloop.index0 }}"
-            {{ block.shopify_attributes }}
-          >
+          <div class="product-benefits__detail" {{ block.shopify_attributes }}>
             <div class="product-benefits__detail-text">
               {% if block.settings.title != blank %}
                 <h3 class="product-benefits__detail-title">{{ block.settings.title }}</h3>
@@ -79,17 +79,23 @@
     align-items: flex-start;
   }
 
-  /* ── Sidebar ── */
+  /* ── Sidebar (dark green card) ── */
   .product-benefits__sidebar {
-    flex: 1;
+    flex: 0 0 42%;
     position: sticky;
-    inset-block-start: 120px;
+    inset-block-start: 24px;
     background-color: var(--theme-primary);
-    border-radius: var(--radius-3xl);
-    padding: 32px;
+    border-radius: var(--radius-card);
+    padding: 24px;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
+  }
+
+  .product-benefits__sidebar-header {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
 
   .product-benefits__tag {
@@ -103,72 +109,80 @@
     letter-spacing: var(--letter-spacing-wider);
     padding: 4px 12px;
     border-radius: var(--theme-radius-badge);
-    line-height: normal;
+    line-height: 18px;
   }
 
   .product-benefits__heading {
-    font-size: var(--font-size-5xl);
-    line-height: normal;
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-tight);
     font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
     letter-spacing: var(--letter-spacing-tighter);
     margin: 0;
   }
 
+  /* ── Sidebar benefit list ── */
   .product-benefits__list {
     display: flex;
     flex-direction: column;
     gap: 8px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
   .product-benefits__item {
     display: flex;
-    gap: 16px;
-    align-items: center;
-    padding: 16px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    text-align: start;
-    width: 100%;
-    font-family: inherit;
-    border-radius: var(--radius-md);
-    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px;
   }
 
-  .product-benefits__item:hover {
-    background-color: var(--color-on-primary-faint);
-  }
-
-  .product-benefits__item:focus-visible {
-    outline: 2px solid var(--theme-text-on-primary);
-    outline-offset: 2px;
-    border-radius: var(--radius-md);
-  }
-
-  .product-benefits__item--active {
-    background-color: var(--color-on-primary-muted);
-  }
-
-  .product-benefits__item-number {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-medium);
-    color: var(--color-x-mark-stroke);
-    letter-spacing: var(--letter-spacing-tighter);
-    line-height: normal;
-    width: 28px;
+  .product-benefits__icon {
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--theme-text-on-primary);
+  }
+
+  .product-benefits__icon img,
+  .product-benefits__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+
+  .product-benefits__item-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
   }
 
   .product-benefits__item-title {
     font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
-    letter-spacing: var(--letter-spacing-tighter);
-    line-height: normal;
+    line-height: 28px;
+    margin: 0;
   }
 
-  /* ── Details ── */
+  .product-benefits__item-desc {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-dark);
+    line-height: 24px;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Detail panels (right column) ── */
   .product-benefits__details {
     flex: 1;
     display: flex;
@@ -191,8 +205,8 @@
 
   .product-benefits__detail-title {
     font-size: var(--font-size-3xl);
-    line-height: var(--line-height-tight);
-    font-weight: var(--font-weight-medium);
+    line-height: 44px;
+    font-weight: var(--font-weight-regular);
     letter-spacing: var(--letter-spacing-tighter);
     color: var(--theme-primary);
     margin: 0;
@@ -200,27 +214,34 @@
 
   .product-benefits__detail-description {
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-normal);
+    font-weight: var(--font-weight-regular);
+    line-height: 24px;
     color: var(--theme-text-secondary);
     margin: 0;
   }
 
   .product-benefits__detail-image {
     width: 100%;
-    aspect-ratio: 564 / 381;
-    border-radius: var(--radius-3xl);
+    height: 381px;
+    border-radius: var(--radius-card);
     overflow: hidden;
+    position: relative;
     background-color: var(--theme-surface-alt);
   }
 
-  .product-benefits__detail-image img {
+  .product-benefits__detail-image img,
+  .product-benefits__detail-image svg {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
   }
 
   .product-benefits__placeholder {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -246,7 +267,6 @@
     .product-benefits__heading {
       font-size: var(--font-size-3xl);
       line-height: var(--line-height-tight);
-      letter-spacing: var(--letter-spacing-tighter);
     }
 
     .product-benefits__list {
@@ -259,60 +279,11 @@
     }
 
     .product-benefits__detail-image {
-      aspect-ratio: 16 / 9;
+      height: auto;
+      aspect-ratio: 564 / 381;
     }
   }
 {% endstylesheet %}
-
-{% javascript %}
-  (function () {
-    var section = document.querySelector('[data-product-benefits]');
-    if (!section) return;
-
-    var tabs = section.querySelectorAll('[data-benefit-tab]');
-
-    for (const tab of tabs) {
-      tab.addEventListener('click', function () {
-        var index = tab.getAttribute('data-benefit-tab');
-
-        for (const t of tabs) {
-          t.classList.remove('product-benefits__item--active');
-        }
-
-        tab.classList.add('product-benefits__item--active');
-
-        var targetPanel = section.querySelector('[data-benefit-panel="' + index + '"]');
-        if (targetPanel) {
-          targetPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-
-      tab.addEventListener('keydown', function (e) {
-        var currentIndex = Array.prototype.indexOf.call(tabs, tab);
-        var nextIndex;
-
-        if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-          e.preventDefault();
-          nextIndex = (currentIndex + 1) % tabs.length;
-        } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-          e.preventDefault();
-          nextIndex = (currentIndex - 1 + tabs.length) % tabs.length;
-        } else if (e.key === 'Home') {
-          e.preventDefault();
-          nextIndex = 0;
-        } else if (e.key === 'End') {
-          e.preventDefault();
-          nextIndex = tabs.length - 1;
-        }
-
-        if (nextIndex !== undefined) {
-          tabs[nextIndex].focus();
-          tabs[nextIndex].click();
-        }
-      });
-    }
-  })();
-{% endjavascript %}
 
 {% schema %}
 {
@@ -336,6 +307,11 @@
       "type": "benefit",
       "name": "t:sections.product_benefits.blocks.benefit.name",
       "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
         {
           "type": "text",
           "id": "title",
@@ -361,6 +337,7 @@
         {
           "type": "benefit",
           "settings": {
+
             "title": "Relieves Bloating & Gas",
             "description": "Clinically proven probiotic and prebiotic strains work together to reduce bloating, gas, and digestive discomfort—so you feel lighter and more comfortable after every meal."
           }
@@ -368,6 +345,7 @@
         {
           "type": "benefit",
           "settings": {
+
             "title": "Supports Regular Digestion",
             "description": "Helps restore balance in your gut microbiome, promoting smoother digestion and consistent bowel movements without harsh laxatives or cleanses."
           }
@@ -375,6 +353,7 @@
         {
           "type": "benefit",
           "settings": {
+
             "title": "Strengthens Immune Health",
             "description": "A healthy gut supports a stronger immune system. Our formula helps reinforce your body's natural defenses from the inside out."
           }
@@ -382,6 +361,7 @@
         {
           "type": "benefit",
           "settings": {
+
             "title": "Promotes Clear, Healthy Skin",
             "description": "By improving gut balance and nutrient absorption, this daily supplement supports clearer skin and a healthier-looking complexion."
           }
@@ -389,6 +369,7 @@
         {
           "type": "benefit",
           "settings": {
+
             "title": "Supports Heart Health",
             "description": "A balanced gut microbiome plays a role in cardiovascular wellness, helping support long-term heart health as part of a daily routine."
           }

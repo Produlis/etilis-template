@@ -212,14 +212,34 @@
             "label": "Vegan, gluten and nut tested, low FODMAP",
             "competitor_text": "Rare"
           }
+        },
+        "badge-1": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "16 orders at this price remaining"
+          }
+        },
+        "badge-2": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "FREE Shipping & Returns"
+          }
+        },
+        "badge-3": {
+          "type": "trust_badge",
+          "settings": {
+            "text": "30 day money-back guarantee"
+          }
         }
       },
-      "block_order": ["row-1", "row-2", "row-3", "row-4", "row-5"],
+      "block_order": ["row-1", "row-2", "row-3", "row-4", "row-5", "badge-1", "badge-2", "badge-3"],
       "settings": {
         "tag_text": "COMPARISON",
         "heading": "How DS-01® Compares:",
         "brand_name": "DS-01®",
-        "competitor_name": "Other"
+        "competitor_name": "Other",
+        "button_text": "Get your bottle",
+        "button_url": "#"
       }
     },
     "product-testimonials": {
@@ -259,7 +279,7 @@
       }
     },
     "product-faq": {
-      "type": "faq",
+      "type": "product-faq",
       "blocks": {
         "faq-1": {
           "type": "faq_item",

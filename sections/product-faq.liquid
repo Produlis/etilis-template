@@ -8,15 +8,18 @@
     <div class="faq__right">
       {% for block in section.blocks %}
         <details
-          class="faq__item"
+          class="faq__item{% if forloop.last %} faq__item--last{% endif %}"
           data-faq-item
-          {% if forloop.first %}open{% endif %}
+          {% if forloop.first %}
+            open
+          {% endif %}
           {{ block.shopify_attributes }}
         >
-          <div class="faq__divider"></div>
           <summary class="faq__question">
             <span class="faq__question-text">{{ block.settings.question }}</span>
-            <span class="faq__icon" aria-hidden="true"></span>
+            <span class="faq__icon" aria-hidden="true">
+              {{ 'icon-plus.svg' | inline_asset_content }}
+            </span>
           </summary>
           <div class="faq__answer">
             <div class="faq__answer-inner">
@@ -25,10 +28,6 @@
           </div>
         </details>
       {% endfor %}
-
-      {% if section.blocks.size > 0 %}
-        <div class="faq__divider faq__divider--bottom"></div>
-      {% endif %}
     </div>
   </div>
 </section>
@@ -45,6 +44,7 @@
     padding: 0 var(--container-padding, 16px);
     display: flex;
     gap: 52px;
+    align-items: flex-start;
   }
 
   .faq__left {
@@ -66,44 +66,37 @@
     letter-spacing: var(--letter-spacing-wider);
     padding: 4px 12px;
     border-radius: var(--theme-radius-badge);
-    line-height: normal;
+    line-height: 18px;
   }
 
   .faq__heading {
     font-size: var(--font-size-5xl);
     color: var(--theme-primary);
-    line-height: normal;
-    letter-spacing: var(--letter-spacing-tighter);
+    line-height: 64px;
+    letter-spacing: -2.08px;
     margin: 0;
     font-weight: var(--font-weight-regular);
   }
 
   .faq__right {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
     min-width: 0;
   }
 
   .faq__item {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    border-top: 1px solid var(--theme-border);
   }
 
-  .faq__divider {
-    height: 1px;
-    background-color: var(--theme-border);
-    width: 100%;
+  .faq__item--last {
+    border-bottom: 1px solid var(--theme-border);
   }
 
   .faq__question {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     width: 100%;
-    padding: 0;
+    padding: 16px 0 24px;
     background: none;
     border: none;
     cursor: pointer;
@@ -131,75 +124,47 @@
   .faq__question-text {
     font-size: var(--font-size-xl);
     color: var(--theme-primary);
-    line-height: normal;
+    line-height: 28px;
     font-weight: var(--font-weight-regular);
-    letter-spacing: var(--letter-spacing-tighter);
-  }
-
-  .faq__item[open] .faq__question-text {
-    font-weight: var(--font-weight-medium);
+    letter-spacing: -0.8px;
   }
 
   .faq__icon {
-    position: relative;
     width: 24px;
     height: 24px;
     flex-shrink: 0;
+    color: var(--theme-text);
+    transition: transform var(--duration-medium, 300ms) var(--ease-standard, ease);
   }
 
-  .faq__icon::before,
-  .faq__icon::after {
-    content: "";
-    position: absolute;
-    background-color: var(--theme-text);
-    transition: transform var(--duration-medium, 300ms) var(--ease-standard, ease),
-                opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
+  .faq__icon svg {
+    width: 24px;
+    height: 24px;
+    display: block;
   }
 
-  .faq__icon::before {
-    inset-block-start: 50%;
-    inset-inline: 4px;
-    height: 2px;
-    transform: translateY(-50%);
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
   }
 
-  .faq__icon::after {
-    inset-inline-start: 50%;
-    inset-block: 4px;
-    width: 2px;
-    transform: translateX(-50%);
-  }
-
-  .faq__item[open] .faq__icon::after {
-    transform: translateX(-50%) rotate(90deg);
-    opacity: 0;
+  .faq__item[open] .faq__question {
+    padding-bottom: 16px;
   }
 
   .faq__answer {
-    display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows var(--duration-medium, 300ms) var(--ease-standard, ease);
     overflow: hidden;
   }
 
-  .faq__item[open] .faq__answer {
-    grid-template-rows: 1fr;
-  }
-
   .faq__answer-inner {
-    min-height: 0;
     font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-secondary);
-    line-height: var(--line-height-snug);
+    line-height: 20px;
+    padding-bottom: 24px;
   }
 
   .faq__answer-inner p {
     margin: 0;
-  }
-
-  .faq__divider--bottom {
-    margin-top: 0;
   }
 
   @media screen and (max-width: 749px) {

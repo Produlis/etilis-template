@@ -227,7 +227,7 @@
   .home-benefits__featured-card {
     position: relative;
     border-radius: var(--theme-radius-card);
-    height: 308px;
+    min-height: 280px;
     overflow: hidden;
   }
 
@@ -281,13 +281,32 @@
     margin: 0;
   }
 
-  @media (max-width: 749px) {
+  @media (max-width: 989px) {
     .home-benefits {
-      padding: 24px 20px;
+      padding: 32px;
     }
 
     .home-benefits__container {
       flex-direction: column;
+      gap: 32px;
+    }
+
+    .home-benefits__heading {
+      font-size: var(--font-size-4xl);
+    }
+
+    .home-benefits__body {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .home-benefits {
+      padding: 24px 16px;
+    }
+
+    .home-benefits__container {
+      gap: 24px;
     }
 
     .home-benefits__heading {
@@ -298,6 +317,10 @@
 
     .home-benefits__top-row {
       flex-direction: column;
+    }
+
+    .home-benefits__featured-card {
+      min-height: 220px;
     }
   }
 {% endstylesheet %}

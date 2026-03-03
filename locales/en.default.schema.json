@@ -221,11 +221,22 @@
         "comparison_row": {
           "name": "Comparison row",
           "competitor_text": "Competitor text"
+        },
+        "trust_badge": {
+          "name": "Trust badge"
         }
       }
     },
     "product_timeline": {
       "name": "Benefits timeline",
+      "settings": {
+        "upsell_header": "Upsell card",
+        "upsell_product": "Upsell product",
+        "upsell_image": "Upsell image",
+        "upsell_title": "Upsell title",
+        "upsell_badge": "Upsell badge",
+        "upsell_description": "Upsell description"
+      },
       "blocks": {
         "milestone": {
           "name": "Milestone",

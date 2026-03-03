@@ -25,7 +25,7 @@
               {% endunless %}
             </div>
 
-            <div class="product-timeline__step-card">
+            <div class="product-timeline__step-content">
               <div class="product-timeline__step-bar">
                 {% if block.settings.time_label != blank %}
                   <span class="product-timeline__time-badge">
@@ -50,7 +50,7 @@
     </div>
 
     <div class="product-timeline__aside">
-      <div class="product-timeline__image product-timeline__image--top">
+      <div class="product-timeline__image">
         {% if section.settings.side_image %}
           {{ section.settings.side_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
         {% else %}
@@ -58,12 +58,63 @@
         {% endif %}
       </div>
 
-      <div class="product-timeline__image product-timeline__image--bottom">
-        {% if section.settings.side_image_2 %}
-          {{ section.settings.side_image_2 | image_url: width: 1200 | image_tag: loading: 'lazy' }}
-        {% else %}
-          {{ 'product-2' | placeholder_svg_tag: 'product-timeline__placeholder' }}
-        {% endif %}
+      {% assign upsell_product = section.settings.upsell_product %}
+      <div class="product-timeline__upsell">
+        <div class="product-timeline__upsell-thumb">
+          {% if section.settings.upsell_image %}
+            {{ section.settings.upsell_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+          {% elsif upsell_product and upsell_product.featured_image %}
+            {{ upsell_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+          {% else %}
+            {{ 'product-1' | placeholder_svg_tag: 'product-timeline__placeholder' }}
+          {% endif %}
+        </div>
+
+        <div class="product-timeline__upsell-body">
+          <div class="product-timeline__upsell-info">
+            <div class="product-timeline__upsell-title-row">
+              {% if section.settings.upsell_title != blank %}
+                <span class="product-timeline__upsell-name">{{ section.settings.upsell_title }}</span>
+              {% endif %}
+              {% if section.settings.upsell_badge != blank %}
+                <span class="product-timeline__upsell-badge">{{ section.settings.upsell_badge }}</span>
+              {% endif %}
+            </div>
+
+            {% if section.settings.upsell_description != blank %}
+              <p class="product-timeline__upsell-desc">{{ section.settings.upsell_description }}</p>
+            {% endif %}
+          </div>
+
+          <div class="product-timeline__upsell-action">
+            <div class="product-timeline__upsell-pricing">
+              {% if upsell_product %}
+                {% assign upsell_variant = upsell_product.selected_or_first_available_variant %}
+                <span class="product-timeline__upsell-price">{{ upsell_variant.price | money }}</span>
+                {% if upsell_variant.compare_at_price > upsell_variant.price %}
+                  <span class="product-timeline__upsell-compare">{{ upsell_variant.compare_at_price | money }}</span>
+                {% endif %}
+              {% else %}
+                <span class="product-timeline__upsell-price">$109.00</span>
+                <span class="product-timeline__upsell-compare">$199.99</span>
+              {% endif %}
+            </div>
+
+            {% if upsell_product %}
+              {% assign upsell_variant = upsell_product.selected_or_first_available_variant %}
+              {% form 'product', upsell_product %}
+                <input type="hidden" name="id" value="{{ upsell_variant.id }}">
+                <button type="submit" class="product-timeline__upsell-btn">
+                  {{ 'sections.product_timeline.add_to_cart' | t }}
+                </button>
+              {% endform %}
+            {% else %}
+              <button type="button" class="product-timeline__upsell-btn" disabled>
+                {{ 'sections.product_timeline.add_to_cart' | t }}
+              </button>
+            {% endif %}
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -93,25 +144,25 @@
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
+    letter-spacing: 1.44px;
     padding: 4px 12px;
     border-radius: var(--theme-radius-badge);
-    line-height: normal;
+    line-height: 18px;
   }
 
   .product-timeline__heading {
     font-size: var(--font-size-5xl);
-    line-height: normal;
+    line-height: 64px;
     font-weight: var(--font-weight-regular);
     color: var(--theme-primary);
-    letter-spacing: var(--letter-spacing-tighter);
+    letter-spacing: -2.08px;
     margin: 0;
     max-width: 696px;
   }
 
   .product-timeline__description {
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-secondary);
     line-height: var(--line-height-normal);
     margin: 0;
@@ -137,7 +188,6 @@
   .product-timeline__step {
     display: flex;
     gap: 16px;
-    padding-bottom: 0;
   }
 
   .product-timeline__timeline {
@@ -146,7 +196,7 @@
     align-items: center;
     flex-shrink: 0;
     width: 20px;
-    padding-top: 4px;
+    padding-top: 8px;
   }
 
   .product-timeline__dot {
@@ -166,30 +216,24 @@
     margin-block-start: 2px;
   }
 
-  /* ── Step card ── */
-  .product-timeline__step-card {
+  /* ── Step content ── */
+  .product-timeline__step-content {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background-color: var(--theme-surface-alt);
-    border-radius: var(--radius-3xl);
-    padding: 8px;
-    margin-bottom: 24px;
+    padding-bottom: 24px;
   }
 
-  .product-timeline__step:last-child .product-timeline__step-card {
-    margin-bottom: 0;
+  .product-timeline__step:last-child .product-timeline__step-content {
+    padding-bottom: 0;
   }
 
   .product-timeline__step-bar {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--theme-primary);
-    border-radius: var(--radius-5xl);
     height: 36px;
-    padding: 4px;
   }
 
   .product-timeline__time-badge {
@@ -201,8 +245,8 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    line-height: var(--line-height-snug);
+    letter-spacing: 1.4px;
+    line-height: 20px;
     padding: 0 12px;
     height: 28px;
     border-radius: var(--theme-radius-badge);
@@ -214,18 +258,17 @@
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
-    letter-spacing: var(--letter-spacing-wider);
-    line-height: var(--line-height-snug);
-    color: var(--theme-text-on-primary);
+    letter-spacing: 1.68px;
+    line-height: 20px;
+    color: var(--theme-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .product-timeline__benefits {
-    padding: 8px;
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-secondary);
     line-height: var(--line-height-normal);
   }
@@ -254,32 +297,159 @@
   }
 
   .product-timeline__image {
+    height: 396px;
+    flex-shrink: 0;
+    position: relative;
     border-radius: var(--radius-3xl);
     overflow: hidden;
     background-color: var(--theme-surface-alt);
   }
 
-  .product-timeline__image--top {
-    flex: 1;
-    min-height: 0;
-    max-height: 480px;
+  .product-timeline__image img,
+  .product-timeline__image svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  .product-timeline__image--bottom {
-    height: 160px;
+  /* ── Upsell card ── */
+  .product-timeline__upsell {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    background-color: var(--theme-surface-alt);
+    border-radius: var(--radius-3xl);
+    padding: 8px 16px 8px 8px;
     flex-shrink: 0;
   }
 
-  .product-timeline__image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .product-timeline__upsell-thumb {
+    width: 155px;
+    height: 136px;
+    flex-shrink: 0;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background-color: var(--theme-border);
   }
 
-  .product-timeline__placeholder {
+  .product-timeline__upsell-thumb img,
+  .product-timeline__upsell-thumb svg {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+  }
+
+  .product-timeline__upsell-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-width: 0;
+  }
+
+  .product-timeline__upsell-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .product-timeline__upsell-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .product-timeline__upsell-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-primary);
+    line-height: 24px;
+  }
+
+  .product-timeline__upsell-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--theme-accent);
+    color: var(--theme-text-on-accent);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 1.44px;
+    line-height: 18px;
+    padding: 4px 8px;
+    border-radius: var(--theme-radius-badge);
+    white-space: nowrap;
+  }
+
+  .product-timeline__upsell-desc {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-secondary);
+    line-height: 20px;
+    margin: 0;
+  }
+
+  .product-timeline__upsell-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-timeline__upsell-pricing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .product-timeline__upsell-price {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-primary);
+    line-height: 24px;
+  }
+
+  .product-timeline__upsell-compare {
+    font-size: var(--font-size-xs);
+    color: color-mix(in srgb, var(--theme-primary) 40%, transparent);
+    text-decoration: line-through;
+    line-height: 16px;
+  }
+
+  .product-timeline__upsell form {
+    display: contents;
+  }
+
+  .product-timeline__upsell-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--theme-border);
+    color: var(--theme-primary);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 32px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .product-timeline__upsell-btn:hover:not(:disabled) {
+    background-color: var(--theme-surface-muted);
+  }
+
+  .product-timeline__upsell-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   /* ── Mobile ── */
@@ -307,7 +477,6 @@
     .product-timeline__step-bar {
       flex-wrap: wrap;
       height: auto;
-      padding: 4px;
       gap: 4px;
     }
 
@@ -317,7 +486,22 @@
     }
 
     .product-timeline__image {
-      aspect-ratio: 16 / 9;
+      height: 280px;
+    }
+
+    .product-timeline__upsell {
+      flex-direction: column;
+      padding: 8px;
+    }
+
+    .product-timeline__upsell-thumb {
+      width: 100%;
+      height: 180px;
+    }
+
+    .product-timeline__upsell-action {
+      flex-wrap: wrap;
+      gap: 12px;
     }
   }
 {% endstylesheet %}
@@ -336,7 +520,7 @@
       "type": "textarea",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "The DS-01® difference: Benefits that build over time"
+      "default": "The DS-01\u00ae difference: Benefits that build over time"
     },
     {
       "type": "textarea",
@@ -350,9 +534,36 @@
       "label": "t:labels.side_image"
     },
     {
+      "type": "header",
+      "content": "t:sections.product_timeline.settings.upsell_header"
+    },
+    {
+      "type": "product",
+      "id": "upsell_product",
+      "label": "t:sections.product_timeline.settings.upsell_product"
+    },
+    {
       "type": "image_picker",
-      "id": "side_image_2",
-      "label": "t:labels.side_image_2"
+      "id": "upsell_image",
+      "label": "t:sections.product_timeline.settings.upsell_image"
+    },
+    {
+      "type": "text",
+      "id": "upsell_title",
+      "label": "t:sections.product_timeline.settings.upsell_title",
+      "default": "Bundle"
+    },
+    {
+      "type": "text",
+      "id": "upsell_badge",
+      "label": "t:sections.product_timeline.settings.upsell_badge",
+      "default": "Save 50%+"
+    },
+    {
+      "type": "textarea",
+      "id": "upsell_description",
+      "label": "t:sections.product_timeline.settings.upsell_description",
+      "default": "Add DM-02\u2122 Daily Multivitamin to your routine and save on your first order."
     }
   ],
   "blocks": [

@@ -333,10 +333,33 @@
     white-space: nowrap;
   }
 
+  @media (max-width: 989px) {
+    .home-comparison {
+      padding: 32px;
+    }
+
+    .home-comparison__heading {
+      font-size: var(--font-size-4xl);
+    }
+
+    .home-comparison__table-card {
+      min-height: auto;
+    }
+
+    .home-comparison__badge-text {
+      white-space: normal;
+    }
+  }
+
   @media (max-width: 749px) {
     .home-comparison {
-      padding: 24px 20px;
+      padding: 24px 16px;
       border-radius: var(--theme-radius-card);
+    }
+
+    .home-comparison__inner {
+      padding: 12px;
+      gap: 24px;
     }
 
     .home-comparison__heading {
@@ -345,14 +368,66 @@
       letter-spacing: var(--letter-spacing-tighter);
     }
 
+    /* Flatten columns so grid controls row alignment */
     .home-comparison__table-card {
       grid-template-columns: 1.5fr 1fr 1fr;
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
+      grid-auto-rows: auto;
+      padding: 8px 8px 8px 12px;
+    }
+
+    .home-comparison__labels-col,
+    .home-comparison__brand-col,
+    .home-comparison__competitor-col {
+      display: contents;
+    }
+
+    /* Place children into correct columns */
+    .home-comparison__labels-col > * {
+      grid-column: 1;
+    }
+
+    .home-comparison__brand-col > * {
+      grid-column: 2;
+      background: var(--color-glass-bg);
+      border-left: 1px solid var(--color-glass-border);
+      border-right: 1px solid var(--color-glass-border);
+    }
+
+    .home-comparison__brand-col > *:first-child {
+      border-top: 1px solid var(--color-glass-border);
+      border-top-left-radius: var(--theme-radius-card);
+      border-top-right-radius: var(--theme-radius-card);
+    }
+
+    .home-comparison__brand-col > *:last-child {
+      border-bottom: 1px solid var(--color-glass-border);
+      border-bottom-left-radius: var(--theme-radius-card);
+      border-bottom-right-radius: var(--theme-radius-card);
+    }
+
+    .home-comparison__competitor-col > * {
+      grid-column: 3;
+    }
+
+    .home-comparison__label-spacer {
+      min-height: 40px;
     }
 
     .home-comparison__label-row {
       font-size: var(--font-size-sm);
+      height: auto;
+      min-height: 40px;
+      padding: 4px 0;
+    }
+
+    .home-comparison__col-header {
+      min-height: 40px;
+      font-size: var(--font-size-sm);
+    }
+
+    .home-comparison__check-row {
+      height: auto;
+      min-height: 40px;
     }
 
     .home-comparison__badges {
