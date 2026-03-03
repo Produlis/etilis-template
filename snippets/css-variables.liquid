@@ -41,29 +41,37 @@
     {%- when 'nature' -%}
       {%- comment -%}
         NATURE — Organic, sustainable, wellness, trust.
-        Earthy greens with warm undertones. DM Sans for a friendly,
-        modern feel. Moderate border-radius signals approachability.
-        CTA green (#2D6A2D) passes WCAG AA on white (7.1:1).
+        Deep forest greens with warm cream undertones. Pill-shaped
+        buttons and generous radius for a soft, organic feel.
+        Colors extracted from Figma "Greenish" design.
+        CTA green (#1C3A13) passes WCAG AA on cream (12.5:1).
       {%- endcomment -%}
-      {%- assign scheme_bg = '#F7F9F4' -%}
-      {%- assign scheme_bg_subtle = '#EEF3E8' -%}
+      {%- assign scheme_bg = '#FCFCF7' -%}
+      {%- assign scheme_bg_subtle = '#F2F3E7' -%}
       {%- assign scheme_surface = '#FFFFFF' -%}
-      {%- assign scheme_border = '#C8D9B8' -%}
-      {%- assign scheme_text = '#1C2B1A' -%}
-      {%- assign scheme_text_secondary = '#4A6741' -%}
-      {%- assign scheme_text_disabled = '#9AB88A' -%}
-      {%- assign scheme_accent = '#2D6A2D' -%}
-      {%- assign scheme_accent_hover = '#1F4D1F' -%}
+      {%- assign scheme_border = '#D2D4C4' -%}
+      {%- assign scheme_text = '#1C3A13' -%}
+      {%- assign scheme_text_secondary = '#434141' -%}
+      {%- assign scheme_text_disabled = '#A8AFA6' -%}
+      {%- assign scheme_accent = '#1C3A13' -%}
+      {%- assign scheme_accent_hover = '#37522F' -%}
       {%- assign scheme_accent_text = '#FFFFFF' -%}
-      {%- assign scheme_highlight = '#7AB648' -%}
-      {%- assign scheme_success = '#2D6A2D' -%}
+      {%- assign scheme_highlight = '#D3FA99' -%}
+      {%- assign scheme_success = '#1C3A13' -%}
       {%- assign scheme_error = '#B84040' -%}
-      {%- assign scheme_focus = '#2D6A2D' -%}
-      {%- assign scheme_radius_btn = '6px' -%}
-      {%- assign scheme_radius_card = '8px' -%}
-      {%- assign scheme_radius_input = '4px' -%}
-      {%- assign scheme_radius_badge = '6px' -%}
-      {%- assign scheme_radius_image = '8px' -%}
+      {%- assign scheme_focus = '#1C3A13' -%}
+      {%- assign scheme_primary_light = '#37522F' -%}
+      {%- assign scheme_text_on_accent = '#1C3A13' -%}
+      {%- assign scheme_text_on_dark = '#CDD1CC' -%}
+      {%- assign scheme_input_border_dark = '#4F6748' -%}
+      {%- assign scheme_neutral_300 = '#D2D4C4' -%}
+      {%- assign scheme_neutral_400 = '#A8AFA6' -%}
+      {%- assign scheme_neutral_800 = '#0F200A' -%}
+      {%- assign scheme_radius_btn = '48px' -%}
+      {%- assign scheme_radius_card = '24px' -%}
+      {%- assign scheme_radius_input = '56px' -%}
+      {%- assign scheme_radius_badge = '28px' -%}
+      {%- assign scheme_radius_image = '16px' -%}
 
     {%- when 'sky' -%}
       {%- comment -%}
@@ -87,6 +95,13 @@
       {%- assign scheme_success = '#0077B6' -%}
       {%- assign scheme_error = '#C0392B' -%}
       {%- assign scheme_focus = '#0077B6' -%}
+      {%- assign scheme_primary_light = '#3A6080' -%}
+      {%- assign scheme_text_on_accent = '#0D1E2E' -%}
+      {%- assign scheme_text_on_dark = '#8AB0C8' -%}
+      {%- assign scheme_input_border_dark = '#B8D4E8' -%}
+      {%- assign scheme_neutral_300 = '#B8D4E8' -%}
+      {%- assign scheme_neutral_400 = '#8AB0C8' -%}
+      {%- assign scheme_neutral_800 = '#004A73' -%}
       {%- assign scheme_radius_btn = '10px' -%}
       {%- assign scheme_radius_card = '14px' -%}
       {%- assign scheme_radius_input = '8px' -%}
@@ -115,6 +130,13 @@
       {%- assign scheme_success = '#1A1A1A' -%}
       {%- assign scheme_error = '#CC0000' -%}
       {%- assign scheme_focus = '#0A0A0A' -%}
+      {%- assign scheme_primary_light = '#555555' -%}
+      {%- assign scheme_text_on_accent = '#FFFFFF' -%}
+      {%- assign scheme_text_on_dark = '#AAAAAA' -%}
+      {%- assign scheme_input_border_dark = '#E0E0E0' -%}
+      {%- assign scheme_neutral_300 = '#E0E0E0' -%}
+      {%- assign scheme_neutral_400 = '#AAAAAA' -%}
+      {%- assign scheme_neutral_800 = '#1A1A1A' -%}
       {%- assign scheme_radius_btn = '0px' -%}
       {%- assign scheme_radius_card = '0px' -%}
       {%- assign scheme_radius_input = '0px' -%}
@@ -192,6 +214,9 @@
     --color-brand-accent: {{ scheme_highlight }};
     --color-surface-2: {{ scheme_bg_subtle }};
     --color-neutral-0: {{ scheme_surface }};
+    --color-neutral-300: {{ scheme_neutral_300 }};
+    --color-neutral-400: {{ scheme_neutral_400 }};
+    --color-neutral-800: {{ scheme_neutral_800 }};
 
     /* ===== Overlay & glass effects ===== */
     --color-overlay: rgb(0 0 0 / 0.5);
@@ -207,20 +232,21 @@
     --color-on-primary-faint: rgb(255 255 255 / 0.05);
     --color-on-primary-dim: rgb(255 255 255 / 0.08);
     --color-on-primary-hover: rgb(255 255 255 / 0.4);
-    --color-dark-glass-bg: rgb(19 19 19 / 0.12);
+    --color-dark-glass-bg: color-mix(in srgb, {{ scheme_accent }} 12%, transparent);
     --color-x-mark-bg: rgb(255 255 255 / 0.15);
     --color-x-mark-stroke: rgb(255 255 255 / 0.5);
-    --color-on-dark-green: rgb(28 58 19 / 0.4);
+    --color-on-dark-green: color-mix(in srgb, {{ scheme_accent }} 40%, transparent);
     --color-shadow-inset: rgb(0 0 0 / 0.2);
     --color-shadow-inset-light: rgb(255 255 255 / 0.9);
 
     /* ===== Theme-specific aliases for sections ===== */
     --theme-primary: {{ scheme_accent }};
     --theme-primary-hover: {{ scheme_accent_hover }};
-    --theme-primary-light: {{ scheme_text_secondary }};
+    --theme-primary-light: {{ scheme_primary_light }};
     --theme-primary-dark: {{ scheme_text }};
     --theme-accent: {{ scheme_highlight }};
     --theme-accent-hover: {{ scheme_accent_hover }};
+    --theme-text-on-accent: {{ scheme_text_on_accent }};
     --theme-surface: {{ scheme_bg }};
     --theme-surface-alt: {{ scheme_bg_subtle }};
     --theme-surface-muted: {{ scheme_border }};
@@ -228,10 +254,12 @@
     --theme-text: {{ scheme_text }};
     --theme-text-secondary: {{ scheme_text_secondary }};
     --theme-text-on-primary: {{ scheme_accent_text }};
+    --theme-text-on-dark: {{ scheme_text_on_dark }};
     --theme-text-muted: {{ scheme_text_disabled }};
     --theme-text-dim: {{ scheme_text_disabled }};
     --theme-border: {{ scheme_border }};
     --theme-input-border: {{ scheme_border }};
+    --theme-input-border-dark: {{ scheme_input_border_dark }};
     --theme-star: #FFB800;
 
     /* ===== Border radius per scheme ===== */

@@ -17,7 +17,10 @@
     "product": "Product",
     "row": "Row",
     "search": "Search",
-    "text": "Text"
+    "text": "Text",
+    "typography": "Typography",
+    "fonts": "Fonts",
+    "color_scheme": "Color scheme"
   },
   "sections": {
     "logo_marquee": {
@@ -321,7 +324,19 @@
     "autoplay_speed": "Autoplay speed",
     "loop": "Loop",
     "slides_desktop": "Products per row (desktop)",
-    "slides_mobile": "Products per row (mobile)"
+    "slides_mobile": "Products per row (mobile)",
+    "heading_font": "Heading font",
+    "body_font": "Body font",
+    "page_width": "Page width",
+    "page_margin": "Page margin",
+    "color_scheme": "Color scheme",
+    "color_scheme_info": "Select a predefined color scheme for your store",
+    "color_overrides": "Color overrides",
+    "color_accent": "Accent",
+    "color_override_info": "Leave blank to use the color scheme default",
+    "color_bg": "Background",
+    "color_text_primary": "Text primary",
+    "color_surface": "Surface"
   },
   "options": {
     "alignment": {
@@ -349,6 +364,15 @@
     "image_position": {
       "top": "Top",
       "bottom": "Bottom"
+    },
+    "page_width": {
+      "narrow": "Narrow (90rem)",
+      "wide": "Wide (110rem)"
+    },
+    "color_scheme": {
+      "minimal": "Minimal",
+      "nature": "Nature",
+      "sky": "Sky"
     }
   }
 }

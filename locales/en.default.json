@@ -131,7 +131,9 @@
   "footer": {
     "navigation": "Footer navigation",
     "email_placeholder": "Your email address",
-    "copyright_html": "© {{ year }} {{ shop_name }}"
+    "copyright_html": "© {{ year }} {{ shop_name }}",
+    "newsletter_success": "Thanks for subscribing!",
+    "newsletter_error": "Something went wrong. Please try again."
   },
   "header": {
     "navigation": "Main navigation",
