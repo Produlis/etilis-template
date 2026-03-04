@@ -261,6 +261,9 @@
       "settings": {
         "show_free_shipping_bar": "Show free shipping bar",
         "free_shipping_threshold": "Free shipping threshold",
+        "show_checkout_protection": "Show checkout protection",
+        "checkout_protection_title": "Checkout protection title",
+        "checkout_protection_description": "Checkout protection description",
         "upsell_heading": "Upsell heading",
         "upsell_collection": "Upsell collection"
       }
@@ -269,6 +272,9 @@
       "settings": {
         "show_free_shipping_bar": "Show free shipping bar",
         "free_shipping_threshold": "Free shipping threshold",
+        "show_checkout_protection": "Show checkout protection",
+        "checkout_protection_title": "Checkout protection title",
+        "checkout_protection_description": "Checkout protection description",
         "upsell_heading": "Upsell heading",
         "upsell_collection": "Upsell collection"
       }
