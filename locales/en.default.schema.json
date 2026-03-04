@@ -20,7 +20,8 @@
     "text": "Text",
     "typography": "Typography",
     "fonts": "Fonts",
-    "color_scheme": "Color scheme"
+    "color_scheme": "Color scheme",
+    "favicon": "Favicon"
   },
   "sections": {
     "logo_marquee": {
@@ -353,7 +354,9 @@
     "color_override_info": "Leave blank to use the color scheme default",
     "color_bg": "Background",
     "color_text_primary": "Text primary",
-    "color_surface": "Surface"
+    "color_surface": "Surface",
+    "favicon": "Favicon image",
+    "favicon_info": "Recommended size: 32×32px. PNG format. Leave empty to use the default favicon."
   },
   "options": {
     "alignment": {

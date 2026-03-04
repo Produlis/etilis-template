@@ -51,20 +51,25 @@
 
     <div class="product-timeline__aside">
       <div class="product-timeline__image">
-        {% if section.settings.side_image %}
-          {{ section.settings.side_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+        {%- liquid
+          assign timeline_image = product.metafields.custom.timeline_image.value
+          if section.settings.side_image
+            assign timeline_image = section.settings.side_image
+          endif
+        -%}
+        {% if timeline_image %}
+          {{ timeline_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
         {% else %}
           {{ 'product-1' | placeholder_svg_tag: 'product-timeline__placeholder' }}
         {% endif %}
       </div>
 
-      {% assign upsell_product = section.settings.upsell_product %}
       <div class="product-timeline__upsell">
         <div class="product-timeline__upsell-thumb">
           {% if section.settings.upsell_image %}
             {{ section.settings.upsell_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
-          {% elsif upsell_product and upsell_product.featured_image %}
-            {{ upsell_product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+          {% elsif product.featured_image %}
+            {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
           {% else %}
             {{ 'product-1' | placeholder_svg_tag: 'product-timeline__placeholder' }}
           {% endif %}
@@ -73,9 +78,13 @@
         <div class="product-timeline__upsell-body">
           <div class="product-timeline__upsell-info">
             <div class="product-timeline__upsell-title-row">
-              {% if section.settings.upsell_title != blank %}
-                <span class="product-timeline__upsell-name">{{ section.settings.upsell_title }}</span>
-              {% endif %}
+              <span class="product-timeline__upsell-name">
+                {%- if section.settings.upsell_title != blank -%}
+                  {{ section.settings.upsell_title }}
+                {%- else -%}
+                  {{ product.title }}
+                {%- endif -%}
+              </span>
               {% if section.settings.upsell_badge != blank %}
                 <span class="product-timeline__upsell-badge">{{ section.settings.upsell_badge }}</span>
               {% endif %}
@@ -88,31 +97,20 @@
 
           <div class="product-timeline__upsell-action">
             <div class="product-timeline__upsell-pricing">
-              {% if upsell_product %}
-                {% assign upsell_variant = upsell_product.selected_or_first_available_variant %}
-                <span class="product-timeline__upsell-price">{{ upsell_variant.price | money }}</span>
-                {% if upsell_variant.compare_at_price > upsell_variant.price %}
-                  <span class="product-timeline__upsell-compare">{{ upsell_variant.compare_at_price | money }}</span>
-                {% endif %}
-              {% else %}
-                <span class="product-timeline__upsell-price">$109.00</span>
-                <span class="product-timeline__upsell-compare">$199.99</span>
+              {% assign current_variant = product.selected_or_first_available_variant %}
+              <span class="product-timeline__upsell-price">{{ current_variant.price | money }}</span>
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="product-timeline__upsell-compare">{{ current_variant.compare_at_price | money }}</span>
               {% endif %}
             </div>
 
-            {% if upsell_product %}
-              {% assign upsell_variant = upsell_product.selected_or_first_available_variant %}
-              {% form 'product', upsell_product %}
-                <input type="hidden" name="id" value="{{ upsell_variant.id }}">
-                <button type="submit" class="product-timeline__upsell-btn">
-                  {{ 'sections.product_timeline.add_to_cart' | t }}
-                </button>
-              {% endform %}
-            {% else %}
-              <button type="button" class="product-timeline__upsell-btn" disabled>
+            {% assign current_variant = product.selected_or_first_available_variant %}
+            {% form 'product', product %}
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
+              <button type="submit" class="product-timeline__upsell-btn">
                 {{ 'sections.product_timeline.add_to_cart' | t }}
               </button>
-            {% endif %}
+            {% endform %}
           </div>
         </div>
       </div>
@@ -536,11 +534,6 @@
     {
       "type": "header",
       "content": "t:sections.product_timeline.settings.upsell_header"
-    },
-    {
-      "type": "product",
-      "id": "upsell_product",
-      "label": "t:sections.product_timeline.settings.upsell_product"
     },
     {
       "type": "image_picker",

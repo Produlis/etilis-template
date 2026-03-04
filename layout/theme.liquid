@@ -36,6 +36,9 @@
       {{ 'style-guide.css' | asset_url | stylesheet_tag }}
     {% endif %}
 
+    {% # Favicon %}
+    {% render 'favicon' %}
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
