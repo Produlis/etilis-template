@@ -29,10 +29,18 @@
     "free_shipping_success": "Congrats! You get FREE shipping!",
     "free_shipping_remaining": "You're {{ amount }} away from FREE shipping!",
     "save_amount": "SAVE {{ amount }}",
+    "save_label": "Save {{ amount }}",
+    "save_percent": "SAVE {{ percent }}%+",
+    "promo_code": "Promo code",
+    "apply": "Apply",
     "decrease_quantity": "Decrease quantity",
     "increase_quantity": "Increase quantity",
     "money_back_guarantee": "30 day money-back guarantee",
-    "happy_customers": "16K+ happy customers"
+    "happy_customers": "16K+ happy customers",
+    "fallback_product_title": "Sample product",
+    "fallback_variant": "Default / Medium",
+    "fallback_description": "Premium quality product with great value.",
+    "you_may_also_like": "You may also like"
   },
   "collections": {
     "title": "Collections"
