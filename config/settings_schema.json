@@ -74,27 +74,6 @@
     "name": "t:general.color_scheme",
     "settings": [
       {
-        "type": "select",
-        "id": "color_scheme",
-        "label": "t:labels.color_scheme",
-        "info": "t:labels.color_scheme_info",
-        "options": [
-          {
-            "value": "minimal",
-            "label": "t:options.color_scheme.minimal"
-          },
-          {
-            "value": "nature",
-            "label": "t:options.color_scheme.nature"
-          },
-          {
-            "value": "sky",
-            "label": "t:options.color_scheme.sky"
-          }
-        ],
-        "default": "minimal"
-      },
-      {
         "type": "header",
         "content": "t:labels.color_overrides"
       },

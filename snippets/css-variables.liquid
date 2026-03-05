@@ -1,10 +1,9 @@
 {% doc %}
-  Injects CSS custom properties for the active color scheme, typography, and
-  border-radius tokens. The merchant selects a scheme (minimal, nature, sky)
-  from the Theme Editor and all visual tokens update site-wide.
+  Injects CSS custom properties for the Nature color scheme, typography, and
+  border-radius tokens. All visual tokens are applied site-wide.
 
   The snippet also applies individual color overrides when the merchant sets
-  them, so they can fine-tune any scheme without touching code.
+  them, so they can fine-tune colors without touching code.
 
   Loaded in layout/theme.liquid inside <head>.
 
@@ -25,125 +24,37 @@
   {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
   {%- comment -%}
-    Color scheme tokens
-
-    Each scheme defines a complete set of semantic variables so every
-    component in the theme adapts automatically when the merchant
-    switches schemes. The variable names are intentionally generic
-    (--color-bg, --color-accent, etc.) so CSS never references a
-    specific palette.
-
-    Adding a 4th scheme only requires a new "when" block here
-    and a matching option in config/settings_schema.json.
+    NATURE color scheme — Organic, sustainable, wellness, trust.
+    Deep forest greens with warm cream undertones. Pill-shaped
+    buttons and generous radius for a soft, organic feel.
+    CTA green (#1C3A13) passes WCAG AA on cream (12.5:1).
   {%- endcomment -%}
-  {% case settings.color_scheme %}
-
-    {%- when 'nature' -%}
-      {%- comment -%}
-        NATURE — Organic, sustainable, wellness, trust.
-        Deep forest greens with warm cream undertones. Pill-shaped
-        buttons and generous radius for a soft, organic feel.
-        Colors extracted from Figma "Greenish" design.
-        CTA green (#1C3A13) passes WCAG AA on cream (12.5:1).
-      {%- endcomment -%}
-      {%- assign scheme_bg = '#FCFCF7' -%}
-      {%- assign scheme_bg_subtle = '#F2F3E7' -%}
-      {%- assign scheme_surface = '#FFFFFF' -%}
-      {%- assign scheme_border = '#D2D4C4' -%}
-      {%- assign scheme_text = '#1C3A13' -%}
-      {%- assign scheme_text_secondary = '#434141' -%}
-      {%- assign scheme_text_disabled = '#A8AFA6' -%}
-      {%- assign scheme_accent = '#1C3A13' -%}
-      {%- assign scheme_accent_hover = '#37522F' -%}
-      {%- assign scheme_accent_text = '#FFFFFF' -%}
-      {%- assign scheme_highlight = '#D3FA99' -%}
-      {%- assign scheme_success = '#1C3A13' -%}
-      {%- assign scheme_error = '#B84040' -%}
-      {%- assign scheme_focus = '#1C3A13' -%}
-      {%- assign scheme_primary_light = '#37522F' -%}
-      {%- assign scheme_text_on_accent = '#1C3A13' -%}
-      {%- assign scheme_text_on_dark = '#CDD1CC' -%}
-      {%- assign scheme_input_border_dark = '#4F6748' -%}
-      {%- assign scheme_neutral_300 = '#D2D4C4' -%}
-      {%- assign scheme_neutral_400 = '#A8AFA6' -%}
-      {%- assign scheme_neutral_800 = '#0F200A' -%}
-      {%- assign scheme_radius_btn = '48px' -%}
-      {%- assign scheme_radius_card = '24px' -%}
-      {%- assign scheme_radius_input = '56px' -%}
-      {%- assign scheme_radius_badge = '28px' -%}
-      {%- assign scheme_radius_image = '16px' -%}
-
-    {%- when 'sky' -%}
-      {%- comment -%}
-        SKY — Fresh, modern, technology, trust, health.
-        Cool blues that convey reliability. Plus Jakarta Sans for
-        geometric headings, Inter for body. Generous radius for
-        a soft, approachable feel. CTA blue (#0077B6) passes
-        WCAG AA on white (5.1:1).
-      {%- endcomment -%}
-      {%- assign scheme_bg = '#F4F8FB' -%}
-      {%- assign scheme_bg_subtle = '#E8F2F9' -%}
-      {%- assign scheme_surface = '#FFFFFF' -%}
-      {%- assign scheme_border = '#B8D4E8' -%}
-      {%- assign scheme_text = '#0D1E2E' -%}
-      {%- assign scheme_text_secondary = '#3A6080' -%}
-      {%- assign scheme_text_disabled = '#8AB0C8' -%}
-      {%- assign scheme_accent = '#0077B6' -%}
-      {%- assign scheme_accent_hover = '#005F8E' -%}
-      {%- assign scheme_accent_text = '#FFFFFF' -%}
-      {%- assign scheme_highlight = '#48B8D8' -%}
-      {%- assign scheme_success = '#0077B6' -%}
-      {%- assign scheme_error = '#C0392B' -%}
-      {%- assign scheme_focus = '#0077B6' -%}
-      {%- assign scheme_primary_light = '#3A6080' -%}
-      {%- assign scheme_text_on_accent = '#0D1E2E' -%}
-      {%- assign scheme_text_on_dark = '#8AB0C8' -%}
-      {%- assign scheme_input_border_dark = '#B8D4E8' -%}
-      {%- assign scheme_neutral_300 = '#B8D4E8' -%}
-      {%- assign scheme_neutral_400 = '#8AB0C8' -%}
-      {%- assign scheme_neutral_800 = '#004A73' -%}
-      {%- assign scheme_radius_btn = '10px' -%}
-      {%- assign scheme_radius_card = '14px' -%}
-      {%- assign scheme_radius_input = '8px' -%}
-      {%- assign scheme_radius_badge = '10px' -%}
-      {%- assign scheme_radius_image = '14px' -%}
-
-    {%- else -%}
-      {%- comment -%}
-        MINIMAL (default) — Quiet luxury, editorial, high fashion.
-        Pure black-and-white palette with zero border-radius for
-        sharp, architectural lines. Playfair Display headings bring
-        editorial sophistication; Inter body stays neutral.
-        CTA black (#0A0A0A) on white passes WCAG AAA (19.5:1).
-      {%- endcomment -%}
-      {%- assign scheme_bg = '#FFFFFF' -%}
-      {%- assign scheme_bg_subtle = '#F5F5F5' -%}
-      {%- assign scheme_surface = '#FAFAFA' -%}
-      {%- assign scheme_border = '#E0E0E0' -%}
-      {%- assign scheme_text = '#0A0A0A' -%}
-      {%- assign scheme_text_secondary = '#555555' -%}
-      {%- assign scheme_text_disabled = '#AAAAAA' -%}
-      {%- assign scheme_accent = '#0A0A0A' -%}
-      {%- assign scheme_accent_hover = '#333333' -%}
-      {%- assign scheme_accent_text = '#FFFFFF' -%}
-      {%- assign scheme_highlight = '#0A0A0A' -%}
-      {%- assign scheme_success = '#1A1A1A' -%}
-      {%- assign scheme_error = '#CC0000' -%}
-      {%- assign scheme_focus = '#0A0A0A' -%}
-      {%- assign scheme_primary_light = '#555555' -%}
-      {%- assign scheme_text_on_accent = '#FFFFFF' -%}
-      {%- assign scheme_text_on_dark = '#AAAAAA' -%}
-      {%- assign scheme_input_border_dark = '#E0E0E0' -%}
-      {%- assign scheme_neutral_300 = '#E0E0E0' -%}
-      {%- assign scheme_neutral_400 = '#AAAAAA' -%}
-      {%- assign scheme_neutral_800 = '#1A1A1A' -%}
-      {%- assign scheme_radius_btn = '0px' -%}
-      {%- assign scheme_radius_card = '0px' -%}
-      {%- assign scheme_radius_input = '0px' -%}
-      {%- assign scheme_radius_badge = '0px' -%}
-      {%- assign scheme_radius_image = '0px' -%}
-
-  {%- endcase -%}
+  {%- assign scheme_bg = '#FCFCF7' -%}
+  {%- assign scheme_bg_subtle = '#F2F3E7' -%}
+  {%- assign scheme_surface = '#FFFFFF' -%}
+  {%- assign scheme_border = '#D2D4C4' -%}
+  {%- assign scheme_text = '#1C3A13' -%}
+  {%- assign scheme_text_secondary = '#434141' -%}
+  {%- assign scheme_text_disabled = '#A8AFA6' -%}
+  {%- assign scheme_accent = '#1C3A13' -%}
+  {%- assign scheme_accent_hover = '#37522F' -%}
+  {%- assign scheme_accent_text = '#FFFFFF' -%}
+  {%- assign scheme_highlight = '#D3FA99' -%}
+  {%- assign scheme_success = '#1C3A13' -%}
+  {%- assign scheme_error = '#B84040' -%}
+  {%- assign scheme_focus = '#1C3A13' -%}
+  {%- assign scheme_primary_light = '#37522F' -%}
+  {%- assign scheme_text_on_accent = '#1C3A13' -%}
+  {%- assign scheme_text_on_dark = '#CDD1CC' -%}
+  {%- assign scheme_input_border_dark = '#4F6748' -%}
+  {%- assign scheme_neutral_300 = '#D2D4C4' -%}
+  {%- assign scheme_neutral_400 = '#A8AFA6' -%}
+  {%- assign scheme_neutral_800 = '#0F200A' -%}
+  {%- assign scheme_radius_btn = '48px' -%}
+  {%- assign scheme_radius_card = '24px' -%}
+  {%- assign scheme_radius_input = '56px' -%}
+  {%- assign scheme_radius_badge = '28px' -%}
+  {%- assign scheme_radius_image = '16px' -%}
 
   /*
    * Merchant color overrides — applied on top of the active scheme

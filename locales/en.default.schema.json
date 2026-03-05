@@ -347,8 +347,6 @@
     "body_font": "Body font",
     "page_width": "Page width",
     "page_margin": "Page margin",
-    "color_scheme": "Color scheme",
-    "color_scheme_info": "Select a predefined color scheme for your store",
     "color_overrides": "Color overrides",
     "color_accent": "Accent",
     "color_override_info": "Leave blank to use the color scheme default",
@@ -390,9 +388,7 @@
       "wide": "Wide (110rem)"
     },
     "color_scheme": {
-      "minimal": "Minimal",
-      "nature": "Nature",
-      "sky": "Sky"
+      "nature": "Nature"
     }
   }
 }
