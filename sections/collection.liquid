@@ -774,14 +774,24 @@
 
   @media (max-width: 749px) {
     .collection-page__container {
-      padding: 20px 16px 32px;
+      padding: 22px 20px 32px;
       gap: 24px;
     }
 
+    .collection-page__header {
+      gap: 8px;
+    }
+
     .collection-page__heading {
-      font-size: var(--font-size-3xl);
-      line-height: var(--line-height-tight);
-      letter-spacing: var(--letter-spacing-tighter);
+      font-size: 32px;
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+    }
+
+    .collection-page__description {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-snug);
+      max-width: 238px;
     }
 
     .collection-page__filters {
@@ -800,6 +810,7 @@
     .collection-page__filter-pill {
       white-space: nowrap;
       flex-shrink: 0;
+      padding: 8px 16px;
     }
 
     .collection-page__filter-panel {
@@ -814,7 +825,7 @@
 
     .collection-page__grid {
       grid-template-columns: repeat(var(--columns-mobile, 2), 1fr);
-      gap: 12px;
+      gap: 16px;
     }
   }
 {% endstylesheet %}

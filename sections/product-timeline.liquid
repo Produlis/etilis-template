@@ -14,39 +14,73 @@
   </div>
 
   <div class="product-timeline__body">
+    {%- assign meta_milestones = product.metafields.custom.timeline_milestones.value -%}
     <div class="product-timeline__steps">
-      {% for block in section.blocks %}
-        {% if block.type == 'milestone' %}
-          <div class="product-timeline__step" {{ block.shopify_attributes }}>
+      {%- if meta_milestones and meta_milestones.size > 0 -%}
+        {%- for milestone in meta_milestones -%}
+          <div class="product-timeline__step">
             <div class="product-timeline__timeline">
               <span class="product-timeline__dot"></span>
-              {% unless forloop.last %}
+              {%- unless forloop.last -%}
                 <span class="product-timeline__line"></span>
-              {% endunless %}
+              {%- endunless -%}
             </div>
 
             <div class="product-timeline__step-content">
               <div class="product-timeline__step-bar">
-                {% if block.settings.time_label != blank %}
+                {%- if milestone.time_label != blank -%}
                   <span class="product-timeline__time-badge">
-                    {{ block.settings.time_label }}
+                    {{ milestone.time_label }}
                   </span>
-                {% endif %}
+                {%- endif -%}
 
-                {% if block.settings.title != blank %}
-                  <span class="product-timeline__step-title">{{ block.settings.title }}</span>
-                {% endif %}
+                {%- if milestone.title != blank -%}
+                  <span class="product-timeline__step-title">{{ milestone.title }}</span>
+                {%- endif -%}
               </div>
 
-              {% if block.settings.benefits != blank %}
+              {%- if milestone.benefits != blank -%}
                 <div class="product-timeline__benefits">
-                  {{ block.settings.benefits }}
+                  {{ milestone.benefits }}
                 </div>
-              {% endif %}
+              {%- endif -%}
             </div>
           </div>
-        {% endif %}
-      {% endfor %}
+        {%- endfor -%}
+      {%- else -%}
+        {% for block in section.blocks %}
+          {% if block.type == 'milestone' %}
+            <div class="product-timeline__step" {{ block.shopify_attributes }}>
+              <div class="product-timeline__timeline">
+                <span class="product-timeline__dot"></span>
+                {% unless forloop.last %}
+                  <span class="product-timeline__line"></span>
+                {% endunless %}
+              </div>
+
+              <div class="product-timeline__step-content">
+                <div class="product-timeline__step-bar">
+                  {% if block.settings.time_label != blank %}
+                    <span class="product-timeline__time-badge">
+                      {{ block.settings.time_label }}
+                    </span>
+                  {% endif %}
+
+                  {% if block.settings.title != blank %}
+                    <span class="product-timeline__step-title">{{ block.settings.title }}</span>
+                  {% endif %}
+                </div>
+
+                {% if block.settings.benefits != blank %}
+                  <div class="product-timeline__benefits">
+                    {{ block.settings.benefits }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {%- endif -%}
     </div>
 
     <div class="product-timeline__aside">

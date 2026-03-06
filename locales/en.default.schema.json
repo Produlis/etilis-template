@@ -74,11 +74,12 @@
     "product_hero": {
       "name": "Product hero",
       "settings": {
-        "review_count": {
-          "label": "Review count"
+        "badge_header": "Badge",
+        "badge_text": {
+          "label": "Badge text"
         },
-        "review_rating": {
-          "label": "Review rating"
+        "badge_icon": {
+          "label": "Badge icon"
         },
         "shipping_estimate_text": {
           "label": "Shipping estimate text"
@@ -164,6 +165,7 @@
     "home_hero": {
       "name": "Home hero",
       "settings": {
+        "show_bundle": "Show bundle product",
         "bundle_image_override": "Image override (uses product image if empty)",
         "bundle_price_fallback": "Price fallback (used if no product selected)",
         "bundle_compare_price_fallback": "Compare price fallback (used if no product selected)",
@@ -261,23 +263,13 @@
       "name": "Cart drawer",
       "settings": {
         "show_free_shipping_bar": "Show free shipping bar",
-        "free_shipping_threshold": "Free shipping threshold",
-        "show_checkout_protection": "Show checkout protection",
-        "checkout_protection_title": "Checkout protection title",
-        "checkout_protection_description": "Checkout protection description",
-        "upsell_heading": "Upsell heading",
-        "upsell_collection": "Upsell collection"
+        "free_shipping_threshold": "Free shipping threshold"
       }
     },
     "cart_page": {
       "settings": {
         "show_free_shipping_bar": "Show free shipping bar",
-        "free_shipping_threshold": "Free shipping threshold",
-        "show_checkout_protection": "Show checkout protection",
-        "checkout_protection_title": "Checkout protection title",
-        "checkout_protection_description": "Checkout protection description",
-        "upsell_heading": "Upsell heading",
-        "upsell_collection": "Upsell collection"
+        "free_shipping_threshold": "Free shipping threshold"
       }
     },
     "footer": {
@@ -349,10 +341,28 @@
     "page_margin": "Page margin",
     "color_overrides": "Color overrides",
     "color_accent": "Accent",
-    "color_override_info": "Leave blank to use the color scheme default",
+    "color_accent_hover": "Accent hover",
+    "color_accent_text": "Accent text (on buttons)",
+    "color_highlight": "Highlight (badges, CTA)",
+    "color_backgrounds_header": "Backgrounds",
     "color_bg": "Background",
-    "color_text_primary": "Text primary",
+    "color_bg_subtle": "Background subtle",
     "color_surface": "Surface",
+    "color_text_header": "Text",
+    "color_text_primary": "Text primary",
+    "color_text_secondary": "Text secondary",
+    "color_text_disabled": "Text disabled / muted",
+    "color_text_on_accent": "Text on accent",
+    "color_borders_header": "Borders",
+    "color_border": "Border",
+    "color_status_header": "Status",
+    "color_success": "Success",
+    "color_error": "Error",
+    "color_advanced_header": "Advanced",
+    "color_primary_light": "Primary light",
+    "color_text_on_dark": "Text on dark background",
+    "color_star": "Star rating",
+    "color_override_info": "Leave blank to use the color scheme default",
     "favicon": "Favicon image",
     "favicon_info": "Recommended size: 32×32px. PNG format. Leave empty to use the default favicon."
   },

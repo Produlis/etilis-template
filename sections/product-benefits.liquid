@@ -1,3 +1,4 @@
+{%- assign meta_benefits = product.metafields.custom.benefits.value -%}
 <section class="product-benefits full-width">
   <div class="product-benefits__container">
     <div class="product-benefits__sidebar">
@@ -12,54 +13,92 @@
       </div>
 
       <ul class="product-benefits__list" role="list">
-        {% for block in section.blocks %}
-          {% if block.type == 'benefit' %}
-            <li class="product-benefits__item" {{ block.shopify_attributes }}>
-              {% if block.settings.icon %}
-                <div class="product-benefits__icon">
-                  {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
-                </div>
-              {% endif %}
-
+        {%- if meta_benefits and meta_benefits.size > 0 -%}
+          {%- for benefit in meta_benefits -%}
+            <li class="product-benefits__item">
               <div class="product-benefits__item-text">
-                {% if block.settings.title != blank %}
-                  <h3 class="product-benefits__item-title">{{ block.settings.title }}</h3>
-                {% endif %}
-
-                {% if block.settings.description != blank %}
-                  <p class="product-benefits__item-desc">{{ block.settings.description }}</p>
-                {% endif %}
+                {%- if benefit.title != blank -%}
+                  <h3 class="product-benefits__item-title">{{ benefit.title }}</h3>
+                {%- endif -%}
+                {%- if benefit.description != blank -%}
+                  <p class="product-benefits__item-desc">{{ benefit.description }}</p>
+                {%- endif -%}
               </div>
             </li>
-          {% endif %}
-        {% endfor %}
+          {%- endfor -%}
+        {%- else -%}
+          {% for block in section.blocks %}
+            {% if block.type == 'benefit' %}
+              <li class="product-benefits__item" {{ block.shopify_attributes }}>
+                {% if block.settings.icon %}
+                  <div class="product-benefits__icon">
+                    {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
+                  </div>
+                {% endif %}
+
+                <div class="product-benefits__item-text">
+                  {% if block.settings.title != blank %}
+                    <h3 class="product-benefits__item-title">{{ block.settings.title }}</h3>
+                  {% endif %}
+
+                  {% if block.settings.description != blank %}
+                    <p class="product-benefits__item-desc">{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {%- endif -%}
       </ul>
     </div>
 
     <div class="product-benefits__details">
-      {% for block in section.blocks %}
-        {% if block.type == 'benefit' %}
-          <div class="product-benefits__detail" {{ block.shopify_attributes }}>
+      {%- if meta_benefits and meta_benefits.size > 0 -%}
+        {%- for benefit in meta_benefits -%}
+          <div class="product-benefits__detail">
             <div class="product-benefits__detail-text">
-              {% if block.settings.title != blank %}
-                <h3 class="product-benefits__detail-title">{{ block.settings.title }}</h3>
-              {% endif %}
-
-              {% if block.settings.description != blank %}
-                <p class="product-benefits__detail-description">{{ block.settings.description }}</p>
-              {% endif %}
+              {%- if benefit.title != blank -%}
+                <h3 class="product-benefits__detail-title">{{ benefit.title }}</h3>
+              {%- endif -%}
+              {%- if benefit.description != blank -%}
+                <p class="product-benefits__detail-description">{{ benefit.description }}</p>
+              {%- endif -%}
             </div>
 
             <div class="product-benefits__detail-image">
-              {% if block.settings.image %}
-                {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
-              {% else %}
+              {%- if benefit.image -%}
+                <img src="{{ benefit.image }}" loading="lazy" alt="{{ benefit.title | escape }}">
+              {%- else -%}
                 {{ 'product-1' | placeholder_svg_tag: 'product-benefits__placeholder' }}
-              {% endif %}
+              {%- endif -%}
             </div>
           </div>
-        {% endif %}
-      {% endfor %}
+        {%- endfor -%}
+      {%- else -%}
+        {% for block in section.blocks %}
+          {% if block.type == 'benefit' %}
+            <div class="product-benefits__detail" {{ block.shopify_attributes }}>
+              <div class="product-benefits__detail-text">
+                {% if block.settings.title != blank %}
+                  <h3 class="product-benefits__detail-title">{{ block.settings.title }}</h3>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <p class="product-benefits__detail-description">{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+
+              <div class="product-benefits__detail-image">
+                {% if block.settings.image %}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'product-benefits__placeholder' }}
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {%- endif -%}
     </div>
   </div>
 </section>

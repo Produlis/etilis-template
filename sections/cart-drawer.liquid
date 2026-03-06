@@ -15,7 +15,12 @@
 
       {%- comment -%} Header {%- endcomment -%}
       <div class="cart-drawer__header">
-        <h2 class="cart-drawer__title">{{ 'cart.title' | t }}</h2>
+        <h2 class="cart-drawer__title">
+          {{ 'cart.title' | t }}
+          {% if cart.item_count > 0 %}
+            <span class="cart-drawer__count" data-cart-drawer-count>{{ cart.item_count }}</span>
+          {% endif %}
+        </h2>
         <button class="cart-drawer__close" data-cart-drawer-close aria-label="{{ 'header.close_menu' | t }}">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,38 +45,6 @@
         </div>
       {% endif %}
 
-      {%- comment -%} Free shipping progress bar {%- endcomment -%}
-      {% if section.settings.show_free_shipping_bar %}
-        {%- assign free_shipping_threshold = section.settings.free_shipping_threshold | times: 100 -%}
-        {%- assign cart_total = cart.total_price -%}
-        {%- if cart_total >= free_shipping_threshold -%}
-          {%- assign shipping_progress = 100 -%}
-        {%- else -%}
-          {%- assign shipping_progress = cart_total | times: 100 | divided_by: free_shipping_threshold -%}
-        {%- endif -%}
-        <div class="cart-drawer__shipping-bar" data-cart-shipping-bar>
-          <p class="cart-drawer__shipping-text" data-cart-shipping-text>
-            {%- if cart_total >= free_shipping_threshold -%}
-              {{ 'cart.free_shipping_success' | t }}
-            {%- else -%}
-              {%- assign remaining = free_shipping_threshold | minus: cart_total -%}
-              {{ 'cart.free_shipping_remaining' | t: amount: remaining | money }}
-            {%- endif -%}
-          </p>
-          <div class="cart-drawer__progress-track">
-            <div class="cart-drawer__progress-fill" style="--progress: {{ shipping_progress }}%" data-cart-shipping-fill></div>
-            <div class="cart-drawer__progress-icon" style="--progress: {{ shipping_progress }}%" data-cart-shipping-icon>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <rect width="24" height="24" rx="12" fill="var(--theme-accent)"/>
-                <rect x="2" y="2" width="20" height="20" rx="10" stroke="var(--theme-primary)" stroke-width="2"/>
-                <path d="M8 9H16V15H8V9Z" stroke="var(--theme-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M10 15V16.5" stroke="var(--theme-primary)" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M14 15V16.5" stroke="var(--theme-primary)" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-      {% endif %}
 
       {%- comment -%} Cart items {%- endcomment -%}
       <div class="cart-drawer__items" data-cart-items>
@@ -93,32 +66,34 @@
                       <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
                     {% endif %}
                   </div>
-                  <div class="cart-drawer__quantity" data-quantity-selector>
+                  <div class="cart-drawer__qty-row">
+                    <div class="cart-drawer__quantity" data-quantity-selector>
+                      <button
+                        class="cart-drawer__quantity-btn"
+                        data-quantity-minus
+                        aria-label="{{ 'cart.decrease_quantity' | t }}"
+                      >
+                        {{ 'icon-minus.svg' | inline_asset_content }}
+                      </button>
+                      <span class="cart-drawer__quantity-value" data-quantity-value>{{ item.quantity }}</span>
+                      <button
+                        class="cart-drawer__quantity-btn"
+                        data-quantity-plus
+                        aria-label="{{ 'cart.increase_quantity' | t }}"
+                      >
+                        {{ 'icon-plus.svg' | inline_asset_content }}
+                      </button>
+                    </div>
                     <button
-                      class="cart-drawer__quantity-btn"
-                      data-quantity-minus
-                      aria-label="{{ 'cart.decrease_quantity' | t }}"
+                      class="cart-drawer__remove-btn"
+                      data-remove-item
+                      aria-label="{{ 'cart.remove' | t }}: {{ item.product.title }}"
                     >
-                      {{ 'icon-minus.svg' | inline_asset_content }}
-                    </button>
-                    <span class="cart-drawer__quantity-value" data-quantity-value>{{ item.quantity }}</span>
-                    <button
-                      class="cart-drawer__quantity-btn"
-                      data-quantity-plus
-                      aria-label="{{ 'cart.increase_quantity' | t }}"
-                    >
-                      {{ 'icon-plus.svg' | inline_asset_content }}
+                      {{ 'icon-trash.svg' | inline_asset_content }}
                     </button>
                   </div>
                 </div>
                 <div class="cart-drawer__item-right">
-                  <button
-                    class="cart-drawer__remove-btn"
-                    data-remove-item
-                    aria-label="{{ 'cart.remove' | t }}: {{ item.product.title }}"
-                  >
-                    {{ 'icon-trash.svg' | inline_asset_content }}
-                  </button>
                   <div class="cart-drawer__item-prices">
                     {%- assign compare_line = item.variant.compare_at_price | default: 0 | times: item.quantity -%}
                     {%- assign has_compare = false -%}
@@ -163,20 +138,22 @@
                     <span class="cart-drawer__item-title">{{ 'cart.fallback_product_title' | t }}</span>
                     <p class="cart-drawer__item-variant">{{ 'cart.fallback_variant' | t }}</p>
                   </div>
-                  <div class="cart-drawer__quantity">
-                    <button class="cart-drawer__quantity-btn" disabled>
-                      {{ 'icon-minus.svg' | inline_asset_content }}
-                    </button>
-                    <span class="cart-drawer__quantity-value">1</span>
-                    <button class="cart-drawer__quantity-btn" disabled>
-                      {{ 'icon-plus.svg' | inline_asset_content }}
+                  <div class="cart-drawer__qty-row">
+                    <div class="cart-drawer__quantity">
+                      <button class="cart-drawer__quantity-btn" disabled>
+                        {{ 'icon-minus.svg' | inline_asset_content }}
+                      </button>
+                      <span class="cart-drawer__quantity-value">1</span>
+                      <button class="cart-drawer__quantity-btn" disabled>
+                        {{ 'icon-plus.svg' | inline_asset_content }}
+                      </button>
+                    </div>
+                    <button class="cart-drawer__remove-btn" disabled>
+                      {{ 'icon-trash.svg' | inline_asset_content }}
                     </button>
                   </div>
                 </div>
                 <div class="cart-drawer__item-right">
-                  <button class="cart-drawer__remove-btn" disabled>
-                    {{ 'icon-trash.svg' | inline_asset_content }}
-                  </button>
                   <div class="cart-drawer__item-prices">
                     <div class="cart-drawer__item-price-row">
                       <span class="cart-drawer__item-compare-price">$59.99</span>
@@ -195,110 +172,6 @@
         {% endif %}
       </div>
 
-      {%- comment -%} Upsell products (Swiper slider) {%- endcomment -%}
-      {% render 'swiper-loader' %}
-      {% if section.settings.upsell_collection != blank %}
-        {%- assign upsell_products = section.settings.upsell_collection.products -%}
-      {% endif %}
-
-      {% if upsell_products != blank and upsell_products.size > 0 %}
-        <div class="cart-drawer__upsell" data-cart-upsell>
-          <div class="cart-drawer__upsell-top">
-            <h3 class="cart-drawer__upsell-heading">{{ section.settings.upsell_heading }}</h3>
-            <div class="cart-drawer__upsell-nav">
-              <button class="cart-drawer__upsell-nav-btn" data-upsell-prev aria-label="{{ 'cart.decrease_quantity' | t }}">
-                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true"><path d="M6 1L1 6L6 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="cart-drawer__upsell-nav-btn" data-upsell-next aria-label="{{ 'cart.increase_quantity' | t }}">
-                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="swiper cart-drawer__upsell-swiper" data-cart-upsell-swiper>
-            <div class="swiper-wrapper">
-              {% for product in upsell_products limit: 8 %}
-                <div class="swiper-slide">
-                  <article class="cart-drawer__upsell-card" data-upsell-card>
-                    <div class="cart-drawer__upsell-image">
-                      {% if product.featured_image %}
-                        {{ product.featured_image | image_url: width: 200, height: 200 | image_tag: class: 'cart-drawer__upsell-img', loading: 'lazy' }}
-                      {% else %}
-                        <div class="cart-drawer__upsell-placeholder">
-                          {{ 'product-1' | placeholder_svg_tag }}
-                        </div>
-                      {% endif %}
-                    </div>
-                    <div class="cart-drawer__upsell-info">
-                      <h4 class="cart-drawer__upsell-title">
-                        <a href="{{ product.url }}">{{ product.title }}</a>
-                      </h4>
-                      <div class="cart-drawer__upsell-prices">
-                        <span class="cart-drawer__upsell-price">{{ product.price | money }}</span>
-                        {% if product.compare_at_price > product.price %}
-                          <span class="cart-drawer__upsell-compare">{{ product.compare_at_price | money }}</span>
-                        {% endif %}
-                      </div>
-                    </div>
-                    <button
-                      class="cart-drawer__upsell-atc"
-                      data-upsell-atc
-                      data-variant-id="{{ product.selected_or_first_available_variant.id }}"
-                      {% unless product.available %}disabled{% endunless %}
-                      aria-label="{{ 'products.add_to_cart' | t }}"
-                    >
-                      {% if product.available %}
-                        {{ 'products.add_to_cart' | t }}
-                      {% else %}
-                        {{ 'products.sold_out' | t }}
-                      {% endif %}
-                    </button>
-                  </article>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      {% else %}
-        {%- comment -%} Fallback placeholder upsell cards for visualization {%- endcomment -%}
-        <div class="cart-drawer__upsell" data-cart-upsell>
-          <div class="cart-drawer__upsell-top">
-            <h3 class="cart-drawer__upsell-heading">{{ section.settings.upsell_heading | default: 'You may also like' }}</h3>
-            <div class="cart-drawer__upsell-nav">
-              <button class="cart-drawer__upsell-nav-btn" data-upsell-prev aria-label="{{ 'cart.decrease_quantity' | t }}">
-                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true"><path d="M6 1L1 6L6 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="cart-drawer__upsell-nav-btn" data-upsell-next aria-label="{{ 'cart.increase_quantity' | t }}">
-                <svg width="7" height="12" viewBox="0 0 7 12" fill="none" aria-hidden="true"><path d="M1 1L6 6L1 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
-          </div>
-          <div class="swiper cart-drawer__upsell-swiper" data-cart-upsell-swiper>
-            <div class="swiper-wrapper">
-              {% for i in (1..3) %}
-                <div class="swiper-slide">
-                  <article class="cart-drawer__upsell-card">
-                    <div class="cart-drawer__upsell-image">
-                      <div class="cart-drawer__upsell-placeholder">
-                        {{ 'product-' | append: i | placeholder_svg_tag }}
-                      </div>
-                    </div>
-                    <div class="cart-drawer__upsell-info">
-                      <h4 class="cart-drawer__upsell-title">{{ 'cart.fallback_product_title' | t }}</h4>
-                      <div class="cart-drawer__upsell-prices">
-                        <span class="cart-drawer__upsell-price">$29.99</span>
-                        <span class="cart-drawer__upsell-compare">$39.99</span>
-                      </div>
-                    </div>
-                    <button class="cart-drawer__upsell-atc" disabled>
-                      {{ 'products.add_to_cart' | t }}
-                    </button>
-                  </article>
-                </div>
-              {% endfor %}
-            </div>
-          </div>
-        </div>
-      {% endif %}
     </div>
 
     {%- comment -%} Sticky footer {%- endcomment -%}
@@ -318,32 +191,6 @@
             </button>
           </div>
 
-          {%- comment -%} Checkout+ protection {%- endcomment -%}
-          {% if section.settings.show_checkout_protection %}
-            <div class="cart-drawer__protection" data-cart-protection>
-              <div class="cart-drawer__protection-icon">
-                {{ 'icon-box.svg' | inline_asset_content }}
-              </div>
-              <div class="cart-drawer__protection-info">
-                <div class="cart-drawer__protection-title-row">
-                  <span class="cart-drawer__protection-title">{{ section.settings.checkout_protection_title }}</span>
-                  {{ 'icon-warning.svg' | inline_asset_content }}
-                </div>
-                <p class="cart-drawer__protection-desc">{{ section.settings.checkout_protection_description }}</p>
-              </div>
-              <label class="cart-drawer__protection-toggle">
-                <input
-                  type="checkbox"
-                  data-protection-checkbox
-                  {% unless cart.attributes.checkout_protection == '' %}checked{% endunless %}
-                  aria-label="{{ section.settings.checkout_protection_title }}"
-                >
-                <span class="cart-drawer__protection-checkbox">
-                  {{ 'icon-checkbox.svg' | inline_asset_content }}
-                </span>
-              </label>
-            </div>
-          {% endif %}
 
           {%- comment -%} Subtotal row {%- endcomment -%}
           <div class="cart-drawer__subtotal">
@@ -373,21 +220,23 @@
           </a>
 
           {%- comment -%} Trust badges {%- endcomment -%}
-          <div class="cart-drawer__trust-row">
-            <div class="cart-drawer__trust-badge">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <rect x="1" y="1" width="14" height="14" rx="3" stroke="var(--theme-primary)" stroke-width="1.2"/>
-                <text x="8" y="11" text-anchor="middle" font-size="7" font-weight="600" fill="var(--theme-primary)">30</text>
-              </svg>
-              <span>{{ 'cart.money_back_guarantee' | t }}</span>
+          {% if section.settings.show_trust_badges %}
+            <div class="cart-drawer__trust-row">
+              <div class="cart-drawer__trust-badge">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <rect x="1" y="1" width="14" height="14" rx="3" stroke="var(--theme-primary)" stroke-width="1.2"/>
+                  <text x="8" y="11" text-anchor="middle" font-size="7" font-weight="600" fill="var(--theme-primary)">30</text>
+                </svg>
+                <span>{{ 'cart.money_back_guarantee' | t }}</span>
+              </div>
+              <div class="cart-drawer__trust-badge">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M8 1L10 5.5L15 6.2L11.5 9.5L12.3 14.5L8 12.2L3.7 14.5L4.5 9.5L1 6.2L6 5.5L8 1Z" fill="var(--theme-star)"/>
+                </svg>
+                <span>{{ 'cart.happy_customers' | t }}</span>
+              </div>
             </div>
-            <div class="cart-drawer__trust-badge">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <path d="M8 1L10 5.5L15 6.2L11.5 9.5L12.3 14.5L8 12.2L3.7 14.5L4.5 9.5L1 6.2L6 5.5L8 1Z" fill="var(--theme-star)"/>
-              </svg>
-              <span>{{ 'cart.happy_customers' | t }}</span>
-            </div>
-          </div>
+          {% endif %}
         </div>
       </div>
   </div>
@@ -471,6 +320,24 @@
     color: var(--theme-text);
     margin: 0;
     font-weight: var(--font-weight-regular);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .cart-drawer__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    border-radius: var(--radius-round, 50%);
+    background-color: var(--theme-surface-alt);
+    color: var(--theme-text-secondary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    line-height: 1;
   }
 
   .cart-drawer__close {
@@ -599,12 +466,21 @@
     align-items: flex-start;
   }
 
+  .cart-drawer__qty-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
   .cart-drawer__item-right {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    justify-content: space-between;
+  }
+
+  .cart-drawer__item-prices {
+    margin-top: auto;
   }
 
   .cart-drawer__item-info {
@@ -778,207 +654,6 @@
   }
 
   .cart-drawer__empty-btn:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
-    outline-offset: 2px;
-  }
-
-  /* --- Upsell section --- */
-  .cart-drawer__upsell {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .cart-drawer__upsell-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .cart-drawer__upsell-heading {
-    font-size: var(--font-size-lg);
-    line-height: var(--line-height-snug);
-    letter-spacing: var(--letter-spacing-tighter);
-    color: var(--theme-text);
-    margin: 0;
-    font-weight: var(--font-weight-medium);
-  }
-
-  .cart-drawer__upsell-nav {
-    display: flex;
-    gap: 4px;
-  }
-
-  .cart-drawer__upsell-nav-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 1px solid var(--theme-border, var(--color-neutral-200));
-    background: var(--theme-surface);
-    color: var(--theme-text);
-    cursor: pointer;
-    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
-  }
-
-  .cart-drawer__upsell-nav-btn:hover {
-    opacity: 0.7;
-  }
-
-  .cart-drawer__upsell-nav-btn.swiper-button-disabled {
-    opacity: 0.3;
-    cursor: not-allowed;
-  }
-
-  .cart-drawer__upsell-nav-btn:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
-    outline-offset: 2px;
-  }
-
-  .cart-drawer__upsell-swiper {
-    overflow: hidden;
-    width: 100%;
-  }
-
-  /* Show first slide before Swiper JS initializes */
-  .cart-drawer__upsell-swiper:not(.swiper-initialized) .swiper-wrapper {
-    display: flex;
-    overflow: hidden;
-  }
-
-  .cart-drawer__upsell-swiper:not(.swiper-initialized) .swiper-slide {
-    flex: 0 0 100%;
-    min-width: 0;
-  }
-
-  .cart-drawer__upsell-card {
-    width: 100%;
-    background-color: var(--theme-surface-alt);
-    border-radius: var(--theme-radius-card);
-    padding: 10px;
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    align-items: center;
-    box-sizing: border-box;
-  }
-
-  .cart-drawer__upsell-image {
-    flex-shrink: 0;
-    width: 80px;
-    height: 80px;
-    border-radius: var(--theme-radius-image);
-    overflow: hidden;
-  }
-
-  .cart-drawer__upsell-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .cart-drawer__upsell-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-neutral-100, #eee);
-    border-radius: var(--theme-radius-image);
-  }
-
-  .cart-drawer__upsell-placeholder svg {
-    width: 50%;
-    height: auto;
-    opacity: 0.4;
-  }
-
-  .cart-drawer__upsell-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    flex: 1;
-    min-width: 0;
-  }
-
-  .cart-drawer__upsell-title {
-    font-size: var(--font-size-sm);
-    font-weight: var(--font-weight-medium);
-    line-height: var(--line-height-snug);
-    color: var(--theme-primary);
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .cart-drawer__upsell-title a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .cart-drawer__upsell-title a:hover {
-    text-decoration: underline;
-  }
-
-  .cart-drawer__upsell-title a:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
-    outline-offset: 2px;
-    border-radius: var(--radius-sm);
-  }
-
-  .cart-drawer__upsell-prices {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .cart-drawer__upsell-price {
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-bold);
-    line-height: var(--line-height-normal);
-    color: var(--theme-primary);
-  }
-
-  .cart-drawer__upsell-compare {
-    font-size: var(--font-size-sm);
-    line-height: var(--line-height-snug);
-    color: var(--theme-text-dim);
-    text-decoration: line-through;
-  }
-
-  .cart-drawer__upsell-atc {
-    flex-shrink: 0;
-    align-self: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 36px;
-    padding: 0 16px;
-    background-color: var(--theme-primary, #1C3A13);
-    color: var(--theme-text-on-primary, #fff);
-    border-radius: var(--theme-radius-button);
-    font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    border: none;
-    cursor: pointer;
-    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
-    white-space: nowrap;
-  }
-
-  .cart-drawer__upsell-atc:hover {
-    opacity: 0.85;
-  }
-
-  .cart-drawer__upsell-atc:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .cart-drawer__upsell-atc:focus-visible {
     outline: 2px solid var(--color-focus, var(--theme-primary));
     outline-offset: 2px;
   }
@@ -1167,111 +842,6 @@
     border-radius: var(--radius-sm);
   }
 
-  /* --- Checkout protection --- */
-  .cart-drawer__protection {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background-color: var(--theme-surface-alt);
-    border-radius: var(--radius-lg);
-    padding: 12px 12px 12px 16px;
-  }
-
-  .cart-drawer__protection-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    background-color: var(--theme-primary);
-    border-radius: var(--radius-md);
-  }
-
-  .cart-drawer__protection-icon svg {
-    width: 20px;
-    height: 20px;
-    color: var(--theme-text-on-primary);
-  }
-
-  .cart-drawer__protection-info {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .cart-drawer__protection-title-row {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .cart-drawer__protection-title {
-    font-size: var(--font-size-base);
-    line-height: var(--line-height-normal);
-    color: var(--theme-text);
-  }
-
-  .cart-drawer__protection-title-row svg {
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-  }
-
-  .cart-drawer__protection-desc {
-    font-size: var(--font-size-xs);
-    line-height: var(--line-height-normal);
-    color: var(--theme-text-secondary);
-    margin: 0;
-  }
-
-  .cart-drawer__protection-toggle {
-    flex-shrink: 0;
-    cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .cart-drawer__protection-toggle input {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .cart-drawer__protection-checkbox {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: var(--radius-sm);
-    background-color: var(--theme-text-on-primary, #fff);
-    transition: background-color var(--duration-fast) var(--ease-standard);
-  }
-
-  .cart-drawer__protection-checkbox svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .cart-drawer__protection-toggle input:not(:checked) + .cart-drawer__protection-checkbox {
-    background-color: var(--theme-surface);
-    border: 2px solid var(--theme-border);
-  }
-
-  .cart-drawer__protection-toggle input:not(:checked) + .cart-drawer__protection-checkbox svg {
-    display: none;
-  }
-
-  .cart-drawer__protection-toggle input:focus-visible + .cart-drawer__protection-checkbox {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
-    outline-offset: 2px;
-  }
-
   /* --- Loading state --- */
   .cart-drawer__item.is-loading {
     opacity: 0.5;
@@ -1325,11 +895,6 @@
     .cart-drawer__item-price {
       font-size: var(--font-size-base);
       line-height: var(--line-height-normal);
-    }
-
-    .cart-drawer__upsell-image {
-      width: 56px;
-      height: 56px;
     }
 
     .cart-drawer__footer {
@@ -1452,38 +1017,8 @@
       }
     }
 
-    /* --- Upsell Swiper --- */
-    function initUpsellSwiper() {
-      var el = panel.querySelector('[data-cart-upsell-swiper]');
-      if (!el) return;
-
-      /* Retry if Swiper lib hasn't loaded yet */
-      if (typeof Swiper === 'undefined') {
-        document.querySelector('script[src*="swiper"]')
-          ?.addEventListener('load', function () { initUpsellSwiper(); }, { once: true });
-        return;
-      }
-
-      try {
-        if (el.swiper) el.swiper.destroy(true, true);
-        var upsellSection = el.closest('[data-cart-upsell]');
-        new Swiper(el, {
-          slidesPerView: 1,
-          spaceBetween: 12,
-          grabCursor: true,
-          navigation: {
-            prevEl: upsellSection ? upsellSection.querySelector('[data-upsell-prev]') : null,
-            nextEl: upsellSection ? upsellSection.querySelector('[data-upsell-next]') : null
-          }
-        });
-      } catch (e) {
-        console.warn('Upsell swiper init failed:', e);
-      }
-    }
-
     /* --- Item event bindings --- */
     function bindItemEvents() {
-      initUpsellSwiper();
       /* Quantity buttons */
       for (const selector of panel.querySelectorAll('[data-quantity-selector]')) {
         const item = selector.closest('[data-cart-item]');
@@ -1519,17 +1054,6 @@
         });
       }
 
-      /* Upsell ATC buttons */
-      for (const btn of panel.querySelectorAll('[data-upsell-atc]')) {
-        btn.addEventListener('click', async function () {
-          var variantId = parseInt(btn.getAttribute('data-variant-id'), 10);
-          btn.disabled = true;
-          btn.textContent = '...';
-          await addToCart(variantId, 1);
-          await refreshCartDrawer();
-        });
-      }
-
       /* Promo code apply */
       var promoApply = panel.querySelector('[data-promo-apply]');
       var promoInput = panel.querySelector('[data-promo-input]');
@@ -1552,20 +1076,6 @@
             e.preventDefault();
             promoApply.click();
           }
-        });
-      }
-
-      /* Protection checkbox (stores cart attribute) */
-      var protectionCheckbox = panel.querySelector('[data-protection-checkbox]');
-      if (protectionCheckbox) {
-        protectionCheckbox.addEventListener('change', async function () {
-          var attributes = {};
-          attributes['checkout_protection'] = protectionCheckbox.checked ? 'true' : '';
-          await fetch('/cart/update.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ attributes: attributes })
-          });
         });
       }
 
@@ -1634,32 +1144,9 @@
     },
     {
       "type": "checkbox",
-      "id": "show_checkout_protection",
-      "label": "t:sections.cart_drawer.settings.show_checkout_protection",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "checkout_protection_title",
-      "label": "t:sections.cart_drawer.settings.checkout_protection_title",
-      "default": "Checkout+"
-    },
-    {
-      "type": "text",
-      "id": "checkout_protection_description",
-      "label": "t:sections.cart_drawer.settings.checkout_protection_description",
-      "default": "Protection for Damage, Loss, Theft & More!"
-    },
-    {
-      "type": "text",
-      "id": "upsell_heading",
-      "label": "t:sections.cart_drawer.settings.upsell_heading",
-      "default": "Our Special Offers!"
-    },
-    {
-      "type": "collection",
-      "id": "upsell_collection",
-      "label": "t:sections.cart_drawer.settings.upsell_collection"
+      "id": "show_trust_badges",
+      "label": "Show trust badges",
+      "default": false
     }
   ]
 }

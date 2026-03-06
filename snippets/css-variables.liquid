@@ -64,14 +64,50 @@
   {%- if settings.color_override_accent != blank -%}
     {%- assign scheme_accent = settings.color_override_accent -%}
   {%- endif -%}
+  {%- if settings.color_override_accent_hover != blank -%}
+    {%- assign scheme_accent_hover = settings.color_override_accent_hover -%}
+  {%- endif -%}
+  {%- if settings.color_override_accent_text != blank -%}
+    {%- assign scheme_accent_text = settings.color_override_accent_text -%}
+  {%- endif -%}
+  {%- if settings.color_override_highlight != blank -%}
+    {%- assign scheme_highlight = settings.color_override_highlight -%}
+  {%- endif -%}
   {%- if settings.color_override_bg != blank -%}
     {%- assign scheme_bg = settings.color_override_bg -%}
+  {%- endif -%}
+  {%- if settings.color_override_bg_subtle != blank -%}
+    {%- assign scheme_bg_subtle = settings.color_override_bg_subtle -%}
+  {%- endif -%}
+  {%- if settings.color_override_surface != blank -%}
+    {%- assign scheme_surface = settings.color_override_surface -%}
   {%- endif -%}
   {%- if settings.color_override_text != blank -%}
     {%- assign scheme_text = settings.color_override_text -%}
   {%- endif -%}
-  {%- if settings.color_override_surface != blank -%}
-    {%- assign scheme_surface = settings.color_override_surface -%}
+  {%- if settings.color_override_text_secondary != blank -%}
+    {%- assign scheme_text_secondary = settings.color_override_text_secondary -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_disabled != blank -%}
+    {%- assign scheme_text_disabled = settings.color_override_text_disabled -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_on_accent != blank -%}
+    {%- assign scheme_text_on_accent = settings.color_override_text_on_accent -%}
+  {%- endif -%}
+  {%- if settings.color_override_border != blank -%}
+    {%- assign scheme_border = settings.color_override_border -%}
+  {%- endif -%}
+  {%- if settings.color_override_success != blank -%}
+    {%- assign scheme_success = settings.color_override_success -%}
+  {%- endif -%}
+  {%- if settings.color_override_error != blank -%}
+    {%- assign scheme_error = settings.color_override_error -%}
+  {%- endif -%}
+  {%- if settings.color_override_primary_light != blank -%}
+    {%- assign scheme_primary_light = settings.color_override_primary_light -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_on_dark != blank -%}
+    {%- assign scheme_text_on_dark = settings.color_override_text_on_dark -%}
   {%- endif -%}
 
   :root {
@@ -171,7 +207,7 @@
     --theme-border: {{ scheme_border }};
     --theme-input-border: {{ scheme_border }};
     --theme-input-border-dark: {{ scheme_input_border_dark }};
-    --theme-star: #FFB800;
+    --theme-star: {% if settings.color_override_star != blank %}{{ settings.color_override_star }}{% else %}#FFB800{% endif %};
 
     /* ===== Border radius per scheme ===== */
     --radius-btn: {{ scheme_radius_btn }};

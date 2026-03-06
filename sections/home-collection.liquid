@@ -489,12 +489,17 @@
 
   @media (max-width: 749px) {
     .home-collection {
-      padding: 0 12px;
+      padding: 0;
     }
 
     .home-collection__container {
-      padding: 24px 16px;
-      border-radius: var(--theme-radius-card);
+      padding: 24px 0;
+      border-radius: 0;
+    }
+
+    .home-collection__header {
+      margin-bottom: 24px;
+      padding: 0 16px;
     }
 
     .home-collection__heading {
@@ -503,12 +508,16 @@
       letter-spacing: var(--letter-spacing-tighter);
     }
 
-    .home-collection__header {
-      margin-bottom: 24px;
-    }
-
     .home-collection__nav-btn {
       display: none;
+    }
+
+    .home-collection__swiper {
+      overflow: visible;
+    }
+
+    .home-collection__swiper .swiper-slide {
+      width: 282px;
     }
 
     .home-collection__pagination {
@@ -516,24 +525,26 @@
       justify-content: center;
       gap: 6px;
       margin-top: 20px;
+      padding: 0 16px;
     }
 
     .home-collection__card {
-      padding: 12px;
-      gap: 12px;
+      padding: 16px;
+      gap: 16px;
     }
 
     .home-collection__card-image {
-      height: 160px;
+      height: 200px;
     }
 
     .home-collection__card-title {
-      font-size: var(--font-size-base);
+      font-size: var(--font-size-xl);
+      line-height: var(--line-height-snug);
     }
 
     .home-collection__card-button {
-      height: 44px;
-      font-size: var(--font-size-xs);
+      height: 40px;
+      font-size: var(--font-size-sm);
     }
   }
 {% endstylesheet %}
@@ -557,8 +568,9 @@
     var paginationEl = parent.querySelector('.home-collection__pagination');
 
     new Swiper(el, {
-      slidesPerView: slidesMobile,
-      spaceBetween: 8,
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      centeredSlides: true,
       loop: loop,
       grabCursor: true,
       autoplay: autoplay ? { delay: autoplaySpeed, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
@@ -573,10 +585,12 @@
       breakpoints: {
         750: {
           slidesPerView: Math.min(slidesDesktop, 3),
+          centeredSlides: false,
           spaceBetween: 12
         },
         1000: {
           slidesPerView: slidesDesktop,
+          centeredSlides: false,
           spaceBetween: 16
         }
       }

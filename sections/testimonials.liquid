@@ -6,10 +6,13 @@
         <h2 class="testimonials__heading">{{ section.settings.heading }}</h2>
       </div>
 
+      {%- assign review_rating = product.metafields.reviews.rating -%}
+      {%- assign review_count = product.metafields.reviews.rating_count -%}
+      {%- if review_rating.value and review_count.value and review_count.value > 0 -%}
       <div class="testimonials__header-right">
-        <span class="testimonials__rating-number">{{ section.settings.rating }}</span>
+        <span class="testimonials__rating-number">{{ review_rating.value.rating }}</span>
         <div class="testimonials__rating-info">
-          <div class="testimonials__stars" aria-label="{{ 'testimonials.star_rating' | t: rating: section.settings.rating }}">
+          <div class="testimonials__stars" aria-label="{{ 'testimonials.star_rating' | t: rating: review_rating.value.rating }}">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M10 1.667l2.575 5.218 5.758.838-4.166 4.06.983 5.73L10 14.808l-5.15 2.705.983-5.73-4.166-4.06 5.758-.838L10 1.667z" fill="var(--theme-star)"/>
             </svg>
@@ -26,40 +29,68 @@
               <path d="M10 1.667l2.575 5.218 5.758.838-4.166 4.06.983 5.73L10 14.808l-5.15 2.705.983-5.73-4.166-4.06 5.758-.838L10 1.667z" fill="var(--theme-star)"/>
             </svg>
           </div>
-          <span class="testimonials__review-count">{{ section.settings.review_count }} FIVE-STAR REVIEWS</span>
+          <span class="testimonials__review-count">{{ review_count.value }} {{ 'products.hero.five_star_reviews' | t }}</span>
         </div>
       </div>
+      {%- endif -%}
     </div>
   </div>
 
+  {%- assign meta_testimonials = product.metafields.custom.testimonials.value -%}
   <div class="testimonials__cards" role="list">
-    {% for block in section.blocks %}
-      <article
-        class="testimonials__card"
-        role="listitem"
-        {{ block.shopify_attributes }}
-      >
-        <div class="testimonials__card-avatar">
-          {% if block.settings.author_image %}
-            {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
-          {% else %}
-            {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
-          {% endif %}
-        </div>
+    {%- if meta_testimonials and meta_testimonials.size > 0 -%}
+      {%- for testimonial in meta_testimonials -%}
+        <article class="testimonials__card" role="listitem">
+          <div class="testimonials__card-avatar">
+            {%- if testimonial.image -%}
+              <img src="{{ testimonial.image }}" loading="lazy" alt="{{ testimonial.author_name | escape }}">
+            {%- else -%}
+              {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
+            {%- endif -%}
+          </div>
 
-        <div class="testimonials__card-content">
-          <blockquote class="testimonials__card-quote">
-            {{ block.settings.quote }}
-          </blockquote>
-          <div class="testimonials__card-author">
-            <span class="testimonials__card-name">{{ block.settings.author_name }}</span>
-            {% if block.settings.author_role != blank %}
-              <span class="testimonials__card-role">{{ block.settings.author_role }}</span>
+          <div class="testimonials__card-content">
+            <blockquote class="testimonials__card-quote">
+              {{ testimonial.quote }}
+            </blockquote>
+            <div class="testimonials__card-author">
+              <span class="testimonials__card-name">{{ testimonial.author_name }}</span>
+              {%- if testimonial.author_role != blank -%}
+                <span class="testimonials__card-role">{{ testimonial.author_role }}</span>
+              {%- endif -%}
+            </div>
+          </div>
+        </article>
+      {%- endfor -%}
+    {%- else -%}
+      {% for block in section.blocks %}
+        <article
+          class="testimonials__card"
+          role="listitem"
+          {{ block.shopify_attributes }}
+        >
+          <div class="testimonials__card-avatar">
+            {% if block.settings.author_image %}
+              {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
+            {% else %}
+              {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
             {% endif %}
           </div>
-        </div>
-      </article>
-    {% endfor %}
+
+          <div class="testimonials__card-content">
+            <blockquote class="testimonials__card-quote">
+              {{ block.settings.quote }}
+            </blockquote>
+            <div class="testimonials__card-author">
+              <span class="testimonials__card-name">{{ block.settings.author_name }}</span>
+              {% if block.settings.author_role != blank %}
+                <span class="testimonials__card-role">{{ block.settings.author_role }}</span>
+              {% endif %}
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {%- endif -%}
   </div>
 </section>
 
@@ -306,18 +337,6 @@
       "id": "heading",
       "label": "t:sections.testimonials.settings.heading",
       "default": "What our customer say?"
-    },
-    {
-      "type": "text",
-      "id": "rating",
-      "label": "t:sections.testimonials.settings.rating",
-      "default": "4.9"
-    },
-    {
-      "type": "text",
-      "id": "review_count",
-      "label": "t:sections.testimonials.settings.review_count",
-      "default": "10,078+"
     }
   ],
   "blocks": [

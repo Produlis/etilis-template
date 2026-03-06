@@ -82,14 +82,22 @@
 
       {%- comment -%} Review badge + Title + Description + Price {%- endcomment -%}
       <div class="product-hero__info-group">
-        <div class="product-hero__review-badge" aria-label="{{ 'products.hero.rating_label' | t: rating: section.settings.review_rating }}">
-          <svg class="product-hero__review-badge-star" width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M10 1.12l2.24 5.36 5.76.56-4.36 3.8 1.28 5.64L10 13.64l-4.92 2.84 1.28-5.64-4.36-3.8 5.76-.56L10 1.12z"/>
-          </svg>
-          <span class="product-hero__review-badge-text">
-            {{- section.settings.review_count }} {{ 'products.hero.five_star_reviews' | t -}}
-          </span>
-        </div>
+        {%- if section.settings.badge_text != blank -%}
+          <div class="product-hero__review-badge">
+            <span class="product-hero__review-badge-icon">
+              {%- if section.settings.badge_icon != blank -%}
+                {{ section.settings.badge_icon | image_url: width: 40 | image_tag: loading: 'lazy' }}
+              {%- else -%}
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M10 1.12l2.24 5.36 5.76.56-4.36 3.8 1.28 5.64L10 13.64l-4.92 2.84 1.28-5.64-4.36-3.8 5.76-.56L10 1.12z"/>
+                </svg>
+              {%- endif -%}
+            </span>
+            <span class="product-hero__review-badge-text">
+              {{- section.settings.badge_text -}}
+            </span>
+          </div>
+        {%- endif -%}
         <h1 class="product-hero__title">{{ product.title }}</h1>
         {%- if product.description != blank -%}
           <div class="product-hero__description">
@@ -173,9 +181,15 @@
                     {{ 'products.hero.sold_out' | t }}
                   {%- endif -%}
                 </button>
-                {%- if section.settings.shipping_estimate_text != blank -%}
+                {%- liquid
+                  assign shipping_text = product.metafields.custom.shipping_estimate.value
+                  if shipping_text == blank
+                    assign shipping_text = section.settings.shipping_estimate_text
+                  endif
+                -%}
+                {%- if shipping_text != blank -%}
                   <p class="product-hero__shipping-estimate">
-                    {{ section.settings.shipping_estimate_text }}
+                    {{ shipping_text }}
                   </p>
                 {%- endif -%}
               </div>
@@ -184,47 +198,69 @@
         {%- elsif block.type == '@app' -%}
           {% render block %}
         {%- elsif block.type == 'accordions' -%}
+          {%- assign meta_accordions = product.metafields.custom.accordions.value -%}
           <div class="product-hero__accordions" {{ block.shopify_attributes }}>
-            {%- for i in (1..6) -%}
-              {%- liquid
-                case i
-                  when 1
-                    assign acc_title = block.settings.title_1
-                    assign acc_content = block.settings.content_1
-                  when 2
-                    assign acc_title = block.settings.title_2
-                    assign acc_content = block.settings.content_2
-                  when 3
-                    assign acc_title = block.settings.title_3
-                    assign acc_content = block.settings.content_3
-                  when 4
-                    assign acc_title = block.settings.title_4
-                    assign acc_content = block.settings.content_4
-                  when 5
-                    assign acc_title = block.settings.title_5
-                    assign acc_content = block.settings.content_5
-                  when 6
-                    assign acc_title = block.settings.title_6
-                    assign acc_content = block.settings.content_6
-                endcase
-              -%}
-              {%- if acc_title != blank -%}
-                <details class="product-hero__accordion">
-                  <summary class="product-hero__accordion-header">
-                    <span class="product-hero__accordion-title">{{ acc_title }}</span>
-                    <span class="product-hero__accordion-icon" aria-hidden="true">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
-                        <line class="product-hero__accordion-icon-h" x1="5" y1="12" x2="19" y2="12"/>
-                        <line class="product-hero__accordion-icon-v" x1="12" y1="5" x2="12" y2="19"/>
-                      </svg>
-                    </span>
-                  </summary>
-                  <div class="product-hero__accordion-content">
-                    {{ acc_content }}
-                  </div>
-                </details>
-              {%- endif -%}
-            {%- endfor -%}
+            {%- if meta_accordions and meta_accordions.size > 0 -%}
+              {%- for acc in meta_accordions -%}
+                {%- if acc.title != blank -%}
+                  <details class="product-hero__accordion">
+                    <summary class="product-hero__accordion-header">
+                      <span class="product-hero__accordion-title">{{ acc.title }}</span>
+                      <span class="product-hero__accordion-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                          <line class="product-hero__accordion-icon-h" x1="5" y1="12" x2="19" y2="12"/>
+                          <line class="product-hero__accordion-icon-v" x1="12" y1="5" x2="12" y2="19"/>
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="product-hero__accordion-content">
+                      {{ acc.content }}
+                    </div>
+                  </details>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- else -%}
+              {%- for i in (1..6) -%}
+                {%- liquid
+                  case i
+                    when 1
+                      assign acc_title = block.settings.title_1
+                      assign acc_content = block.settings.content_1
+                    when 2
+                      assign acc_title = block.settings.title_2
+                      assign acc_content = block.settings.content_2
+                    when 3
+                      assign acc_title = block.settings.title_3
+                      assign acc_content = block.settings.content_3
+                    when 4
+                      assign acc_title = block.settings.title_4
+                      assign acc_content = block.settings.content_4
+                    when 5
+                      assign acc_title = block.settings.title_5
+                      assign acc_content = block.settings.content_5
+                    when 6
+                      assign acc_title = block.settings.title_6
+                      assign acc_content = block.settings.content_6
+                  endcase
+                -%}
+                {%- if acc_title != blank -%}
+                  <details class="product-hero__accordion">
+                    <summary class="product-hero__accordion-header">
+                      <span class="product-hero__accordion-title">{{ acc_title }}</span>
+                      <span class="product-hero__accordion-icon" aria-hidden="true">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+                          <line class="product-hero__accordion-icon-h" x1="5" y1="12" x2="19" y2="12"/>
+                          <line class="product-hero__accordion-icon-v" x1="12" y1="5" x2="12" y2="19"/>
+                        </svg>
+                      </span>
+                    </summary>
+                    <div class="product-hero__accordion-content">
+                      {{ acc_content }}
+                    </div>
+                  </details>
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
           </div>
         {%- endif -%}
       {%- endfor -%}
@@ -327,6 +363,7 @@
   /* ===== Review badge ===== */
   .product-hero__review-badge {
     display: inline-flex;
+    align-self: flex-start;
     align-items: center;
     gap: 8px;
     padding: 4px 16px 4px 8px;
@@ -335,10 +372,18 @@
     border-radius: var(--theme-radius-badge);
   }
 
-  .product-hero__review-badge-star {
+  .product-hero__review-badge-icon {
+    display: inline-flex;
+    align-items: center;
     flex-shrink: 0;
     width: 20px;
     height: 20px;
+  }
+
+  .product-hero__review-badge-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .product-hero__review-badge-text {
@@ -719,16 +764,19 @@
   "class": "shopify-section",
   "settings": [
     {
-      "type": "text",
-      "id": "review_count",
-      "label": "t:sections.product_hero.settings.review_count.label",
-      "default": "10,078+"
+      "type": "header",
+      "content": "t:sections.product_hero.settings.badge_header"
     },
     {
       "type": "text",
-      "id": "review_rating",
-      "label": "t:sections.product_hero.settings.review_rating.label",
-      "default": "4.9"
+      "id": "badge_text",
+      "label": "t:sections.product_hero.settings.badge_text.label",
+      "default": "10,078+ FIVE-STAR REVIEWS"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge_icon",
+      "label": "t:sections.product_hero.settings.badge_icon.label"
     },
     {
       "type": "text",

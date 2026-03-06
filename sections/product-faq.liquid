@@ -5,29 +5,52 @@
       <h2 class="faq__heading">{{ section.settings.heading }}</h2>
     </div>
 
+    {%- assign meta_faqs = product.metafields.custom.faqs.value -%}
     <div class="faq__right">
-      {% for block in section.blocks %}
-        <details
-          class="faq__item{% if forloop.last %} faq__item--last{% endif %}"
-          data-faq-item
-          {% if forloop.first %}
-            open
-          {% endif %}
-          {{ block.shopify_attributes }}
-        >
-          <summary class="faq__question">
-            <span class="faq__question-text">{{ block.settings.question }}</span>
-            <span class="faq__icon" aria-hidden="true">
-              {{ 'icon-plus.svg' | inline_asset_content }}
-            </span>
-          </summary>
-          <div class="faq__answer">
-            <div class="faq__answer-inner">
-              {{ block.settings.answer }}
+      {%- if meta_faqs and meta_faqs.size > 0 -%}
+        {%- for faq in meta_faqs -%}
+          <details
+            class="faq__item{% if forloop.last %} faq__item--last{% endif %}"
+            data-faq-item
+            {% if forloop.first %}open{% endif %}
+          >
+            <summary class="faq__question">
+              <span class="faq__question-text">{{ faq.question }}</span>
+              <span class="faq__icon" aria-hidden="true">
+                {{ 'icon-plus.svg' | inline_asset_content }}
+              </span>
+            </summary>
+            <div class="faq__answer">
+              <div class="faq__answer-inner">
+                {{ faq.answer }}
+              </div>
             </div>
-          </div>
-        </details>
-      {% endfor %}
+          </details>
+        {%- endfor -%}
+      {%- else -%}
+        {% for block in section.blocks %}
+          <details
+            class="faq__item{% if forloop.last %} faq__item--last{% endif %}"
+            data-faq-item
+            {% if forloop.first %}
+              open
+            {% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <summary class="faq__question">
+              <span class="faq__question-text">{{ block.settings.question }}</span>
+              <span class="faq__icon" aria-hidden="true">
+                {{ 'icon-plus.svg' | inline_asset_content }}
+              </span>
+            </summary>
+            <div class="faq__answer">
+              <div class="faq__answer-inner">
+                {{ block.settings.answer }}
+              </div>
+            </div>
+          </details>
+        {% endfor %}
+      {%- endif -%}
     </div>
   </div>
 </section>

@@ -43,6 +43,7 @@
       {% endif %}
     </div>
 
+    {%- assign meta_comparison = product.metafields.custom.comparison_rows.value -%}
     {% assign comparison_rows = section.blocks | where: 'type', 'comparison_row' %}
 
     <div class="comparison-table__right">
@@ -51,37 +52,65 @@
           <div class="comparison-table__cell comparison-table__cell--header">
             <span class="visually-hidden">{{ 'sections.comparison_table.features_header' | t }}</span>
           </div>
-          {% for block in comparison_rows %}
-            <div class="comparison-table__cell" {{ block.shopify_attributes }}>
-              <span class="comparison-table__label-text">{{ block.settings.label }}</span>
-            </div>
-          {% endfor %}
+          {%- if meta_comparison and meta_comparison.size > 0 -%}
+            {%- for row in meta_comparison -%}
+              <div class="comparison-table__cell">
+                <span class="comparison-table__label-text">{{ row.label }}</span>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {% for block in comparison_rows %}
+              <div class="comparison-table__cell" {{ block.shopify_attributes }}>
+                <span class="comparison-table__label-text">{{ block.settings.label }}</span>
+              </div>
+            {% endfor %}
+          {%- endif -%}
         </div>
 
         <div class="comparison-table__brand-col">
           <div class="comparison-table__cell comparison-table__cell--header">
             <span class="comparison-table__col-title">{{ section.settings.brand_name }}</span>
           </div>
-          {% for block in comparison_rows %}
-            <div class="comparison-table__cell">
-              <span class="comparison-table__icon comparison-table__icon--check" aria-label="{{ block.settings.label | escape }}">
-                {{ 'icon-check-circle.svg' | inline_asset_content }}
-              </span>
-            </div>
-          {% endfor %}
+          {%- if meta_comparison and meta_comparison.size > 0 -%}
+            {%- for row in meta_comparison -%}
+              <div class="comparison-table__cell">
+                <span class="comparison-table__icon comparison-table__icon--check" aria-label="{{ row.label | escape }}">
+                  {{ 'icon-check-circle.svg' | inline_asset_content }}
+                </span>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {% for block in comparison_rows %}
+              <div class="comparison-table__cell">
+                <span class="comparison-table__icon comparison-table__icon--check" aria-label="{{ block.settings.label | escape }}">
+                  {{ 'icon-check-circle.svg' | inline_asset_content }}
+                </span>
+              </div>
+            {% endfor %}
+          {%- endif -%}
         </div>
 
         <div class="comparison-table__other-col">
           <div class="comparison-table__cell comparison-table__cell--header">
             <span class="comparison-table__col-title">{{ section.settings.competitor_name }}</span>
           </div>
-          {% for block in comparison_rows %}
-            <div class="comparison-table__cell">
-              <span class="comparison-table__icon comparison-table__icon--close" aria-label="{{ block.settings.competitor_text | default: 'No' | escape }}">
-                {{ 'icon-close-circle.svg' | inline_asset_content }}
-              </span>
-            </div>
-          {% endfor %}
+          {%- if meta_comparison and meta_comparison.size > 0 -%}
+            {%- for row in meta_comparison -%}
+              <div class="comparison-table__cell">
+                <span class="comparison-table__icon comparison-table__icon--close" aria-label="{{ row.competitor_text | default: 'No' | escape }}">
+                  {{ 'icon-close-circle.svg' | inline_asset_content }}
+                </span>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {% for block in comparison_rows %}
+              <div class="comparison-table__cell">
+                <span class="comparison-table__icon comparison-table__icon--close" aria-label="{{ block.settings.competitor_text | default: 'No' | escape }}">
+                  {{ 'icon-close-circle.svg' | inline_asset_content }}
+                </span>
+              </div>
+            {% endfor %}
+          {%- endif -%}
         </div>
       </div>
     </div>

@@ -1,3 +1,12 @@
+{%- liquid
+  assign meta_guarantee_heading = product.metafields.custom.guarantee_heading.value
+  assign meta_guarantee_body = product.metafields.custom.guarantee_body
+  assign heading = meta_guarantee_heading | default: section.settings.heading
+  assign body_text = section.settings.body_text
+  if meta_guarantee_body != blank
+    assign body_text = meta_guarantee_body | metafield_tag
+  endif
+-%}
 <section class="guarantee-banner full-width">
   <div class="guarantee-banner__wrapper">
     <div class="guarantee-banner__image">
@@ -13,13 +22,13 @@
         <span class="guarantee-banner__tag">{{ section.settings.tag_text }}</span>
       {% endif %}
 
-      {% if section.settings.heading != blank %}
-        <h2 class="guarantee-banner__heading">{{ section.settings.heading }}</h2>
+      {% if heading != blank %}
+        <h2 class="guarantee-banner__heading">{{ heading }}</h2>
       {% endif %}
 
-      {% if section.settings.body_text != blank %}
+      {% if body_text != blank %}
         <div class="guarantee-banner__body rte">
-          {{ section.settings.body_text }}
+          {{ body_text }}
         </div>
       {% endif %}
     </div>
