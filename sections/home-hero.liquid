@@ -161,13 +161,13 @@
 {% stylesheet %}
   .home-hero {
     background-color: var(--theme-surface);
-    padding: 52px;
+    padding: var(--space-13);
   }
 
   .home-hero__container {
     display: flex;
     flex-direction: row;
-    gap: 40px;
+    gap: var(--space-10);
     max-width: var(--container-max);
     margin: 0 auto;
     align-items: stretch;
@@ -178,24 +178,24 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 32px;
+    gap: var(--space-8);
   }
 
   .home-hero__top-content {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-6);
   }
 
   /* Review badge */
   .home-hero__review-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     background-color: var(--theme-accent);
     color: var(--theme-text-on-accent);
     border-radius: var(--theme-radius-badge);
-    padding: 6px 16px;
+    padding: 6px var(--space-4);
     width: fit-content;
   }
 
@@ -237,11 +237,11 @@
   .home-hero__cta {
     display: inline-flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-3);
     background-color: var(--theme-primary);
     color: var(--theme-text-on-primary);
     border-radius: var(--theme-radius-button);
-    padding: 8px 24px 8px 8px;
+    padding: var(--space-2) var(--space-6) var(--space-2) var(--space-2);
     text-decoration: none;
     width: fit-content;
     transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
@@ -278,10 +278,10 @@
   .home-hero__bundle-card {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: var(--space-4);
     background-color: var(--theme-surface-alt);
     border-radius: var(--theme-radius-card);
-    padding: 8px 16px 8px 8px;
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
     align-items: center;
   }
 
@@ -318,7 +318,7 @@
   .home-hero__bundle-info {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
     flex: 1;
     min-width: 0;
   }
@@ -326,7 +326,7 @@
   .home-hero__bundle-header {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .home-hero__bundle-label {
@@ -342,7 +342,7 @@
     background-color: var(--theme-accent);
     color: var(--theme-text-on-accent);
     border-radius: var(--theme-radius-badge);
-    padding: 4px 8px;
+    padding: var(--space-1) var(--space-2);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
@@ -360,7 +360,7 @@
   .home-hero__bundle-details {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .home-hero__bundle-footer {
@@ -373,7 +373,7 @@
   .home-hero__bundle-prices {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .home-hero__bundle-price {
@@ -398,7 +398,7 @@
     color: var(--theme-primary);
     border-radius: var(--theme-radius-button);
     height: 44px;
-    padding: 0 20px;
+    padding: 0 var(--space-5);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-tight);
@@ -463,12 +463,12 @@
   /* Mobile styles */
   @media screen and (max-width: 749px) {
     .home-hero {
-      padding: 24px 16px;
+      padding: var(--space-6) var(--space-4);
     }
 
     .home-hero__container {
       flex-direction: column;
-      gap: 24px;
+      gap: var(--space-6);
     }
 
     .home-hero__left {
@@ -505,8 +505,8 @@
 
     .home-hero__bundle-card {
       flex-direction: row;
-      gap: 12px;
-      padding: 8px 12px 8px 8px;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
     }
 
     .home-hero__bundle-image {
@@ -520,7 +520,7 @@
 
     .home-hero__bundle-button {
       height: 36px;
-      padding: 0 12px;
+      padding: 0 var(--space-3);
       font-size: var(--font-size-sm);
     }
   }
@@ -528,11 +528,11 @@
   /* Tablet adjustments */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .home-hero {
-      padding: 32px;
+      padding: var(--space-8);
     }
 
     .home-hero__container {
-      gap: 24px;
+      gap: var(--space-6);
     }
 
     .home-hero__heading {

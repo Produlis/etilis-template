@@ -282,17 +282,17 @@
     flex: 1;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 24px;
+    padding: var(--space-6);
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-8);
   }
 
   /* --- Top announcement banner --- */
   .cart-drawer__announcement {
     background-color: var(--theme-primary);
-    margin-inline: -24px;
-    padding: 12px 24px;
+    margin-inline: calc(-1 * var(--space-6));
+    padding: var(--space-3) var(--space-6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -322,7 +322,7 @@
     font-weight: var(--font-weight-regular);
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .cart-drawer__count {
@@ -368,11 +368,11 @@
   .cart-drawer__shipping-bar {
     background-color: var(--theme-surface-alt);
     border-radius: var(--radius-xl);
-    padding: 16px 16px 24px;
+    padding: var(--space-4) var(--space-4) var(--space-6);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: var(--space-6);
   }
 
   .cart-drawer__shipping-text {
@@ -416,13 +416,13 @@
   .cart-drawer__items {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .cart-drawer__item {
     display: flex;
-    gap: 16px;
-    padding: 8px 16px 8px 8px;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
     border-radius: var(--radius-3xl);
   }
 
@@ -454,7 +454,7 @@
     flex: 1;
     min-width: 0;
     display: flex;
-    gap: 12px;
+    gap: var(--space-3);
   }
 
   .cart-drawer__item-left {
@@ -469,7 +469,7 @@
   .cart-drawer__qty-row {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .cart-drawer__item-right {
@@ -486,7 +486,7 @@
   .cart-drawer__item-info {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .cart-drawer__item-title {
@@ -519,7 +519,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    gap: 4px;
+    gap: var(--space-1);
   }
 
   .cart-drawer__item-price-row {
@@ -546,8 +546,8 @@
   .cart-drawer__quantity {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px;
+    gap: var(--space-2);
+    padding: var(--space-2);
     background-color: var(--theme-surface-alt);
     border: 1px solid var(--theme-border);
     border-radius: var(--radius-pill);
@@ -623,8 +623,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
-    padding: 48px 0;
+    gap: var(--space-6);
+    padding: var(--space-12) 0;
   }
 
   .cart-drawer__empty-text {
@@ -639,7 +639,7 @@
     align-items: center;
     justify-content: center;
     height: 48px;
-    padding: 0 32px;
+    padding: 0 var(--space-8);
     background-color: var(--theme-primary);
     color: var(--theme-text-on-primary);
     border-radius: var(--theme-radius-button);
@@ -664,16 +664,16 @@
     background-color: var(--color-glass-bg-heavy);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    padding: 24px;
+    padding: var(--space-6);
   }
 
   .cart-drawer__footer-inner {
     background-color: var(--theme-surface);
     border-radius: var(--radius-xl);
-    padding: 16px;
+    padding: var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
   }
 
   /* Subtotal */
@@ -681,7 +681,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 4px;
+    padding: 0 var(--space-1);
   }
 
   .cart-drawer__subtotal-label {
@@ -693,13 +693,13 @@
   .cart-drawer__subtotal-right {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: var(--space-3);
   }
 
   .cart-drawer__savings-badge {
     display: inline-flex;
     align-items: center;
-    padding: 4px 8px;
+    padding: var(--space-1) var(--space-2);
     background-color: var(--theme-accent);
     border-radius: var(--theme-radius-badge);
     font-size: var(--font-size-xs);
@@ -745,15 +745,15 @@
   /* Trust badges */
   .cart-drawer__trust-row {
     display: flex;
-    gap: 12px;
+    gap: var(--space-3);
   }
 
   .cart-drawer__trust-badge {
     flex: 1;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
     background-color: var(--theme-surface-alt);
     border-radius: var(--radius-pill);
     font-size: var(--font-size-sm);
@@ -773,11 +773,11 @@
   .cart-drawer__item-discount-badge {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 2px 8px;
+    gap: var(--space-1);
+    padding: 2px var(--space-2);
     background-color: var(--theme-surface-alt);
     border-radius: var(--radius-sm);
-    font-size: 10px;
+    font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
@@ -799,8 +799,8 @@
     background-color: var(--theme-surface-alt);
     border: 1px solid var(--theme-border);
     border-radius: var(--radius-lg);
-    padding: 12px 16px;
-    gap: 8px;
+    padding: var(--space-3) var(--space-4);
+    gap: var(--space-2);
   }
 
   .cart-drawer__promo-input {
@@ -855,8 +855,8 @@
     }
 
     .cart-drawer__body {
-      padding: 20px 16px;
-      gap: 24px;
+      padding: var(--space-5) var(--space-4);
+      gap: var(--space-6);
     }
 
     .cart-drawer__title {
@@ -865,8 +865,8 @@
     }
 
     .cart-drawer__announcement {
-      margin-inline: -16px;
-      padding: 10px 16px;
+      margin-inline: calc(-1 * var(--space-4));
+      padding: var(--space-2) var(--space-4);
     }
 
     .cart-drawer__announcement-text {
@@ -879,7 +879,7 @@
     }
 
     .cart-drawer__item {
-      padding: 8px;
+      padding: var(--space-2);
     }
 
     .cart-drawer__item-image {
@@ -898,12 +898,12 @@
     }
 
     .cart-drawer__footer {
-      padding: 16px;
+      padding: var(--space-4);
     }
 
     .cart-drawer__trust-row {
       flex-direction: column;
-      gap: 8px;
+      gap: var(--space-2);
     }
   }
 {% endstylesheet %}

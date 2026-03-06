@@ -281,9 +281,9 @@
     background-color: var(--theme-surface);
     display: flex;
     flex-direction: column;
-    gap: 48px;
+    gap: var(--space-12);
     align-items: center;
-    padding: 24px 52px 52px;
+    padding: var(--space-6) 52px 52px;
     overflow: visible;
     max-width: var(--container-max, 1200px);
     margin: 0 auto;
@@ -293,7 +293,7 @@
   .collection-page__header {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
     align-items: center;
     text-align: center;
     width: 100%;
@@ -303,7 +303,7 @@
     display: inline-block;
     background: var(--theme-surface-alt);
     border-radius: var(--theme-radius-badge);
-    padding: 4px 12px;
+    padding: var(--space-1) var(--space-3);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
@@ -333,7 +333,7 @@
   .collection-page__filter-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: var(--space-3);
     align-items: center;
     width: 100%;
   }
@@ -342,7 +342,7 @@
   .collection-page__filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--space-2);
     align-items: center;
     justify-content: center;
   }
@@ -355,11 +355,11 @@
   .collection-page__filter-pill {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     background: var(--theme-surface-alt);
     border: 1px solid var(--theme-border);
     border-radius: var(--radius-5xl);
-    padding: 12px 20px;
+    padding: var(--space-3) var(--space-5);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
     color: var(--theme-text);
@@ -406,13 +406,13 @@
   /* Dropdown panel */
   .collection-page__filter-panel {
     position: absolute;
-    inset-block-start: calc(100% + 8px);
+    inset-block-start: calc(100% + var(--space-2));
     inset-inline-start: 0;
     z-index: var(--z-dropdown, 100);
     background: var(--theme-surface);
     border: 1px solid var(--theme-border);
     border-radius: var(--radius-xl);
-    padding: 12px;
+    padding: var(--space-3);
     min-width: 220px;
     max-height: 320px;
     overflow-y: auto;
@@ -436,8 +436,8 @@
   .collection-page__filter-option {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2);
     border-radius: var(--radius-md);
     cursor: pointer;
     font-size: var(--font-size-sm);
@@ -559,13 +559,13 @@
   .collection-page__price-inputs {
     display: flex;
     align-items: flex-end;
-    gap: 8px;
+    gap: var(--space-2);
   }
 
   .collection-page__price-label {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
     font-size: var(--font-size-xs);
     color: var(--theme-text-secondary);
     flex: 1;
@@ -573,7 +573,7 @@
 
   .collection-page__price-input {
     width: 100%;
-    padding: 8px 12px;
+    padding: var(--space-2) var(--space-3);
     border: 1px solid var(--theme-border);
     border-radius: var(--radius-md);
     font-size: var(--font-size-sm);
@@ -590,7 +590,7 @@
   }
 
   .collection-page__price-separator {
-    padding-bottom: 10px;
+    padding-bottom: var(--space-2);
     color: var(--theme-text-secondary);
   }
 
@@ -600,7 +600,7 @@
     justify-content: center;
     width: 100%;
     height: 40px;
-    margin-top: 12px;
+    margin-top: var(--space-3);
     background: var(--theme-text);
     color: var(--theme-text-on-primary);
     border: none;
@@ -623,7 +623,7 @@
     color: var(--theme-text-secondary);
     text-decoration: underline;
     text-underline-offset: 2px;
-    padding: 12px 4px;
+    padding: var(--space-3) var(--space-1);
   }
 
   .collection-page__filter-clear:hover {
@@ -634,7 +634,7 @@
   .collection-page__active-filters {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-2);
     justify-content: center;
   }
 
@@ -642,7 +642,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    padding: 6px 12px;
+    padding: 6px var(--space-3);
     background: var(--theme-surface-alt);
     border-radius: var(--theme-radius-badge);
     font-size: var(--font-size-xs);
@@ -666,8 +666,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 48px 24px;
+    gap: var(--space-4);
+    padding: var(--space-12) var(--space-6);
     text-align: center;
     color: var(--theme-text-secondary);
     font-size: var(--font-size-base);
@@ -684,7 +684,7 @@
     align-items: center;
     justify-content: center;
     height: 40px;
-    padding: 0 20px;
+    padding: 0 var(--space-5);
     background: var(--theme-text);
     color: var(--theme-text-on-primary);
     border-radius: var(--theme-radius-button, 36px);
@@ -702,7 +702,7 @@
   .collection-page__grid {
     display: grid;
     grid-template-columns: repeat(var(--columns-desktop, 4), 1fr);
-    gap: 16px;
+    gap: var(--space-4);
     width: 100%;
   }
 
@@ -710,14 +710,14 @@
   .collection-page__pagination {
     display: flex;
     justify-content: center;
-    padding-top: 16px;
+    padding-top: var(--space-4);
     width: 100%;
   }
 
   .collection-page__pagination .pagination {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: var(--space-2);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -730,7 +730,7 @@
     justify-content: center;
     min-width: 40px;
     height: 40px;
-    padding: 8px 12px;
+    padding: var(--space-2) var(--space-3);
     border-radius: var(--theme-radius-button);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
@@ -757,8 +757,8 @@
   /* Responsive */
   @media (max-width: 989px) {
     .collection-page__container {
-      padding: 24px 32px 40px;
-      gap: 32px;
+      padding: var(--space-6) var(--space-8) var(--space-10);
+      gap: var(--space-8);
     }
 
     .collection-page__heading {
@@ -774,16 +774,16 @@
 
   @media (max-width: 749px) {
     .collection-page__container {
-      padding: 22px 20px 32px;
-      gap: 24px;
+      padding: 22px var(--space-5) var(--space-8);
+      gap: var(--space-6);
     }
 
     .collection-page__header {
-      gap: 8px;
+      gap: var(--space-2);
     }
 
     .collection-page__heading {
-      font-size: 32px;
+      font-size: var(--font-size-4xl);
       line-height: 1.2;
       letter-spacing: -0.04em;
     }
@@ -800,7 +800,7 @@
       justify-content: flex-start;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
-      padding-bottom: 4px;
+      padding-bottom: var(--space-1);
     }
 
     .collection-page__filters::-webkit-scrollbar {
@@ -810,7 +810,7 @@
     .collection-page__filter-pill {
       white-space: nowrap;
       flex-shrink: 0;
-      padding: 8px 16px;
+      padding: var(--space-2) var(--space-4);
     }
 
     .collection-page__filter-panel {
@@ -825,7 +825,7 @@
 
     .collection-page__grid {
       grid-template-columns: repeat(var(--columns-mobile, 2), 1fr);
-      gap: 16px;
+      gap: var(--space-4);
     }
   }
 {% endstylesheet %}

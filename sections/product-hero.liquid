@@ -273,12 +273,12 @@
   /* ===== Product hero layout ===== */
   .product-hero {
     background-color: var(--theme-surface);
-    padding: 24px 52px;
+    padding: var(--space-6) var(--space-13);
   }
 
   .product-hero__inner {
     display: flex;
-    gap: 40px;
+    gap: var(--space-10);
     max-width: 1280px;
     margin: 0 auto;
   }
@@ -288,7 +288,7 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .product-hero__details {
@@ -296,19 +296,19 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-8);
   }
 
   .product-hero__info-group {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .product-hero__cta-group {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   /* ===== Gallery ===== */
@@ -333,7 +333,7 @@
   .product-hero__grid-images {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .product-hero__grid-image {
@@ -365,8 +365,8 @@
     display: inline-flex;
     align-self: flex-start;
     align-items: center;
-    gap: 8px;
-    padding: 4px 16px 4px 8px;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-4) var(--space-1) var(--space-2);
     background-color: var(--theme-accent);
     color: var(--theme-text-on-accent);
     border-radius: var(--theme-radius-badge);
@@ -421,7 +421,7 @@
   .product-hero__price {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .product-hero__price-current {
@@ -447,7 +447,7 @@
 
   .product-hero__variant-select {
     width: 100%;
-    padding: 12px 16px;
+    padding: var(--space-3) var(--space-4);
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
@@ -460,7 +460,7 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 16px center;
-    padding-inline-end: 44px;
+    padding-inline-end: var(--space-11);
   }
 
   .product-hero__variant-select:focus-visible {
@@ -472,7 +472,7 @@
   .product-hero__form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   /* ===== Add to cart ===== */
@@ -531,7 +531,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 0;
+    padding: var(--space-4) 0;
     cursor: pointer;
     list-style: none;
     user-select: none;
@@ -578,7 +578,7 @@
   }
 
   .product-hero__accordion-content {
-    padding: 0 0 16px 0;
+    padding: 0 0 var(--space-4) 0;
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
     color: var(--theme-text-secondary);
@@ -586,11 +586,11 @@
 
   .product-hero__accordion-content ul {
     margin: 0;
-    padding-inline-start: 20px;
+    padding-inline-start: var(--space-5);
   }
 
   .product-hero__accordion-content li {
-    margin-bottom: 4px;
+    margin-bottom: var(--space-1);
   }
 
   /* ===== Visually hidden utility ===== */
@@ -609,16 +609,16 @@
   /* ===== Responsive ===== */
   @media (max-width: 1023px) {
     .product-hero {
-      padding: 24px;
+      padding: var(--space-6);
     }
 
     .product-hero__inner {
       flex-direction: column;
-      gap: 32px;
+      gap: var(--space-8);
     }
 
     .product-hero__details {
-      gap: 24px;
+      gap: var(--space-6);
     }
 
     .product-hero__title {
@@ -639,12 +639,12 @@
 
   @media (max-width: 639px) {
     .product-hero {
-      padding: 16px;
+      padding: var(--space-4);
     }
 
     .product-hero__grid-images {
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: var(--space-2);
     }
 
     .product-hero__grid-img {

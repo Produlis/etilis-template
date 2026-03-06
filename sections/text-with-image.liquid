@@ -73,13 +73,13 @@
 {% stylesheet %}
   .twi {
     background-color: var(--theme-surface);
-    padding: 52px;
+    padding: var(--space-13);
   }
 
   .twi__container {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
     max-width: var(--container-max, 1200px);
     margin: 0 auto;
   }
@@ -87,7 +87,7 @@
   /* ── Top row ── */
   .twi__top {
     display: flex;
-    gap: 16px;
+    gap: var(--space-4);
     align-items: stretch;
   }
 
@@ -95,17 +95,17 @@
     flex: 0 0 72%;
     background-color: var(--theme-primary);
     border-radius: var(--radius-3xl);
-    padding: 32px;
+    padding: var(--space-8);
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: var(--space-10);
     justify-content: center;
   }
 
   .twi__card-text {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .twi__tag {
@@ -118,7 +118,7 @@
     color: var(--theme-text-on-primary);
     background-color: var(--color-on-primary-subtle);
     border-radius: var(--theme-radius-badge);
-    padding: 4px 12px;
+    padding: var(--space-1) var(--space-3);
     line-height: normal;
   }
 
@@ -152,7 +152,7 @@
     letter-spacing: var(--letter-spacing-tight);
     text-decoration: none;
     text-align: center;
-    padding: 12px 24px;
+    padding: var(--space-3) var(--space-6);
     border-radius: var(--theme-radius-button);
     transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
   }
@@ -210,22 +210,22 @@
 
   .twi__overlay {
     position: absolute;
-    inset-block-end: 16px;
-    inset-inline: 16px;
+    inset-block-end: var(--space-4);
+    inset-inline: var(--space-4);
     display: flex;
-    gap: 10px;
+    gap: var(--space-2);
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-color: var(--color-glass-bg);
     border-radius: var(--radius-md);
-    padding: 24px;
+    padding: var(--space-6);
   }
 
   .twi__feature {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-2);
     min-width: 0;
   }
 
@@ -261,7 +261,7 @@
   /* ── Mobile ── */
   @media screen and (max-width: 749px) {
     .twi {
-      padding: 24px 20px;
+      padding: var(--space-6) var(--space-5);
     }
 
     .twi__top {
@@ -270,8 +270,8 @@
 
     .twi__card {
       flex: none;
-      gap: 24px;
-      padding: 24px;
+      gap: var(--space-6);
+      padding: var(--space-6);
     }
 
     .twi__heading {
@@ -291,10 +291,10 @@
 
     .twi__overlay {
       flex-direction: column;
-      gap: 16px;
-      inset-block-end: 12px;
-      inset-inline: 12px;
-      padding: 16px;
+      gap: var(--space-4);
+      inset-block-end: var(--space-3);
+      inset-inline: var(--space-3);
+      padding: var(--space-4);
     }
 
     .twi__feature-title {
@@ -310,7 +310,7 @@
   /* ── Tablet ── */
   @media screen and (min-width: 750px) and (max-width: 989px) {
     .twi {
-      padding: 32px;
+      padding: var(--space-8);
     }
 
     .twi__heading {

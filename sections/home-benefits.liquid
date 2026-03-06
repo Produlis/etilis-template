@@ -93,12 +93,12 @@
 {% stylesheet %}
   .home-benefits {
     background-color: var(--theme-surface);
-    padding: 52px;
+    padding: var(--space-13);
   }
 
   .home-benefits__container {
     display: flex;
-    gap: 48px;
+    gap: var(--space-12);
     max-width: var(--container-max, 1200px);
     margin: 0 auto;
   }
@@ -107,7 +107,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-8);
     justify-content: center;
   }
 
@@ -117,7 +117,7 @@
     align-items: center;
     background-color: var(--theme-surface-alt);
     border-radius: var(--theme-radius-badge);
-    padding: 4px 12px;
+    padding: var(--space-1) var(--space-3);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
@@ -147,7 +147,7 @@
     justify-content: center;
     align-self: flex-start;
     height: 48px;
-    padding: 12px 20px;
+    padding: var(--space-3) var(--space-5);
     background-color: var(--theme-primary);
     color: var(--theme-text-on-primary);
     border-radius: var(--theme-radius-button);
@@ -166,22 +166,22 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .home-benefits__top-row {
     display: flex;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .home-benefits__card {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-6);
     background-color: var(--theme-surface-alt);
     border-radius: var(--theme-radius-card);
-    padding: 16px;
+    padding: var(--space-4);
   }
 
   .home-benefits__icon {
@@ -191,7 +191,7 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius-md, 8px);
-    padding: 8px;
+    padding: var(--space-2);
     flex-shrink: 0;
   }
 
@@ -260,8 +260,8 @@
     z-index: 2;
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    padding: 16px;
+    gap: var(--space-6);
+    padding: var(--space-4);
     height: 100%;
     justify-content: flex-end;
   }
@@ -283,12 +283,12 @@
 
   @media (max-width: 989px) {
     .home-benefits {
-      padding: 32px;
+      padding: var(--space-8);
     }
 
     .home-benefits__container {
       flex-direction: column;
-      gap: 32px;
+      gap: var(--space-8);
     }
 
     .home-benefits__heading {
@@ -302,11 +302,11 @@
 
   @media (max-width: 749px) {
     .home-benefits {
-      padding: 24px 16px;
+      padding: var(--space-6) var(--space-4);
     }
 
     .home-benefits__container {
-      gap: 24px;
+      gap: var(--space-6);
     }
 
     .home-benefits__heading {

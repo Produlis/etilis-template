@@ -106,12 +106,12 @@
 {% stylesheet %}
   .product-benefits {
     background-color: var(--theme-surface);
-    padding: 52px 0;
+    padding: var(--space-13) 0;
   }
 
   .product-benefits__container {
     display: flex;
-    gap: 48px;
+    gap: var(--space-12);
     max-width: var(--container-max, 1200px);
     margin: 0 auto;
     padding: 0 var(--container-padding, 16px);
@@ -122,19 +122,19 @@
   .product-benefits__sidebar {
     flex: 0 0 42%;
     position: sticky;
-    inset-block-start: 24px;
+    inset-block-start: var(--space-6);
     background-color: var(--theme-primary);
     border-radius: var(--radius-card);
-    padding: 24px;
+    padding: var(--space-6);
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: var(--space-6);
   }
 
   .product-benefits__sidebar-header {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .product-benefits__tag {
@@ -146,7 +146,7 @@
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
-    padding: 4px 12px;
+    padding: var(--space-1) var(--space-3);
     border-radius: var(--theme-radius-badge);
     line-height: 18px;
   }
@@ -164,7 +164,7 @@
   .product-benefits__list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-2);
     list-style: none;
     padding: 0;
     margin: 0;
@@ -172,9 +172,9 @@
 
   .product-benefits__item {
     display: flex;
-    gap: 12px;
+    gap: var(--space-3);
     align-items: flex-start;
-    padding: 12px;
+    padding: var(--space-3);
   }
 
   .product-benefits__icon {
@@ -196,7 +196,7 @@
   .product-benefits__item-text {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-2);
     flex: 1;
     min-width: 0;
   }
@@ -226,20 +226,20 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: var(--space-10);
   }
 
   .product-benefits__detail {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .product-benefits__detail-text {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    padding: 0 8px;
+    gap: var(--space-2);
+    padding: 0 var(--space-2);
   }
 
   .product-benefits__detail-title {
@@ -289,18 +289,18 @@
   /* ── Mobile ── */
   @media screen and (max-width: 749px) {
     .product-benefits {
-      padding: 24px 0;
+      padding: var(--space-6) 0;
     }
 
     .product-benefits__container {
       flex-direction: column;
-      gap: 32px;
+      gap: var(--space-8);
     }
 
     .product-benefits__sidebar {
       position: static;
-      padding: 24px;
-      gap: 24px;
+      padding: var(--space-6);
+      gap: var(--space-6);
     }
 
     .product-benefits__heading {

@@ -126,7 +126,7 @@
     position: relative;
     border-radius: var(--theme-radius-card);
     overflow: hidden;
-    padding: 52px;
+    padding: var(--space-13);
     background-color: var(--bg-color, var(--theme-primary));
   }
 
@@ -152,10 +152,10 @@
     background: var(--color-dark-glass-bg);
     border: 1px solid var(--color-glass-border);
     border-radius: var(--theme-radius-card);
-    padding: 16px;
+    padding: var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-8);
     max-width: 1200px;
     margin: 0 auto;
   }
@@ -164,14 +164,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .home-comparison__tag {
     display: inline-block;
     background: var(--color-on-primary-subtle);
     border-radius: var(--theme-radius-badge);
-    padding: 4px 12px;
+    padding: var(--space-1) var(--space-3);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
@@ -201,7 +201,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 36px;
+    gap: var(--space-9);
   }
 
   .home-comparison__table-card {
@@ -213,15 +213,15 @@
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
     min-height: 392px;
-    padding: 8px 8px 8px 24px;
+    padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
   }
 
   .home-comparison__labels-col {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    padding: 16px 0;
+    gap: var(--space-4);
+    padding: var(--space-4) 0;
     justify-content: flex-end;
   }
 
@@ -246,18 +246,18 @@
     border-radius: var(--theme-radius-card);
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: var(--space-2);
     align-items: center;
-    padding: 16px 8px;
+    padding: var(--space-4) var(--space-2);
   }
 
   .home-comparison__competitor-col {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: var(--space-4);
     align-items: center;
-    padding: 16px 0;
+    padding: var(--space-4) 0;
     border-radius: var(--theme-radius-image);
   }
 
@@ -297,7 +297,7 @@
 
   .home-comparison__badges {
     display: flex;
-    gap: 8px;
+    gap: var(--space-2);
     width: 100%;
   }
 
@@ -311,8 +311,8 @@
     border-radius: var(--theme-radius-card);
     display: flex;
     align-items: center;
-    padding: 0 12px;
-    gap: 8px;
+    padding: 0 var(--space-3);
+    gap: var(--space-2);
   }
 
   .home-comparison__badge-icon {
@@ -335,7 +335,7 @@
 
   @media (max-width: 989px) {
     .home-comparison {
-      padding: 32px;
+      padding: var(--space-8);
     }
 
     .home-comparison__heading {
@@ -353,13 +353,13 @@
 
   @media (max-width: 749px) {
     .home-comparison {
-      padding: 24px 16px;
+      padding: var(--space-6) var(--space-4);
       border-radius: var(--theme-radius-card);
     }
 
     .home-comparison__inner {
-      padding: 8px;
-      gap: 32px;
+      padding: var(--space-2);
+      gap: var(--space-8);
     }
 
     .home-comparison__heading {
@@ -370,8 +370,8 @@
 
     .home-comparison__table-card {
       display: flex;
-      gap: 10px;
-      padding: 8px 8px 8px 16px;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
       border-radius: 16px;
       min-height: auto;
     }
@@ -379,7 +379,7 @@
     .home-comparison__labels-col {
       flex: 1;
       min-width: 0;
-      gap: 16px;
+      gap: var(--space-4);
     }
 
     .home-comparison__label-spacer {
@@ -396,12 +396,12 @@
     .home-comparison__brand-col {
       flex: 0 0 72px;
       border-radius: 8px;
-      gap: 16px;
+      gap: var(--space-4);
     }
 
     .home-comparison__competitor-col {
       flex: 0 0 72px;
-      gap: 16px;
+      gap: var(--space-4);
     }
 
     .home-comparison__col-header {
@@ -428,7 +428,7 @@
 
     .home-comparison__badges {
       flex-direction: column;
-      gap: 8px;
+      gap: var(--space-2);
     }
 
     .home-comparison__badge {
@@ -436,7 +436,7 @@
       width: 100%;
       height: 44px;
       border-radius: 24px;
-      padding: 8px 8px 8px 12px;
+      padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
       -webkit-backdrop-filter: blur(20px);
       backdrop-filter: blur(20px);
       background: var(--color-glass-bg);
