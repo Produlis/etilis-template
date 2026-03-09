@@ -35,7 +35,7 @@
                 {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
               {% else %}
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="var(--theme-text-on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="var(--color-accent-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               {% endif %}
             </div>
@@ -59,7 +59,7 @@
             {% if section.settings.featured_image != blank %}
               {{ section.settings.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
             {% else %}
-              {{ 'lifestyle-1' | placeholder_svg_tag: 'home-benefits__featured-placeholder' }}
+              {% render 'placeholder-image' %}
             {% endif %}
           </div>
           <div class="home-benefits__featured-overlay"></div>
@@ -70,7 +70,7 @@
                 {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
               {% else %}
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="var(--theme-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="var(--color-accent-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               {% endif %}
             </div>
@@ -115,28 +115,29 @@
     display: inline-flex;
     align-self: flex-start;
     align-items: center;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
+    border: none;
     border-radius: var(--theme-radius-badge);
     padding: var(--space-1) var(--space-3);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
-    color: var(--theme-primary);
+    color: var(--color-text);
   }
 
   .home-benefits__heading {
     font-size: var(--font-size-5xl);
     line-height: var(--line-height-none);
     letter-spacing: var(--letter-spacing-tighter);
-    color: var(--theme-primary);
+    color: var(--color-text);
     margin: 0;
   }
 
   .home-benefits__body {
     font-size: var(--font-size-base);
     line-height: var(--line-height-normal);
-    color: var(--theme-text-secondary);
+    color: var(--color-text-muted);
     max-width: 515px;
     margin: 0;
   }
@@ -148,8 +149,8 @@
     align-self: flex-start;
     height: 48px;
     padding: var(--space-3) var(--space-5);
-    background-color: var(--theme-primary);
-    color: var(--theme-text-on-primary);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
     border-radius: var(--theme-radius-button);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
@@ -179,7 +180,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-6);
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
     border-radius: var(--theme-radius-card);
     padding: var(--space-4);
   }
@@ -202,32 +203,32 @@
   }
 
   .home-benefits__icon--dark {
-    background-color: var(--theme-primary);
+    background-color: var(--color-text);
   }
 
   .home-benefits__icon--light {
-    background-color: var(--theme-text-on-primary);
+    background-color: var(--color-accent-text);
   }
 
   .home-benefits__card-title {
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-normal);
-    color: var(--theme-primary);
+    color: var(--color-text);
     margin: 0;
   }
 
   .home-benefits__card-description {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
-    color: var(--theme-text-secondary);
+    color: var(--color-text-muted);
     margin: 0;
   }
 
   .home-benefits__featured-card {
     position: relative;
     border-radius: var(--theme-radius-card);
-    min-height: 280px;
+    min-height: 308px;
     overflow: hidden;
   }
 
@@ -252,7 +253,7 @@
     position: absolute;
     inset: 0;
     z-index: 1;
-    background: linear-gradient(214deg, color-mix(in srgb, var(--theme-primary) 0%, transparent) 24%, var(--theme-primary) 56%);
+    background: linear-gradient(214deg, color-mix(in srgb, var(--color-text) 0%, transparent) 24%, var(--color-text) 88%);
   }
 
   .home-benefits__featured-content {
@@ -270,14 +271,14 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     line-height: var(--line-height-normal);
-    color: var(--theme-text-on-primary);
+    color: var(--color-accent-text);
     margin: 0;
   }
 
   .home-benefits__featured-description {
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
-    color: var(--theme-text-muted);
+    color: var(--color-text-on-dark-muted);
     margin: 0;
   }
 

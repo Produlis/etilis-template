@@ -121,6 +121,7 @@
     "collection": {
       "filters_label": "Collection filters",
       "filter_collection": "Collection",
+      "all_products": "All",
       "filter_sort": "Sort by",
       "products_label": "Collection products",
       "rating_label": "Rated {{ rating }} out of 5",
@@ -150,7 +151,21 @@
     "navigation": "Main navigation",
     "cart": "Cart",
     "menu_toggle": "Menu",
-    "close_menu": "Close menu"
+    "close_menu": "Close menu",
+    "more_links": "More Links"
+  },
+  "contact": {
+    "name": "Name",
+    "name_placeholder": "Your name",
+    "email": "Email",
+    "email_placeholder": "your@email.com",
+    "subject": "Subject",
+    "subject_placeholder": "How can we help?",
+    "message": "Message",
+    "message_placeholder": "Write your message here...",
+    "submit": "Send message",
+    "success_message": "Thank you for your message! We'll get back to you soon.",
+    "error_message": "Please fix the following errors:"
   },
   "accessibility": {
     "checkmark": "Yes",

@@ -81,14 +81,14 @@
         "type": "color",
         "id": "color_override_accent",
         "label": "t:labels.color_accent",
-        "default": "#1C3A13",
+        "default": "#FFD400",
         "info": "t:labels.color_accent_info"
       },
       {
         "type": "color",
         "id": "color_override_accent_hover",
         "label": "t:labels.color_accent_hover",
-        "default": "#37522F",
+        "default": "#F8D83E",
         "info": "t:labels.color_accent_hover_info"
       },
       {
@@ -102,7 +102,7 @@
         "type": "color",
         "id": "color_override_highlight",
         "label": "t:labels.color_highlight",
-        "default": "#D3FA99",
+        "default": "#FFD400",
         "info": "t:labels.color_highlight_info"
       },
       {
@@ -113,14 +113,14 @@
         "type": "color",
         "id": "color_override_bg",
         "label": "t:labels.color_bg",
-        "default": "#FCFCF7",
+        "default": "#FFFFFF",
         "info": "t:labels.color_bg_info"
       },
       {
         "type": "color",
         "id": "color_override_bg_subtle",
         "label": "t:labels.color_bg_subtle",
-        "default": "#F2F3E7",
+        "default": "#FBF9EE",
         "info": "t:labels.color_bg_subtle_info"
       },
       {
@@ -138,28 +138,28 @@
         "type": "color",
         "id": "color_override_text",
         "label": "t:labels.color_text_primary",
-        "default": "#1C3A13",
+        "default": "#082D73",
         "info": "t:labels.color_text_info"
       },
       {
         "type": "color",
         "id": "color_override_text_secondary",
         "label": "t:labels.color_text_secondary",
-        "default": "#434141",
+        "default": "#515E75",
         "info": "t:labels.color_text_secondary_info"
       },
       {
         "type": "color",
         "id": "color_override_text_disabled",
         "label": "t:labels.color_text_disabled",
-        "default": "#A8AFA6",
+        "default": "#D5D8DD",
         "info": "t:labels.color_text_disabled_info"
       },
       {
         "type": "color",
         "id": "color_override_text_on_accent",
         "label": "t:labels.color_text_on_accent",
-        "default": "#1C3A13",
+        "default": "#082D73",
         "info": "t:labels.color_text_on_accent_info"
       },
       {
@@ -170,7 +170,7 @@
         "type": "color",
         "id": "color_override_border",
         "label": "t:labels.color_border",
-        "default": "#D2D4C4",
+        "default": "#D9DEDF",
         "info": "t:labels.color_border_info"
       },
       {
@@ -181,14 +181,14 @@
         "type": "color",
         "id": "color_override_success",
         "label": "t:labels.color_success",
-        "default": "#1C3A13",
+        "default": "#25790C",
         "info": "t:labels.color_success_info"
       },
       {
         "type": "color",
         "id": "color_override_error",
         "label": "t:labels.color_error",
-        "default": "#B84040",
+        "default": "#AE3838",
         "info": "t:labels.color_error_info"
       },
       {
@@ -199,21 +199,21 @@
         "type": "color",
         "id": "color_override_primary_light",
         "label": "t:labels.color_primary_light",
-        "default": "#37522F",
+        "default": "#082D73",
         "info": "t:labels.color_primary_light_info"
       },
       {
         "type": "color",
         "id": "color_override_text_on_dark",
         "label": "t:labels.color_text_on_dark",
-        "default": "#CDD1CC",
+        "default": "#FFFFFF",
         "info": "t:labels.color_text_on_dark_info"
       },
       {
         "type": "color",
         "id": "color_override_star",
         "label": "t:labels.color_star",
-        "default": "#FFB800",
+        "default": "#FEAF00",
         "info": "t:labels.color_star_info"
       }
     ]

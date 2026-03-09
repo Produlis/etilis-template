@@ -31,21 +31,34 @@
         <div class="collection-page__filters" role="toolbar" aria-label="{{ 'sections.collection.filters_label' | t }}">
 
           {%- comment -%} Collection navigator pill {%- endcomment -%}
-          {% if section.settings.collection_list.count > 0 %}
-            <div class="collection-page__filter-dropdown" data-filter-dropdown>
-              <button
-                class="collection-page__filter-pill{% if collection %} collection-page__filter-pill--active{% endif %}"
-                type="button"
-                aria-expanded="false"
-                data-filter-toggle
-              >
-                <span>{{ 'sections.collection.filter_collection' | t }}</span>
-                <svg class="collection-page__filter-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-                  <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </button>
-              <div class="collection-page__filter-panel" data-filter-panel hidden>
-                <ul class="collection-page__filter-list">
+          {%- assign use_manual_list = false -%}
+          {%- if section.settings.collection_list.count > 0 -%}
+            {%- assign use_manual_list = true -%}
+          {%- endif -%}
+          <div class="collection-page__filter-dropdown" data-filter-dropdown>
+            <button
+              class="collection-page__filter-pill{% if collection.handle != 'all' and collection.handle != blank %} collection-page__filter-pill--active{% endif %}"
+              type="button"
+              aria-expanded="false"
+              data-filter-toggle
+            >
+              <span>{{ 'sections.collection.filter_collection' | t }}</span>
+              <svg class="collection-page__filter-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="collection-page__filter-panel" data-filter-panel hidden>
+              <ul class="collection-page__filter-list">
+                <li class="collection-page__filter-item">
+                  <a
+                    href="{{ routes.collections_url }}/all"
+                    class="collection-page__filter-option collection-page__collection-link{% if collection.handle == 'all' %} collection-page__collection-link--active{% endif %}"
+                  >
+                    <span class="collection-page__filter-radio{% if collection.handle == 'all' %} collection-page__filter-radio--checked{% endif %}" aria-hidden="true"></span>
+                    <span class="collection-page__filter-value-label">{{ 'sections.collection.all_products' | t | default: 'All' }}</span>
+                  </a>
+                </li>
+                {% if use_manual_list %}
                   {% for col in section.settings.collection_list %}
                     <li class="collection-page__filter-item">
                       <a
@@ -58,10 +71,25 @@
                       </a>
                     </li>
                   {% endfor %}
-                </ul>
-              </div>
+                {% else %}
+                  {% for col in collections %}
+                    {% if col.handle != 'all' and col.products_count > 0 %}
+                      <li class="collection-page__filter-item">
+                        <a
+                          href="{{ col.url }}"
+                          class="collection-page__filter-option collection-page__collection-link{% if col.handle == collection.handle %} collection-page__collection-link--active{% endif %}"
+                        >
+                          <span class="collection-page__filter-radio{% if col.handle == collection.handle %} collection-page__filter-radio--checked{% endif %}" aria-hidden="true"></span>
+                          <span class="collection-page__filter-value-label">{{ col.title }}</span>
+                          <span class="collection-page__filter-value-count">({{ col.products_count }})</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </ul>
             </div>
-          {% endif %}
+          </div>
 
           {%- comment -%} Dynamic filters from Shopify {%- endcomment -%}
           {% for filter in collection.filters %}
@@ -249,7 +277,7 @@
           aria-label="{{ 'sections.collection.products_label' | t }}"
         >
           {% for product in collection.products %}
-            {% render 'product-card', product: product %}
+            {% render 'product-card', product: product, image_bg: section.settings.card_image_bg %}
           {% endfor %}
         </div>
       {% else %}
@@ -301,22 +329,22 @@
 
   .collection-page__tag {
     display: inline-block;
-    background: var(--theme-surface-alt);
-    border-radius: var(--theme-radius-badge);
+    background: var(--color-surface-card);
+    border-radius: 28px;
     padding: var(--space-1) var(--space-3);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
-    color: var(--theme-text);
+    color: var(--color-text);
     line-height: var(--line-height-normal);
   }
 
   .collection-page__heading {
-    font-size: var(--font-size-5xl);
-    line-height: var(--line-height-tight);
+    font-size: var(--font-size-6xl, 52px);
+    line-height: 64px;
     letter-spacing: var(--letter-spacing-tighter);
-    color: var(--theme-text);
+    color: var(--color-text);
     margin: 0;
     font-weight: var(--font-weight-regular);
   }
@@ -356,13 +384,13 @@
     display: flex;
     align-items: center;
     gap: var(--space-2);
-    background: var(--theme-surface-alt);
-    border: 1px solid var(--theme-border);
-    border-radius: var(--radius-5xl);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 36px;
     padding: var(--space-3) var(--space-5);
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
-    color: var(--theme-text);
+    color: var(--color-text);
     cursor: pointer;
     font-family: inherit;
     transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease),
@@ -370,17 +398,17 @@
   }
 
   .collection-page__filter-pill:hover {
-    background-color: var(--theme-surface-emphasis);
+    opacity: 0.85;
   }
 
   .collection-page__filter-pill--active {
-    background-color: var(--theme-text);
-    color: var(--theme-text-on-primary);
-    border-color: var(--theme-text);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
+    border-color: var(--color-text);
   }
 
   .collection-page__filter-pill--active:hover {
-    background-color: var(--theme-primary-hover, var(--theme-text));
+    opacity: 0.85;
   }
 
   .collection-page__filter-pill:focus-visible {
@@ -447,7 +475,7 @@
   }
 
   .collection-page__filter-option:hover {
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
   }
 
   .collection-page__filter-option input {
@@ -643,7 +671,7 @@
     align-items: center;
     gap: 6px;
     padding: 6px var(--space-3);
-    background: var(--theme-surface-alt);
+    background: var(--color-surface-card);
     border-radius: var(--theme-radius-badge);
     font-size: var(--font-size-xs);
     line-height: var(--line-height-normal);
@@ -653,7 +681,7 @@
   }
 
   .collection-page__active-tag:hover {
-    background-color: var(--theme-surface-emphasis);
+    opacity: 0.85;
   }
 
   .collection-page__active-tag:focus-visible {
@@ -740,7 +768,7 @@
   }
 
   .collection-page__pagination a:hover {
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
   }
 
   .collection-page__pagination span.current {
@@ -801,6 +829,12 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
       padding-bottom: var(--space-1);
+      max-width: 100%;
+      scroll-snap-type: x mandatory;
+    }
+
+    .collection-page__filter-dropdown {
+      scroll-snap-align: start;
     }
 
     .collection-page__filters::-webkit-scrollbar {
@@ -967,6 +1001,12 @@
       "type": "collection_list",
       "id": "collection_list",
       "label": "t:sections.collection_page.collection_list"
+    },
+    {
+      "type": "color",
+      "id": "card_image_bg",
+      "label": "t:sections.collection_page.card_image_bg",
+      "default": "#F5E6A3"
     },
     {
       "type": "checkbox",

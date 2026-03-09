@@ -40,7 +40,7 @@
             </div>
           {% else %}
             <div class="home-steps__image-wrapper home-steps__image-wrapper--placeholder">
-              {{ 'lifestyle-1' | placeholder_svg_tag: 'home-steps__image-placeholder' }}
+              {% render 'placeholder-image' %}
             </div>
           {% endif %}
 
@@ -79,22 +79,23 @@
   .home-steps__tag {
     display: inline-flex;
     align-items: center;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
+    border: none;
     border-radius: var(--theme-radius-badge);
     padding: var(--space-1) var(--space-3);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
-    color: var(--theme-primary);
+    color: var(--color-text);
     line-height: var(--line-height-snug);
   }
 
   .home-steps__heading {
-    font-size: var(--font-size-5xl);
-    line-height: var(--line-height-tight);
+    font-size: var(--font-size-6xl, 52px);
+    line-height: 64px;
     letter-spacing: var(--letter-spacing-tighter);
-    color: var(--theme-primary);
+    color: var(--color-text);
     margin: 0;
     text-align: center;
   }
@@ -132,7 +133,7 @@
   .home-steps__dashed-line {
     flex: 1;
     height: 0;
-    border-block-start: 1px dashed color-mix(in srgb, var(--theme-primary) 25%, transparent);
+    border-block-start: 1px dashed var(--color-border);
   }
 
   .home-steps__badge {
@@ -141,9 +142,9 @@
     align-items: center;
     justify-content: center;
     padding: 2px;
-    border: 1px solid color-mix(in srgb, var(--theme-primary) 12%, transparent);
-    border-radius: var(--theme-radius-badge);
-    background: transparent;
+    border: none;
+    border-radius: 20px;
+    background: var(--color-accent-subtle);
   }
 
   .home-steps__badge-inner {
@@ -171,7 +172,7 @@
 
   .home-steps__image-wrapper {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    height: 253px;
     border-radius: var(--theme-radius-image);
     overflow: hidden;
   }
@@ -184,7 +185,7 @@
   }
 
   .home-steps__image-wrapper--placeholder {
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-placeholder);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -196,9 +197,9 @@
   }
 
   .home-steps__step-title {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg);
     line-height: var(--line-height-snug);
-    color: var(--theme-primary);
+    color: var(--color-text);
     margin: 0;
   }
 

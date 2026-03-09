@@ -94,7 +94,7 @@
         {% if timeline_image %}
           {{ timeline_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
         {% else %}
-          {{ 'product-1' | placeholder_svg_tag: 'product-timeline__placeholder' }}
+          {% render 'placeholder-image' %}
         {% endif %}
       </div>
 
@@ -105,7 +105,7 @@
           {% elsif product.featured_image %}
             {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
           {% else %}
-            {{ 'product-1' | placeholder_svg_tag: 'product-timeline__placeholder' }}
+            {% render 'placeholder-image' %}
           {% endif %}
         </div>
 
@@ -171,7 +171,7 @@
 
   .product-timeline__tag {
     display: inline-block;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
     color: var(--theme-primary);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -334,7 +334,7 @@
     position: relative;
     border-radius: var(--radius-3xl);
     overflow: hidden;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
   }
 
   .product-timeline__image img,
@@ -352,7 +352,7 @@
     display: flex;
     gap: var(--space-4);
     align-items: center;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
     border-radius: var(--radius-3xl);
     padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
     flex-shrink: 0;
@@ -364,7 +364,7 @@
     flex-shrink: 0;
     border-radius: var(--radius-xl);
     overflow: hidden;
-    background-color: var(--theme-border);
+    background-color: var(--color-surface-card);
   }
 
   .product-timeline__upsell-thumb img,
@@ -459,8 +459,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--theme-border);
-    color: var(--theme-primary);
+    background-color: var(--color-surface-card);
+    color: var(--color-text);
     font-family: inherit;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);

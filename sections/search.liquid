@@ -67,7 +67,7 @@
                         {{ featured_image | image_url: width: 400, height: 400, crop: 'center' | image_tag: class: 'search-page__result-img', loading: 'lazy' }}
                       {% else %}
                         <div class="search-page__result-img-placeholder">
-                          {{ 'product-1' | placeholder_svg_tag: 'search-page__result-placeholder-svg' }}
+                          {% render 'placeholder-image' %}
                         </div>
                       {% endif %}
                     </div>

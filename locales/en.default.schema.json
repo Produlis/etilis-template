@@ -35,6 +35,9 @@
     "guarantee_banner": {
       "name": "Guarantee banner"
     },
+    "contact_form": {
+      "name": "Contact form"
+    },
     "testimonials": {
       "name": "Testimonials",
       "settings": {
@@ -254,6 +257,7 @@
       "name": "Collection",
       "description_info": "Shown when collection has no description",
       "collection_list": "Collections to show",
+      "card_image_bg": "Card image background color",
       "show_filters": "Show filter bar",
       "columns_desktop": "Columns (desktop)",
       "columns_mobile": "Columns (mobile)",
@@ -417,5 +421,8 @@
     "color_scheme": {
       "nature": "Nature"
     }
+  },
+  "header": {
+    "max_visible_links": "Max visible links"
   }
 }

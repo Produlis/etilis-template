@@ -6,10 +6,11 @@
 
   @param {product} product - The product object to render
   @param {string} [loading] - Image loading strategy, defaults to "lazy"
+  @param {string} [image_bg] - Background color for the image container
 
   @example
   {% render 'product-card', product: product %}
-  {% render 'product-card', product: product, loading: 'eager' %}
+  {% render 'product-card', product: product, loading: 'eager', image_bg: '#F5E6A3' %}
 {% enddoc %}
 
 {%- assign loading = loading | default: 'lazy' -%}
@@ -17,13 +18,11 @@
 
 <article class="product-card" role="listitem">
   <a href="{{ product.url }}" class="product-card__link" aria-label="{{ product.title }}">
-    <div class="product-card__image">
+    <div class="product-card__image"{% if image_bg != blank %} style="background-color: {{ image_bg }}"{% endif %}>
       {% if product.featured_image %}
         {{ product.featured_image | image_url: width: 400, height: 400, crop: 'center' | image_tag: class: 'product-card__img', loading: loading }}
       {% else %}
-        <div class="product-card__img-placeholder">
-          {{ 'product-1' | placeholder_svg_tag: 'product-card__placeholder-svg' }}
-        </div>
+        {% render 'placeholder-image', height: '200px' %}
       {% endif %}
 
       {% if product.compare_at_price > product.price %}
@@ -120,8 +119,8 @@
 {% stylesheet %}
   /* Product card */
   .product-card {
-    background: var(--theme-surface-alt);
-    border-radius: var(--theme-radius-card);
+    background: var(--color-surface-card);
+    border-radius: 24px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -147,7 +146,7 @@
   .product-card__image {
     position: relative;
     height: 200px;
-    border-radius: var(--theme-radius-image);
+    border-radius: 16px;
     overflow: hidden;
     background: var(--color-hover-subtle-3);
     display: flex;
@@ -184,7 +183,7 @@
     align-items: center;
     gap: 8px;
     background: var(--theme-accent);
-    border-radius: var(--theme-radius-badge);
+    border-radius: 28px;
     padding: 4px 8px;
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -216,12 +215,13 @@
   }
 
   .product-card__title {
-    font-size: var(--font-size-2xl);
-    line-height: var(--line-height-snug);
-    letter-spacing: var(--letter-spacing-tighter);
-    color: var(--theme-text);
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: -0.72px;
+    color: var(--color-text);
     margin: 0;
     font-weight: var(--font-weight-regular);
+    font-family: var(--font-heading);
   }
 
   .product-card__rating {
@@ -274,22 +274,23 @@
     justify-content: center;
     gap: 6px;
     width: 100%;
-    height: 40px;
+    height: 48px;
     padding: 0 16px;
-    background-color: var(--theme-primary);
-    color: var(--theme-text-on-primary);
+    background-color: var(--color-surface);
+    color: var(--color-text);
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
     font-family: inherit;
     line-height: var(--line-height-normal);
+    letter-spacing: -0.28px;
     border: none;
-    border-radius: var(--theme-radius-button);
+    border-radius: 48px;
     cursor: pointer;
-    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
   }
 
   .product-card__atc-btn:hover {
-    background-color: var(--theme-primary-hover);
+    opacity: 0.85;
   }
 
   .product-card__atc-btn:focus-visible {
@@ -298,13 +299,15 @@
   }
 
   .product-card__atc-btn--disabled {
-    background-color: var(--color-border, #e0e0e0);
-    color: var(--color-text-disabled, #aaa);
+    background-color: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
     cursor: not-allowed;
+    opacity: 0.7;
   }
 
   .product-card__atc-btn--disabled:hover {
-    background-color: var(--color-border, #e0e0e0);
+    opacity: 0.7;
   }
 
   .product-card__atc-icon {
@@ -342,7 +345,7 @@
 
     .product-card__image {
       height: 140px;
-      border-radius: 16px;
+      border-radius: 12px;
     }
 
     .product-card__info {
@@ -371,7 +374,7 @@
     }
 
     .product-card__atc-btn {
-      height: 36px;
+      height: 40px;
       font-size: var(--font-size-xs);
     }
   }
@@ -394,17 +397,27 @@
       try {
         var res = await fetch('/cart/add.js', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'X-Requested-With': 'XMLHttpRequest' },
-          body: new URLSearchParams(new FormData(form)).toString()
+          body: new FormData(form)
         });
+
+        if (!res.ok) {
+          var errorData = await res.json().catch(function() { return {}; });
+          console.error('Add to cart error:', errorData);
+          btn.innerHTML = originalHTML;
+          btn.disabled = false;
+          return;
+        }
+
         await res.json();
 
         btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Added!</span>';
 
-        /* Open cart drawer if available */
-        var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-        if (cartTrigger) {
-          setTimeout(function() { cartTrigger.click(); }, 600);
+        /* Refresh cart drawer content, then open it */
+        if (typeof window.refreshCartDrawer === 'function') {
+          await window.refreshCartDrawer();
+        }
+        if (typeof window.openCartDrawer === 'function') {
+          window.openCartDrawer();
         }
 
         setTimeout(function() {
@@ -412,6 +425,7 @@
           btn.disabled = false;
         }, 1500);
       } catch (err) {
+        console.error('Add to cart fetch failed:', err);
         btn.innerHTML = originalHTML;
         btn.disabled = false;
       }

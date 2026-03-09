@@ -55,7 +55,7 @@
                 {% if item.image %}
                   {{ item.image | image_url: width: 310 | image_tag: class: 'cart-drawer__item-img', loading: 'lazy' }}
                 {% else %}
-                  {{ 'product-1' | placeholder_svg_tag: 'cart-drawer__item-placeholder' }}
+                  {% render 'placeholder-image' %}
                 {% endif %}
               </a>
               <div class="cart-drawer__item-details">
@@ -126,56 +126,24 @@
             </div>
           {% endfor %}
         {% else %}
-          {%- comment -%} Fallback placeholder items for visualization {%- endcomment -%}
-          {% for i in (1..2) %}
-            <div class="cart-drawer__item">
-              <div class="cart-drawer__item-image">
-                {{ 'product-' | append: i | placeholder_svg_tag: 'cart-drawer__item-placeholder' }}
-              </div>
-              <div class="cart-drawer__item-details">
-                <div class="cart-drawer__item-left">
-                  <div class="cart-drawer__item-info">
-                    <span class="cart-drawer__item-title">{{ 'cart.fallback_product_title' | t }}</span>
-                    <p class="cart-drawer__item-variant">{{ 'cart.fallback_variant' | t }}</p>
-                  </div>
-                  <div class="cart-drawer__qty-row">
-                    <div class="cart-drawer__quantity">
-                      <button class="cart-drawer__quantity-btn" disabled>
-                        {{ 'icon-minus.svg' | inline_asset_content }}
-                      </button>
-                      <span class="cart-drawer__quantity-value">1</span>
-                      <button class="cart-drawer__quantity-btn" disabled>
-                        {{ 'icon-plus.svg' | inline_asset_content }}
-                      </button>
-                    </div>
-                    <button class="cart-drawer__remove-btn" disabled>
-                      {{ 'icon-trash.svg' | inline_asset_content }}
-                    </button>
-                  </div>
-                </div>
-                <div class="cart-drawer__item-right">
-                  <div class="cart-drawer__item-prices">
-                    <div class="cart-drawer__item-price-row">
-                      <span class="cart-drawer__item-compare-price">$59.99</span>
-                      <span class="cart-drawer__item-price">$39.99</span>
-                    </div>
-                    <span class="cart-drawer__item-savings">({{ 'cart.save_label' | t: amount: '$20.00' }})</span>
-                    <span class="cart-drawer__item-discount-badge">
-                      {{ 'icon-discount-tag.svg' | inline_asset_content }}
-                      <span>SAVE20</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
+          <div class="cart-drawer__empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M3 6h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <p class="cart-drawer__empty-text">{{ 'cart.empty' | t }}</p>
+            <a href="{{ routes.all_products_collection_url }}" class="cart-drawer__empty-btn" data-cart-drawer-close>
+              {{ 'cart.continue_shopping' | t }}
+            </a>
+          </div>
         {% endif %}
       </div>
 
     </div>
 
     {%- comment -%} Sticky footer {%- endcomment -%}
-      <div class="cart-drawer__footer" data-cart-footer>
+      <div class="cart-drawer__footer" data-cart-footer{% if cart.item_count == 0 %} hidden{% endif %}>
         <div class="cart-drawer__footer-inner">
           {%- comment -%} Promo code input {%- endcomment -%}
           <div class="cart-drawer__promo" data-cart-promo>
@@ -938,9 +906,10 @@
       }
     }
 
-    /* Global open function */
+    /* Global functions */
     window.openCartDrawer = open;
     window.closeCartDrawer = close;
+    window.refreshCartDrawer = refreshCartDrawer;
 
     overlay.addEventListener('click', close);
     for (const btn of closeBtns) {
@@ -1092,22 +1061,6 @@
         e.preventDefault();
         open(cartBtn);
       }
-    });
-
-    /* --- Open cart drawer after add-to-cart form submission --- */
-    document.addEventListener('submit', async function (e) {
-      var form = e.target;
-      if (!form.matches('form[action="/cart/add"]')) return;
-      e.preventDefault();
-
-      var formData = new FormData(form);
-      var r = await fetch('/cart/add.js', {
-        method: 'POST',
-        body: formData
-      });
-      await r.json();
-      await refreshCartDrawer();
-      open();
     });
 
     /* Initial binding */

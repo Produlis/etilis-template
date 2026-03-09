@@ -1,0 +1,328 @@
+<section class="contact-form full-width">
+  <div class="contact-form__container">
+    <div class="contact-form__header">
+      {% if section.settings.tag_text != blank %}
+        <span class="contact-form__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h1 class="contact-form__heading">{{ section.settings.heading }}</h1>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="contact-form__description">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    {% form 'contact', class: 'contact-form__form' %}
+      {% if form.posted_successfully? %}
+        <div class="contact-form__success">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M8 12l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p>{{ 'contact.success_message' | t }}</p>
+        </div>
+      {% endif %}
+
+      {% if form.errors %}
+        <div class="contact-form__errors">
+          <p>{{ 'contact.error_message' | t }}</p>
+          <ul>
+            {% for field in form.errors %}
+              <li>{{ form.errors.translated_fields[field] }} {{ form.errors.messages[field] }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      <div class="contact-form__row">
+        <div class="contact-form__field">
+          <label for="contact-name" class="contact-form__label">{{ 'contact.name' | t }}</label>
+          <input
+            type="text"
+            id="contact-name"
+            name="contact[{{ 'contact.name' | t }}]"
+            class="contact-form__input"
+            placeholder="{{ 'contact.name_placeholder' | t }}"
+            required
+          >
+        </div>
+        <div class="contact-form__field">
+          <label for="contact-email" class="contact-form__label">{{ 'contact.email' | t }}</label>
+          <input
+            type="email"
+            id="contact-email"
+            name="contact[email]"
+            class="contact-form__input"
+            placeholder="{{ 'contact.email_placeholder' | t }}"
+            autocomplete="email"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="contact-form__field">
+        <label for="contact-subject" class="contact-form__label">{{ 'contact.subject' | t }}</label>
+        <input
+          type="text"
+          id="contact-subject"
+          name="contact[{{ 'contact.subject' | t }}]"
+          class="contact-form__input"
+          placeholder="{{ 'contact.subject_placeholder' | t }}"
+        >
+      </div>
+
+      <div class="contact-form__field">
+        <label for="contact-message" class="contact-form__label">{{ 'contact.message' | t }}</label>
+        <textarea
+          id="contact-message"
+          name="contact[body]"
+          class="contact-form__input contact-form__textarea"
+          placeholder="{{ 'contact.message_placeholder' | t }}"
+          rows="6"
+          required
+        ></textarea>
+      </div>
+
+      <button type="submit" class="contact-form__submit">
+        {{ 'contact.submit' | t }}
+      </button>
+    {% endform %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .contact-form {
+    background-color: var(--theme-surface);
+    padding: var(--space-13) 0;
+  }
+
+  .contact-form__container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 24px);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .contact-form__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+  }
+
+  .contact-form__tag {
+    display: inline-flex;
+    align-self: center;
+    background-color: var(--color-surface-card);
+    color: var(--theme-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--theme-radius-badge);
+    line-height: normal;
+  }
+
+  .contact-form__heading {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-primary);
+    letter-spacing: var(--letter-spacing-tighter);
+    margin: 0;
+  }
+
+  .contact-form__description {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text-secondary);
+    margin: 0;
+    max-width: 528px;
+  }
+
+  .contact-form__form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .contact-form__row {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .contact-form__row > .contact-form__field {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .contact-form__label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--theme-primary);
+    line-height: var(--line-height-normal);
+  }
+
+  .contact-form__input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    background-color: var(--color-surface-card);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text);
+    font-family: inherit;
+    transition: border-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+    box-sizing: border-box;
+  }
+
+  .contact-form__input::placeholder {
+    color: var(--theme-text-secondary);
+  }
+
+  .contact-form__input:focus {
+    outline: none;
+    border-color: var(--theme-primary);
+  }
+
+  .contact-form__input:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+  }
+
+  .contact-form__textarea {
+    resize: vertical;
+    min-height: 160px;
+  }
+
+  .contact-form__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    height: 48px;
+    padding: 0 var(--space-8);
+    background-color: var(--theme-primary);
+    color: var(--theme-text-on-primary);
+    border: none;
+    border-radius: var(--theme-radius-button);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-tight);
+    font-family: inherit;
+    cursor: pointer;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .contact-form__submit:hover {
+    background-color: var(--theme-primary-hover);
+  }
+
+  .contact-form__submit:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+  }
+
+  .contact-form__success {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--color-surface-card);
+    border-radius: var(--radius-lg);
+    color: var(--theme-primary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+  }
+
+  .contact-form__success p {
+    margin: 0;
+  }
+
+  .contact-form__errors {
+    padding: var(--space-4);
+    background-color: color-mix(in srgb, var(--color-error) 8%, var(--color-bg));
+    border: 1px solid color-mix(in srgb, var(--color-error) 25%, var(--color-bg));
+    border-radius: var(--radius-lg);
+    color: var(--color-error);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-normal);
+  }
+
+  .contact-form__errors p {
+    margin: 0 0 var(--space-2);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .contact-form__errors ul {
+    margin: 0;
+    padding-left: var(--space-5);
+  }
+
+  @media screen and (max-width: 749px) {
+    .contact-form {
+      padding: var(--space-8) 0;
+    }
+
+    .contact-form__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .contact-form__row {
+      flex-direction: column;
+    }
+
+    .contact-form__submit {
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.contact_form.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Get in touch"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "Have a question or need help? Fill out the form below and we'll get back to you as soon as possible."
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.contact_form.name"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

@@ -2,24 +2,26 @@
   <div class="home-hero__container">
     <div class="home-hero__left">
       <div class="home-hero__top-content">
-        {%- if section.settings.review_text != blank -%}
-          <div class="home-hero__review-badge">
-            <span class="home-hero__star-icon">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M8 0.5L10.12 5.26L15.5 5.85L11.45 9.54L12.58 14.84L8 12.27L3.42 14.84L4.55 9.54L0.5 5.85L5.88 5.26L8 0.5Z" fill="var(--theme-primary)"/>
-              </svg>
-            </span>
-            <span class="home-hero__review-text">{{ section.settings.review_text }}</span>
-          </div>
-        {%- endif -%}
+        <div class="home-hero__text-group">
+          {%- if section.settings.review_text != blank -%}
+            <div class="home-hero__review-badge">
+              <span class="home-hero__star-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8 0.5L10.12 5.26L15.5 5.85L11.45 9.54L12.58 14.84L8 12.27L3.42 14.84L4.55 9.54L0.5 5.85L5.88 5.26L8 0.5Z" fill="var(--theme-text-on-accent)"/>
+                </svg>
+              </span>
+              <span class="home-hero__review-text">{{ section.settings.review_text }}</span>
+            </div>
+          {%- endif -%}
 
-        {%- if section.settings.heading != blank -%}
-          <h1 class="home-hero__heading">{{ section.settings.heading }}</h1>
-        {%- endif -%}
+          {%- if section.settings.heading != blank -%}
+            <h1 class="home-hero__heading">{{ section.settings.heading }}</h1>
+          {%- endif -%}
 
-        {%- if section.settings.body_text != blank -%}
-          <p class="home-hero__body">{{ section.settings.body_text }}</p>
-        {%- endif -%}
+          {%- if section.settings.body_text != blank -%}
+            <p class="home-hero__body">{{ section.settings.body_text }}</p>
+          {%- endif -%}
+        </div>
 
         {%- if section.settings.button_text != blank -%}
           <a
@@ -30,8 +32,8 @@
           >
             <span class="home-hero__cta-icon">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <path d="M8 2L14 8L8 14" stroke="var(--theme-text-on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M14 8H2" stroke="var(--theme-text-on-primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M8 2L14 8L8 14" stroke="var(--color-accent-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 8H2" stroke="var(--color-accent-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </span>
             <span class="home-hero__cta-text">{{ section.settings.button_text }}</span>
@@ -40,18 +42,12 @@
       </div>
 
       {%- assign bundle_product = section.settings.bundle_product -%}
-      {%- if section.settings.show_bundle -%}
+      {%- if bundle_product != blank -%}
       <div class="home-hero__bundle">
         <div class="home-hero__bundle-card">
           <div class="home-hero__bundle-image">
-            {%- if bundle_product != blank and bundle_product.featured_image != blank -%}
+            {%- if bundle_product.featured_image != blank -%}
               {{ bundle_product.featured_image | image_url: width: 310, height: 272 | image_tag: loading: 'lazy' }}
-            {%- elsif section.settings.bundle_image != blank -%}
-              {{ section.settings.bundle_image | image_url: width: 310, height: 272 | image_tag: loading: 'lazy' }}
-            {%- else -%}
-              <div class="home-hero__bundle-image-placeholder">
-                {{ 'product-2' | placeholder_svg_tag }}
-              </div>
             {%- endif -%}
           </div>
 
@@ -61,21 +57,17 @@
                 {%- liquid
                   if section.settings.bundle_label != blank
                     assign bundle_label_text = section.settings.bundle_label
-                  elsif bundle_product != blank
-                    assign bundle_label_text = bundle_product.title
                   else
-                    assign bundle_label_text = ''
+                    assign bundle_label_text = bundle_product.title
                   endif
 
                   assign bundle_badge_text = ''
                   if section.settings.bundle_badge != blank
                     assign bundle_badge_text = section.settings.bundle_badge
-                  elsif bundle_product != blank
-                    if bundle_product.compare_at_price > bundle_product.price
-                      assign savings = bundle_product.compare_at_price | minus: bundle_product.price
-                      assign pct = savings | times: 100 | divided_by: bundle_product.compare_at_price
-                      assign bundle_badge_text = 'SAVE ' | append: pct | append: '%+'
-                    endif
+                  elsif bundle_product.compare_at_price > bundle_product.price
+                    assign savings = bundle_product.compare_at_price | minus: bundle_product.price
+                    assign pct = savings | times: 100 | divided_by: bundle_product.compare_at_price
+                    assign bundle_badge_text = 'SAVE ' | append: pct | append: '%+'
                   endif
                 -%}
                 {%- if bundle_label_text != blank -%}
@@ -93,50 +85,30 @@
 
             <div class="home-hero__bundle-footer">
               <div class="home-hero__bundle-prices">
-                {%- if bundle_product != blank -%}
-                  <span class="home-hero__bundle-price">{{ bundle_product.price | money }}</span>
-                  {%- if bundle_product.compare_at_price > bundle_product.price -%}
-                    <span class="home-hero__bundle-compare-price">{{ bundle_product.compare_at_price | money }}</span>
-                  {%- endif -%}
-                {%- else -%}
-                  {%- if section.settings.bundle_price != blank -%}
-                    <span class="home-hero__bundle-price">{{ section.settings.bundle_price }}</span>
-                  {%- endif -%}
-                  {%- if section.settings.bundle_compare_price != blank -%}
-                    <span class="home-hero__bundle-compare-price">{{ section.settings.bundle_compare_price }}</span>
-                  {%- endif -%}
+                <span class="home-hero__bundle-price">{{ bundle_product.price | money }}</span>
+                {%- if bundle_product.compare_at_price > bundle_product.price -%}
+                  <span class="home-hero__bundle-compare-price">{{ bundle_product.compare_at_price | money }}</span>
                 {%- endif -%}
               </div>
 
-              {%- if bundle_product != blank -%}
-                {%- form 'product', bundle_product -%}
-                  <input type="hidden" name="id" value="{{ bundle_product.selected_or_first_available_variant.id }}">
-                  <button
-                    type="submit"
-                    class="home-hero__bundle-button"
-                    {% unless bundle_product.available %}disabled{% endunless %}
-                  >
-                    {%- if bundle_product.available -%}
-                      {%- if section.settings.bundle_button_text != blank -%}
-                        {{ section.settings.bundle_button_text }}
-                      {%- else -%}
-                        {{ 'products.hero.add_to_cart' | t }}
-                      {%- endif -%}
-                    {%- else -%}
-                      {{ 'products.sold_out' | t }}
-                    {%- endif -%}
-                  </button>
-                {%- endform -%}
-              {%- elsif section.settings.bundle_button_text != blank -%}
-                <a
+              {%- form 'product', bundle_product -%}
+                <input type="hidden" name="id" value="{{ bundle_product.selected_or_first_available_variant.id }}">
+                <button
+                  type="submit"
                   class="home-hero__bundle-button"
-                  {% if section.settings.bundle_button_url != blank %}
-                    href="{{ section.settings.bundle_button_url }}"
-                  {% endif %}
+                  {% unless bundle_product.available %}disabled{% endunless %}
                 >
-                  {{ section.settings.bundle_button_text }}
-                </a>
-              {%- endif -%}
+                  {%- if bundle_product.available -%}
+                    {%- if section.settings.bundle_button_text != blank -%}
+                      {{ section.settings.bundle_button_text }}
+                    {%- else -%}
+                      {{ 'products.hero.add_to_cart' | t }}
+                    {%- endif -%}
+                  {%- else -%}
+                    {{ 'products.sold_out' | t }}
+                  {%- endif -%}
+                </button>
+              {%- endform -%}
             </div>
           </div>
         </div>
@@ -151,7 +123,7 @@
         </div>
       {%- else -%}
         <div class="home-hero__image home-hero__image--placeholder">
-          {{ 'product-1' | placeholder_svg_tag }}
+          {% render 'placeholder-image' %}
         </div>
       {%- endif -%}
     </div>
@@ -161,13 +133,13 @@
 {% stylesheet %}
   .home-hero {
     background-color: var(--theme-surface);
-    padding: var(--space-13);
+    padding: var(--space-6) var(--space-13);
   }
 
   .home-hero__container {
     display: flex;
     flex-direction: row;
-    gap: var(--space-10);
+    gap: var(--space-3);
     max-width: var(--container-max);
     margin: 0 auto;
     align-items: stretch;
@@ -177,14 +149,20 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     gap: var(--space-8);
   }
 
   .home-hero__top-content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: var(--space-8);
+  }
+
+  .home-hero__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
   }
 
   /* Review badge */
@@ -195,7 +173,7 @@
     background-color: var(--theme-accent);
     color: var(--theme-text-on-accent);
     border-radius: var(--theme-radius-badge);
-    padding: 6px var(--space-4);
+    padding: var(--space-1) var(--space-4) var(--space-1) var(--space-2);
     width: fit-content;
   }
 
@@ -216,11 +194,10 @@
 
   /* Heading */
   .home-hero__heading {
-    font-size: var(--font-size-5xl);
-    line-height: var(--line-height-tight);
-    color: var(--theme-primary);
+    font-size: var(--font-size-6xl, 52px);
+    line-height: 64px;
+    color: var(--color-text);
     letter-spacing: var(--letter-spacing-tighter);
-    font-weight: var(--font-weight-bold);
     margin: 0;
   }
 
@@ -228,7 +205,7 @@
   .home-hero__body {
     font-size: var(--font-size-base);
     line-height: var(--line-height-normal);
-    color: var(--theme-text-secondary);
+    color: var(--color-text-muted);
     max-width: 423px;
     margin: 0;
   }
@@ -238,8 +215,8 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-3);
-    background-color: var(--theme-primary);
-    color: var(--theme-text-on-primary);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
     border-radius: var(--theme-radius-button);
     padding: var(--space-2) var(--space-6) var(--space-2) var(--space-2);
     text-decoration: none;
@@ -263,7 +240,7 @@
     justify-content: center;
     width: 40px;
     height: 40px;
-    background-color: var(--theme-primary-light);
+    background-color: var(--color-on-primary-subtle);
     border-radius: var(--radius-round);
     flex-shrink: 0;
   }
@@ -299,22 +276,6 @@
     object-fit: cover;
   }
 
-  .home-hero__bundle-image-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--theme-surface-alt);
-    border-radius: var(--theme-radius-image);
-  }
-
-  .home-hero__bundle-image-placeholder svg {
-    width: 60%;
-    height: auto;
-    opacity: 0.4;
-  }
-
   .home-hero__bundle-info {
     display: flex;
     flex-direction: column;
@@ -333,7 +294,7 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
-    color: var(--theme-primary);
+    color: var(--color-text);
   }
 
   .home-hero__bundle-badge {
@@ -380,13 +341,13 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
-    color: var(--theme-primary);
+    color: var(--color-text);
   }
 
   .home-hero__bundle-compare-price {
     font-size: var(--font-size-xs);
     line-height: var(--line-height-snug);
-    color: color-mix(in srgb, var(--theme-primary) 40%, transparent);
+    color: color-mix(in srgb, var(--color-text) 40%, transparent);
     text-decoration: line-through;
   }
 
@@ -394,8 +355,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: var(--theme-surface-muted);
-    color: var(--theme-primary);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
     border-radius: var(--theme-radius-button);
     height: 44px;
     padding: 0 var(--space-5);
@@ -601,61 +562,30 @@
       "content": "t:labels.bundle"
     },
     {
-      "type": "checkbox",
-      "id": "show_bundle",
-      "label": "t:sections.home_hero.settings.show_bundle",
-      "default": true
-    },
-    {
       "type": "product",
       "id": "bundle_product",
       "label": "t:labels.bundle_product"
     },
     {
-      "type": "image_picker",
-      "id": "bundle_image",
-      "label": "t:sections.home_hero.settings.bundle_image_override"
-    },
-    {
       "type": "text",
       "id": "bundle_label",
-      "label": "t:labels.bundle_label",
-      "default": "Bundle"
+      "label": "t:labels.bundle_label"
     },
     {
       "type": "text",
       "id": "bundle_badge",
-      "label": "t:labels.bundle_badge",
-      "default": "Save 50%+"
+      "label": "t:labels.bundle_badge"
     },
     {
       "type": "textarea",
       "id": "bundle_description",
-      "label": "t:labels.description",
-      "default": "Add DM-02™ Daily Multivitamin to your routine and save on your first order."
+      "label": "t:labels.description"
     },
     {
       "type": "text",
       "id": "bundle_button_text",
       "label": "t:labels.button_text",
       "default": "Add to Cart"
-    },
-    {
-      "type": "text",
-      "id": "bundle_price",
-      "label": "t:sections.home_hero.settings.bundle_price_fallback",
-      "default": "$109.00"
-    },
-    {
-      "type": "text",
-      "id": "bundle_compare_price",
-      "label": "t:sections.home_hero.settings.bundle_compare_price_fallback",
-      "default": "$199.99"
-    },
-    {
-      "type": "url",
-      "id": "bundle_button_url",
-      "label": "t:sections.home_hero.settings.bundle_button_url_fallback"
     }
   ],
   "presets": [

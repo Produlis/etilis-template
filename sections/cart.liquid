@@ -43,7 +43,7 @@
                   {% if item.image %}
                     {{ item.image | image_url: width: 310 | image_tag: class: 'cart-page__item-img', loading: 'lazy' }}
                   {% else %}
-                    {{ 'product-1' | placeholder_svg_tag: 'cart-page__item-placeholder' }}
+                    {% render 'placeholder-image' %}
                   {% endif %}
                 </a>
                 <div class="cart-page__item-details">
@@ -114,54 +114,22 @@
               </div>
             {% endfor %}
           {% else %}
-            {%- comment -%} Fallback placeholder items for visualization {%- endcomment -%}
-            {% for i in (1..2) %}
-              <div class="cart-page__item">
-                <div class="cart-page__item-image">
-                  {{ 'product-' | append: i | placeholder_svg_tag: 'cart-page__item-placeholder' }}
-                </div>
-                <div class="cart-page__item-details">
-                  <div class="cart-page__item-left">
-                    <div class="cart-page__item-info">
-                      <span class="cart-page__item-title">{{ 'cart.fallback_product_title' | t }}</span>
-                      <p class="cart-page__item-variant">{{ 'cart.fallback_variant' | t }}</p>
-                    </div>
-                    <div class="cart-page__qty-row">
-                      <div class="cart-page__quantity">
-                        <button class="cart-page__quantity-btn" disabled>
-                          {{ 'icon-minus.svg' | inline_asset_content }}
-                        </button>
-                        <span class="cart-page__quantity-value">1</span>
-                        <button class="cart-page__quantity-btn" disabled>
-                          {{ 'icon-plus.svg' | inline_asset_content }}
-                        </button>
-                      </div>
-                      <button class="cart-page__remove-btn" disabled>
-                        {{ 'icon-trash.svg' | inline_asset_content }}
-                      </button>
-                    </div>
-                  </div>
-                  <div class="cart-page__item-right">
-                    <div class="cart-page__item-prices">
-                      <div class="cart-page__item-price-row">
-                        <span class="cart-page__item-compare-price">$59.99</span>
-                        <span class="cart-page__item-price">$39.99</span>
-                      </div>
-                      <span class="cart-page__item-savings">({{ 'cart.save_label' | t: amount: '$20.00' }})</span>
-                      <span class="cart-page__item-discount-badge">
-                        {{ 'icon-discount-tag.svg' | inline_asset_content }}
-                        <span>SAVE20</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
+            <div class="cart-page__empty">
+              <svg class="cart-page__empty-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M3 6h18" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M16 10a4 4 0 01-8 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <h2 class="cart-page__empty-title">{{ 'cart.empty' | t }}</h2>
+              <a href="{{ routes.all_products_collection_url }}" class="cart-page__empty-btn">
+                {{ 'cart.continue_shopping' | t }}
+              </a>
+            </div>
           {% endif %}
         </div>
 
         {%- comment -%} Sidebar: summary + upsell {%- endcomment -%}
-        <div class="cart-page__sidebar">
+        <div class="cart-page__sidebar"{% if cart.item_count == 0 %} hidden{% endif %}>
           {%- comment -%} Order summary {%- endcomment -%}
           <div class="cart-page__summary">
             {%- comment -%} Promo code input {%- endcomment -%}

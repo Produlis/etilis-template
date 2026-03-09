@@ -169,7 +169,7 @@
 
 {% stylesheet %}
   .site-footer {
-    background-color: var(--theme-primary);
+    background-color: var(--color-text);
     color: var(--theme-text-on-primary);
   }
 
@@ -213,7 +213,7 @@
   }
 
   .site-footer__logo-img {
-    max-height: 28px;
+    max-height: 90px;
     width: auto;
   }
 
@@ -243,9 +243,9 @@
   }
 
   .site-footer__newsletter-heading {
-    font-size: var(--font-size-xl);
+    font-size: var(--font-size-lg, 20px);
     font-weight: var(--font-weight-regular);
-    line-height: var(--line-height-snug);
+    line-height: 28px;
     color: var(--theme-text-on-primary);
     margin: 0 0 var(--space-6) 0;
   }
@@ -257,9 +257,9 @@
   .site-footer__input-wrap {
     display: flex;
     align-items: center;
-    background-color: var(--theme-primary-light);
-    border: 1px solid var(--theme-input-border-dark);
-    border-radius: var(--theme-radius-button);
+    background-color: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 56px;
     padding: var(--space-2) var(--space-2) var(--space-2) var(--space-6);
     transition: border-color var(--duration-fast) var(--ease-standard);
   }
@@ -281,17 +281,17 @@
   }
 
   .site-footer__input::placeholder {
-    color: var(--theme-text-on-dark);
+    color: var(--color-text-on-dark-muted);
   }
 
   .site-footer__submit {
     flex-shrink: 0;
-    height: 44px;
+    height: 40px;
     padding: 0 var(--space-5);
-    background-color: var(--theme-accent);
-    color: var(--theme-text-on-accent);
+    background-color: var(--color-surface);
+    color: var(--color-text);
     border: none;
-    border-radius: var(--theme-radius-button);
+    border-radius: 40px;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-tight);
@@ -325,7 +325,7 @@
   }
 
   .site-footer__submit:hover {
-    background-color: var(--theme-accent-hover);
+    background-color: var(--color-glass-bg-heavy);
   }
 
   .site-footer__submit:active {
@@ -387,7 +387,7 @@
   .site-footer__menu-title {
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-medium);
-    color: var(--theme-text-dim);
+    color: var(--color-text-label-muted);
     text-transform: uppercase;
     letter-spacing: var(--letter-spacing-wider);
     line-height: var(--line-height-snug);
@@ -561,7 +561,7 @@
       "type": "text",
       "id": "newsletter_heading",
       "label": "t:sections.footer.settings.newsletter_heading",
-      "default": "Subscribe our newsletter"
+      "default": "We have high standards for emails too."
     },
     {
       "type": "text",

@@ -29,7 +29,7 @@
         </div>
       {%- else -%}
         <div class="product-hero__main-image">
-          {{ 'product-1' | placeholder_svg_tag: 'product-hero__img product-hero__img--placeholder' }}
+          {% render 'placeholder-image', height: '451px' %}
         </div>
       {%- endif -%}
 
@@ -315,7 +315,7 @@
   .product-hero__main-image {
     border-radius: var(--theme-radius-card);
     overflow: hidden;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
   }
 
   .product-hero__img {
@@ -452,7 +452,7 @@
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
     color: var(--theme-primary);
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
     border: 1px solid var(--theme-border);
     border-radius: var(--radius-xl);
     cursor: pointer;

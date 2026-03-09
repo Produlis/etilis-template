@@ -24,32 +24,37 @@
   {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
 
   {%- comment -%}
-    NATURE color scheme — Organic, sustainable, wellness, trust.
-    Deep forest greens with warm cream undertones. Pill-shaped
-    buttons and generous radius for a soft, organic feel.
-    CTA green (#1C3A13) passes WCAG AA on cream (12.5:1).
+    Brand color scheme — Navy blue with golden yellow accents.
+    Clean white backgrounds with warm cream subtle tones.
+    CTA yellow (#FFD400) with navy text (#082D73) for high contrast.
   {%- endcomment -%}
-  {%- assign scheme_bg = '#FCFCF7' -%}
-  {%- assign scheme_bg_subtle = '#F2F3E7' -%}
+  {%- assign scheme_bg = '#FFFFFF' -%}
+  {%- assign scheme_bg_subtle = '#FBF9EE' -%}
   {%- assign scheme_surface = '#FFFFFF' -%}
-  {%- assign scheme_border = '#D2D4C4' -%}
-  {%- assign scheme_text = '#1C3A13' -%}
-  {%- assign scheme_text_secondary = '#434141' -%}
-  {%- assign scheme_text_disabled = '#A8AFA6' -%}
-  {%- assign scheme_accent = '#1C3A13' -%}
-  {%- assign scheme_accent_hover = '#37522F' -%}
+  {%- assign scheme_border = '#D9DEDF' -%}
+  {%- assign scheme_text = '#082D73' -%}
+  {%- assign scheme_text_secondary = '#515E75' -%}
+  {%- assign scheme_text_disabled = '#D5D8DD' -%}
+  {%- assign scheme_accent = '#FFD400' -%}
+  {%- assign scheme_accent_hover = '#F8D83E' -%}
   {%- assign scheme_accent_text = '#FFFFFF' -%}
-  {%- assign scheme_highlight = '#D3FA99' -%}
-  {%- assign scheme_success = '#1C3A13' -%}
-  {%- assign scheme_error = '#B84040' -%}
-  {%- assign scheme_focus = '#1C3A13' -%}
-  {%- assign scheme_primary_light = '#37522F' -%}
-  {%- assign scheme_text_on_accent = '#1C3A13' -%}
-  {%- assign scheme_text_on_dark = '#CDD1CC' -%}
-  {%- assign scheme_input_border_dark = '#4F6748' -%}
-  {%- assign scheme_neutral_300 = '#D2D4C4' -%}
-  {%- assign scheme_neutral_400 = '#A8AFA6' -%}
-  {%- assign scheme_neutral_800 = '#0F200A' -%}
+  {%- assign scheme_highlight = '#FFD400' -%}
+  {%- assign scheme_success = '#25790C' -%}
+  {%- assign scheme_error = '#AE3838' -%}
+  {%- assign scheme_warning = '#CA8A04' -%}
+  {%- assign scheme_focus = '#082D73' -%}
+  {%- assign scheme_primary_light = '#082D73' -%}
+  {%- assign scheme_text_on_accent = '#082D73' -%}
+  {%- assign scheme_text_on_dark = '#FFFFFF' -%}
+  {%- assign scheme_input_border_dark = '#515E75' -%}
+  {%- assign scheme_neutral_300 = '#D9DEDF' -%}
+  {%- assign scheme_neutral_400 = '#D5D8DD' -%}
+  {%- assign scheme_neutral_800 = '#082D73' -%}
+  {%- assign scheme_surface_card = '#E8EBEC' -%}
+  {%- assign scheme_surface_placeholder = '#EEEDEC' -%}
+  {%- assign scheme_text_nav = '#434141' -%}
+  {%- assign scheme_text_on_dark_muted = '#CDD1CC' -%}
+  {%- assign scheme_text_label_muted = '#A8AFA6' -%}
   {%- assign scheme_radius_btn = '48px' -%}
   {%- assign scheme_radius_card = '24px' -%}
   {%- assign scheme_radius_input = '56px' -%}
@@ -147,7 +152,7 @@
     --color-success: {{ scheme_success }};
     --color-error: {{ scheme_error }};
     --color-danger: {{ scheme_error }};
-    --color-warning: #CA8A04;
+    --color-warning: {{ scheme_warning }};
     --color-info: {{ scheme_accent }};
 
     /* Interactive */
@@ -186,9 +191,17 @@
     --color-shadow-inset: rgb(0 0 0 / 0.2);
     --color-shadow-inset-light: rgb(255 255 255 / 0.9);
 
+    /* ===== Section-specific surface & text tokens ===== */
+    --color-surface-card: {{ scheme_surface_card }};
+    --color-surface-placeholder: {{ scheme_surface_placeholder }};
+    --color-text-nav: {{ scheme_text_nav }};
+    --color-text-on-dark-muted: {{ scheme_text_on_dark_muted }};
+    --color-text-label-muted: {{ scheme_text_label_muted }};
+    --color-accent-subtle: color-mix(in srgb, {{ scheme_accent }} 12%, transparent);
+
     /* ===== Theme-specific aliases for sections ===== */
-    --theme-primary: {{ scheme_accent }};
-    --theme-primary-hover: {{ scheme_accent_hover }};
+    --theme-primary: {{ scheme_text }};
+    --theme-primary-hover: {{ scheme_text }};
     --theme-primary-light: {{ scheme_primary_light }};
     --theme-primary-dark: {{ scheme_text }};
     --theme-accent: {{ scheme_highlight }};
@@ -207,7 +220,7 @@
     --theme-border: {{ scheme_border }};
     --theme-input-border: {{ scheme_border }};
     --theme-input-border-dark: {{ scheme_input_border_dark }};
-    --theme-star: {% if settings.color_override_star != blank %}{{ settings.color_override_star }}{% else %}#FFB800{% endif %};
+    --theme-star: {% if settings.color_override_star != blank %}{{ settings.color_override_star }}{% else %}#FEAF00{% endif %};
 
     /* ===== Border radius per scheme ===== */
     --radius-btn: {{ scheme_radius_btn }};

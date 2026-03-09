@@ -45,7 +45,7 @@
             {%- if testimonial.image -%}
               <img src="{{ testimonial.image }}" loading="lazy" alt="{{ testimonial.author_name | escape }}">
             {%- else -%}
-              {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
+              {% render 'placeholder-image' %}
             {%- endif -%}
           </div>
 
@@ -73,7 +73,7 @@
             {% if block.settings.author_image %}
               {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
             {% else %}
-              {{ 'product-1' | placeholder_svg_tag: 'testimonials__avatar-placeholder' }}
+              {% render 'placeholder-image' %}
             {% endif %}
           </div>
 

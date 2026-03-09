@@ -69,7 +69,7 @@
               {%- if benefit.image -%}
                 <img src="{{ benefit.image }}" loading="lazy" alt="{{ benefit.title | escape }}">
               {%- else -%}
-                {{ 'product-1' | placeholder_svg_tag: 'product-benefits__placeholder' }}
+                {% render 'placeholder-image' %}
               {%- endif -%}
             </div>
           </div>
@@ -92,7 +92,7 @@
                 {% if block.settings.image %}
                   {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
                 {% else %}
-                  {{ 'product-1' | placeholder_svg_tag: 'product-benefits__placeholder' }}
+                  {% render 'placeholder-image' %}
                 {% endif %}
               </div>
             </div>
@@ -265,7 +265,7 @@
     border-radius: var(--radius-card);
     overflow: hidden;
     position: relative;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
   }
 
   .product-benefits__detail-image img,

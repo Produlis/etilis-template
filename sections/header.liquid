@@ -18,9 +18,19 @@
     </a>
 
     {%- comment -%} Desktop navigation {%- endcomment -%}
+    {%- assign max_visible = section.settings.max_visible_links | default: 3 -%}
+    {%- assign total_links = section.settings.menu.links.size -%}
+    {%- assign has_overflow = false -%}
+    {%- if total_links > max_visible -%}
+      {%- assign has_overflow = true -%}
+    {%- endif -%}
+
     <nav class="site-header__nav" role="navigation" aria-label="{{ 'header.navigation' | t }}">
       <ul class="site-header__nav-list">
         {%- for link in section.settings.menu.links -%}
+          {%- if has_overflow and forloop.index > max_visible -%}
+            {%- continue -%}
+          {%- endif -%}
           <li class="site-header__nav-item{% if link.links.size > 0 %} site-header__nav-item--has-dropdown{% endif %}">
             {%- if link.links.size > 0 -%}
               <button
@@ -49,6 +59,33 @@
             {%- endif -%}
           </li>
         {%- endfor -%}
+
+        {%- if has_overflow -%}
+          <li class="site-header__nav-item site-header__nav-item--has-dropdown">
+            <button
+              class="site-header__nav-link site-header__nav-link--dropdown"
+              aria-expanded="false"
+              aria-controls="dropdown-more"
+            >
+              {{- 'header.more_links' | t -}}
+              <svg class="site-header__dropdown-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <ul class="site-header__dropdown" id="dropdown-more">
+              {%- for link in section.settings.menu.links -%}
+                {%- if forloop.index <= max_visible -%}
+                  {%- continue -%}
+                {%- endif -%}
+                <li class="site-header__dropdown-item">
+                  <a href="{{ link.url }}" class="site-header__dropdown-link">
+                    {{- link.title | escape -}}
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </li>
+        {%- endif -%}
       </ul>
     </nav>
 
@@ -166,7 +203,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--space-4) var(--space-6) var(--space-4) var(--space-10);
+    padding: var(--space-3) var(--space-4);
     max-width: none;
     width: 100%;
   }
@@ -182,7 +219,7 @@
   }
 
   .site-header__logo:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
     border-radius: var(--radius-sm, 4px);
   }
@@ -199,7 +236,7 @@
   }
 
   .site-header__logo-image {
-    height: 40px;
+    height: 53px;
     width: auto;
     display: block;
   }
@@ -233,7 +270,7 @@
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-regular, 400);
     line-height: var(--line-height-normal, 1.5);
-    color: var(--theme-text-secondary);
+    color: var(--color-text-nav);
     text-decoration: none;
     background: none;
     border: none;
@@ -248,7 +285,7 @@
   }
 
   .site-header__nav-link:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
   }
 
@@ -296,7 +333,7 @@
   }
 
   .site-header__dropdown-link:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: -2px;
   }
 
@@ -312,30 +349,32 @@
     position: relative;
     display: none;
     align-items: center;
-    height: 44px;
+    justify-content: center;
+    height: 40px;
     padding: 0 var(--space-5);
-    background-color: var(--theme-primary);
-    color: var(--theme-text-on-primary);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
+    border: none;
     font-size: var(--font-size-base);
     font-weight: var(--font-weight-medium, 500);
     letter-spacing: var(--letter-spacing-tight);
     text-decoration: none;
-    border-radius: var(--theme-radius-button);
+    border-radius: 40px;
     white-space: nowrap;
-    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
   }
 
   .site-header__cart:hover {
-    background-color: var(--theme-primary-hover);
+    opacity: 0.85;
   }
 
   .site-header__cart:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
   }
 
   .site-header__cart-text {
-    color: var(--theme-text-on-primary);
+    color: inherit;
   }
 
   .site-header__cart-count {
@@ -378,11 +417,11 @@
 
   .site-header__search-trigger:hover {
     background-color: var(--color-hover-subtle);
-    color: var(--theme-primary);
+    color: var(--color-text);
   }
 
   .site-header__search-trigger:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
   }
 
@@ -394,8 +433,8 @@
     width: 44px;
     height: 44px;
     padding: 0;
-    background-color: var(--theme-primary);
-    color: var(--theme-text-on-primary);
+    background-color: var(--color-text);
+    color: var(--theme-surface);
     border: none;
     border-radius: var(--theme-radius-button);
     cursor: pointer;
@@ -403,11 +442,12 @@
   }
 
   .site-header__menu-toggle:hover {
-    background-color: var(--theme-primary-hover);
+    background-color: var(--color-text);
+    opacity: 0.85;
   }
 
   .site-header__menu-toggle:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
   }
 
@@ -476,7 +516,7 @@
   }
 
   .site-header__drawer-close:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
   }
 
@@ -503,7 +543,7 @@
   }
 
   .site-header__drawer-search:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: 2px;
   }
 
@@ -534,7 +574,7 @@
   }
 
   .site-header__drawer-link:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: -2px;
   }
 
@@ -559,14 +599,14 @@
   }
 
   .site-header__drawer-sublink:focus-visible {
-    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline: 2px solid var(--color-focus, var(--color-text));
     outline-offset: -2px;
   }
 
   /* --- Desktop breakpoint --- */
   @media (min-width: 750px) {
     .site-header__inner {
-      padding: var(--space-4) var(--space-10) var(--space-4) var(--space-10);
+      padding: var(--space-4) var(--space-6) var(--space-4) var(--space-10);
     }
 
     .site-header__nav {
@@ -574,7 +614,7 @@
     }
 
     .site-header__search-trigger {
-      display: inline-flex;
+      display: none;
     }
 
     .site-header__cart {
@@ -714,6 +754,15 @@
       "type": "image_picker",
       "id": "logo",
       "label": "t:labels.image"
+    },
+    {
+      "type": "range",
+      "id": "max_visible_links",
+      "label": "t:header.max_visible_links",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 3
     }
   ]
 }
