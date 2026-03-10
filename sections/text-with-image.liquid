@@ -1,0 +1,476 @@
+<section class="twi full-width">
+  <div class="twi__container">
+    <div class="twi__top">
+      <div class="twi__card" data-animate="fade-up">
+        <div class="twi__card-text">
+          {% if section.settings.tag_text != blank %}
+            <span class="twi__tag">{{ section.settings.tag_text }}</span>
+          {% endif %}
+
+          {% if section.settings.heading != blank %}
+            <h2 class="twi__heading">{{ section.settings.heading }}</h2>
+          {% endif %}
+
+          {% if section.settings.body_text != blank %}
+            <p class="twi__body">{{ section.settings.body_text }}</p>
+          {% endif %}
+        </div>
+
+        {% if section.settings.button_text != blank %}
+          <a
+            href="{{ section.settings.button_url }}"
+            class="twi__button"
+          >
+            <span class="twi__button-text-mask">
+              <span class="twi__button-text">{{ section.settings.button_text }}</span>
+            </span>
+            <span class="twi__button-bg"></span>
+          </a>
+        {% endif %}
+      </div>
+
+      <div class="twi__side-image" data-animate="fade-in">
+        {% if section.settings.side_image %}
+          {{ section.settings.side_image | image_url: width: 800 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {% render 'placeholder-image', dark: true %}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="twi__bottom">
+      <div class="twi__bottom-image" data-animate="fade-in">
+        {% if section.settings.bottom_image %}
+          {{ section.settings.bottom_image | image_url: width: 2400 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {% render 'placeholder-image', dark: true %}
+        {% endif %}
+      </div>
+
+      {% assign features = section.blocks | where: 'type', 'feature' %}
+      {% if features.size > 0 %}
+        <div class="twi__overlay" data-animate="fade-up" data-animate-stagger>
+          {% for block in features %}
+            <div class="twi__feature" {{ block.shopify_attributes }}>
+              {% if block.settings.icon %}
+                <div class="twi__feature-icon">
+                  {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy' }}
+                </div>
+              {% endif %}
+
+              {% if block.settings.title != blank %}
+                <h3 class="twi__feature-title">{{ block.settings.title }}</h3>
+              {% endif %}
+
+              {% if block.settings.description != blank %}
+                <p class="twi__feature-description">{{ block.settings.description }}</p>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .twi {
+    background-color: var(--theme-surface);
+    padding: var(--space-13);
+  }
+
+  .twi__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+  }
+
+  /* ── Top row ── */
+  .twi__top {
+    display: flex;
+    gap: var(--space-4);
+    align-items: stretch;
+  }
+
+  .twi__card {
+    flex: 0 0 72%;
+    background-color: var(--theme-primary);
+    border-radius: var(--radius-3xl);
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    justify-content: center;
+  }
+
+  .twi__card-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .twi__tag {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--theme-text-on-primary);
+    background-color: var(--color-on-primary-subtle);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-3);
+    line-height: normal;
+  }
+
+  .twi__heading {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-primary);
+    letter-spacing: var(--letter-spacing-tighter);
+    margin: 0;
+    max-width: 616px;
+  }
+
+  .twi__body {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text-muted);
+    max-width: 548px;
+    margin: 0;
+  }
+
+  .twi__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    background-color: var(--theme-text-on-primary);
+    color: var(--theme-primary);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    letter-spacing: var(--letter-spacing-tight);
+    text-decoration: none;
+    text-align: center;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--theme-radius-button);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .twi__button-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .twi__button-text {
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .twi__button-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--theme-text-on-primary) 75%, var(--theme-primary));
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .twi__button:hover .twi__button-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .twi__button:hover .twi__button-bg {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  .twi__button:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+  }
+
+  /* ── Placeholder ── */
+  .twi__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Side image ── */
+  .twi__side-image {
+    flex: 1;
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    min-height: 0;
+    background-color: var(--theme-surface-alt);
+  }
+
+  .twi__side-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Bottom row ── */
+  .twi__bottom {
+    position: relative;
+    aspect-ratio: 1176 / 440;
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    background-color: var(--theme-surface-alt);
+  }
+
+  .twi__bottom-image {
+    position: absolute;
+    inset: 0;
+  }
+
+  .twi__bottom-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .twi__overlay {
+    position: absolute;
+    inset-block-end: var(--space-4);
+    inset-inline: var(--space-4);
+    display: flex;
+    gap: var(--space-2);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background-color: var(--color-glass-bg);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+
+  .twi__feature {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .twi__feature-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+  }
+
+  .twi__feature-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .twi__feature-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-medium);
+    color: var(--theme-text-on-primary);
+    letter-spacing: var(--letter-spacing-tighter);
+    line-height: normal;
+    margin: 0;
+  }
+
+  .twi__feature-description {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text-on-primary);
+    margin: 0;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .twi {
+      padding: var(--space-6) var(--space-5);
+    }
+
+    .twi__top {
+      flex-direction: column;
+    }
+
+    .twi__card {
+      flex: none;
+      gap: var(--space-6);
+      padding: var(--space-6);
+    }
+
+    .twi__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .twi__side-image {
+      height: 280px;
+    }
+
+    .twi__bottom {
+      aspect-ratio: auto;
+      min-height: 480px;
+    }
+
+    .twi__overlay {
+      flex-direction: column;
+      gap: var(--space-4);
+      inset-block-end: var(--space-3);
+      inset-inline: var(--space-3);
+      padding: var(--space-4);
+    }
+
+    .twi__feature-title {
+      font-size: var(--font-size-base);
+    }
+
+    .twi__feature-description {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-snug);
+    }
+  }
+
+  /* ── Tablet ── */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .twi {
+      padding: var(--space-8);
+    }
+
+    .twi__heading {
+      font-size: var(--font-size-4xl);
+    }
+
+    .twi__overlay {
+      flex-wrap: wrap;
+    }
+
+    .twi__feature {
+      flex: 1 0 calc(50% - 10px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.text_with_image.name",
+  "tag": "section",
+  "class": "text-with-image-section",
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "t:sections.text_with_image.feature",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title",
+          "default": "Feature"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:labels.description",
+          "default": "Feature description goes here."
+        }
+      ]
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "Try today"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Experience the difference quality makes."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "t:labels.body_text",
+      "default": "From materials and craftsmanship to thoughtful design, every detail is made to improve your daily routine and exceed expectations."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:labels.button_text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:labels.button_url"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "t:labels.side_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_image",
+      "label": "t:labels.bottom_image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.text_with_image.name",
+      "blocks": [
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Premium Ingredients",
+            "description": "Carefully sourced materials ensure the highest quality in every product."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Expert Craftsmanship",
+            "description": "Designed and built by experts who care about every detail."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Sustainable Practices",
+            "description": "Responsibly made with the environment and future generations in mind."
+          }
+        },
+        {
+          "type": "feature",
+          "settings": {
+            "title": "Tested & Proven",
+            "description": "Rigorously tested to meet the highest standards of performance and reliability."
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

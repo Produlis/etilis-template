@@ -17,3 +17,4 @@ release
 *.zip
 
 .claude/sessions/
+.env

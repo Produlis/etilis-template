@@ -1,0 +1,588 @@
+<div class="home-comparison full-width" style="--bg-color: var(--color-text);">
+  {% if section.settings.background_image %}
+    <div class="home-comparison__background">
+      {{ section.settings.background_image | image_url: width: 2000 | image_tag: loading: 'lazy' }}
+    </div>
+  {% endif %}
+
+  <div class="home-comparison__inner">
+    <div class="home-comparison__header" data-animate="fade-up" data-animate-stagger>
+      {% if section.settings.tag_text != blank %}
+        <span class="home-comparison__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
+
+      {% if section.settings.heading != blank %}
+        <h2 class="home-comparison__heading">{{ section.settings.heading }}</h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="home-comparison__subtitle">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    <div class="home-comparison__table-area" data-animate="fade-up">
+      {%- assign comparison_rows = section.blocks | where: 'type', 'comparison_row' -%}
+      {%- assign trust_badges = section.blocks | where: 'type', 'trust_badge' -%}
+
+      <div class="home-comparison__table-card">
+        <div class="home-comparison__labels-col">
+          <div class="home-comparison__label-spacer" aria-hidden="true"></div>
+          {%- for block in comparison_rows -%}
+            <div class="home-comparison__label-row" {{ block.shopify_attributes }}>
+              {{ block.settings.label }}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="home-comparison__brand-col">
+          <div class="home-comparison__col-header">
+            {{ section.settings.brand_name }}
+          </div>
+          {%- for block in comparison_rows -%}
+            <div class="home-comparison__check-row">
+              {%- if block.settings.brand_has -%}
+                <svg class="home-comparison__icon-check" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="{{ 'accessibility.checkmark' | t }}">
+                  <circle cx="12" cy="12" r="10" fill="var(--color-accent)"/>
+                  <path d="M8 12l3 3 5-5" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {%- else -%}
+                <svg class="home-comparison__icon-x" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="{{ 'accessibility.x_mark' | t }}">
+                  <circle cx="12" cy="12" r="10" fill="var(--color-x-mark-bg)"/>
+                  <path d="M9 9l6 6M15 9l-6 6" stroke="var(--color-x-mark-stroke)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+
+        <div class="home-comparison__competitor-col">
+          <div class="home-comparison__col-header">
+            {{ section.settings.competitor_name }}
+          </div>
+          {%- for block in comparison_rows -%}
+            <div class="home-comparison__check-row">
+              {%- if block.settings.competitor_has -%}
+                <svg class="home-comparison__icon-check" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="{{ 'accessibility.checkmark' | t }}">
+                  <circle cx="12" cy="12" r="10" fill="var(--color-accent)"/>
+                  <path d="M8 12l3 3 5-5" stroke="var(--color-text)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {%- else -%}
+                <svg class="home-comparison__icon-x" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="{{ 'accessibility.x_mark' | t }}">
+                  <circle cx="12" cy="12" r="10" fill="var(--color-x-mark-bg)"/>
+                  <path d="M9 9l6 6M15 9l-6 6" stroke="var(--color-x-mark-stroke)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      {% if trust_badges.size > 0 %}
+        <div class="home-comparison__badges" data-animate="fade-up" data-animate-stagger>
+          {%- for block in trust_badges -%}
+            <div class="home-comparison__badge" {{ block.shopify_attributes }}>
+              <div class="home-comparison__badge-icon">
+                {%- if block.settings.icon -%}
+                  {{ block.settings.icon | image_url: width: 32 | image_tag: loading: 'lazy' }}
+                {%- else -%}
+                  {%- case forloop.index -%}
+                    {%- when 1 -%}
+                      {{ 'icon-clock.svg' | inline_asset_content }}
+                    {%- when 2 -%}
+                      {{ 'icon-box.svg' | inline_asset_content }}
+                    {%- when 3 -%}
+                      {{ 'icon-guarantee.svg' | inline_asset_content }}
+                  {%- endcase -%}
+                {%- endif -%}
+              </div>
+              {%- if block.settings.text != blank -%}
+                <span class="home-comparison__badge-text">{{ block.settings.text }}</span>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .home-comparison {
+    position: relative;
+    border-radius: var(--theme-radius-card);
+    overflow: hidden;
+    padding: var(--space-13);
+    background-color: var(--bg-color, var(--color-text));
+  }
+
+  .home-comparison__background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+
+  .home-comparison__background img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-comparison__inner {
+    position: relative;
+    z-index: 1;
+    -webkit-backdrop-filter: blur(50px);
+    backdrop-filter: blur(50px);
+    background: var(--color-dark-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    border-radius: var(--theme-radius-card);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+  }
+
+  .home-comparison__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .home-comparison__tag {
+    display: inline-block;
+    background: var(--color-accent);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    color: var(--color-text);
+    letter-spacing: var(--letter-spacing-wider);
+    line-height: var(--line-height-normal);
+  }
+
+  .home-comparison__heading {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    color: var(--color-accent-text);
+    text-align: center;
+    letter-spacing: var(--letter-spacing-tighter);
+    margin: 0;
+  }
+
+  .home-comparison__subtitle {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-on-dark-muted);
+    text-align: center;
+    margin: 0;
+  }
+
+  .home-comparison__table-area {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-9);
+  }
+
+  .home-comparison__table-card {
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 24px;
+    display: flex;
+    gap: 10px;
+    padding: 8px 8px 8px 24px;
+    height: 392px;
+  }
+
+  .home-comparison__labels-col {
+    flex: 0 0 auto;
+    width: 48%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px 0;
+  }
+
+  .home-comparison__label-spacer {
+    height: 24px;
+  }
+
+  .home-comparison__label-row {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    font-size: var(--font-size-base);
+    color: var(--color-accent-text);
+  }
+
+  .home-comparison__brand-col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 16px 8px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    border-radius: 24px;
+  }
+
+  .home-comparison__competitor-col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 16px 0;
+    border-radius: 16px;
+  }
+
+  .home-comparison__col-header {
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-base);
+    color: var(--color-accent-text);
+    letter-spacing: var(--letter-spacing-tighter);
+    font-weight: var(--font-weight-regular);
+    white-space: nowrap;
+  }
+
+  .home-comparison__check-row {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-comparison__icon-check circle {
+    fill: var(--color-accent);
+  }
+
+  .home-comparison__icon-check path {
+    stroke: var(--color-text);
+  }
+
+  .home-comparison__icon-x circle {
+    fill: var(--color-x-mark-bg);
+  }
+
+  .home-comparison__icon-x path {
+    stroke: var(--color-x-mark-stroke);
+  }
+
+  .home-comparison__badges {
+    display: flex;
+    gap: var(--space-2);
+    width: 100%;
+  }
+
+  .home-comparison__badge {
+    flex: 1;
+    height: 44px;
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background: var(--color-glass-bg);
+    border: 1px solid var(--color-glass-border);
+    border-radius: var(--theme-radius-card);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-3);
+    gap: var(--space-2);
+  }
+
+  .home-comparison__badge-icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .home-comparison__badge-icon img,
+  .home-comparison__badge-icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .home-comparison__badge-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent-text);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 989px) {
+    .home-comparison {
+      padding: var(--space-8);
+    }
+
+    .home-comparison__heading {
+      font-size: var(--font-size-4xl);
+    }
+
+    .home-comparison__table-card {
+      height: auto;
+    }
+
+    .home-comparison__badge-text {
+      white-space: normal;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .home-comparison {
+      padding: var(--space-6) var(--space-4);
+      border-radius: var(--theme-radius-card);
+    }
+
+    .home-comparison__inner {
+      padding: var(--space-2);
+      gap: var(--space-8);
+    }
+
+    .home-comparison__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .home-comparison__table-card {
+      height: auto;
+      padding: 8px 8px 8px 16px;
+      border-radius: 16px;
+      gap: 8px;
+    }
+
+    .home-comparison__labels-col {
+      gap: 8px;
+      padding: 12px 0;
+    }
+
+    .home-comparison__label-spacer {
+      height: 20px;
+    }
+
+    .home-comparison__label-row {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-snug);
+      height: 40px;
+    }
+
+    .home-comparison__brand-col,
+    .home-comparison__competitor-col {
+      flex: 0 0 64px;
+      padding: 12px 4px;
+      gap: 8px;
+    }
+
+    .home-comparison__brand-col {
+      border-radius: 12px;
+    }
+
+    .home-comparison__col-header {
+      height: 20px;
+      font-size: var(--font-size-sm);
+    }
+
+    .home-comparison__check-row {
+      height: 40px;
+    }
+
+    .home-comparison__icon-check,
+    .home-comparison__icon-x {
+      width: 20px;
+      height: 20px;
+    }
+
+    .home-comparison__icon-check svg,
+    .home-comparison__icon-x svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .home-comparison__badges {
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .home-comparison__badge {
+      flex: none;
+      width: 100%;
+      height: 44px;
+      border-radius: 24px;
+      padding: var(--space-2) var(--space-2) var(--space-2) var(--space-3);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      background: var(--color-glass-bg);
+      border: 1px solid var(--color-glass-border);
+    }
+
+    .home-comparison__badge-text {
+      font-size: var(--font-size-sm);
+      white-space: nowrap;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.home_comparison.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "How we compare"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "See why customers choose us over the competition"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "t:labels.background"
+    },
+    {
+      "type": "text",
+      "id": "brand_name",
+      "label": "t:labels.brand_name",
+      "default": "Ours"
+    },
+    {
+      "type": "text",
+      "id": "competitor_name",
+      "label": "t:labels.competitor_name",
+      "default": "Other"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_row",
+      "name": "t:sections.home_comparison.blocks.comparison_row.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:labels.text",
+          "default": "Feature"
+        },
+        {
+          "type": "checkbox",
+          "id": "brand_has",
+          "label": "t:labels.brand_has",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "competitor_has",
+          "label": "t:labels.competitor_has",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "trust_badge",
+      "name": "t:sections.home_comparison.blocks.trust_badge.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "t:labels.text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.home_comparison.name",
+      "blocks": [
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Premium quality materials",
+            "brand_has": true,
+            "competitor_has": false
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Designed for long-lasting durability",
+            "brand_has": true,
+            "competitor_has": false
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Backed by independent testing",
+            "brand_has": true,
+            "competitor_has": false
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Ethically sourced and sustainably made",
+            "brand_has": true,
+            "competitor_has": false
+          }
+        },
+        {
+          "type": "comparison_row",
+          "settings": {
+            "label": "Satisfaction guarantee included",
+            "brand_has": true,
+            "competitor_has": false
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "text": "Limited stock available"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "text": "FREE Shipping & Returns"
+          }
+        },
+        {
+          "type": "trust_badge",
+          "settings": {
+            "text": "Money-back guarantee"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

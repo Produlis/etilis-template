@@ -1,18 +1,266 @@
-{% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+{% doc %}
+  Injects CSS custom properties for the Nature color scheme, typography, and
+  border-radius tokens. All visual tokens are applied site-wide.
+
+  The snippet also applies individual color overrides when the merchant sets
+  them, so they can fine-tune colors without touching code.
+
+  Loaded in layout/theme.liquid inside <head>.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+<style>
+  /*
+   * Self-hosted Inter font — loaded from theme assets for
+   * consistent typography across the entire site.
+   * font-display: swap avoids invisible text during load.
+   */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'Inter-Regular.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'Inter-Italic.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url({{ 'Inter-Medium.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url({{ 'Inter-SemiBold.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url({{ 'Inter-Bold.woff2' | asset_url }}) format('woff2');
+  }
+
+  {%- comment -%}
+    Brand color scheme — Navy blue with golden yellow accents.
+    Clean white backgrounds with warm cream subtle tones.
+    CTA yellow (#FFD400) with navy text (#082D73) for high contrast.
+  {%- endcomment -%}
+  {%- assign scheme_bg = '#FFFFFF' -%}
+  {%- assign scheme_bg_subtle = '#FBF9EE' -%}
+  {%- assign scheme_surface = '#FFFFFF' -%}
+  {%- assign scheme_border = '#D9DEDF' -%}
+  {%- assign scheme_text = '#082D73' -%}
+  {%- assign scheme_text_secondary = '#515E75' -%}
+  {%- assign scheme_text_disabled = '#D5D8DD' -%}
+  {%- assign scheme_accent = '#FFD400' -%}
+  {%- assign scheme_accent_hover = '#F8D83E' -%}
+  {%- assign scheme_accent_text = '#FFFFFF' -%}
+  {%- assign scheme_highlight = '#FFD400' -%}
+  {%- assign scheme_success = '#25790C' -%}
+  {%- assign scheme_error = '#AE3838' -%}
+  {%- assign scheme_warning = '#CA8A04' -%}
+  {%- assign scheme_focus = '#082D73' -%}
+  {%- assign scheme_primary_light = '#082D73' -%}
+  {%- assign scheme_text_on_accent = '#082D73' -%}
+  {%- assign scheme_text_on_dark = '#FFFFFF' -%}
+  {%- assign scheme_input_border_dark = '#515E75' -%}
+  {%- assign scheme_neutral_300 = '#D9DEDF' -%}
+  {%- assign scheme_neutral_400 = '#D5D8DD' -%}
+  {%- assign scheme_neutral_800 = '#082D73' -%}
+  {%- assign scheme_surface_card = '#E8EBEC' -%}
+  {%- assign scheme_surface_placeholder = '#EEEDEC' -%}
+  {%- assign scheme_text_nav = '#434141' -%}
+  {%- assign scheme_text_on_dark_muted = '#CDD1CC' -%}
+  {%- assign scheme_text_label_muted = '#A8AFA6' -%}
+  {%- assign scheme_radius_btn = '48px' -%}
+  {%- assign scheme_radius_card = '24px' -%}
+  {%- assign scheme_radius_input = '56px' -%}
+  {%- assign scheme_radius_badge = '28px' -%}
+  {%- assign scheme_radius_image = '16px' -%}
+
+  /*
+   * Merchant color overrides — applied on top of the active scheme
+   * so the merchant can tweak individual values without switching
+   * the entire palette.
+   */
+  {%- if settings.color_override_accent != blank -%}
+    {%- assign scheme_accent = settings.color_override_accent -%}
+  {%- endif -%}
+  {%- if settings.color_override_accent_hover != blank -%}
+    {%- assign scheme_accent_hover = settings.color_override_accent_hover -%}
+  {%- endif -%}
+  {%- if settings.color_override_accent_text != blank -%}
+    {%- assign scheme_accent_text = settings.color_override_accent_text -%}
+  {%- endif -%}
+  {%- if settings.color_override_highlight != blank -%}
+    {%- assign scheme_highlight = settings.color_override_highlight -%}
+  {%- endif -%}
+  {%- if settings.color_override_bg != blank -%}
+    {%- assign scheme_bg = settings.color_override_bg -%}
+  {%- endif -%}
+  {%- if settings.color_override_bg_subtle != blank -%}
+    {%- assign scheme_bg_subtle = settings.color_override_bg_subtle -%}
+  {%- endif -%}
+  {%- if settings.color_override_surface != blank -%}
+    {%- assign scheme_surface = settings.color_override_surface -%}
+  {%- endif -%}
+  {%- if settings.color_override_text != blank -%}
+    {%- assign scheme_text = settings.color_override_text -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_secondary != blank -%}
+    {%- assign scheme_text_secondary = settings.color_override_text_secondary -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_disabled != blank -%}
+    {%- assign scheme_text_disabled = settings.color_override_text_disabled -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_on_accent != blank -%}
+    {%- assign scheme_text_on_accent = settings.color_override_text_on_accent -%}
+  {%- endif -%}
+  {%- if settings.color_override_border != blank -%}
+    {%- assign scheme_border = settings.color_override_border -%}
+  {%- endif -%}
+  {%- if settings.color_override_success != blank -%}
+    {%- assign scheme_success = settings.color_override_success -%}
+  {%- endif -%}
+  {%- if settings.color_override_error != blank -%}
+    {%- assign scheme_error = settings.color_override_error -%}
+  {%- endif -%}
+  {%- if settings.color_override_primary_light != blank -%}
+    {%- assign scheme_primary_light = settings.color_override_primary_light -%}
+  {%- endif -%}
+  {%- if settings.color_override_text_on_dark != blank -%}
+    {%- assign scheme_text_on_dark = settings.color_override_text_on_dark -%}
+  {%- endif -%}
 
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
-    --page-width: {{ settings.max_page_width }};
-    --page-margin: {{ settings.min_page_margin }}px;
-    --color-background: {{ settings.background_color }};
-    --color-foreground: {{ settings.foreground_color }};
-    --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    /* ===== Typography ===== */
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-sans: var(--font-body);
+
+    /* ===== Layout ===== */
+    --container-max: {{ settings.max_page_width }};
+    --container-padding: {{ settings.min_page_margin }}px;
+
+    /* ===== Color scheme — semantic tokens ===== */
+
+    /* Backgrounds */
+    --color-bg: {{ scheme_bg }};
+    --color-bg-subtle: {{ scheme_bg_subtle }};
+    --color-surface: {{ scheme_surface }};
+
+    /* Text */
+    --color-text: {{ scheme_text }};
+    --color-text-muted: {{ scheme_text_secondary }};
+    --color-text-disabled: {{ scheme_text_disabled }};
+    --color-text-inverse: {{ scheme_accent_text }};
+
+    /* Accent / CTA */
+    --color-accent: {{ scheme_accent }};
+    --color-accent-hover: {{ scheme_accent_hover }};
+    --color-accent-text: {{ scheme_accent_text }};
+    --color-highlight: {{ scheme_highlight }};
+
+    /* Borders */
+    --color-border: {{ scheme_border }};
+    --color-divider: {{ scheme_bg_subtle }};
+
+    /* Status */
+    --color-success: {{ scheme_success }};
+    --color-error: {{ scheme_error }};
+    --color-danger: {{ scheme_error }};
+    --color-warning: {{ scheme_warning }};
+    --color-info: {{ scheme_accent }};
+
+    /* Interactive */
+    --color-focus: {{ scheme_focus }};
+    --color-link: {{ scheme_accent }};
+    --color-link-hover: {{ scheme_accent_hover }};
+
+    /* Legacy aliases — keeps existing components working */
+    --color-brand-primary: {{ scheme_accent }};
+    --color-brand-secondary: {{ scheme_text_secondary }};
+    --color-brand-accent: {{ scheme_highlight }};
+    --color-surface-2: {{ scheme_bg_subtle }};
+    --color-neutral-0: {{ scheme_surface }};
+    --color-neutral-300: {{ scheme_neutral_300 }};
+    --color-neutral-400: {{ scheme_neutral_400 }};
+    --color-neutral-800: {{ scheme_neutral_800 }};
+
+    /* ===== Overlay & glass effects ===== */
+    --color-overlay: rgb(0 0 0 / 0.5);
+    --color-hover-subtle: rgb(0 0 0 / 0.05);
+    --color-hover-subtle-2: rgb(0 0 0 / 0.04);
+    --color-hover-subtle-3: rgb(0 0 0 / 0.02);
+    --color-glass-bg: rgb(255 255 255 / 0.12);
+    --color-glass-bg-heavy: rgb(255 255 255 / 0.88);
+    --color-glass-border: rgb(255 255 255 / 0.12);
+    --color-glass-border-heavy: rgb(255 255 255 / 0.8);
+    --color-on-primary-subtle: rgb(255 255 255 / 0.2);
+    --color-on-primary-muted: rgb(255 255 255 / 0.1);
+    --color-on-primary-faint: rgb(255 255 255 / 0.05);
+    --color-on-primary-dim: rgb(255 255 255 / 0.08);
+    --color-on-primary-hover: rgb(255 255 255 / 0.4);
+    --color-dark-glass-bg: color-mix(in srgb, {{ scheme_accent }} 12%, transparent);
+    --color-x-mark-bg: rgb(255 255 255 / 0.15);
+    --color-x-mark-stroke: rgb(255 255 255 / 0.5);
+    --color-on-dark-green: color-mix(in srgb, {{ scheme_accent }} 40%, transparent);
+    --color-shadow-inset: rgb(0 0 0 / 0.2);
+    --color-shadow-inset-light: rgb(255 255 255 / 0.9);
+
+    /* ===== Section-specific surface & text tokens ===== */
+    --color-surface-card: {{ scheme_surface_card }};
+    --color-surface-placeholder: {{ scheme_surface_placeholder }};
+    --color-text-nav: {{ scheme_text_nav }};
+    --color-text-on-dark-muted: {{ scheme_text_on_dark_muted }};
+    --color-text-label-muted: {{ scheme_text_label_muted }};
+    --color-accent-subtle: color-mix(in srgb, {{ scheme_accent }} 12%, transparent);
+
+    /* ===== Theme-specific aliases for sections ===== */
+    --theme-primary: {{ scheme_text }};
+    --theme-primary-hover: {{ scheme_text }};
+    --theme-primary-light: {{ scheme_primary_light }};
+    --theme-primary-dark: {{ scheme_text }};
+    --theme-accent: {{ scheme_highlight }};
+    --theme-accent-hover: {{ scheme_accent_hover }};
+    --theme-text-on-accent: {{ scheme_text_on_accent }};
+    --theme-surface: {{ scheme_bg }};
+    --theme-surface-alt: {{ scheme_bg_subtle }};
+    --theme-surface-muted: {{ scheme_border }};
+    --theme-surface-emphasis: {{ scheme_border }};
+    --theme-text: {{ scheme_text }};
+    --theme-text-secondary: {{ scheme_text_secondary }};
+    --theme-text-on-primary: {{ scheme_accent_text }};
+    --theme-text-on-dark: {{ scheme_text_on_dark }};
+    --theme-text-muted: {{ scheme_text_disabled }};
+    --theme-text-dim: {{ scheme_text_disabled }};
+    --theme-border: {{ scheme_border }};
+    --theme-input-border: {{ scheme_border }};
+    --theme-input-border-dark: {{ scheme_input_border_dark }};
+    --theme-star: {% if settings.color_override_star != blank %}{{ settings.color_override_star }}{% else %}#FEAF00{% endif %};
+
+    /* ===== Border radius per scheme ===== */
+    --radius-btn: {{ scheme_radius_btn }};
+    --radius-card: {{ scheme_radius_card }};
+    --radius-input: {{ scheme_radius_input }};
+    --radius-badge: {{ scheme_radius_badge }};
+    --radius-image: {{ scheme_radius_image }};
+    --theme-radius-card: {{ scheme_radius_card }};
+    --theme-radius-button: {{ scheme_radius_btn }};
+    --theme-radius-badge: {{ scheme_radius_badge }};
+    --theme-radius-image: {{ scheme_radius_image }};
   }
-{% endstyle %}
+</style>

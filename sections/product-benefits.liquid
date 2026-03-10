@@ -1,0 +1,418 @@
+{%- assign meta_benefits = product.metafields.custom.benefits.value -%}
+<section class="product-benefits full-width">
+  <div class="product-benefits__container">
+    <div class="product-benefits__sidebar" data-animate="fade-up">
+      <div class="product-benefits__sidebar-header">
+        {% if section.settings.tag_text != blank %}
+          <span class="product-benefits__tag">{{ section.settings.tag_text }}</span>
+        {% endif %}
+
+        {% if section.settings.heading != blank %}
+          <h2 class="product-benefits__heading">{{ section.settings.heading }}</h2>
+        {% endif %}
+      </div>
+
+      <ul class="product-benefits__list" role="list">
+        {%- if meta_benefits and meta_benefits.size > 0 -%}
+          {%- for benefit in meta_benefits -%}
+            <li class="product-benefits__item">
+              <div class="product-benefits__item-text">
+                {%- if benefit.title != blank -%}
+                  <h3 class="product-benefits__item-title">{{ benefit.title }}</h3>
+                {%- endif -%}
+                {%- if benefit.description != blank -%}
+                  <p class="product-benefits__item-desc">{{ benefit.description }}</p>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        {%- else -%}
+          {% for block in section.blocks %}
+            {% if block.type == 'benefit' %}
+              <li class="product-benefits__item" {{ block.shopify_attributes }}>
+                {% if block.settings.icon %}
+                  <div class="product-benefits__icon">
+                    {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
+                  </div>
+                {% endif %}
+
+                <div class="product-benefits__item-text">
+                  {% if block.settings.title != blank %}
+                    <h3 class="product-benefits__item-title">{{ block.settings.title }}</h3>
+                  {% endif %}
+
+                  {% if block.settings.description != blank %}
+                    <p class="product-benefits__item-desc">{{ block.settings.description }}</p>
+                  {% endif %}
+                </div>
+              </li>
+            {% endif %}
+          {% endfor %}
+        {%- endif -%}
+      </ul>
+    </div>
+
+    <div class="product-benefits__details" data-animate="fade-up" data-animate-stagger>
+      {%- if meta_benefits and meta_benefits.size > 0 -%}
+        {%- for benefit in meta_benefits -%}
+          <div class="product-benefits__detail">
+            <div class="product-benefits__detail-text">
+              {%- if benefit.title != blank -%}
+                <h3 class="product-benefits__detail-title">{{ benefit.title }}</h3>
+              {%- endif -%}
+              {%- if benefit.description != blank -%}
+                <p class="product-benefits__detail-description">{{ benefit.description }}</p>
+              {%- endif -%}
+            </div>
+
+            <div class="product-benefits__detail-image">
+              {%- if benefit.image -%}
+                <img src="{{ benefit.image }}" loading="lazy" alt="{{ benefit.title | escape }}">
+              {%- else -%}
+                {% render 'placeholder-image' %}
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {% for block in section.blocks %}
+          {% if block.type == 'benefit' %}
+            <div class="product-benefits__detail" {{ block.shopify_attributes }}>
+              <div class="product-benefits__detail-text">
+                {% if block.settings.title != blank %}
+                  <h3 class="product-benefits__detail-title">{{ block.settings.title }}</h3>
+                {% endif %}
+
+                {% if block.settings.description != blank %}
+                  <p class="product-benefits__detail-description">{{ block.settings.description }}</p>
+                {% endif %}
+              </div>
+
+              <div class="product-benefits__detail-image">
+                {% if block.settings.image %}
+                  {{ block.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+                {% else %}
+                  {% render 'placeholder-image' %}
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-benefits {
+    background-color: var(--theme-surface);
+    padding: var(--space-13) 0;
+  }
+
+  .product-benefits__container {
+    display: flex;
+    gap: var(--space-12);
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 16px);
+    align-items: flex-start;
+  }
+
+  /* ── Sidebar (dark green card) ── */
+  .product-benefits__sidebar {
+    flex: 0 0 42%;
+    position: sticky;
+    inset-block-start: var(--space-6);
+    background-color: var(--theme-primary);
+    border-radius: var(--radius-card);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .product-benefits__sidebar-header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .product-benefits__tag {
+    display: inline-block;
+    align-self: flex-start;
+    background-color: var(--color-on-primary-subtle);
+    color: var(--theme-text-on-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--theme-radius-badge);
+    line-height: 18px;
+  }
+
+  .product-benefits__heading {
+    font-size: var(--font-size-4xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-primary);
+    letter-spacing: var(--letter-spacing-tighter);
+    margin: 0;
+  }
+
+  /* ── Sidebar benefit list ── */
+  .product-benefits__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .product-benefits__item {
+    display: flex;
+    gap: var(--space-3);
+    align-items: flex-start;
+    padding: var(--space-3);
+  }
+
+  .product-benefits__icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    color: var(--theme-text-on-primary);
+  }
+
+  .product-benefits__icon img,
+  .product-benefits__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+
+  .product-benefits__item-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .product-benefits__item-title {
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-primary);
+    line-height: 28px;
+    margin: 0;
+  }
+
+  .product-benefits__item-desc {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-on-dark);
+    line-height: 24px;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Detail panels (right column) ── */
+  .product-benefits__details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+
+  .product-benefits__detail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .product-benefits__detail-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: 0 var(--space-2);
+  }
+
+  .product-benefits__detail-title {
+    font-size: var(--font-size-3xl);
+    line-height: 44px;
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--theme-primary);
+    margin: 0;
+  }
+
+  .product-benefits__detail-description {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: 24px;
+    color: var(--theme-text-secondary);
+    margin: 0;
+  }
+
+  .product-benefits__detail-image {
+    width: 100%;
+    height: 381px;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    position: relative;
+    background-color: var(--color-surface-card);
+  }
+
+  .product-benefits__detail-image img,
+  .product-benefits__detail-image svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .product-benefits__placeholder {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .product-benefits {
+      padding: var(--space-6) 0;
+    }
+
+    .product-benefits__container {
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .product-benefits__sidebar {
+      position: static;
+      padding: var(--space-6);
+      gap: var(--space-6);
+    }
+
+    .product-benefits__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+    }
+
+    .product-benefits__list {
+      display: none;
+    }
+
+    .product-benefits__detail-title {
+      font-size: var(--font-size-2xl);
+      line-height: var(--line-height-snug);
+    }
+
+    .product-benefits__detail-image {
+      height: auto;
+      aspect-ratio: 564 / 381;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.product_benefits.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:sections.product_benefits.settings.tag_text",
+      "default": "BENEFITS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Key benefits you'll love"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "t:sections.product_benefits.blocks.benefit.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:labels.description"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:labels.image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_benefits.name",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Premium Materials",
+            "description": "Crafted from high-quality, carefully sourced materials that ensure durability and a refined feel you'll notice from the first use."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Thoughtful Design",
+            "description": "Every detail has been considered to create a product that is both functional and beautiful, fitting seamlessly into your daily routine."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Lasting Durability",
+            "description": "Built to withstand everyday use without compromising on quality, so you can count on consistent performance over time."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Easy to Use",
+            "description": "Designed with simplicity in mind, our product works effortlessly so you can focus on what matters most to you."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Sustainable & Responsible",
+            "description": "We are committed to ethical sourcing and sustainable practices, so you can feel good about every purchase you make."
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

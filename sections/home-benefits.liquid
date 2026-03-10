@@ -1,0 +1,456 @@
+<div class="home-benefits full-width">
+  <div class="home-benefits__container">
+  <div class="home-benefits__left" data-animate="fade-up" data-animate-stagger>
+    {% if section.settings.tag_text != blank %}
+      <span class="home-benefits__tag">{{ section.settings.tag_text }}</span>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="home-benefits__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.body_text != blank %}
+      <p class="home-benefits__body">{{ section.settings.body_text }}</p>
+    {% endif %}
+
+    {% if section.settings.button_text != blank %}
+      <a
+        class="home-benefits__button"
+        {% if section.settings.button_url != blank %}
+          href="{{ section.settings.button_url }}"
+        {% endif %}
+      >
+        <span class="home-benefits__button-text-mask">
+          <span class="home-benefits__button-text">{{- section.settings.button_text -}}</span>
+        </span>
+        <span class="home-benefits__button-bg"></span>
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="home-benefits__right">
+    <div class="home-benefits__top-row" data-animate="fade-up" data-animate-stagger>
+      {% for block in section.blocks %}
+        {% if forloop.index <= 2 %}
+          <div class="home-benefits__card" {{ block.shopify_attributes }}>
+            <div class="home-benefits__icon home-benefits__icon--dark">
+              {% if block.settings.icon != blank %}
+                {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
+              {% else %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="var(--color-accent-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% endif %}
+            </div>
+
+            {% if block.settings.title != blank %}
+              <h3 class="home-benefits__card-title">{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.description != blank %}
+              <p class="home-benefits__card-description">{{ block.settings.description }}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% for block in section.blocks %}
+      {% if forloop.index > 2 %}
+        <div class="home-benefits__featured-card" data-animate="fade-up" {{ block.shopify_attributes }}>
+          <div class="home-benefits__featured-bg">
+            {% if section.settings.featured_image != blank %}
+              {{ section.settings.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+            {% else %}
+              {% render 'placeholder-image' %}
+            {% endif %}
+          </div>
+          <div class="home-benefits__featured-overlay"></div>
+
+          <div class="home-benefits__featured-content">
+            <div class="home-benefits__icon home-benefits__icon--light">
+              {% if block.settings.icon != blank %}
+                {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
+              {% else %}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="var(--color-accent-text)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              {% endif %}
+            </div>
+
+            {% if block.settings.title != blank %}
+              <h3 class="home-benefits__featured-title">{{ block.settings.title }}</h3>
+            {% endif %}
+
+            {% if block.settings.description != blank %}
+              <p class="home-benefits__featured-description">{{ block.settings.description }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .home-benefits {
+    background-color: var(--theme-surface);
+    padding: var(--space-13);
+  }
+
+  .home-benefits__container {
+    display: flex;
+    gap: var(--space-12);
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+  }
+
+  .home-benefits__left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    justify-content: center;
+  }
+
+  .home-benefits__tag {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    background-color: var(--color-surface-card);
+    border: none;
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--color-text);
+  }
+
+  .home-benefits__heading {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-none);
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .home-benefits__body {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-muted);
+    max-width: 515px;
+    margin: 0;
+  }
+
+  .home-benefits__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    height: 48px;
+    padding: var(--space-3) var(--space-5);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
+    border-radius: var(--theme-radius-button);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-tight);
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-benefits__button-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .home-benefits__button-text {
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .home-benefits__button-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-text) 85%, white);
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .home-benefits__button:hover .home-benefits__button-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .home-benefits__button:hover .home-benefits__button-bg {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  .home-benefits__right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .home-benefits__top-row {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .home-benefits__card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    background-color: var(--color-surface-card);
+    border-radius: var(--theme-radius-card);
+    padding: var(--space-4);
+  }
+
+  .home-benefits__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md, 8px);
+    padding: var(--space-2);
+    flex-shrink: 0;
+  }
+
+  .home-benefits__icon img {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .home-benefits__icon--dark {
+    background-color: var(--color-text);
+  }
+
+  .home-benefits__icon--light {
+    background-color: var(--color-accent-text);
+  }
+
+  .home-benefits__card-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .home-benefits__card-description {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .home-benefits__featured-card {
+    position: relative;
+    border-radius: var(--theme-radius-card);
+    min-height: 308px;
+    overflow: hidden;
+  }
+
+  .home-benefits__featured-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .home-benefits__featured-bg img,
+  .home-benefits__featured-bg svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-benefits__featured-placeholder {
+    background-color: var(--theme-primary-light);
+  }
+
+  .home-benefits__featured-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(214deg, color-mix(in srgb, var(--color-text) 0%, transparent) 24%, var(--color-text) 88%);
+  }
+
+  .home-benefits__featured-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-4);
+    height: 100%;
+    justify-content: flex-end;
+  }
+
+  .home-benefits__featured-title {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-normal);
+    color: var(--color-accent-text);
+    margin: 0;
+  }
+
+  .home-benefits__featured-description {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    color: var(--color-text-on-dark-muted);
+    margin: 0;
+  }
+
+  @media (max-width: 989px) {
+    .home-benefits {
+      padding: var(--space-8);
+    }
+
+    .home-benefits__container {
+      flex-direction: column;
+      gap: var(--space-8);
+    }
+
+    .home-benefits__heading {
+      font-size: var(--font-size-4xl);
+    }
+
+    .home-benefits__body {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 749px) {
+    .home-benefits {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .home-benefits__container {
+      gap: var(--space-6);
+    }
+
+    .home-benefits__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .home-benefits__top-row {
+      flex-direction: column;
+    }
+
+    .home-benefits__featured-card {
+      min-height: 220px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.home_benefits.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag",
+      "default": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Benefits that make a difference"
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "t:labels.body_text",
+      "default": "Thoughtfully designed with quality materials and expert craftsmanship to enhance your everyday routine."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:labels.button_text",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:labels.button_url"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_image",
+      "label": "t:labels.featured_image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "t:sections.home_benefits.blocks.benefit.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title",
+          "default": "Benefit title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "t:labels.description",
+          "default": "Benefit description"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.home_benefits.name",
+      "blocks": [
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Premium quality",
+            "description": "Made with carefully selected materials that meet the highest standards of excellence."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Built to last",
+            "description": "Designed for durability so you can enjoy lasting value from every purchase."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "title": "Satisfaction guaranteed",
+            "description": "We stand behind every product with our commitment to your complete satisfaction."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

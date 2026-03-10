@@ -1,0 +1,452 @@
+{% comment %}
+  Style Guide — Internal reference page for design tokens and components.
+  Renders at /pages/style-guide using page.style-guide.json template.
+{% endcomment %}
+
+<div class="sg">
+  {%- comment -%} Warning Banner {%- endcomment -%}
+  <div class="sg-banner">⚠ Internal style guide — do not share</div>
+
+  {%- comment -%} Sidebar Nav {%- endcomment -%}
+  <nav class="sg-nav" aria-label="Style guide navigation">
+    <span class="sg-nav__heading">Foundations</span>
+    <a class="sg-nav__link" href="#colors">Colors</a>
+    <a class="sg-nav__link" href="#typography">Typography</a>
+    <a class="sg-nav__link" href="#spacing">Spacing</a>
+    <a class="sg-nav__link" href="#borders">Borders &amp; Radius</a>
+    <a class="sg-nav__link" href="#shadows">Shadows</a>
+    <a class="sg-nav__link" href="#motion">Motion &amp; Focus</a>
+
+    <span class="sg-nav__heading">Components</span>
+    <a class="sg-nav__link" href="#buttons">Buttons</a>
+    <a class="sg-nav__link" href="#forms">Forms</a>
+    <a class="sg-nav__link" href="#rich-text">Rich Text</a>
+    <a class="sg-nav__link" href="#badges">Badges</a>
+    <a class="sg-nav__link" href="#alerts">Alerts</a>
+    <a class="sg-nav__link" href="#cards">Cards</a>
+    <a class="sg-nav__link" href="#tables">Tables</a>
+  </nav>
+
+  {%- comment -%} Main Content {%- endcomment -%}
+  <main class="sg-main">
+
+    {%- comment -%}========== FOUNDATIONS =========={%- endcomment -%}
+
+    {%- comment -%} Colors {%- endcomment -%}
+    <section id="colors" class="sg-section">
+      <h2 class="sg-section__title">Colors</h2>
+
+      <div class="sg-spec">Tokens: --color-neutral-{0–900}, --color-brand-{primary,secondary,accent}, --color-{success,warning,danger,info}, --color-{text,text-muted,text-inverse}, --color-{bg,surface,surface-2}, --color-{border,divider}, --color-{link,link-hover}, --color-focus</div>
+
+      <h3>Neutral Scale</h3>
+      <div class="sg-swatches">
+        {%- assign neutral_steps = '0,50,100,200,300,400,500,600,700,800,900' | split: ',' -%}
+        {%- for step in neutral_steps -%}
+          <div class="sg-swatch">
+            <div class="sg-swatch__color" style="background-color: var(--color-neutral-{{ step }})"></div>
+            <span class="sg-swatch__label">neutral-{{ step }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <h3>Brand</h3>
+      <div class="sg-swatches">
+        {%- assign brand_names = 'primary,secondary,accent' | split: ',' -%}
+        {%- for name in brand_names -%}
+          <div class="sg-swatch">
+            <div class="sg-swatch__color" style="background-color: var(--color-brand-{{ name }})"></div>
+            <span class="sg-swatch__label">brand-{{ name }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <h3>Semantic</h3>
+      <div class="sg-swatches">
+        {%- assign semantic_names = 'success,warning,danger,info' | split: ',' -%}
+        {%- for name in semantic_names -%}
+          <div class="sg-swatch">
+            <div class="sg-swatch__color" style="background-color: var(--color-{{ name }})"></div>
+            <span class="sg-swatch__label">{{ name }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <h3>UI</h3>
+      <div class="sg-swatches">
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-text)"></div>
+          <span class="sg-swatch__label">text</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-text-muted)"></div>
+          <span class="sg-swatch__label">text-muted</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-text-inverse); border: 1px solid var(--color-border)"></div>
+          <span class="sg-swatch__label">text-inverse</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-bg); border: 1px solid var(--color-border)"></div>
+          <span class="sg-swatch__label">bg</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-surface)"></div>
+          <span class="sg-swatch__label">surface</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-surface-2)"></div>
+          <span class="sg-swatch__label">surface-2</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-border)"></div>
+          <span class="sg-swatch__label">border</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-divider)"></div>
+          <span class="sg-swatch__label">divider</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-link)"></div>
+          <span class="sg-swatch__label">link</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-link-hover)"></div>
+          <span class="sg-swatch__label">link-hover</span>
+        </div>
+        <div class="sg-swatch">
+          <div class="sg-swatch__color" style="background-color: var(--color-focus)"></div>
+          <span class="sg-swatch__label">focus</span>
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} Typography {%- endcomment -%}
+    <section id="typography" class="sg-section">
+      <h2 class="sg-section__title">Typography</h2>
+
+      <div class="sg-spec">Tokens: --h{1–6}-size, --h{1–6}-line, --body-size, --body-line, --font-size-{xs–4xl}, --font-weight-{regular,medium,bold}, --font-{sans,serif,mono}</div>
+
+      <div class="sg-demo sg-demo--col">
+        <h1 style="font-size: var(--h1-size); line-height: var(--h1-line); font-weight: var(--font-weight-bold)">H1 — The quick brown fox</h1>
+        <h2 style="font-size: var(--h2-size); line-height: var(--h2-line); font-weight: var(--font-weight-bold)">H2 — The quick brown fox</h2>
+        <h3 style="font-size: var(--h3-size); line-height: var(--h3-line); font-weight: var(--font-weight-bold)">H3 — The quick brown fox</h3>
+        <h4 style="font-size: var(--h4-size); line-height: var(--h4-line); font-weight: var(--font-weight-bold)">H4 — The quick brown fox</h4>
+        <h5 style="font-size: var(--h5-size); line-height: var(--h5-line); font-weight: var(--font-weight-bold)">H5 — The quick brown fox</h5>
+        <h6 style="font-size: var(--h6-size); line-height: var(--h6-line); font-weight: var(--font-weight-bold)">H6 — The quick brown fox</h6>
+        <p style="font-size: var(--body-size); line-height: var(--body-line)">Body — The quick brown fox jumps over the lazy dog. This paragraph demonstrates the base body text styling using design tokens for consistent typography.</p>
+        <small style="font-size: var(--font-size-sm); color: var(--color-text-muted)">Small — Secondary text for captions and helper content.</small>
+        <p><a href="#typography" style="color: var(--color-link)">Link — Inline hyperlink styling</a></p>
+      </div>
+    </section>
+
+    {%- comment -%} Spacing {%- endcomment -%}
+    <section id="spacing" class="sg-section">
+      <h2 class="sg-section__title">Spacing</h2>
+
+      <div class="sg-spec">Tokens: --space-{0–12} (4px base), --container-max, --container-padding, --section-padding-y, --grid-gap</div>
+
+      <div class="sg-spacing">
+        {%- for i in (0..12) -%}
+          <div class="sg-spacing__item">
+            <span class="sg-spacing__label">--space-{{ i }}{% if i == 0 %} (0){% else %} ({{ i | times: 4 }}px){% endif %}</span>
+            <div class="sg-spacing__bar" style="width: {{ i | times: 4 | at_least: 2 }}px"></div>
+          </div>
+        {%- endfor -%}
+      </div>
+    </section>
+
+    {%- comment -%} Borders & Radius {%- endcomment -%}
+    <section id="borders" class="sg-section">
+      <h2 class="sg-section__title">Borders &amp; Radius</h2>
+
+      <div class="sg-spec">Tokens: --border-width-{1,2}, --radius-{xs,sm,md,lg,xl,pill,round,input}</div>
+
+      <h3>Border Widths</h3>
+      <div class="sg-demo">
+        <div class="sg-box" style="border-width: var(--border-width-1); border-style: solid; border-color: var(--color-brand-primary)">1</div>
+        <div class="sg-box" style="border-width: var(--border-width-2); border-style: solid; border-color: var(--color-brand-primary)">2</div>
+      </div>
+
+      <h3>Border Radius</h3>
+      <div class="sg-demo">
+        {%- assign radii = 'xs,sm,md,lg,xl,pill' | split: ',' -%}
+        {%- for r in radii -%}
+          <div class="sg-box" style="border-radius: var(--radius-{{ r }})">{{ r }}</div>
+        {%- endfor -%}
+        <div class="sg-box" style="border-radius: var(--radius-round); width: 64px">round</div>
+      </div>
+    </section>
+
+    {%- comment -%} Shadows {%- endcomment -%}
+    <section id="shadows" class="sg-section">
+      <h2 class="sg-section__title">Shadows</h2>
+
+      <div class="sg-spec">Tokens: --shadow-{sm,md,lg}</div>
+
+      <div class="sg-demo">
+        {%- assign shadows = 'sm,md,lg' | split: ',' -%}
+        {%- for s in shadows -%}
+          <div class="sg-box" style="box-shadow: var(--shadow-{{ s }}); border: none">{{ s }}</div>
+        {%- endfor -%}
+      </div>
+    </section>
+
+    {%- comment -%} Motion & Focus {%- endcomment -%}
+    <section id="motion" class="sg-section">
+      <h2 class="sg-section__title">Motion &amp; Focus</h2>
+
+      <div class="sg-spec">Tokens: --duration-{fast,medium,slow}, --ease-{standard,emphasized}, --color-focus. Classes: :focus-visible global outline</div>
+
+      <h3>Transition Speeds</h3>
+      <div class="sg-demo">
+        <div class="sg-box sg-motion-demo" style="transition: transform var(--duration-fast) var(--ease-standard)">fast</div>
+        <div class="sg-box sg-motion-demo" style="transition: transform var(--duration-medium) var(--ease-standard)">medium</div>
+        <div class="sg-box sg-motion-demo" style="transition: transform var(--duration-slow) var(--ease-emphasized)">slow</div>
+      </div>
+
+      <h3>Focus Ring</h3>
+      <div class="sg-demo">
+        <button class="btn btn--secondary" type="button">Tab to me for focus ring</button>
+        <input class="form-input" type="text" placeholder="Tab to me too" style="width: auto">
+      </div>
+    </section>
+
+    {%- comment -%}========== COMPONENTS =========={%- endcomment -%}
+
+    {%- comment -%} Buttons {%- endcomment -%}
+    <section id="buttons" class="sg-section">
+      <h2 class="sg-section__title">Buttons</h2>
+
+      <div class="sg-spec">Classes: .btn, .btn--primary, .btn--secondary, .btn--tertiary, .btn--sm, .btn--lg, .btn--icon, .btn--loading, :disabled</div>
+
+      <h3>Variants</h3>
+      <div class="sg-demo">
+        <button class="btn btn--primary" type="button">Primary</button>
+        <button class="btn btn--secondary" type="button">Secondary</button>
+        <button class="btn btn--tertiary" type="button">Tertiary</button>
+      </div>
+
+      <h3>Sizes</h3>
+      <div class="sg-demo">
+        <button class="btn btn--primary btn--sm" type="button">Small</button>
+        <button class="btn btn--primary" type="button">Default</button>
+        <button class="btn btn--primary btn--lg" type="button">Large</button>
+      </div>
+
+      <h3>States</h3>
+      <div class="sg-demo">
+        <button class="btn btn--primary" type="button" disabled>Disabled</button>
+        <button class="btn btn--primary btn--loading" type="button">Loading</button>
+        <button class="btn btn--secondary" type="button" disabled>Disabled</button>
+        <button class="btn btn--secondary btn--loading" type="button">Loading</button>
+      </div>
+
+      <h3>Icon Button</h3>
+      <div class="sg-demo">
+        <button class="btn btn--secondary btn--icon" type="button" aria-label="Close">✕</button>
+        <button class="btn btn--primary btn--icon" type="button" aria-label="Add">+</button>
+      </div>
+    </section>
+
+    {%- comment -%} Forms {%- endcomment -%}
+    <section id="forms" class="sg-section">
+      <h2 class="sg-section__title">Forms</h2>
+
+      <div class="sg-spec">Classes: .form-group, .form-label, .form-input, .form-textarea, .form-select, .form-checkbox, .form-radio, .form-switch, .form-helper, .form-error, .has-error</div>
+
+      <div class="sg-form-grid">
+        <div class="form-group">
+          <label class="form-label" for="sg-input">Text Input</label>
+          <input class="form-input" type="text" id="sg-input" placeholder="Placeholder text">
+          <span class="form-helper">This is helper text.</span>
+        </div>
+
+        <div class="form-group has-error">
+          <label class="form-label" for="sg-input-err">Input with Error</label>
+          <input class="form-input" type="text" id="sg-input-err" value="Bad value" aria-invalid="true" aria-describedby="sg-input-err-msg">
+          <span class="form-error" id="sg-input-err-msg">This field is required.</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sg-email">Email</label>
+          <input class="form-input" type="email" id="sg-email" placeholder="you@example.com">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sg-select">Select</label>
+          <select class="form-select" id="sg-select">
+            <option>Option 1</option>
+            <option>Option 2</option>
+            <option>Option 3</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="sg-textarea">Textarea</label>
+          <textarea class="form-textarea" id="sg-textarea" placeholder="Write something…"></textarea>
+        </div>
+
+        <div class="form-group" style="gap: var(--space-3)">
+          <span class="form-label">Checkbox &amp; Radio</span>
+          <label class="form-checkbox">
+            <input type="checkbox" checked> Checked option
+          </label>
+          <label class="form-checkbox">
+            <input type="checkbox"> Unchecked option
+          </label>
+          <label class="form-radio">
+            <input type="radio" name="sg-radio" checked> Radio A
+          </label>
+          <label class="form-radio">
+            <input type="radio" name="sg-radio"> Radio B
+          </label>
+        </div>
+
+        <div class="form-group" style="gap: var(--space-3)">
+          <span class="form-label">Switch</span>
+          <label class="form-switch">
+            <input type="checkbox" checked>
+            <span class="form-switch__track"></span>
+            Enabled
+          </label>
+          <label class="form-switch">
+            <input type="checkbox">
+            <span class="form-switch__track"></span>
+            Disabled
+          </label>
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} Rich Text {%- endcomment -%}
+    <section id="rich-text" class="sg-section">
+      <h2 class="sg-section__title">Rich Text</h2>
+
+      <div class="sg-spec">Class: .rte — wraps Shopify rich text output. Styles h1–h6, p, ul, ol, blockquote, a, hr.</div>
+
+      <div class="rte">
+        <h3>Rich Text Heading</h3>
+        <p>This is a paragraph inside a <code>.rte</code> wrapper. It demonstrates how Shopify rich text content will appear. Here's <a href="#rich-text">an inline link</a> for testing.</p>
+        <ul>
+          <li>Unordered list item one</li>
+          <li>Unordered list item two</li>
+          <li>Unordered list item three</li>
+        </ul>
+        <ol>
+          <li>Ordered list item one</li>
+          <li>Ordered list item two</li>
+        </ol>
+        <blockquote>This is a blockquote. It should be visually distinct from body text.</blockquote>
+        <hr>
+        <p>Content after a horizontal rule.</p>
+      </div>
+    </section>
+
+    {%- comment -%} Badges {%- endcomment -%}
+    <section id="badges" class="sg-section">
+      <h2 class="sg-section__title">Badges</h2>
+
+      <div class="sg-spec">Classes: .badge, .badge--success, .badge--warning, .badge--danger, .badge--info</div>
+
+      <div class="sg-demo">
+        <span class="badge">Default</span>
+        <span class="badge badge--success">Success</span>
+        <span class="badge badge--warning">Warning</span>
+        <span class="badge badge--danger">Danger</span>
+        <span class="badge badge--info">Info</span>
+      </div>
+    </section>
+
+    {%- comment -%} Alerts {%- endcomment -%}
+    <section id="alerts" class="sg-section">
+      <h2 class="sg-section__title">Alerts</h2>
+
+      <div class="sg-spec">Classes: .alert, .alert--success, .alert--warning, .alert--danger, .alert--info</div>
+
+      <div class="sg-demo sg-demo--col" style="width: 100%">
+        <div class="alert">Default alert — neutral informational message.</div>
+        <div class="alert alert--success">Success — operation completed successfully.</div>
+        <div class="alert alert--warning">Warning — please review before proceeding.</div>
+        <div class="alert alert--danger">Danger — an error occurred.</div>
+        <div class="alert alert--info">Info — here's something you should know.</div>
+      </div>
+    </section>
+
+    {%- comment -%} Cards {%- endcomment -%}
+    <section id="cards" class="sg-section">
+      <h2 class="sg-section__title">Cards</h2>
+
+      <div class="sg-spec">Classes: .card, .card--clickable, .card__header, .card__body, .card__footer</div>
+
+      <div class="sg-demo">
+        <div class="card" style="width: 280px">
+          <div class="card__header"><strong>Card Header</strong></div>
+          <div class="card__body">Body content. A standard card with all three sections.</div>
+          <div class="card__footer" style="font-size: var(--font-size-sm); color: var(--color-text-muted)">Footer meta</div>
+        </div>
+
+        <div class="card card--clickable" style="width: 280px">
+          <div class="card__body">
+            <strong>Clickable Card</strong>
+            <p style="margin-top: var(--space-2); font-size: var(--font-size-sm); color: var(--color-text-muted)">Hover me to see the interaction.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    {%- comment -%} Tables {%- endcomment -%}
+    <section id="tables" class="sg-section">
+      <h2 class="sg-section__title">Tables</h2>
+
+      <div class="sg-spec">Classes: .table-wrapper (overflow), .table</div>
+
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Value</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>--space-4</code></td>
+              <td>16px</td>
+              <td>Default component padding</td>
+            </tr>
+            <tr>
+              <td><code>--radius-md</code></td>
+              <td>8px</td>
+              <td>Card border radius</td>
+            </tr>
+            <tr>
+              <td><code>--shadow-md</code></td>
+              <td>0 4px 6px …</td>
+              <td>Elevated components</td>
+            </tr>
+            <tr>
+              <td><code>--duration-fast</code></td>
+              <td>150ms</td>
+              <td>Hover transitions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+{% schema %}
+{
+  "name": "Style Guide",
+  "tag": "section",
+  "class": "style-guide-section",
+  "disabled_on": {
+    "groups": ["header", "footer", "aside"],
+    "templates": ["index", "collection", "product", "blog", "article", "cart", "search", "404", "list-collections", "customers/account", "customers/login", "customers/register", "customers/order", "customers/reset_password", "customers/activate_account", "customers/addresses"]
+  },
+  "settings": []
+}
+{% endschema %}

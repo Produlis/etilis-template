@@ -1,0 +1,674 @@
+<div class="home-hero full-width">
+  <div class="home-hero__container">
+    <div class="home-hero__left">
+      <div class="home-hero__top-content" data-animate="fade-up" data-animate-stagger>
+        <div class="home-hero__text-group">
+          {%- if section.settings.review_text != blank -%}
+            <div class="home-hero__review-badge">
+              <span class="home-hero__star-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <path d="M8 0.5L10.12 5.26L15.5 5.85L11.45 9.54L12.58 14.84L8 12.27L3.42 14.84L4.55 9.54L0.5 5.85L5.88 5.26L8 0.5Z" fill="var(--theme-text-on-accent)"/>
+                </svg>
+              </span>
+              <span class="home-hero__review-text">{{ section.settings.review_text }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.heading != blank -%}
+            <h1 class="home-hero__heading">{{ section.settings.heading }}</h1>
+          {%- endif -%}
+
+          {%- if section.settings.body_text != blank -%}
+            <p class="home-hero__body">{{ section.settings.body_text }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.button_text != blank -%}
+          <a
+            class="home-hero__cta"
+            {% if section.settings.button_url != blank %}
+              href="{{ section.settings.button_url }}"
+            {% endif %}
+          >
+            <span class="home-hero__cta-icon">
+              <span class="home-hero__cta-arrows-wrap">
+                <span class="home-hero__cta-arrows">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 2L14 8L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 2L14 8L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 2L14 8L8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M14 8H2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </span>
+            </span>
+            <span class="home-hero__cta-text-mask">
+              <span class="home-hero__cta-text">{{ section.settings.button_text }}</span>
+            </span>
+            <span class="home-hero__cta-bg"></span>
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- assign bundle_product = section.settings.bundle_product -%}
+      {%- if bundle_product != blank -%}
+      <div class="home-hero__bundle" data-animate="fade-up">
+        <div class="home-hero__bundle-card">
+          <div class="home-hero__bundle-image">
+            {%- if bundle_product.featured_image != blank -%}
+              {{ bundle_product.featured_image | image_url: width: 310, height: 272 | image_tag: loading: 'lazy' }}
+            {%- endif -%}
+          </div>
+
+          <div class="home-hero__bundle-info">
+            <div class="home-hero__bundle-details">
+              <div class="home-hero__bundle-header">
+                {%- liquid
+                  if section.settings.bundle_label != blank
+                    assign bundle_label_text = section.settings.bundle_label
+                  else
+                    assign bundle_label_text = bundle_product.title
+                  endif
+
+                  assign bundle_badge_text = ''
+                  if section.settings.bundle_badge != blank
+                    assign bundle_badge_text = section.settings.bundle_badge
+                  elsif bundle_product.compare_at_price > bundle_product.price
+                    assign savings = bundle_product.compare_at_price | minus: bundle_product.price
+                    assign pct = savings | times: 100 | divided_by: bundle_product.compare_at_price
+                    assign bundle_badge_text = 'SAVE ' | append: pct | append: '%+'
+                  endif
+                -%}
+                {%- if bundle_label_text != blank -%}
+                  <span class="home-hero__bundle-label">{{ bundle_label_text }}</span>
+                {%- endif -%}
+                {%- if bundle_badge_text != blank -%}
+                  <span class="home-hero__bundle-badge">{{ bundle_badge_text }}</span>
+                {%- endif -%}
+              </div>
+
+              {%- if section.settings.bundle_description != blank -%}
+                <p class="home-hero__bundle-description">{{ section.settings.bundle_description }}</p>
+              {%- endif -%}
+            </div>
+
+            <div class="home-hero__bundle-footer">
+              <div class="home-hero__bundle-prices">
+                <span class="home-hero__bundle-price">{{ bundle_product.price | money }}</span>
+                {%- if bundle_product.compare_at_price > bundle_product.price -%}
+                  <span class="home-hero__bundle-compare-price">{{ bundle_product.compare_at_price | money }}</span>
+                {%- endif -%}
+              </div>
+
+              {%- form 'product', bundle_product -%}
+                <input type="hidden" name="id" value="{{ bundle_product.selected_or_first_available_variant.id }}">
+                <button
+                  type="submit"
+                  class="home-hero__bundle-button"
+                  {% unless bundle_product.available %}disabled{% endunless %}
+                >
+                  {%- if bundle_product.available -%}
+                    {%- if section.settings.bundle_button_text != blank -%}
+                      {{ section.settings.bundle_button_text }}
+                    {%- else -%}
+                      {{ 'products.hero.add_to_cart' | t }}
+                    {%- endif -%}
+                  {%- else -%}
+                    {{ 'products.sold_out' | t }}
+                  {%- endif -%}
+                </button>
+              {%- endform -%}
+            </div>
+          </div>
+        </div>
+      </div>
+      {%- endif -%}
+    </div>
+
+    <div class="home-hero__right">
+      {%- if section.settings.image != blank -%}
+        <div class="home-hero__image" data-animate="fade-in">
+          {{ section.settings.image | image_url: width: 1224 | image_tag: loading: 'eager' }}
+        </div>
+      {%- else -%}
+        <div class="home-hero__image home-hero__image--placeholder" data-animate="fade-in">
+          {% render 'placeholder-image' %}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .home-hero {
+    background-color: var(--theme-surface);
+    padding: var(--space-6) var(--space-13) 3.125rem;
+  }
+
+  .home-hero__container {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-3);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    align-items: stretch;
+  }
+
+  .home-hero__left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-8);
+  }
+
+  .home-hero__top-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .home-hero__text-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  /* Review badge */
+  .home-hero__review-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    background-color: var(--theme-accent);
+    color: var(--theme-text-on-accent);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-4) var(--space-1) var(--space-2);
+    width: fit-content;
+  }
+
+  .home-hero__star-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .home-hero__review-text {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    line-height: var(--line-height-none);
+  }
+
+  /* Heading */
+  .home-hero__heading {
+    font-size: var(--font-size-6xl, 52px);
+    line-height: 64px;
+    color: var(--color-text);
+    letter-spacing: var(--letter-spacing-tighter);
+    margin: 0;
+  }
+
+  /* Body text */
+  .home-hero__body {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-muted);
+    max-width: 423px;
+    margin: 0;
+  }
+
+  /* CTA Button */
+  .home-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
+    border-radius: var(--theme-radius-button);
+    padding: var(--space-2) var(--space-6) var(--space-2) var(--space-2);
+    text-decoration: none;
+    width: fit-content;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-hero__cta:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+    border-radius: var(--theme-radius-button);
+  }
+
+  /* Icon circle */
+  .home-hero__cta-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--color-on-primary-subtle);
+    border-radius: var(--radius-round);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Arrow clipping wrap */
+  .home-hero__cta-arrows-wrap {
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: var(--color-accent-text);
+  }
+
+  .home-hero__cta-arrows {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .home-hero__cta-arrows svg {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  /* Text mask */
+  .home-hero__cta-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .home-hero__cta-text {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-none);
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  /* Background wipe */
+  .home-hero__cta-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-text) 85%, white);
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  /* Hover animations */
+  @media (hover: hover) and (pointer: fine) {
+    .home-hero__cta:hover .home-hero__cta-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .home-hero__cta:hover .home-hero__cta-arrows svg {
+      transform: translateX(200%);
+    }
+
+    .home-hero__cta:hover .home-hero__cta-bg {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  /* Bundle upsell card */
+  .home-hero__bundle-card {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-4);
+    background-color: var(--theme-surface-alt);
+    border-radius: var(--theme-radius-card);
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
+    align-items: center;
+  }
+
+  .home-hero__bundle-image {
+    flex-shrink: 0;
+    width: 155px;
+    height: 136px;
+    border-radius: var(--theme-radius-image);
+    overflow: hidden;
+  }
+
+  .home-hero__bundle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-hero__bundle-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .home-hero__bundle-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .home-hero__bundle-label {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--color-text);
+  }
+
+  .home-hero__bundle-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--theme-accent);
+    color: var(--theme-text-on-accent);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    line-height: var(--line-height-normal);
+  }
+
+  .home-hero__bundle-description {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    color: var(--theme-text-secondary);
+    margin: 0;
+  }
+
+  .home-hero__bundle-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .home-hero__bundle-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .home-hero__bundle-prices {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .home-hero__bundle-price {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--color-text);
+  }
+
+  .home-hero__bundle-compare-price {
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-snug);
+    color: color-mix(in srgb, var(--color-text) 40%, transparent);
+    text-decoration: line-through;
+  }
+
+  .home-hero__bundle-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
+    border-radius: var(--theme-radius-button);
+    height: 44px;
+    padding: 0 var(--space-5);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: var(--letter-spacing-tight);
+    line-height: var(--line-height-normal);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .home-hero__bundle-button:hover {
+    opacity: 0.85;
+  }
+
+  .home-hero__bundle-button:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-primary));
+    outline-offset: 2px;
+  }
+
+  .home-hero__bundle-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  button.home-hero__bundle-button {
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Right column - hero image */
+  .home-hero__right {
+    flex: 1;
+  }
+
+  .home-hero__image {
+    min-height: 500px;
+    height: 100%;
+    border-radius: var(--theme-radius-card);
+    overflow: hidden;
+  }
+
+  .home-hero__image img,
+  .home-hero__image svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-hero__image--placeholder {
+    background-color: var(--theme-surface-alt);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-hero__image--placeholder svg {
+    width: 50%;
+    height: auto;
+    opacity: 0.4;
+  }
+
+  /* Mobile styles */
+  @media screen and (max-width: 749px) {
+    .home-hero {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .home-hero__container {
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .home-hero__left {
+      display: contents;
+    }
+
+    .home-hero__top-content {
+      order: 1;
+    }
+
+    .home-hero__right {
+      order: 2;
+    }
+
+    .home-hero__bundle {
+      order: 3;
+    }
+
+    .home-hero__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .home-hero__body {
+      max-width: 100%;
+    }
+
+    .home-hero__image {
+      min-height: 0;
+      height: auto;
+      aspect-ratio: 4 / 3;
+    }
+
+    .home-hero__bundle-card {
+      flex-direction: row;
+      gap: var(--space-3);
+      padding: var(--space-2) var(--space-3) var(--space-2) var(--space-2);
+    }
+
+    .home-hero__bundle-image {
+      width: 80px;
+      height: 70px;
+    }
+
+    .home-hero__bundle-description {
+      display: none;
+    }
+
+    .home-hero__bundle-button {
+      height: 36px;
+      padding: 0 var(--space-3);
+      font-size: var(--font-size-sm);
+    }
+  }
+
+  /* Tablet adjustments */
+  @media screen and (min-width: 750px) and (max-width: 989px) {
+    .home-hero {
+      padding: var(--space-8);
+    }
+
+    .home-hero__container {
+      gap: var(--space-6);
+    }
+
+    .home-hero__heading {
+      font-size: var(--font-size-4xl);
+      line-height: var(--line-height-tight);
+    }
+
+    .home-hero__image {
+      min-height: 0;
+      height: auto;
+      aspect-ratio: 3 / 4;
+    }
+
+    .home-hero__bundle-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .home-hero__bundle-image {
+      width: 100%;
+      height: 120px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.home_hero.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "review_text",
+      "label": "t:labels.review_text",
+      "default": "2,500+ FIVE-STAR REVIEWS"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Premium quality products for everyday life."
+    },
+    {
+      "type": "textarea",
+      "id": "body_text",
+      "label": "t:labels.body_text",
+      "default": "Discover our carefully crafted collection designed to elevate your daily routine with premium ingredients and thoughtful design."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "t:labels.button_text",
+      "default": "Shop Now"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "t:labels.button_url"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "header",
+      "content": "t:labels.bundle"
+    },
+    {
+      "type": "product",
+      "id": "bundle_product",
+      "label": "t:labels.bundle_product"
+    },
+    {
+      "type": "text",
+      "id": "bundle_label",
+      "label": "t:labels.bundle_label"
+    },
+    {
+      "type": "text",
+      "id": "bundle_badge",
+      "label": "t:labels.bundle_badge"
+    },
+    {
+      "type": "textarea",
+      "id": "bundle_description",
+      "label": "t:labels.description"
+    },
+    {
+      "type": "text",
+      "id": "bundle_button_text",
+      "label": "t:labels.button_text",
+      "default": "Add to Cart"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.home_hero.name"
+    }
+  ]
+}
+{% endschema %}

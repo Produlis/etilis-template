@@ -1,0 +1,663 @@
+<section class="product-timeline full-width">
+  <div class="product-timeline__header" data-animate="fade-up">
+    {% if section.settings.tag_text != blank %}
+      <span class="product-timeline__tag">{{ section.settings.tag_text }}</span>
+    {% endif %}
+
+    {% if section.settings.heading != blank %}
+      <h2 class="product-timeline__heading">{{ section.settings.heading }}</h2>
+    {% endif %}
+
+    {% if section.settings.description != blank %}
+      <p class="product-timeline__description">{{ section.settings.description }}</p>
+    {% endif %}
+  </div>
+
+  <div class="product-timeline__body">
+    {%- assign meta_milestones = product.metafields.custom.timeline_milestones.value -%}
+    <div class="product-timeline__steps" data-animate="fade-up" data-animate-stagger>
+      {%- if meta_milestones and meta_milestones.size > 0 -%}
+        {%- for milestone in meta_milestones -%}
+          <div class="product-timeline__step">
+            <div class="product-timeline__timeline">
+              <span class="product-timeline__dot"></span>
+              {%- unless forloop.last -%}
+                <span class="product-timeline__line"></span>
+              {%- endunless -%}
+            </div>
+
+            <div class="product-timeline__step-content">
+              <div class="product-timeline__step-bar">
+                {%- if milestone.time_label != blank -%}
+                  <span class="product-timeline__time-badge">
+                    {{ milestone.time_label }}
+                  </span>
+                {%- endif -%}
+
+                {%- if milestone.title != blank -%}
+                  <span class="product-timeline__step-title">{{ milestone.title }}</span>
+                {%- endif -%}
+              </div>
+
+              {%- if milestone.benefits != blank -%}
+                <div class="product-timeline__benefits">
+                  {{ milestone.benefits }}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {% for block in section.blocks %}
+          {% if block.type == 'milestone' %}
+            <div class="product-timeline__step" {{ block.shopify_attributes }}>
+              <div class="product-timeline__timeline">
+                <span class="product-timeline__dot"></span>
+                {% unless forloop.last %}
+                  <span class="product-timeline__line"></span>
+                {% endunless %}
+              </div>
+
+              <div class="product-timeline__step-content">
+                <div class="product-timeline__step-bar">
+                  {% if block.settings.time_label != blank %}
+                    <span class="product-timeline__time-badge">
+                      {{ block.settings.time_label }}
+                    </span>
+                  {% endif %}
+
+                  {% if block.settings.title != blank %}
+                    <span class="product-timeline__step-title">{{ block.settings.title }}</span>
+                  {% endif %}
+                </div>
+
+                {% if block.settings.benefits != blank %}
+                  <div class="product-timeline__benefits">
+                    {{ block.settings.benefits }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      {%- endif -%}
+    </div>
+
+    <div class="product-timeline__aside" data-animate="fade-up">
+      <div class="product-timeline__image">
+        {%- liquid
+          assign timeline_image = product.metafields.custom.timeline_image.value
+          if section.settings.side_image
+            assign timeline_image = section.settings.side_image
+          endif
+        -%}
+        {% if timeline_image %}
+          {{ timeline_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}
+        {% else %}
+          {% render 'placeholder-image' %}
+        {% endif %}
+      </div>
+
+      <div class="product-timeline__upsell">
+        <div class="product-timeline__upsell-thumb">
+          {% if section.settings.upsell_image %}
+            {{ section.settings.upsell_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+          {% elsif product.featured_image %}
+            {{ product.featured_image | image_url: width: 400 | image_tag: loading: 'lazy' }}
+          {% else %}
+            {% render 'placeholder-image' %}
+          {% endif %}
+        </div>
+
+        <div class="product-timeline__upsell-body">
+          <div class="product-timeline__upsell-info">
+            <div class="product-timeline__upsell-title-row">
+              <span class="product-timeline__upsell-name">
+                {%- if section.settings.upsell_title != blank -%}
+                  {{ section.settings.upsell_title }}
+                {%- else -%}
+                  {{ product.title }}
+                {%- endif -%}
+              </span>
+              {% if section.settings.upsell_badge != blank %}
+                <span class="product-timeline__upsell-badge">{{ section.settings.upsell_badge }}</span>
+              {% endif %}
+            </div>
+
+            {% if section.settings.upsell_description != blank %}
+              <p class="product-timeline__upsell-desc">{{ section.settings.upsell_description }}</p>
+            {% endif %}
+          </div>
+
+          <div class="product-timeline__upsell-action">
+            <div class="product-timeline__upsell-pricing">
+              {% assign current_variant = product.selected_or_first_available_variant %}
+              <span class="product-timeline__upsell-price">{{ current_variant.price | money }}</span>
+              {% if current_variant.compare_at_price > current_variant.price %}
+                <span class="product-timeline__upsell-compare">{{ current_variant.compare_at_price | money }}</span>
+              {% endif %}
+            </div>
+
+            {% assign current_variant = product.selected_or_first_available_variant %}
+            {% form 'product', product %}
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
+              <button type="submit" class="product-timeline__upsell-btn">
+                {{ 'sections.product_timeline.add_to_cart' | t }}
+              </button>
+            {% endform %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .product-timeline {
+    background-color: var(--theme-surface);
+    padding: var(--space-13) 0;
+  }
+
+  .product-timeline__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+    padding: 0 var(--container-padding, 16px);
+    gap: var(--space-4);
+  }
+
+  .product-timeline__tag {
+    display: inline-block;
+    background-color: var(--color-surface-card);
+    color: var(--theme-primary);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 1.44px;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--theme-radius-badge);
+    line-height: 18px;
+  }
+
+  .product-timeline__heading {
+    font-size: var(--font-size-5xl);
+    line-height: 64px;
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-primary);
+    letter-spacing: -2.08px;
+    margin: 0;
+    max-width: 696px;
+  }
+
+  .product-timeline__description {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-secondary);
+    line-height: var(--line-height-normal);
+    margin: 0;
+  }
+
+  /* ── Body ── */
+  .product-timeline__body {
+    display: flex;
+    gap: var(--space-6);
+    max-width: var(--container-max, 80rem);
+    margin: var(--space-13) auto 0;
+    padding: 0 var(--container-padding, 16px);
+  }
+
+  .product-timeline__steps {
+    flex: 0 0 576px;
+    max-width: 576px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Step ── */
+  .product-timeline__step {
+    display: flex;
+    gap: var(--space-4);
+  }
+
+  .product-timeline__timeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    width: 20px;
+    padding-top: var(--space-2);
+  }
+
+  .product-timeline__dot {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: var(--radius-round);
+    background-color: var(--theme-primary);
+    flex-shrink: 0;
+  }
+
+  .product-timeline__line {
+    display: block;
+    width: 0;
+    flex: 1;
+    border-inline-start: 1px dashed color-mix(in srgb, var(--theme-primary) 25%, transparent);
+    margin-block-start: 2px;
+  }
+
+  /* ── Step content ── */
+  .product-timeline__step-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-bottom: var(--space-6);
+  }
+
+  .product-timeline__step:last-child .product-timeline__step-content {
+    padding-bottom: 0;
+  }
+
+  .product-timeline__step-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    height: 36px;
+  }
+
+  .product-timeline__time-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--theme-accent);
+    color: var(--theme-text-on-accent);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 1.4px;
+    line-height: 20px;
+    padding: 0 var(--space-3);
+    height: 28px;
+    border-radius: var(--theme-radius-badge);
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .product-timeline__step-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 1.68px;
+    line-height: 20px;
+    color: var(--theme-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-timeline__benefits {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-secondary);
+    line-height: var(--line-height-normal);
+  }
+
+  .product-timeline__benefits ul {
+    margin: 0;
+    padding-inline-start: var(--space-6);
+    list-style-type: disc;
+  }
+
+  .product-timeline__benefits li {
+    margin-bottom: 0;
+  }
+
+  .product-timeline__benefits p {
+    margin: 0;
+  }
+
+  /* ── Aside ── */
+  .product-timeline__aside {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    min-width: 0;
+  }
+
+  .product-timeline__image {
+    height: 396px;
+    flex-shrink: 0;
+    position: relative;
+    border-radius: var(--radius-3xl);
+    overflow: hidden;
+    background-color: var(--color-surface-card);
+  }
+
+  .product-timeline__image img,
+  .product-timeline__image svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ── Upsell card ── */
+  .product-timeline__upsell {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    background-color: var(--color-surface-card);
+    border-radius: var(--radius-3xl);
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
+    flex-shrink: 0;
+  }
+
+  .product-timeline__upsell-thumb {
+    width: 155px;
+    height: 136px;
+    flex-shrink: 0;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    background-color: var(--color-surface-card);
+  }
+
+  .product-timeline__upsell-thumb img,
+  .product-timeline__upsell-thumb svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .product-timeline__upsell-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+  }
+
+  .product-timeline__upsell-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .product-timeline__upsell-title-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-1);
+  }
+
+  .product-timeline__upsell-name {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-primary);
+    line-height: 24px;
+  }
+
+  .product-timeline__upsell-badge {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--theme-accent);
+    color: var(--theme-text-on-accent);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 1.44px;
+    line-height: 18px;
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--theme-radius-badge);
+    white-space: nowrap;
+  }
+
+  .product-timeline__upsell-desc {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-text-secondary);
+    line-height: 20px;
+    margin: 0;
+  }
+
+  .product-timeline__upsell-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-timeline__upsell-pricing {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .product-timeline__upsell-price {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    color: var(--theme-primary);
+    line-height: 24px;
+  }
+
+  .product-timeline__upsell-compare {
+    font-size: var(--font-size-xs);
+    color: color-mix(in srgb, var(--theme-primary) 40%, transparent);
+    text-decoration: line-through;
+    line-height: 16px;
+  }
+
+  .product-timeline__upsell form {
+    display: contents;
+  }
+
+  .product-timeline__upsell-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-surface-card);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-medium);
+    line-height: 24px;
+    letter-spacing: -0.32px;
+    height: 40px;
+    padding: 0 var(--space-5);
+    border-radius: 32px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .product-timeline__upsell-btn:hover:not(:disabled) {
+    background-color: var(--theme-surface-muted);
+  }
+
+  .product-timeline__upsell-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .product-timeline {
+      padding: var(--space-6) 0;
+    }
+
+    .product-timeline__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .product-timeline__body {
+      flex-direction: column;
+      margin-top: var(--space-8);
+    }
+
+    .product-timeline__steps {
+      flex: 1;
+      max-width: 100%;
+    }
+
+    .product-timeline__step-bar {
+      flex-wrap: wrap;
+      height: auto;
+      gap: var(--space-1);
+    }
+
+    .product-timeline__step-title {
+      white-space: normal;
+      font-size: var(--font-size-xs);
+    }
+
+    .product-timeline__image {
+      height: 280px;
+    }
+
+    .product-timeline__upsell {
+      flex-direction: column;
+      padding: var(--space-2);
+    }
+
+    .product-timeline__upsell-thumb {
+      width: 100%;
+      height: 180px;
+    }
+
+    .product-timeline__upsell-action {
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.product_timeline.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "HOW IT WORKS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Results that build over time"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "See how our product works for you, step by step"
+    },
+    {
+      "type": "image_picker",
+      "id": "side_image",
+      "label": "t:labels.side_image"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product_timeline.settings.upsell_header"
+    },
+    {
+      "type": "image_picker",
+      "id": "upsell_image",
+      "label": "t:sections.product_timeline.settings.upsell_image"
+    },
+    {
+      "type": "text",
+      "id": "upsell_title",
+      "label": "t:sections.product_timeline.settings.upsell_title",
+      "default": "Bundle"
+    },
+    {
+      "type": "text",
+      "id": "upsell_badge",
+      "label": "t:sections.product_timeline.settings.upsell_badge",
+      "default": "Save 50%+"
+    },
+    {
+      "type": "textarea",
+      "id": "upsell_description",
+      "label": "t:sections.product_timeline.settings.upsell_description",
+      "default": "Add a complementary product to your routine and save on your first order."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "milestone",
+      "name": "t:sections.product_timeline.blocks.milestone.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "time_label",
+          "label": "t:sections.product_timeline.blocks.milestone.settings.time_label",
+          "default": "Days 7"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:labels.title"
+        },
+        {
+          "type": "richtext",
+          "id": "benefits",
+          "label": "t:sections.product_timeline.blocks.milestone.settings.benefits"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.product_timeline.name",
+      "blocks": [
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "Week 1",
+            "title": "First impressions",
+            "benefits": "<ul><li>Unbox your new product</li><li>Easy setup in minutes</li><li>Notice the quality difference right away</li></ul>"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "2 Weeks",
+            "title": "Part of your routine",
+            "benefits": "<ul><li>Seamlessly fits your daily life</li><li>Consistent performance every day</li><li>Start seeing real results</li></ul>"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "1 Month",
+            "title": "Lasting value",
+            "benefits": "<ul><li>Built to stand the test of time</li><li>Maintains like-new quality</li><li>Exceeds your expectations</li></ul>"
+          }
+        },
+        {
+          "type": "milestone",
+          "settings": {
+            "time_label": "3 Months",
+            "title": "Long-term satisfaction",
+            "benefits": "<ul><li>Proven durability over time</li><li>A product you can rely on</li><li>Worth every penny</li></ul>"
+          }
+        }
+      ]
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

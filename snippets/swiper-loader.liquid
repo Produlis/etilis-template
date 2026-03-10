@@ -1,0 +1,13 @@
+{% doc %}
+  Conditionally loads Swiper CSS and JS assets.
+  Should be rendered once per page via layout or the first section that needs it.
+  Uses a flag to avoid loading duplicates when multiple sections use Swiper.
+
+  @example
+  {% render 'swiper-loader' %}
+{% enddoc %}
+
+{% unless swiper_loaded %}
+  {{ 'swiper-bundle.min.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'swiper-bundle.min.js' | asset_url }}" defer></script>
+{% endunless %}

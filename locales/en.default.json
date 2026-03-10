@@ -4,6 +4,12 @@
     "not_found": "Page not found.",
     "back_to_shopping": "Back to shopping"
   },
+  "general": {
+    "meta": {
+      "tagged": "tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
+    }
+  },
   "blog": {
     "article_comments": "Comments",
     "article_metadata_html": "{{ date }} by {{ author }}",
@@ -15,17 +21,26 @@
   },
   "cart": {
     "checkout": "Checkout",
-    "title": "Cart",
-    "update": "Update",
-    "remove": "Remove"
-  },
-  "customers": {
-    "login": {
-      "email": "Email",
-      "password": "Password",
-      "submit": "Sign in",
-      "title": "Login"
-    }
+    "title": "Your Cart",
+    "remove": "Remove",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue shopping",
+    "subtotal": "Subtotal:",
+    "free_shipping_success": "Congrats! You get FREE shipping!",
+    "free_shipping_remaining": "You're {{ amount }} away from FREE shipping!",
+    "save_amount": "SAVE {{ amount }}",
+    "save_label": "Save {{ amount }}",
+    "save_percent": "SAVE {{ percent }}%+",
+    "promo_code": "Promo code",
+    "apply": "Apply",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "money_back_guarantee": "Money-back guarantee",
+    "happy_customers": "Happy customers",
+    "fallback_product_title": "Sample product",
+    "fallback_variant": "Default / Medium",
+    "fallback_description": "Premium quality product with great value.",
+    "you_may_also_like": "You may also like"
   },
   "collections": {
     "title": "Collections"
@@ -44,9 +59,116 @@
   },
   "search": {
     "title": "Search",
-    "placeholder": "Search articles, pages, or products",
+    "placeholder": "Search products, articles, pages...",
     "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "cancel": "Cancel",
+    "clear": "Clear search",
+    "start_typing": "Start typing to search",
+    "loading": "Searching...",
+    "no_results": "No results found",
+    "no_results_html": "No results found for \"{{ terms }}\"",
+    "try_different": "Try a different search term or browse our collections",
+    "results_for_html": "{{ count }} results for \"{{ terms }}\"",
+    "view_all_results": "View all results",
+    "products": "Products",
+    "articles": "Articles",
+    "pages": "Pages"
+  },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "sold_out": "Sold out",
+    "sale": "Sale",
+    "hero": {
+      "five_star_reviews": "FIVE-STAR REVIEWS",
+      "rating_label": "Rated {{ rating }} out of 5",
+      "thumbnail_label": "View image {{ index }}",
+      "select_variant": "Select variant",
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out"
+    }
+  },
+  "sections": {
+    "logo_marquee": {
+      "aria_label": "Partner logos"
+    },
+    "how_it_works": {
+      "step": "Step {{ number }}",
+      "bundle": "Bundle",
+      "save_badge": "Save 50%+",
+      "offer_ends": "Offer ends today",
+      "add_to_cart": "Add to cart"
+    },
+    "comparison_table": {
+      "features_header": "Features"
+    },
+    "product_timeline": {
+      "add_to_cart": "Add to cart"
+    },
+    "home_collection": {
+      "aria_products": "Product cards",
+      "star_rating": "5 out of 5 stars",
+      "rating_label": "Rated {{ rating }} out of 5",
+      "prev_slide": "Previous product",
+      "next_slide": "Next product"
+    },
+    "home_steps": {
+      "step": "Step {{ number }}"
+    },
+    "home_testimonials": {
+      "five_star_reviews": "FIVE-STAR REVIEWS",
+      "play_video": "Play testimonial video"
+    },
+    "collection": {
+      "filters_label": "Collection filters",
+      "filter_collection": "Collection",
+      "all_products": "All",
+      "filter_sort": "Sort by",
+      "products_label": "Collection products",
+      "rating_label": "Rated {{ rating }} out of 5",
+      "pagination_label": "Collection pagination",
+      "price_from": "From",
+      "price_to": "To",
+      "apply": "Apply",
+      "clear_all": "Clear all",
+      "no_products": "No products match your filters."
+    }
+  },
+  "testimonials": {
+    "section_label": "Testimonials",
+    "star_rating": "{{ rating }} out of 5 stars"
+  },
+  "faq": {
+    "section_label": "Frequently asked questions"
+  },
+  "footer": {
+    "navigation": "Footer navigation",
+    "email_placeholder": "Your email address",
+    "copyright_html": "© {{ year }} {{ shop_name }}",
+    "newsletter_success": "Thanks for subscribing!",
+    "newsletter_error": "Something went wrong. Please try again."
+  },
+  "header": {
+    "navigation": "Main navigation",
+    "cart": "Cart",
+    "menu_toggle": "Menu",
+    "close_menu": "Close menu",
+    "more_links": "More Links"
+  },
+  "contact": {
+    "name": "Name",
+    "name_placeholder": "Your name",
+    "email": "Email",
+    "email_placeholder": "your@email.com",
+    "subject": "Subject",
+    "subject_placeholder": "How can we help?",
+    "message": "Message",
+    "message_placeholder": "Write your message here...",
+    "submit": "Send message",
+    "success_message": "Thank you for your message! We'll get back to you soon.",
+    "error_message": "Please fix the following errors:"
+  },
+  "accessibility": {
+    "checkmark": "Yes",
+    "x_mark": "No"
   }
 }

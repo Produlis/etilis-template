@@ -1,0 +1,220 @@
+{%- liquid
+  assign meta_guarantee_heading = product.metafields.custom.guarantee_heading.value
+  assign meta_guarantee_body = product.metafields.custom.guarantee_body
+  assign heading = meta_guarantee_heading | default: section.settings.heading
+  assign body_text = section.settings.body_text
+  if meta_guarantee_body != blank
+    assign body_text = meta_guarantee_body | metafield_tag
+  endif
+-%}
+<section class="guarantee-banner full-width">
+  <div class="guarantee-banner__wrapper">
+    <div class="guarantee-banner__image">
+      {% if section.settings.image %}
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'guarantee-banner__img' }}
+      {% else %}
+        {% render 'placeholder-image', dark: true %}
+      {% endif %}
+    </div>
+
+    <div class="guarantee-banner__card">
+      {% if section.settings.tag_text != blank %}
+        <span class="guarantee-banner__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
+
+      {% if heading != blank %}
+        <h2 class="guarantee-banner__heading">{{ heading }}</h2>
+      {% endif %}
+
+      {% if body_text != blank %}
+        <div class="guarantee-banner__body rte">
+          {{ body_text }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .guarantee-banner {
+    background-color: var(--theme-surface);
+    padding: var(--space-13);
+  }
+
+  .guarantee-banner__wrapper {
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+    display: flex;
+    gap: var(--space-12);
+    align-items: stretch;
+  }
+
+  /* ── Image column ── */
+  .guarantee-banner__image {
+    flex: 1 1 0;
+    min-width: 0;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .guarantee-banner__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-card);
+  }
+
+  .guarantee-banner__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Content card ── */
+  .guarantee-banner__card {
+    flex: 1 1 0;
+    min-width: 0;
+    background-color: var(--theme-primary);
+    border-radius: var(--radius-card);
+    padding: var(--space-8);
+    min-height: 524px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+  }
+
+  .guarantee-banner__tag {
+    display: inline-block;
+    align-self: flex-start;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--theme-text-on-primary);
+    background-color: var(--color-on-primary-subtle);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-3);
+    line-height: normal;
+  }
+
+  .guarantee-banner__heading {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    font-weight: var(--font-weight-regular);
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--theme-text-on-primary);
+    margin: 0;
+  }
+
+  .guarantee-banner__body {
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text-muted);
+  }
+
+  .guarantee-banner__body p {
+    margin: 0 0 var(--space-4);
+  }
+
+  .guarantee-banner__body p:last-child {
+    margin-bottom: 0;
+    color: var(--theme-text-on-primary);
+  }
+
+  /* ── Tablet ── */
+  @media screen and (max-width: 989px) {
+    .guarantee-banner {
+      padding: var(--space-8);
+    }
+
+    .guarantee-banner__wrapper {
+      gap: var(--space-6);
+    }
+
+    .guarantee-banner__card {
+      min-height: auto;
+      padding: var(--space-6);
+    }
+
+    .guarantee-banner__heading {
+      font-size: var(--font-size-4xl);
+    }
+  }
+
+  /* ── Mobile ── */
+  @media screen and (max-width: 749px) {
+    .guarantee-banner {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .guarantee-banner__wrapper {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .guarantee-banner__image {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      aspect-ratio: 16 / 10;
+    }
+
+    .guarantee-banner__img {
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+    }
+
+    .guarantee-banner__card {
+      border-radius: 0 0 var(--radius-card) var(--radius-card);
+      padding: var(--space-6);
+    }
+
+    .guarantee-banner__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:sections.guarantee_banner.name",
+  "tag": "section",
+  "class": "guarantee-banner-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag_text",
+      "default": "BENEFITS"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Quality you can trust, results you can feel"
+    },
+    {
+      "type": "richtext",
+      "id": "body_text",
+      "label": "t:labels.body_text",
+      "default": "<p>Every product is crafted with care using premium materials and rigorous quality standards. We stand behind everything we make with a satisfaction guarantee.</p><p>Our commitment to excellence means you can shop with confidence, knowing each item is designed to deliver lasting value and performance you can count on.</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.guarantee_banner.name"
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

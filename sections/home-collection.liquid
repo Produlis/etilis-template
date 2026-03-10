@@ -1,0 +1,768 @@
+{% render 'swiper-loader' %}
+
+<div class="home-collection full-width">
+  <div class="home-collection__container">
+    <div class="home-collection__header" data-animate="fade-up" data-animate-stagger>
+      {% if section.settings.tag_text != blank %}
+        <span class="home-collection__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
+
+      {%- liquid
+        if section.settings.collection != blank
+          assign heading_text = section.settings.collection.title
+          assign description_text = section.settings.collection.description | strip_html
+        else
+          assign heading_text = section.settings.heading
+          assign description_text = section.settings.description
+        endif
+      -%}
+      {% if heading_text != blank %}
+        <h2 class="home-collection__heading">{{ heading_text }}</h2>
+      {% endif %}
+
+      {% if description_text != blank %}
+        <p class="home-collection__subtitle">{{ description_text }}</p>
+      {% endif %}
+    </div>
+
+    <div class="home-collection__slider" data-animate="fade-up">
+      <div
+        class="swiper home-collection__swiper"
+        data-section-id="{{ section.id }}"
+        data-autoplay="{{ section.settings.autoplay }}"
+        data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+        data-loop="{{ section.settings.loop }}"
+        data-slides-desktop="{{ section.settings.slides_desktop }}"
+        data-slides-mobile="{{ section.settings.slides_mobile }}"
+        role="list"
+        aria-label="{{ 'sections.home_collection.aria_products' | t }}"
+      >
+        <div class="swiper-wrapper">
+          {% if section.settings.collection != blank %}
+            {% for product in section.settings.collection.products limit: 8 %}
+              <div class="swiper-slide home-collection__slide" role="listitem">
+                <article class="home-collection__card">
+                  <div class="home-collection__card-image">
+                    {% if product.featured_image %}
+                      {{ product.featured_image | image_url: width: 400 | image_tag: class: 'home-collection__img', loading: 'lazy' }}
+                    {% else %}
+                      <div class="home-collection__img-placeholder">
+                        {% render 'placeholder-image' %}
+                      </div>
+                    {% endif %}
+
+                    {% if product.compare_at_price > product.price %}
+                      <span class="home-collection__badge" aria-label="{{ 'products.sale' | t }}">
+                        <svg class="home-collection__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="var(--theme-text-on-accent)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                          <circle cx="3.75" cy="3.75" r="0.75" fill="var(--theme-text-on-accent)"/>
+                        </svg>
+                        <span>{{ 'products.sale' | t }}</span>
+                      </span>
+                    {% endif %}
+                  </div>
+
+                  <div class="home-collection__card-info">
+                    <h3 class="home-collection__card-title">
+                      <a href="{{ product.url }}">{{ product.title }}</a>
+                    </h3>
+
+                    {%- assign rating = product.metafields.reviews.rating -%}
+                    {%- assign rating_count = product.metafields.reviews.rating_count -%}
+                    {%- if rating != blank -%}
+                      {%- assign rating_value = rating.value.rating | round: 1 -%}
+                      {%- assign rating_whole = rating_value | floor -%}
+                      {%- assign rating_decimal = rating_value | minus: rating_whole -%}
+                      {%- assign rating_next = rating_whole | plus: 1 -%}
+                      <div class="home-collection__card-rating" aria-label="{{ 'sections.home_collection.rating_label' | t: rating: rating_value }}">
+                        {%- for i in (1..5) -%}
+                          {%- if i <= rating_whole -%}
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                            </svg>
+                          {%- elsif i == rating_next -%}
+                            {%- if rating_decimal >= 0.5 -%}
+                              <svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <defs>
+                                  <clipPath id="half-star-{{ product.id }}-{{ i }}">
+                                    <rect x="0" y="0" width="8" height="16"/>
+                                  </clipPath>
+                                </defs>
+                                <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z" fill="var(--theme-star-empty, #d9d9d9)"/>
+                                <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z" fill="var(--theme-star)" clip-path="url(#half-star-{{ product.id }}-{{ i }})"/>
+                              </svg>
+                            {%- else -%}
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star-empty, #d9d9d9)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                              </svg>
+                            {%- endif -%}
+                          {%- else -%}
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star-empty, #d9d9d9)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                              <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                            </svg>
+                          {%- endif -%}
+                        {%- endfor -%}
+                        {%- if rating_count != blank and rating_count.value > 0 -%}
+                          <span class="home-collection__review-count">({{ rating_count.value }})</span>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+
+                    <div class="home-collection__card-price">
+                      <span class="home-collection__price">{{ product.price | money }}</span>
+                      {% if product.compare_at_price > product.price %}
+                        <span class="home-collection__compare-price">{{ product.compare_at_price | money }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
+
+                  {%- assign first_available_variant = product.selected_or_first_available_variant -%}
+                  <button
+                    type="button"
+                    class="home-collection__card-button"
+                    data-add-to-cart="{{ first_available_variant.id }}"
+                    aria-label="{{ 'products.add_to_cart' | t }}: {{ product.title }}"
+                    {% unless first_available_variant.available %}disabled{% endunless %}
+                  >
+                    <span class="home-collection__card-button-mask">
+                      <span class="home-collection__card-button-text" data-btn-text>
+                        {%- if first_available_variant.available -%}
+                          {{ 'products.add_to_cart' | t }}
+                        {%- else -%}
+                          {{ 'products.sold_out' | t }}
+                        {%- endif -%}
+                      </span>
+                    </span>
+                    <span class="home-collection__card-button-bg"></span>
+                  </button>
+                </article>
+              </div>
+            {% endfor %}
+          {% else %}
+            {%- assign placeholder_names = 'Essential Kit,Everyday Classic,Premium Bundle,Starter Pack,Signature Set,Limited Edition,Deluxe Collection,Travel Companion' | split: ',' -%}
+            {%- assign placeholder_images = 'product-1,product-2,product-3,product-4,product-5,product-6,product-1,product-2' | split: ',' -%}
+            {% for name in placeholder_names %}
+              <div class="swiper-slide home-collection__slide" role="listitem">
+                <article class="home-collection__card">
+                  <div class="home-collection__card-image">
+                    <div class="home-collection__img-placeholder">
+                      {% render 'placeholder-image' %}
+                    </div>
+                    <span class="home-collection__badge" aria-label="{{ 'products.sale' | t }}">
+                      <svg class="home-collection__badge-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M10.5 5.25L6.75 1.5L1.5 1.5L1.5 6.75L5.25 10.5L10.5 5.25Z" stroke="var(--theme-text-on-accent)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="3.75" cy="3.75" r="0.75" fill="var(--theme-text-on-accent)"/>
+                      </svg>
+                      <span>{{ 'products.sale' | t }}</span>
+                    </span>
+                  </div>
+
+                  <div class="home-collection__card-info">
+                    <h3 class="home-collection__card-title">{{ name }}</h3>
+
+                    <div class="home-collection__card-rating" aria-label="{{ 'sections.home_collection.star_rating' | t }}">
+                      {% for i in (1..5) %}
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="var(--theme-star)" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                          <path d="M8 1.33L10.06 5.5L14.67 6.18L11.33 9.43L12.12 14.02L8 11.85L3.88 14.02L4.67 9.43L1.33 6.18L5.94 5.5L8 1.33Z"/>
+                        </svg>
+                      {% endfor %}
+                      <span class="home-collection__review-count">(1,983)</span>
+                    </div>
+
+                    <div class="home-collection__card-price">
+                      <span class="home-collection__price">$109.00</span>
+                      <span class="home-collection__compare-price">$199.99</span>
+                    </div>
+                  </div>
+
+                  <span class="home-collection__card-button">
+                    <span class="home-collection__card-button-mask">
+                      <span class="home-collection__card-button-text">{{ 'products.add_to_cart' | t }}</span>
+                    </span>
+                    <span class="home-collection__card-button-bg"></span>
+                  </span>
+                </article>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="home-collection__pagination swiper-pagination"></div>
+
+      <button class="home-collection__nav-btn home-collection__nav-btn--prev" aria-label="{{ 'sections.home_collection.prev_slide' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="home-collection__nav-btn home-collection__nav-btn--next" aria-label="{{ 'sections.home_collection.next_slide' | t }}">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .home-collection {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    box-sizing: border-box;
+    background-color: var(--color-text);
+    border-radius: 2rem;
+    overflow: hidden;
+  }
+
+  .home-collection__container {
+    padding: var(--space-6) 0 var(--space-13);
+  }
+
+  .home-collection__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    text-align: center;
+    margin-bottom: var(--space-10);
+    max-width: var(--container-max, 80rem);
+    margin-inline: auto;
+    padding: 0 var(--space-13);
+  }
+
+  .home-collection__tag {
+    display: inline-block;
+    background: var(--color-on-primary-subtle);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--color-accent-text);
+    line-height: var(--line-height-normal);
+  }
+
+  .home-collection__heading {
+    font-size: var(--font-size-5xl);
+    line-height: var(--line-height-tight);
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--color-accent-text);
+    margin: 0;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .home-collection__subtitle {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--color-text-on-dark-muted);
+    margin: 0;
+    max-width: 560px;
+  }
+
+  .home-collection__slider {
+    position: relative;
+  }
+
+  .home-collection__swiper {
+    overflow: visible;
+  }
+
+  .home-collection__swiper .swiper-slide {
+    width: calc((var(--container-max, 80rem) - 2 * var(--space-13) - 3 * 16px) / 4);
+    flex-shrink: 0;
+  }
+
+  .home-collection__card {
+    width: 100%;
+    background: var(--color-surface-card);
+    border: none;
+    border-radius: var(--theme-radius-card);
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Navigation */
+  .home-collection__nav-btn {
+    position: absolute;
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-round);
+    border: 1px solid var(--color-on-primary-subtle);
+    background: var(--color-on-primary-muted);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--color-accent-text);
+    cursor: pointer;
+    transition: background-color 150ms ease, border-color 150ms ease;
+  }
+
+  .home-collection__nav-btn--prev {
+    inset-inline-start: var(--space-2);
+  }
+
+  .home-collection__nav-btn--next {
+    inset-inline-end: var(--space-2);
+  }
+
+  .home-collection__nav-btn:hover {
+    background-color: var(--color-on-primary-subtle);
+    border-color: var(--color-on-primary-hover);
+  }
+
+  .home-collection__nav-btn:focus-visible {
+    outline: 2px solid var(--color-focus, var(--color-text));
+    outline-offset: 2px;
+  }
+
+  .home-collection__nav-btn.swiper-button-disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .home-collection__card-image {
+    position: relative;
+    height: 200px;
+    border-radius: var(--theme-radius-image);
+    overflow: hidden;
+    background: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .home-collection__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .home-collection__img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-surface);
+  }
+
+  .home-collection__placeholder-svg {
+    width: 60%;
+    height: auto;
+    opacity: 0.5;
+  }
+
+  .home-collection__badge {
+    position: absolute;
+    inset-block-start: var(--space-2);
+    inset-inline-start: var(--space-2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-1);
+    background: var(--theme-accent);
+    border-radius: var(--theme-radius-badge);
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    color: var(--theme-text-on-accent);
+    line-height: var(--line-height-none);
+  }
+
+  .home-collection__badge-icon {
+    flex-shrink: 0;
+  }
+
+  .home-collection__card-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: center;
+    text-align: center;
+  }
+
+  .home-collection__card-title {
+    font-size: var(--font-size-2xl);
+    line-height: var(--line-height-snug);
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--color-text);
+    margin: 0;
+    font-weight: var(--font-weight-semibold);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .home-collection__card-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .home-collection__card-title a:hover {
+    text-decoration: underline;
+  }
+
+  .home-collection__card-title a:focus-visible {
+    outline: 2px solid var(--color-focus, var(--color-text));
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  .home-collection__card-rating {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .home-collection__review-count {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-inline-start: var(--space-1);
+  }
+
+  .home-collection__card-price {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .home-collection__price {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    font-weight: var(--font-weight-semibold);
+  }
+
+  .home-collection__compare-price {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-decoration: line-through;
+  }
+
+  .home-collection__card-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    background: var(--color-surface);
+    border-radius: var(--theme-radius-button);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    margin-top: auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .home-collection__card-button-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .home-collection__card-button-text {
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .home-collection__card-button-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-surface) 75%, var(--color-text));
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .home-collection__card-button:hover .home-collection__card-button-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .home-collection__card-button:hover .home-collection__card-button-bg {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  .home-collection__card-button:focus-visible {
+    outline: 2px solid var(--color-focus, var(--color-text));
+    outline-offset: 2px;
+  }
+
+  .home-collection__card-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Pagination dots */
+  .home-collection__pagination {
+    display: none;
+  }
+
+  .home-collection__pagination .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+    padding: var(--space-2);
+    background: var(--color-accent-text);
+    background-clip: content-box;
+    opacity: 0.3;
+    border-radius: var(--radius-round);
+    transition: opacity var(--duration-fast) var(--ease-standard),
+                width var(--duration-fast) var(--ease-standard);
+    cursor: pointer;
+  }
+
+  .home-collection__pagination .swiper-pagination-bullet-active {
+    opacity: 1;
+    width: 20px;
+    border-radius: 4px;
+  }
+
+  @media (max-width: 749px) {
+    .home-collection {
+      padding: 0;
+    }
+
+    .home-collection__container {
+      padding: var(--space-6) 0;
+      border-radius: 0;
+    }
+
+    .home-collection__header {
+      margin-bottom: var(--space-6);
+      padding: 0 var(--space-4);
+    }
+
+    .home-collection__heading {
+      font-size: var(--font-size-3xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .home-collection__slider {
+      padding-left: var(--space-4);
+    }
+
+    .home-collection__nav-btn {
+      display: none;
+    }
+
+    .home-collection__swiper {
+      overflow: visible;
+    }
+
+    .home-collection__swiper .swiper-slide {
+      width: 282px;
+    }
+
+    .home-collection__pagination {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: var(--space-5);
+      padding: 0 var(--space-4);
+    }
+
+    .home-collection__card {
+      padding: var(--space-4);
+      gap: var(--space-4);
+    }
+
+    .home-collection__card-image {
+      height: 200px;
+    }
+
+    .home-collection__card-title {
+      font-size: var(--font-size-xl);
+      line-height: var(--line-height-snug);
+    }
+
+    .home-collection__card-button {
+      height: 40px;
+      font-size: var(--font-size-sm);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  function initHomeCollectionSwiper(container) {
+    var el = container.querySelector('.home-collection__swiper');
+    if (!el) return;
+
+    if (el.swiper) el.swiper.destroy(true, true);
+
+    var autoplay = el.dataset.autoplay === 'true';
+    var autoplaySpeed = parseInt(el.dataset.autoplaySpeed, 10) || 5000;
+    var loop = el.dataset.loop === 'true';
+    var slidesDesktop = parseInt(el.dataset.slidesDesktop, 10) || 4;
+    var slidesMobile = parseInt(el.dataset.slidesMobile, 10) || 2;
+
+    var parent = el.closest('.home-collection__slider');
+    var prevBtn = parent.querySelector('.home-collection__nav-btn--prev');
+    var nextBtn = parent.querySelector('.home-collection__nav-btn--next');
+    var paginationEl = parent.querySelector('.home-collection__pagination');
+
+    new Swiper(el, {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      centeredSlides: true,
+      loop: loop,
+      grabCursor: true,
+      autoplay: autoplay ? { delay: autoplaySpeed, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+      pagination: {
+        el: paginationEl,
+        clickable: true
+      },
+      navigation: {
+        prevEl: prevBtn,
+        nextEl: nextBtn
+      },
+      breakpoints: {
+        750: {
+          slidesPerView: Math.min(slidesDesktop, 3),
+          centeredSlides: false,
+          spaceBetween: 12
+        },
+        1000: {
+          slidesPerView: 'auto',
+          centeredSlides: true,
+          spaceBetween: 16
+        }
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    for (const el of document.querySelectorAll('.home-collection')) {
+      initHomeCollectionSwiper(el);
+    }
+  });
+
+  document.addEventListener('shopify:section:load', function (event) {
+    var section = event.target;
+    if (section.querySelector('.home-collection__swiper')) {
+      initHomeCollectionSwiper(section);
+    }
+  });
+
+  document.addEventListener('click', async function (e) {
+    var btn = e.target.closest('[data-add-to-cart]');
+    if (!btn) return;
+
+    var variantId = btn.dataset.addToCart;
+    var textEl = btn.querySelector('[data-btn-text]') || btn;
+    var originalText = textEl.textContent;
+    btn.disabled = true;
+    textEl.textContent = '...';
+
+    try {
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+      if (!res.ok) throw new Error('Add to cart failed');
+      await res.json();
+
+      textEl.textContent = originalText;
+      btn.disabled = false;
+
+      var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+      if (cartTrigger) cartTrigger.click();
+    } catch (err) {
+      textEl.textContent = originalText;
+      btn.disabled = false;
+    }
+  });
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.home_collection.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag",
+      "default": "Collections"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:labels.heading",
+      "default": "Our Collection"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "default": "Thoughtfully designed products for your everyday needs"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "t:general.collection"
+    },
+    {
+      "type": "range",
+      "id": "slides_desktop",
+      "label": "t:labels.slides_desktop",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "slides_mobile",
+      "label": "t:labels.slides_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:labels.autoplay",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:labels.autoplay_speed",
+      "min": 2000,
+      "max": 9000,
+      "step": 500,
+      "unit": "ms",
+      "default": 5000
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "t:labels.loop",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.home_collection.name"
+    }
+  ]
+}
+{% endschema %}

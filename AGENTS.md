@@ -102,6 +102,7 @@ Snippets and blocks (when blocks are statically rendered) must include the Liqui
 When defining the `{% schema %}` tag on sections and blocks, follow these guidelines to use the values:
 
 **Single property settings**: For settings that correspond to a single CSS property, use CSS variables:
+
 ```liquid
 <div class="collection" style="--gap: {{ block.settings.gap }}px">
   Example
@@ -129,6 +130,7 @@ When defining the `{% schema %}` tag on sections and blocks, follow these guidel
 ```
 
 **Multiple property settings**: For settings that control multiple CSS properties, use CSS classes:
+
 ```liquid
 <div class="collection {{ block.settings.layout }}">
   Example
@@ -189,20 +191,23 @@ If you need to create a mobile layout and you want the merchant to be able to se
 Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines next to the tag.
 
 **Examples:**
+
 - `{{- product.title -}}` → print value, remove surrounding spaces or lines.
 - `{%- if available -%}In stock{%- endif -%}` → logic, removes extra spaces/lines.
 
 ### Liquid operators
 
 **Comparison operators:**
+
 - ==
 - !=
 - >
 - <
-- >=
+- > =
 - <=
 
 **Logical operators:**
+
 - `or`
 - `and`
 - `contains` - checks if a string contains a substring, or if an array contains a string
@@ -210,11 +215,13 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
 #### Comparison and comparison tags
 
 **Key condition principles:**
+
 - For simplificity, ALWAYS use nested `if` conditions when the logic requires more than one logical operator
 - Parentheses are not supported in Liquid
 - Ternary conditionals are not supported in Liquid, so always use `{% if cond %}`
 
 **Basic comparison example:**
+
 ```liquid
 {% if product.title == "Awesome Shoes" %}
   These shoes are awesome!
@@ -222,6 +229,7 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
 ```
 
 **Multiple Conditions:**
+
 ```liquid
 {% if product.type == "Shirt" or product.type == "Shoes" %}
   This is a shirt or a pair of shoes.
@@ -229,11 +237,13 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
 ```
 
 **Contains Usage:**
+
 - For strings: `{% if product.title contains "Pack" %}`
 - For arrays: `{% if product.tags contains "Hello" %}`
 - Note: `contains` only works with strings, not objects in arrays
 
 **{% elsif %} (used inside if/unless only)**
+
 ```liquid
 {% if a %}
   ...
@@ -243,6 +253,7 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
 ```
 
 **{% unless %}**
+
 ```liquid
 {% unless condition %}
   ...
@@ -250,6 +261,7 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
 ```
 
 **{% case %}**
+
 ```liquid
 {% case variable %}
   {% when 'a' %}
@@ -262,6 +274,7 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
 ```
 
 **{% else %} (used inside if, unless, case, or for)**
+
 ```liquid
 {% if product.available %}
   In stock
@@ -269,7 +282,9 @@ Adding a dash (`-`) after `{%`/`{{` or before `%}`/`}}` trims spaces or newlines
   Sold out
 {% endif %}
 ```
+
 _or inside a for loop:_
+
 ```liquid
 {% for item in collection.products %}
   {{ item.title }}
@@ -316,6 +331,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - Finally, the `last` filter work with array, so `"WORLD"` is returned
 
 #### Array
+
 - `compact`: `{{ array | compact }}` returns `array`
 - `concat`: `{{ array | concat: array }}` returns `array`
 - `find`: `{{ array | find: string, string }}` returns `untyped`
@@ -335,10 +351,12 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `where`: `{{ array | where: string, string }}` returns `array`
 
 #### Cart
+
 - `item_count_for_variant`: `{{ cart | item_count_for_variant: {variant_id} }}` returns `number`
 - `line_items_for`: `{{ cart | line_items_for: object }}` returns `array`
 
 #### Collection
+
 - `link_to_type`: `{{ string | link_to_type }}` returns `string`
 - `link_to_vendor`: `{{ string | link_to_vendor }}` returns `string`
 - `sort_by`: `{{ string | sort_by: string }}` returns `string`
@@ -348,6 +366,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `highlight_active_tag`: `{{ string | highlight_active_tag }}` returns `string`
 
 #### Color
+
 - `brightness_difference`: `{{ string | brightness_difference: string }}` returns `number`
 - `color_brightness`: `{{ string | color_brightness }}` returns `number`
 - `color_contrast`: `{{ string | color_contrast: string }}` returns `number`
@@ -366,6 +385,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `hex_to_rgba`: `{{ string | hex_to_rgba }}` returns `string`
 
 #### Customer
+
 - `customer_login_link`: `{{ string | customer_login_link }}` returns `string`
 - `customer_logout_link`: `{{ string | customer_logout_link }}` returns `string`
 - `customer_register_link`: `{{ string | customer_register_link }}` returns `string`
@@ -373,19 +393,23 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `login_button`: `{{ shop | login_button }}` returns `string`
 
 #### Date
+
 - `date`: `{{ date | date: string }}` returns `string`
 
 #### Default
+
 - `default_errors`: `{{ string | default_errors }}` returns `string`
 - `default`: `{{ variable | default: variable }}` returns `untyped`
 - `default_pagination`: `{{ paginate | default_pagination }}` returns `string`
 
 #### Font
+
 - `font_face`: `{{ font | font_face }}` returns `string`
 - `font_modify`: `{{ font | font_modify: string, string }}` returns `font`
 - `font_url`: `{{ font | font_url }}` returns `string`
 
 #### Format
+
 - `date`: `{{ string | date: string }}` returns `string`
 - `json`: `{{ variable | json }}` returns `string`
 - `structured_data`: `{{ variable | structured_data }}` returns `string`
@@ -393,6 +417,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `weight_with_unit`: `{{ number | weight_with_unit }}` returns `string`
 
 #### Hosted_file
+
 - `asset_img_url`: `{{ string | asset_img_url }}` returns `string`
 - `asset_url`: `{{ string | asset_url }}` returns `string`
 - `file_img_url`: `{{ string | file_img_url }}` returns `string`
@@ -401,6 +426,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `shopify_asset_url`: `{{ string | shopify_asset_url }}` returns `string`
 
 #### Html
+
 - `time_tag`: `{{ string | time_tag: string }}` returns `string`
 - `inline_asset_content`: `{{ asset_name | inline_asset_content }}` returns `string`
 - `highlight`: `{{ string | highlight: string }}` returns `string`
@@ -411,11 +437,13 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `stylesheet_tag`: `{{ string | stylesheet_tag }}` returns `string`
 
 #### Localization
+
 - `currency_selector`: `{{ form | currency_selector }}` returns `string`
 - `translate`: `{{ string | t }}` returns `string`
 - `format_address`: `{{ address | format_address }}` returns `string`
 
 #### Math
+
 - `abs`: `{{ number | abs }}` returns `number`
 - `at_least`: `{{ number | at_least }}` returns `number`
 - `at_most`: `{{ number | at_most }}` returns `number`
@@ -429,6 +457,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `times`: `{{ number | times: number }}` returns `number`
 
 #### Media
+
 - `external_video_tag`: `{{ variable | external_video_tag }}` returns `string`
 - `external_video_url`: `{{ media | external_video_url: attribute: string }}` returns `string`
 - `image_tag`: `{{ string | image_tag }}` returns `string`
@@ -443,22 +472,26 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `product_img_url`: `{{ variable | product_img_url }}` returns `string`
 
 #### Metafield
+
 - `metafield_tag`: `{{ metafield | metafield_tag }}` returns `string`
 - `metafield_text`: `{{ metafield | metafield_text }}` returns `string`
 
 #### Money
+
 - `money`: `{{ number | money }}` returns `string`
 - `money_with_currency`: `{{ number | money_with_currency }}` returns `string`
 - `money_without_currency`: `{{ number | money_without_currency }}` returns `string`
 - `money_without_trailing_zeros`: `{{ number | money_without_trailing_zeros }}` returns `string`
 
 #### Payment
+
 - `payment_button`: `{{ form | payment_button }}` returns `string`
 - `payment_terms`: `{{ form | payment_terms }}` returns `string`
 - `payment_type_img_url`: `{{ string | payment_type_img_url }}` returns `string`
 - `payment_type_svg_tag`: `{{ string | payment_type_svg_tag }}` returns `string`
 
 #### String
+
 - `blake3`: `{{ string | blake3 }}` returns `string`
 - `hmac_sha1`: `{{ string | hmac_sha1: string }}` returns `string`
 - `hmac_sha256`: `{{ string | hmac_sha256: string }}` returns `string`
@@ -501,6 +534,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `pluralize`: `{{ number | pluralize: string, string }}` returns `string`
 
 #### Tag
+
 - `link_to_add_tag`: `{{ string | link_to_add_tag }}` returns `string`
 - `link_to_remove_tag`: `{{ string | link_to_remove_tag }}` returns `string`
 - `link_to_tag`: `{{ string | link_to_tag }}` returns `string`
@@ -508,6 +542,7 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 ### Liquid objects
 
 #### Global objects
+
 - `collections`
 - `pages`
 - `all_products`
@@ -543,66 +578,82 @@ Here's how the filters are executed step by step to eventually return `"WORLD"`:
 - `scripts`
 
 #### `/article` page
+
 - `article`
 - `blog`
 
 #### `/blog` page
+
 - `blog`
 - `current_tags`
 
 #### `/cart` page
+
 - `cart`
 
 #### `/checkout` page
+
 - `checkout`
 
 #### `/collection` page
+
 - `collection`
 - `current_tags`
 
 #### `/customers/account` page
+
 - `customer`
 
 #### `/customers/addresses` page
+
 - `customer`
 
 #### `/customers/order` page
+
 - `customer`
 - `order`
 
 #### `/gift_card.liquid` page
+
 - `gift_card`
 - `recipient`
 
 #### `/metaobject` page
+
 - `metaobject`
 
 #### `/page` page
+
 - `page`
 
 #### `/product` page
+
 - `product`
 - `remote_product`
 
 #### `/robots.txt.liquid` page
+
 - `robots`
 
 #### `/search` page
+
 - `search`
+
 ### Liquid tags
 
-
 #### content_for
+
 The `content_for` tag requires a type parameter to differentiate between rendering a number of theme blocks (`'blocks'`) and a single static block (`'block'`).
 
-
 Syntax:
+
 ```
 {% content_for 'blocks' %}
 {% content_for 'block', type: "slide", id: "slide-1" %}
 ```
 
 #### form
+
 Because there are many different form types available in Shopify themes, the `form` tag requires a type. Depending on the
 form type, an additional parameter might be required. You can specify the following form types:
 
@@ -622,8 +673,8 @@ form type, an additional parameter might be required. You can specify the follow
 - [`reset_customer_password`](https://shopify.dev/docs/api/liquid/tags/form#form-reset_customer_password)
 - [`storefront_password`](https://shopify.dev/docs/api/liquid/tags/form#form-storefront_password)
 
-
 Syntax:
+
 ```
 {% form 'form_type' %}
   content
@@ -633,19 +684,21 @@ Syntax:
 #### layout
 
 Syntax:
+
 ```
 {% layout name %}
 ```
 
 #### assign
+
 You can create variables of any [basic type](https://shopify.dev/docs/api/liquid/basics#types), [object](https://shopify.dev/docs/api/liquid/objects), or object property.
 
 > Caution:
 > Predefined Liquid objects can be overridden by variables with the same name.
 > To make sure that you can access all Liquid objects, make sure that your variable name doesn't match a predefined object's name.
 
-
 Syntax:
+
 ```
 {% assign variable_name = value %}
 ```
@@ -653,19 +706,21 @@ Syntax:
 #### break
 
 Syntax:
+
 ```
 {% break %}
 ```
 
 #### capture
+
 You can create complex strings with Liquid logic and variables.
 
 > Caution:
 > Predefined Liquid objects can be overridden by variables with the same name.
 > To make sure that you can access all Liquid objects, make sure that your variable name doesn't match a predefined object's name.
 
-
 Syntax:
+
 ```
 {% capture variable %}
   value
@@ -675,6 +730,7 @@ Syntax:
 #### case
 
 Syntax:
+
 ```
 {% case variable %}
   {% when first_value %}
@@ -687,10 +743,11 @@ Syntax:
 ```
 
 #### comment
+
 Any text inside `comment` tags won't be output, and any Liquid code will be parsed, but not executed.
 
-
 Syntax:
+
 ```
 {% comment %}
   content
@@ -700,23 +757,26 @@ Syntax:
 #### continue
 
 Syntax:
+
 ```
 {% continue %}
 ```
 
 #### cycle
+
 The `cycle` tag must be used inside a `for` loop.
 
 > Tip:
 > Use the `cycle` tag to output text in a predictable pattern. For example, to apply odd/even classes to rows in a table.
 
-
 Syntax:
+
 ```
 {% cycle string, string, ... %}
 ```
 
 #### decrement
+
 Variables that are declared with `decrement` are unique to the [layout](/themes/architecture/layouts), [template](/themes/architecture/templates),
 or [section](/themes/architecture/sections) file that they're created in. However, the variable is shared across
 [snippets](/themes/architecture/snippets) included in the file.
@@ -725,13 +785,14 @@ Similarly, variables that are created with `decrement` are independent from thos
 and [`capture`](https://shopify.dev/docs/api/liquid/tags/capture). However, `decrement` and [`increment`](https://shopify.dev/docs/api/liquid/tags/increment) share
 variables.
 
-
 Syntax:
+
 ```
 {% decrement variable_name %}
 ```
 
 #### doc
+
 The `doc` tag allows developers to include documentation within Liquid
 templates. Any content inside `doc` tags is not rendered or outputted.
 Liquid code inside will be parsed but not executed. This facilitates
@@ -741,8 +802,8 @@ documentation.
 For detailed documentation syntax and examples, see the
 [`LiquidDoc` reference](https://shopify.dev/docs/storefronts/themes/tools/liquid-doc).
 
-
 Syntax:
+
 ```
 {% doc %}
   Renders a message.
@@ -756,14 +817,15 @@ Syntax:
 ```
 
 #### echo
+
 Using the `echo` tag is the same as wrapping an expression in curly brackets (`{{` and `}}`). However, unlike the curly
 bracket method, you can use the `echo` tag inside [`liquid` tags](https://shopify.dev/docs/api/liquid/tags/liquid).
 
 > Tip:
 > You can use [filters](https://shopify.dev/docs/api/liquid/filters) on expressions inside `echo` tags.
 
-
 Syntax:
+
 ```
 {% liquid
   echo expression
@@ -771,14 +833,15 @@ Syntax:
 ```
 
 #### for
+
 You can do a maximum of 50 iterations with a `for` loop. If you need to iterate over more than 50 items, then use the
 [`paginate` tag](https://shopify.dev/docs/api/liquid/tags/paginate) to split the items over multiple pages.
 
 > Tip:
 > Every `for` loop has an associated [`forloop` object](https://shopify.dev/docs/api/liquid/objects/forloop) with information about the loop.
 
-
 Syntax:
+
 ```
 {% for variable in array %}
   expression
@@ -788,6 +851,7 @@ Syntax:
 #### if
 
 Syntax:
+
 ```
 {% if condition %}
   expression
@@ -795,6 +859,7 @@ Syntax:
 ```
 
 #### increment
+
 Variables that are declared with `increment` are unique to the [layout](/themes/architecture/layouts), [template](/themes/architecture/templates),
 or [section](/themes/architecture/sections) file that they're created in. However, the variable is shared across
 [snippets](/themes/architecture/snippets) included in the file.
@@ -803,8 +868,8 @@ Similarly, variables that are created with `increment` are independent from thos
 and [`capture`](https://shopify.dev/docs/api/liquid/tags/capture). However, `increment` and [`decrement`](https://shopify.dev/docs/api/liquid/tags/decrement) share
 variables.
 
-
 Syntax:
+
 ```
 {% increment variable_name %}
 ```
@@ -812,6 +877,7 @@ Syntax:
 #### raw
 
 Syntax:
+
 ```
 {% raw %}
   expression
@@ -819,6 +885,7 @@ Syntax:
 ```
 
 #### render
+
 Inside snippets and app blocks, you can't directly access variables that are [created](https://shopify.dev/docs/api/liquid/tags/variable-tags) outside
 of the snippet or app block. However, you can [specify variables as parameters](https://shopify.dev/docs/api/liquid/tags/render#render-passing-variables-to-a-snippet)
 to pass outside variables to snippets.
@@ -834,20 +901,21 @@ Outside a snippet or app block, you can't access variables created inside the sn
 > When you render a snippet using the `render` tag, you can't use the [`include` tag](https://shopify.dev/docs/api/liquid/tags/include)
 > inside the snippet.
 
-
 Syntax:
+
 ```
 {% render 'filename' %}
 ```
 
 #### tablerow
+
 The `tablerow` tag must be wrapped in HTML `<table>` and `</table>` tags.
 
 > Tip:
 > Every `tablerow` loop has an associated [`tablerowloop` object](https://shopify.dev/docs/api/liquid/objects/tablerowloop) with information about the loop.
 
-
 Syntax:
+
 ```
 {% tablerow variable in array %}
   expression
@@ -855,11 +923,12 @@ Syntax:
 ```
 
 #### unless
+
 > Tip:
 > Similar to the [`if` tag](https://shopify.dev/docs/api/liquid/tags/if), you can use `elsif` to add more conditions to an `unless` tag.
 
-
 Syntax:
+
 ```
 {% unless condition %}
   expression
@@ -867,6 +936,7 @@ Syntax:
 ```
 
 #### paginate
+
 Because [`for` loops](https://shopify.dev/docs/api/liquid/tags/for) are limited to 50 iterations per page, you need to use the `paginate` tag to
 iterate over an array that has more than 50 items. The following arrays can be paginated:
 
@@ -892,8 +962,8 @@ object, or the [`default_pagination` filter](https://shopify.dev/docs/api/liquid
 > the array the array should be filtered further before paginating. See
 > [Pagination Limits](/themes/best-practices/performance/platform#pagination-limits) for more information.
 
-
 Syntax:
+
 ```
 {% paginate array by page_size %}
   {% for item in array %}
@@ -903,14 +973,16 @@ Syntax:
 ```
 
 #### javascript
+
 Each section, block or snippet can have only one `{% javascript %}` tag.
 
 To learn more about how JavaScript that's defined between the `javascript` tags is loaded and run, refer to the documentation for [javascript tags](/storefronts/themes/best-practices/javascript-and-stylesheet-tags#javascript).
+
 > Caution:
 > Liquid isn't rendered inside of `{% javascript %}` tags. Including Liquid code can cause syntax errors.
 
-
 Syntax:
+
 ```
 {% javascript %}
   javascript_code
@@ -918,24 +990,27 @@ Syntax:
 ```
 
 #### section
+
 Rendering a section with the `section` tag renders a section statically. To learn more about sections and how to use
 them in your theme, refer to [Render a section](/themes/architecture/sections#render-a-section).
 
-
 Syntax:
+
 ```
 {% section 'name' %}
 ```
 
 #### stylesheet
+
 Each section, block or snippet can have only one `{% stylesheet %}` tag.
 
 To learn more about how CSS that's defined between the `stylesheet` tags is loaded and run, refer to the documentation for [stylesheet tags](/storefronts/themes/best-practices/javascript-and-stylesheet-tags#stylesheet).
+
 > Caution:
 > Liquid isn't rendered inside of `{% stylesheet %}` tags. Including Liquid code can cause syntax errors.
 
-
 Syntax:
+
 ```
 {% stylesheet %}
   css_styles
@@ -943,23 +1018,25 @@ Syntax:
 ```
 
 #### sections
+
 Use this tag to render section groups as part of the theme's [layout](/themes/architecture/layouts) content. Place the `sections` tag where you want to render it in the layout.
 
 To learn more about section groups and how to use them in your theme, refer to [Section groups](/themes/architecture/section-groups#usage).
 
-
 Syntax:
+
 ```
 {% sections 'name' %}
 ```
 
 #### style
+
 > Note:
 > If you reference [color settings](/themes/architecture/settings/input-settings#color) inside `style` tags, then
 > the associated CSS rules will update as the setting is changed in the theme editor, without a page refresh.
 
-
 Syntax:
+
 ```
 {% style %}
   CSS_rules
@@ -967,14 +1044,15 @@ Syntax:
 ```
 
 #### else
+
 You can use the `else` tag with the following tags:
 
 - [`case`](https://shopify.dev/docs/api/liquid/tags/case)
 - [`if`](https://shopify.dev/docs/api/liquid/tags/if)
 - [`unless`](https://shopify.dev/docs/api/liquid/tags/unless)
 
-
 Syntax:
+
 ```
 {% else %}
   expression
@@ -983,6 +1061,7 @@ Syntax:
 #### else
 
 Syntax:
+
 ```
 {% for variable in array %}
   first_expression
@@ -992,19 +1071,19 @@ Syntax:
 ```
 
 #### liquid
+
 Because the tags don't have delimeters, each tag needs to be on its own line.
 
 > Tip:
 > Use the [`echo` tag](https://shopify.dev/docs/api/liquid/tags/echo) to output an expression inside `liquid` tags.
 
-
 Syntax:
+
 ```
 {% liquid
   expression
 %}
 ```
-
 
 ## Translation development standards
 
@@ -1059,16 +1138,17 @@ Syntax:
 ### Best practices
 
 **Content guidelines:**
+
 - Write clear, concise text.
 - **Use sentence case** for all user-facing text, including titles, headings, and button labels (capitalize only the first word and proper nouns; e.g., `Featured collection` → `Featured collection`, not `Featured Collection`).
 - Be consistent with terminology.
 - Consider character limits for UI elements.
 
 **Variable usage:**
+
 - Use interpolation rather than appending strings together.
 - Prioritize clarity over brevity for variable naming.
 - Escape variables unless they output HTML: `{{ variable | escape }}`.
-
 
 ## Localization standards
 
@@ -1093,6 +1173,7 @@ locales/
 Locale files are JSON files containing translations for all the text strings used throughout a Shopify theme and its editor. They let merchants easily update and localize repeated words and phrases, making it possible to translate store content and settings into multiple languages for international customers. These files provide a centralized way to manage and edit translations.
 
 **Example:**
+
 ```json
 {
   "general": {
@@ -1110,6 +1191,7 @@ Locale files are JSON files containing translations for all the text strings use
 Schema locale files, saved with a .schema.json extension, store translation strings specifically for theme editor setting schemas. They follow a structured organization—category, group, and description—to give context to each translation, enabling accurate localization of editor content. Schema locale files must use the IETF language tag format in their naming, such as en-GB.schema.json for British English or fr-CA.schema.json for Canadian French.
 
 **Example:**
+
 ```json
 {
   "products": {
@@ -1123,6 +1205,7 @@ Schema locale files, saved with a .schema.json extension, store translation stri
 ### Key organization
 
 **Hierarchical structure:**
+
 ```json
 {
   "general": {
@@ -1146,7 +1229,9 @@ Schema locale files, saved with a .schema.json extension, store translation stri
   }
 }
 ```
+
 **Usage**
+
 ```liquid
 {{ 'general.meta.title' | t: shop_name: shop.name }}
 {{ 'general.meta.description' | t: shop_description: shop.description }}
@@ -1155,12 +1240,14 @@ Schema locale files, saved with a .schema.json extension, store translation stri
 ### Translation guidelines
 
 **Key naming:**
+
 - Use descriptive, hierarchical keys
 - Maximum 3 levels deep
 - Use snake_case for key names
 - Group related translations
 
 **Content rules:**
+
 - Keep text concise for UI elements
 - Use variables for dynamic content
 - Consider character limits
@@ -1485,3 +1572,130 @@ Schema locale files, saved with a .schema.json extension, store translation stri
 {% endschema %}
 ```
 
+## Figma MCP Integration Rules
+
+These rules define how to translate Figma designs into production-ready Shopify Liquid code for this project. Follow them for every Figma-driven implementation.
+
+### Required flow (do not skip)
+
+1. Run `get_design_context` first to fetch the structured representation for the exact node(s)
+2. If the response is too large or truncated, run `get_metadata` to get the high-level node map, then re-fetch only the required node(s) with `get_design_context`
+3. Run `get_screenshot` for a visual reference of the node variant being implemented
+4. Only after you have both `get_design_context` and `get_screenshot`, download any assets needed and start implementation
+5. Translate the Figma output (React + Tailwind) into this project's Liquid + CSS conventions
+6. Validate against Figma for 1:1 visual parity before marking complete
+
+### Design tokens mapping
+
+IMPORTANT: Never hardcode colors, spacing, typography, or other design values. Always map Figma values to the project's CSS custom properties defined in `assets/tokens.css`.
+
+**Color mapping:**
+
+- Figma hex colors → map to `var(--color-*)` tokens (neutral scale, brand, semantic)
+- Neutral scale: `--color-neutral-{0,50,100,200,300,400,500,600,700,800,900}`
+- Brand: `--color-brand-{primary,secondary,accent}`
+- Semantic: `--color-{success,warning,danger,info}`
+- UI: `--color-{text,text-muted,text-inverse,bg,surface,surface-2,border,divider,link,link-hover,focus}`
+
+**Typography mapping:**
+
+- Figma font sizes → `var(--font-size-{xs,sm,base,lg,xl,2xl,3xl,4xl})`
+- Figma font weights → `var(--font-weight-{regular,medium,bold})` (400, 500, 700)
+- Figma line heights → `var(--line-height-{tight,normal,relaxed})` (1.2, 1.5, 1.75)
+- Heading levels: `var(--h{1-6}-size)` and `var(--h{1-6}-line)`
+- Font families: `var(--font-{sans,serif,mono})`
+
+**Spacing mapping (4px base unit):**
+
+- Figma spacing values → `var(--space-{0-12})` (0px to 48px)
+- Layout: `var(--container-max)` (1200px), `var(--container-padding)` (24px)
+- Sections: `var(--section-padding-y)` (48px), `var(--grid-gap)` (24px)
+
+**Border & radius mapping:**
+
+- Border widths: `var(--border-width-{1,2})`
+- Radius: `var(--radius-{xs,sm,md,lg,xl,pill,round,input})` (2px to 9999px)
+- Shadows: `var(--shadow-{sm,md,lg})`
+
+**Motion mapping:**
+
+- Durations: `var(--duration-{fast,medium,slow})` (150ms, 300ms, 500ms)
+- Easing: `var(--ease-{standard,emphasized})`
+
+### Styling approach
+
+- IMPORTANT: Write CSS inside `{% stylesheet %}` tags within blocks, sections, and snippets — not in external CSS files
+- Use BEM naming: `.component-name`, `.component-name__element`, `.component-name--modifier`
+- Single CSS property settings → use CSS custom properties via `style` attribute
+- Multiple CSS property settings → use CSS class variants
+- Reference `assets/components.css` for existing button (`.btn--*`), form, badge, alert, and card styles before creating new ones
+- Global utility classes: `.full-width` spans the entire viewport width
+
+### Component organization
+
+- IMPORTANT: Check existing components before creating new ones
+- UI primitives (images, meta-tags, css-variables) → `snippets/`
+- Configurable reusable components (text, groups) → `blocks/`
+- Full-width page modules (hero, collections, product grids) → `sections/`
+- Snippets must have `{% doc %}` header with `@param` and `@example`
+- Blocks must have `{% doc %}` header when statically rendered
+- Sections and blocks must include `{% schema %}` with valid JSON
+
+### Translating Figma to Liquid component type
+
+When implementing a Figma design, decide the appropriate Shopify component type:
+
+| Figma element                                   | Shopify type        | Criteria                                                                             |
+| ----------------------------------------------- | ------------------- | ------------------------------------------------------------------------------------ |
+| Full-width section (hero, banner, feature grid) | `sections/*.liquid` | Occupies full page width, merchant-configurable via `{% schema %}`                   |
+| Reusable UI element (card, slide, feature item) | `blocks/*.liquid`   | Nested inside sections, merchant-configurable, supports `{% content_for 'blocks' %}` |
+| Internal rendering helper (icon, badge, image)  | `snippets/*.liquid` | Reused via `{% render %}`, not directly editable in theme editor                     |
+
+### Asset handling
+
+- IMPORTANT: If the Figma MCP server returns a `localhost` source for an image or SVG, use that source directly to download and save to `assets/`
+- IMPORTANT: DO NOT import or add new icon packages — all assets should come from the Figma payload
+- IMPORTANT: DO NOT use or create placeholders if a `localhost` source is provided
+- Store downloaded SVG/image assets in `assets/`
+- Reference assets using `{{ 'filename.svg' | asset_url }}` or `{{ 'filename.svg' | inline_asset_content }}` for inline SVGs
+- Use `image_url` and `image_tag` filters for Shopify-hosted images
+
+### Translation requirements
+
+- IMPORTANT: Every user-facing text from Figma must use translation keys, never hardcoded strings
+- Add new keys to `locales/en.default.json` (user-facing) and `locales/en.default.schema.json` (editor labels)
+- Schema `name`, `label`, and option `label` values must use `t:` prefix keys
+- Use sentence case for all text content
+- Key hierarchy: `scope.category.item` (max 3 levels, snake_case)
+
+### Figma-to-schema settings mapping
+
+Map Figma design properties to Shopify schema settings:
+
+| Figma property  | Schema setting type     |
+| --------------- | ----------------------- |
+| Toggle/boolean  | `checkbox`              |
+| Text content    | `text` or `richtext`    |
+| Color picker    | `color`                 |
+| Image           | `image_picker`          |
+| Dropdown/select | `select` with `options` |
+| Numeric value   | `range` with min/max    |
+| Link/URL        | `url`                   |
+| Font choice     | `font_picker`           |
+| Alignment       | `text_alignment`        |
+
+### Layout system
+
+- Sections use CSS Grid with `--content-grid` template columns
+- Content constrained to center column (grid-column: 2)
+- Full-width elements use `.full-width` utility
+- Container max-width: `var(--container-max)` (1200px)
+- Responsive behavior controlled via CSS media queries within `{% stylesheet %}` tags
+
+### Accessibility requirements
+
+- IMPORTANT: All interactive elements must have visible `:focus-visible` states using `var(--color-focus)`
+- Use semantic HTML elements (`<nav>`, `<main>`, `<article>`, `<aside>`, etc.)
+- Include `aria-label` attributes on icon-only buttons and navigation
+- Ensure WCAG AA color contrast ratios
+- Support keyboard navigation for all interactive components

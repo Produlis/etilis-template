@@ -16,9 +16,26 @@
       },
       {
         "type": "font_picker",
-        "id": "type_primary_font",
-        "default": "work_sans_n4",
-        "label": "t:general.primary"
+        "id": "type_heading_font",
+        "default": "inter_n6",
+        "label": "t:labels.heading_font"
+      },
+      {
+        "type": "font_picker",
+        "id": "type_body_font",
+        "default": "inter_n4",
+        "label": "t:labels.body_font"
+      }
+    ]
+  },
+  {
+    "name": "t:general.favicon",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:labels.favicon",
+        "info": "t:labels.favicon_info"
       }
     ]
   },
@@ -31,15 +48,15 @@
         "label": "t:labels.page_width",
         "options": [
           {
-            "value": "90rem",
+            "value": "80rem",
             "label": "t:options.page_width.narrow"
           },
           {
-            "value": "110rem",
+            "value": "90rem",
             "label": "t:options.page_width.wide"
           }
         ],
-        "default": "90rem"
+        "default": "80rem"
       },
       {
         "type": "range",
@@ -54,29 +71,150 @@
     ]
   },
   {
-    "name": "t:general.colors",
+    "name": "t:general.color_scheme",
     "settings": [
       {
+        "type": "header",
+        "content": "t:labels.color_overrides"
+      },
+      {
         "type": "color",
-        "id": "background_color",
+        "id": "color_override_accent",
+        "label": "t:labels.color_accent",
+        "default": "#FFD400",
+        "info": "t:labels.color_accent_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_accent_hover",
+        "label": "t:labels.color_accent_hover",
+        "default": "#F8D83E",
+        "info": "t:labels.color_accent_hover_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_accent_text",
+        "label": "t:labels.color_accent_text",
         "default": "#FFFFFF",
-        "label": "t:labels.background"
+        "info": "t:labels.color_accent_text_info"
       },
       {
         "type": "color",
-        "id": "foreground_color",
-        "default": "#333333",
-        "label": "t:labels.foreground"
+        "id": "color_override_highlight",
+        "label": "t:labels.color_highlight",
+        "default": "#FFD400",
+        "info": "t:labels.color_highlight_info"
       },
       {
-        "type": "range",
-        "id": "input_corner_radius",
-        "min": 0,
-        "max": 10,
-        "step": 1,
-        "unit": "px",
-        "label": "t:labels.input_corner_radius",
-        "default": 4
+        "type": "header",
+        "content": "t:labels.color_backgrounds_header"
+      },
+      {
+        "type": "color",
+        "id": "color_override_bg",
+        "label": "t:labels.color_bg",
+        "default": "#FFFFFF",
+        "info": "t:labels.color_bg_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_bg_subtle",
+        "label": "t:labels.color_bg_subtle",
+        "default": "#FBF9EE",
+        "info": "t:labels.color_bg_subtle_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_surface",
+        "label": "t:labels.color_surface",
+        "default": "#FFFFFF",
+        "info": "t:labels.color_surface_info"
+      },
+      {
+        "type": "header",
+        "content": "t:labels.color_text_header"
+      },
+      {
+        "type": "color",
+        "id": "color_override_text",
+        "label": "t:labels.color_text_primary",
+        "default": "#082D73",
+        "info": "t:labels.color_text_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_text_secondary",
+        "label": "t:labels.color_text_secondary",
+        "default": "#515E75",
+        "info": "t:labels.color_text_secondary_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_text_disabled",
+        "label": "t:labels.color_text_disabled",
+        "default": "#D5D8DD",
+        "info": "t:labels.color_text_disabled_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_text_on_accent",
+        "label": "t:labels.color_text_on_accent",
+        "default": "#082D73",
+        "info": "t:labels.color_text_on_accent_info"
+      },
+      {
+        "type": "header",
+        "content": "t:labels.color_borders_header"
+      },
+      {
+        "type": "color",
+        "id": "color_override_border",
+        "label": "t:labels.color_border",
+        "default": "#D9DEDF",
+        "info": "t:labels.color_border_info"
+      },
+      {
+        "type": "header",
+        "content": "t:labels.color_status_header"
+      },
+      {
+        "type": "color",
+        "id": "color_override_success",
+        "label": "t:labels.color_success",
+        "default": "#25790C",
+        "info": "t:labels.color_success_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_error",
+        "label": "t:labels.color_error",
+        "default": "#AE3838",
+        "info": "t:labels.color_error_info"
+      },
+      {
+        "type": "header",
+        "content": "t:labels.color_advanced_header"
+      },
+      {
+        "type": "color",
+        "id": "color_override_primary_light",
+        "label": "t:labels.color_primary_light",
+        "default": "#082D73",
+        "info": "t:labels.color_primary_light_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_text_on_dark",
+        "label": "t:labels.color_text_on_dark",
+        "default": "#FFFFFF",
+        "info": "t:labels.color_text_on_dark_info"
+      },
+      {
+        "type": "color",
+        "id": "color_override_star",
+        "label": "t:labels.color_star",
+        "default": "#FEAF00",
+        "info": "t:labels.color_star_info"
       }
     ]
   }

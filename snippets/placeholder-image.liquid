@@ -1,0 +1,58 @@
+{% doc %}
+  Renders a styled placeholder image with a centered product icon.
+  Matches the Figma fallback design: #eeedec background with a small
+  muted bottle icon centered.
+
+  @param {string} [aspect_ratio] - CSS aspect-ratio value, e.g. "1 / 1", "4 / 3"
+  @param {string} [height] - Fixed height, e.g. "200px", "451px". Overrides aspect_ratio.
+  @param {boolean} [dark] - Use darker gray background for dark sections.
+
+  @example
+  {% render 'placeholder-image' %}
+  {% render 'placeholder-image', height: '200px' %}
+  {% render 'placeholder-image', dark: true %}
+{% enddoc %}
+
+<div
+  class="placeholder-image{% if dark %} placeholder-image--dark{% endif %}"
+  {% if height != blank %}
+    style="height: {{ height }}"
+  {% elsif aspect_ratio != blank %}
+    style="aspect-ratio: {{ aspect_ratio }}"
+  {% endif %}
+>
+  <svg class="placeholder-image__icon" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <rect x="24" y="18" width="32" height="8" rx="4" fill="currentColor"/>
+    <rect x="22" y="28" width="36" height="38" rx="6" fill="currentColor"/>
+  </svg>
+</div>
+
+{% stylesheet %}
+  .placeholder-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-surface-placeholder);
+    border-radius: inherit;
+    overflow: hidden;
+  }
+
+  .placeholder-image--dark {
+    background-color: var(--color-border);
+  }
+
+  .placeholder-image--dark .placeholder-image__icon {
+    color: var(--theme-text-disabled);
+    opacity: 0.8;
+  }
+
+  .placeholder-image__icon {
+    width: 80px;
+    height: 80px;
+    color: var(--color-border);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+{% endstylesheet %}

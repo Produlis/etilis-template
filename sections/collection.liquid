@@ -1,47 +1,1057 @@
-{% comment %}
-  This section is used in the collection template to render collection page
-  listing all products within a collection.
+{%- assign current_sort = collection.sort_by | default: collection.default_sort_by -%}
+{%- assign active_filter_count = 0 -%}
+{%- for filter in collection.filters -%}
+  {%- if filter.type == 'price_range' -%}
+    {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+      {%- assign active_filter_count = active_filter_count | plus: 1 -%}
+    {%- endif -%}
+  {%- else -%}
+    {%- assign active_filter_count = active_filter_count | plus: filter.active_values.size -%}
+  {%- endif -%}
+{%- endfor -%}
 
-  https://shopify.dev/docs/storefronts/themes/architecture/templates/collection
-{% endcomment %}
+<div class="collection-page full-width" data-section-id="{{ section.id }}">
+  <div class="collection-page__container">
+    <div class="collection-page__header" data-animate="fade-up">
+      {% if section.settings.tag_text != blank %}
+        <span class="collection-page__tag">{{ section.settings.tag_text }}</span>
+      {% endif %}
 
-<h1>{{ collection.title }}</h1>
+      <h1 class="collection-page__heading">{{ collection.title }}</h1>
 
-<div class="collection-products">
-  {% paginate collection.products by 20 %}
-    {% for product in collection.products %}
-      <div class="collection-product">
-        {% if product.featured_image %}
-          {% render 'image',
-            class: 'collection-product__image',
-            image: product.featured_image,
-            url: product.url,
-            width: 400,
-            height: 400,
-            crop: 'center'
-          %}
-        {% endif %}
-        <div class="collection-product__content">
-          <p>{{ product.title | escape | link_to: product.url }}</p>
-          <p>{{ product.price | money }}</p>
+      {% if collection.description != blank %}
+        <p class="collection-page__description">{{ collection.description | strip_html }}</p>
+      {% elsif section.settings.description != blank %}
+        <p class="collection-page__description">{{ section.settings.description }}</p>
+      {% endif %}
+    </div>
+
+    {% if section.settings.show_filters %}
+      <form class="collection-page__filter-form" data-collection-filters>
+        <div class="collection-page__filters" role="toolbar" aria-label="{{ 'sections.collection.filters_label' | t }}">
+
+          {%- comment -%} Collection navigator pill {%- endcomment -%}
+          {%- assign use_manual_list = false -%}
+          {%- if section.settings.collection_list.count > 0 -%}
+            {%- assign use_manual_list = true -%}
+          {%- endif -%}
+          <div class="collection-page__filter-dropdown" data-filter-dropdown>
+            <button
+              class="collection-page__filter-pill{% if collection.handle != 'all' and collection.handle != blank %} collection-page__filter-pill--active{% endif %}"
+              type="button"
+              aria-expanded="false"
+              data-filter-toggle
+            >
+              <span>{{ 'sections.collection.filter_collection' | t }}</span>
+              <svg class="collection-page__filter-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="collection-page__filter-panel" data-filter-panel hidden>
+              <ul class="collection-page__filter-list">
+                <li class="collection-page__filter-item">
+                  <a
+                    href="{{ routes.collections_url }}/all"
+                    class="collection-page__filter-option collection-page__collection-link{% if collection.handle == 'all' %} collection-page__collection-link--active{% endif %}"
+                  >
+                    <span class="collection-page__filter-radio{% if collection.handle == 'all' %} collection-page__filter-radio--checked{% endif %}" aria-hidden="true"></span>
+                    <span class="collection-page__filter-value-label">{{ 'sections.collection.all_products' | t | default: 'All' }}</span>
+                  </a>
+                </li>
+                {% if use_manual_list %}
+                  {% for col in section.settings.collection_list %}
+                    <li class="collection-page__filter-item">
+                      <a
+                        href="{{ col.url }}"
+                        class="collection-page__filter-option collection-page__collection-link{% if col.handle == collection.handle %} collection-page__collection-link--active{% endif %}"
+                      >
+                        <span class="collection-page__filter-radio{% if col.handle == collection.handle %} collection-page__filter-radio--checked{% endif %}" aria-hidden="true"></span>
+                        <span class="collection-page__filter-value-label">{{ col.title }}</span>
+                        <span class="collection-page__filter-value-count">({{ col.products_count }})</span>
+                      </a>
+                    </li>
+                  {% endfor %}
+                {% else %}
+                  {% for col in collections %}
+                    {% if col.handle != 'all' and col.products_count > 0 %}
+                      <li class="collection-page__filter-item">
+                        <a
+                          href="{{ col.url }}"
+                          class="collection-page__filter-option collection-page__collection-link{% if col.handle == collection.handle %} collection-page__collection-link--active{% endif %}"
+                        >
+                          <span class="collection-page__filter-radio{% if col.handle == collection.handle %} collection-page__filter-radio--checked{% endif %}" aria-hidden="true"></span>
+                          <span class="collection-page__filter-value-label">{{ col.title }}</span>
+                          <span class="collection-page__filter-value-count">({{ col.products_count }})</span>
+                        </a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+
+          {%- comment -%} Dynamic filters from Shopify {%- endcomment -%}
+          {% for filter in collection.filters %}
+            {% if filter.type == 'price_range' %}
+              {%- comment -%} Price range filter {%- endcomment -%}
+              <div class="collection-page__filter-dropdown" data-filter-dropdown>
+                <button
+                  class="collection-page__filter-pill{% if filter.min_value.value != nil or filter.max_value.value != nil %} collection-page__filter-pill--active{% endif %}"
+                  type="button"
+                  aria-expanded="false"
+                  data-filter-toggle
+                >
+                  <span>{{ filter.label }}</span>
+                  <svg class="collection-page__filter-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                    <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+                <div class="collection-page__filter-panel" data-filter-panel hidden>
+                  <div class="collection-page__price-inputs">
+                    <label class="collection-page__price-label">
+                      <span>{{ 'sections.collection.price_from' | t }}</span>
+                      <input
+                        class="collection-page__price-input"
+                        type="number"
+                        name="{{ filter.min_value.param_name }}"
+                        value="{{ filter.min_value.value }}"
+                        placeholder="0"
+                        min="0"
+                        {% if filter.range_max %}max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% endif %}
+                      >
+                    </label>
+                    <span class="collection-page__price-separator">&ndash;</span>
+                    <label class="collection-page__price-label">
+                      <span>{{ 'sections.collection.price_to' | t }}</span>
+                      <input
+                        class="collection-page__price-input"
+                        type="number"
+                        name="{{ filter.max_value.param_name }}"
+                        value="{{ filter.max_value.value }}"
+                        placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        min="0"
+                        {% if filter.range_max %}max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"{% endif %}
+                      >
+                    </label>
+                  </div>
+                  <button class="collection-page__filter-apply" type="submit">
+                    {{ 'sections.collection.apply' | t }}
+                  </button>
+                </div>
+              </div>
+
+            {% else %}
+              {%- comment -%} List / boolean filter {%- endcomment -%}
+              {% if filter.values.size > 0 %}
+                <div class="collection-page__filter-dropdown" data-filter-dropdown>
+                  <button
+                    class="collection-page__filter-pill{% if filter.active_values.size > 0 %} collection-page__filter-pill--active{% endif %}"
+                    type="button"
+                    aria-expanded="false"
+                    data-filter-toggle
+                  >
+                    <span>
+                      {{ filter.label }}
+                      {%- if filter.active_values.size > 0 -%}
+                        <span class="collection-page__filter-count">({{ filter.active_values.size }})</span>
+                      {%- endif -%}
+                    </span>
+                    <svg class="collection-page__filter-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+                  <div class="collection-page__filter-panel" data-filter-panel hidden>
+                    <ul class="collection-page__filter-list">
+                      {% for value in filter.values %}
+                        <li class="collection-page__filter-item">
+                          <label class="collection-page__filter-option">
+                            <input
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              {% if value.active %}checked{% endif %}
+                              {% if value.count == 0 %}disabled{% endif %}
+                              data-filter-input
+                            >
+                            <span class="collection-page__filter-checkbox" aria-hidden="true">
+                              <svg width="10" height="8" viewBox="0 0 10 8" fill="none" aria-hidden="true">
+                                <path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </span>
+                            <span class="collection-page__filter-value-label">{{ value.label }}</span>
+                            <span class="collection-page__filter-value-count">({{ value.count }})</span>
+                          </label>
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {%- comment -%} Sort by dropdown {%- endcomment -%}
+          <div class="collection-page__filter-dropdown" data-filter-dropdown>
+            <button
+              class="collection-page__filter-pill"
+              type="button"
+              aria-expanded="false"
+              data-filter-toggle
+            >
+              <span>{{ 'sections.collection.filter_sort' | t }}</span>
+              <svg class="collection-page__filter-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <div class="collection-page__filter-panel" data-filter-panel hidden>
+              <ul class="collection-page__filter-list">
+                {% for option in collection.sort_options %}
+                  <li class="collection-page__filter-item">
+                    <label class="collection-page__filter-option">
+                      <input
+                        type="radio"
+                        name="sort_by"
+                        value="{{ option.value }}"
+                        {% if option.value == current_sort %}checked{% endif %}
+                        data-filter-input
+                      >
+                      <span class="collection-page__filter-radio" aria-hidden="true"></span>
+                      <span class="collection-page__filter-value-label">{{ option.name }}</span>
+                    </label>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          {%- comment -%} Active filter tags & clear {%- endcomment -%}
+          {% if active_filter_count > 0 %}
+            <a href="{{ collection.url }}" class="collection-page__filter-clear">
+              {{ 'sections.collection.clear_all' | t }}
+            </a>
+          {% endif %}
         </div>
-      </div>
-    {% endfor %}
 
-    {{ paginate | default_pagination }}
-  {% endpaginate %}
+        {%- comment -%} Active filter tags below the bar {%- endcomment -%}
+        {% if active_filter_count > 0 %}
+          <div class="collection-page__active-filters">
+            {% for filter in collection.filters %}
+              {% if filter.type == 'price_range' %}
+                {% if filter.min_value.value != nil or filter.max_value.value != nil %}
+                  <a href="{{ filter.url_to_remove }}" class="collection-page__active-tag">
+                    {%- if filter.min_value.value != nil and filter.max_value.value != nil -%}
+                      {{ filter.min_value.value | money }} &ndash; {{ filter.max_value.value | money }}
+                    {%- elsif filter.min_value.value != nil -%}
+                      {{ 'sections.collection.price_from' | t }} {{ filter.min_value.value | money }}
+                    {%- else -%}
+                      {{ 'sections.collection.price_to' | t }} {{ filter.max_value.value | money }}
+                    {%- endif -%}
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                  </a>
+                {% endif %}
+              {% else %}
+                {% for value in filter.active_values %}
+                  <a href="{{ value.url_to_remove }}" class="collection-page__active-tag">
+                    {{ value.label }}
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    </svg>
+                  </a>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </form>
+    {% endif %}
+
+    {% paginate collection.products by section.settings.products_per_page %}
+      {% if collection.products.size > 0 %}
+        <div
+          class="collection-page__grid"
+          style="--columns-desktop: {{ section.settings.columns_desktop }}; --columns-mobile: {{ section.settings.columns_mobile }};"
+          role="list"
+          aria-label="{{ 'sections.collection.products_label' | t }}"
+          data-animate="fade-up"
+          data-animate-stagger
+        >
+          {% for product in collection.products %}
+            {% render 'product-card', product: product, image_bg: section.settings.card_image_bg %}
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="collection-page__empty">
+          <p>{{ 'sections.collection.no_products' | t }}</p>
+          {% if active_filter_count > 0 %}
+            <a href="{{ collection.url }}" class="collection-page__empty-clear">
+              {{ 'sections.collection.clear_all' | t }}
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      {% if paginate.pages > 1 %}
+        <nav class="collection-page__pagination" aria-label="{{ 'sections.collection.pagination_label' | t }}">
+          {{ paginate | default_pagination }}
+        </nav>
+      {% endif %}
+    {% endpaginate %}
+  </div>
 </div>
 
 {% stylesheet %}
-  .collection-products {
+  .collection-page {
+    width: 100%;
+  }
+
+  .collection-page__container {
+    background-color: var(--theme-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    align-items: center;
+    padding: var(--space-6) 52px 52px;
+    overflow: visible;
+    max-width: var(--container-max, 80rem);
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .collection-page__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+    text-align: center;
+    width: 100%;
+  }
+
+  .collection-page__tag {
+    display: inline-block;
+    background: var(--color-surface-card);
+    border-radius: 28px;
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-wider);
+    color: var(--color-text);
+    line-height: var(--line-height-normal);
+  }
+
+  .collection-page__heading {
+    font-size: var(--font-size-6xl, 52px);
+    line-height: 64px;
+    letter-spacing: var(--letter-spacing-tighter);
+    color: var(--color-text);
+    margin: 0;
+    font-weight: var(--font-weight-regular);
+  }
+
+  .collection-page__description {
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text-secondary);
+    margin: 0;
+    max-width: 560px;
+  }
+
+  /* Filter form */
+  .collection-page__filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Filters bar */
+  .collection-page__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Dropdown wrapper */
+  .collection-page__filter-dropdown {
+    position: relative;
+  }
+
+  .collection-page__filter-pill {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    background: var(--color-surface-card);
+    border: 1px solid var(--color-border);
+    border-radius: 36px;
+    padding: var(--space-3) var(--space-5);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    color: var(--color-text);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease),
+                border-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-pill:hover {
+    opacity: 0.85;
+  }
+
+  .collection-page__filter-pill--active {
+    background-color: var(--color-text);
+    color: var(--color-accent-text);
+    border-color: var(--color-text);
+  }
+
+  .collection-page__filter-pill--active:hover {
+    opacity: 0.85;
+  }
+
+  .collection-page__filter-pill:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-text));
+    outline-offset: 2px;
+  }
+
+  .collection-page__filter-count {
+    margin-inline-start: 2px;
+  }
+
+  .collection-page__filter-chevron {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    transition: transform var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-pill[aria-expanded="true"] .collection-page__filter-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown panel */
+  .collection-page__filter-panel {
+    position: absolute;
+    inset-block-start: calc(100% + var(--space-2));
+    inset-inline-start: 0;
+    z-index: var(--z-dropdown, 100);
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-3);
+    min-width: 220px;
+    max-height: 320px;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+  }
+
+  .collection-page__filter-panel[hidden] {
+    display: none;
+  }
+
+  /* Filter list */
+  .collection-page__filter-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .collection-page__filter-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-2);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    color: var(--theme-text);
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-option:hover {
+    background-color: var(--color-surface-card);
+  }
+
+  .collection-page__filter-option input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  /* Custom checkbox */
+  .collection-page__filter-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--theme-border);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+    color: transparent;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease),
+                border-color var(--duration-fast, 150ms) var(--ease-standard, ease),
+                color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-option input:checked + .collection-page__filter-checkbox {
+    background-color: var(--theme-text);
+    border-color: var(--theme-text);
+    color: var(--theme-text-on-primary);
+  }
+
+  .collection-page__filter-option input:focus-visible + .collection-page__filter-checkbox {
+    outline: 2px solid var(--color-focus, var(--theme-text));
+    outline-offset: 2px;
+  }
+
+  .collection-page__filter-option input:disabled + .collection-page__filter-checkbox {
+    opacity: 0.4;
+  }
+
+  .collection-page__filter-option input:disabled ~ .collection-page__filter-value-label,
+  .collection-page__filter-option input:disabled ~ .collection-page__filter-value-count {
+    opacity: 0.4;
+  }
+
+  /* Custom radio */
+  .collection-page__filter-radio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid var(--theme-border);
+    border-radius: var(--radius-round);
+    flex-shrink: 0;
+    transition: border-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-radio::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: var(--radius-round);
+    background: transparent;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-option input:checked + .collection-page__filter-radio {
+    border-color: var(--theme-text);
+  }
+
+  .collection-page__filter-option input:checked + .collection-page__filter-radio::after {
+    background-color: var(--theme-text);
+  }
+
+  .collection-page__filter-option input:focus-visible + .collection-page__filter-radio {
+    outline: 2px solid var(--color-focus, var(--theme-text));
+    outline-offset: 2px;
+  }
+
+  .collection-page__filter-value-label {
+    flex: 1;
+  }
+
+  .collection-page__filter-value-count {
+    color: var(--theme-text-dim, #717171);
+    font-size: var(--font-size-xs);
+  }
+
+  /* Collection navigator links */
+  .collection-page__collection-link {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .collection-page__collection-link--active {
+    font-weight: var(--font-weight-medium);
+  }
+
+  .collection-page__filter-radio--checked {
+    border-color: var(--theme-text);
+  }
+
+  .collection-page__filter-radio--checked::after {
+    background-color: var(--theme-text);
+  }
+
+  /* Price inputs */
+  .collection-page__price-inputs {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-2);
+  }
+
+  .collection-page__price-label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--font-size-xs);
+    color: var(--theme-text-secondary);
+    flex: 1;
+  }
+
+  .collection-page__price-input {
+    width: 100%;
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    font-family: inherit;
+    color: var(--theme-text);
+    background: var(--theme-surface);
+    box-sizing: border-box;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .collection-page__price-input::-webkit-outer-spin-button,
+  .collection-page__price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .collection-page__price-input:focus {
+    outline: none;
+    border-color: var(--theme-text);
+  }
+
+  .collection-page__price-separator {
+    padding-bottom: var(--space-2);
+    color: var(--theme-text-secondary);
+  }
+
+  .collection-page__filter-apply {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    margin-top: var(--space-3);
+    background: var(--theme-text);
+    color: var(--theme-text-on-primary);
+    border: none;
+    border-radius: var(--theme-radius-button, 36px);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__filter-apply:hover {
+    opacity: 0.9;
+  }
+
+  /* Clear all link */
+  .collection-page__filter-clear {
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    color: var(--theme-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    padding: var(--space-3) var(--space-1);
+  }
+
+  .collection-page__filter-clear:hover {
+    color: var(--theme-text);
+  }
+
+  /* Active filter tags */
+  .collection-page__active-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    justify-content: center;
+  }
+
+  .collection-page__active-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px var(--space-3);
+    background: var(--color-surface-card);
+    border-radius: var(--theme-radius-badge);
+    font-size: var(--font-size-xs);
+    line-height: var(--line-height-normal);
+    color: var(--theme-text);
+    text-decoration: none;
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__active-tag:hover {
+    opacity: 0.85;
+  }
+
+  .collection-page__active-tag:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-text));
+    outline-offset: 2px;
+  }
+
+  /* Empty state */
+  .collection-page__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-12) var(--space-6);
+    text-align: center;
+    color: var(--theme-text-secondary);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height-normal);
+    width: 100%;
+  }
+
+  .collection-page__empty p {
+    margin: 0;
+  }
+
+  .collection-page__empty-clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    padding: 0 var(--space-5);
+    background: var(--theme-text);
+    color: var(--theme-text-on-primary);
+    border-radius: var(--theme-radius-button, 36px);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    text-decoration: none;
+    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__empty-clear:hover {
+    opacity: 0.9;
+  }
+
+  /* Product grid */
+  .collection-page__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    grid-template-columns: repeat(var(--columns-desktop, 4), 1fr);
+    gap: var(--space-4);
+    width: 100%;
+  }
+
+  /* Pagination */
+  .collection-page__pagination {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-4);
+    width: 100%;
+  }
+
+  .collection-page__pagination .pagination {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .collection-page__pagination a,
+  .collection-page__pagination span.current {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--theme-radius-button);
+    font-size: var(--font-size-sm);
+    line-height: var(--line-height-snug);
+    text-decoration: none;
+    color: var(--theme-text);
+    transition: background-color var(--duration-fast, 150ms) var(--ease-standard, ease);
+  }
+
+  .collection-page__pagination a:hover {
+    background-color: var(--color-surface-card);
+  }
+
+  .collection-page__pagination span.current {
+    background-color: var(--theme-text);
+    color: var(--theme-text-on-primary);
+    font-weight: var(--font-weight-medium);
+  }
+
+  .collection-page__pagination a:focus-visible {
+    outline: 2px solid var(--color-focus, var(--theme-text));
+    outline-offset: 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 989px) {
+    .collection-page__container {
+      padding: var(--space-6) var(--space-8) var(--space-10);
+      gap: var(--space-8);
+    }
+
+    .collection-page__heading {
+      font-size: var(--font-size-4xl);
+      line-height: var(--line-height-tight);
+      letter-spacing: var(--letter-spacing-tighter);
+    }
+
+    .collection-page__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 749px) {
+    .collection-page__container {
+      padding: 22px var(--space-5) var(--space-8);
+      gap: var(--space-6);
+    }
+
+    .collection-page__header {
+      gap: var(--space-2);
+    }
+
+    .collection-page__heading {
+      font-size: var(--font-size-4xl);
+      line-height: 1.2;
+      letter-spacing: -0.04em;
+    }
+
+    .collection-page__description {
+      font-size: var(--font-size-sm);
+      line-height: var(--line-height-snug);
+      max-width: 238px;
+    }
+
+    .collection-page__filters {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: var(--space-1);
+      max-width: 100%;
+      scroll-snap-type: x mandatory;
+    }
+
+    .collection-page__filter-dropdown {
+      scroll-snap-align: start;
+    }
+
+    .collection-page__filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .collection-page__filter-pill {
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: var(--space-2) var(--space-4);
+    }
+
+    .collection-page__filter-panel {
+      position: fixed;
+      inset-block-start: auto;
+      inset-block-end: 0;
+      inset-inline: 0;
+      max-height: 60vh;
+      border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+      z-index: var(--z-modal, 300);
+    }
+
+    .collection-page__grid {
+      grid-template-columns: repeat(var(--columns-mobile, 2), 1fr);
+      gap: var(--space-4);
+    }
   }
 {% endstylesheet %}
 
+{% javascript %}
+  (function() {
+    var section = document.querySelector('[data-collection-filters]');
+    if (!section) return;
+
+    function initCollectionFilters(container) {
+      var dropdowns = container.querySelectorAll('[data-filter-dropdown]');
+
+      /* Toggle dropdown panels */
+      for (const dropdown of dropdowns) {
+        const toggle = dropdown.querySelector('[data-filter-toggle]');
+        const panel = dropdown.querySelector('[data-filter-panel]');
+        if (!toggle || !panel) continue;
+
+        toggle.addEventListener('click', function() {
+          var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+
+          /* Close all other dropdowns */
+          for (const other of dropdowns) {
+            var otherToggle = other.querySelector('[data-filter-toggle]');
+            var otherPanel = other.querySelector('[data-filter-panel]');
+            if (other !== dropdown && otherToggle && otherPanel) {
+              otherToggle.setAttribute('aria-expanded', 'false');
+              otherPanel.hidden = true;
+            }
+          }
+
+          /* Toggle current */
+          toggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+          panel.hidden = isOpen;
+        });
+      }
+
+      /* Close dropdowns on outside click */
+      document.addEventListener('click', function(e) {
+        if (!e.target.closest('[data-filter-dropdown]')) {
+          for (const dropdown of dropdowns) {
+            var toggle = dropdown.querySelector('[data-filter-toggle]');
+            var panel = dropdown.querySelector('[data-filter-panel]');
+            if (toggle && panel) {
+              toggle.setAttribute('aria-expanded', 'false');
+              panel.hidden = true;
+            }
+          }
+        }
+      });
+
+      /* Close on Escape */
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          for (const dropdown of dropdowns) {
+            var toggle = dropdown.querySelector('[data-filter-toggle]');
+            var panel = dropdown.querySelector('[data-filter-panel]');
+            if (toggle && panel && toggle.getAttribute('aria-expanded') === 'true') {
+              toggle.setAttribute('aria-expanded', 'false');
+              panel.hidden = true;
+              toggle.focus();
+            }
+          }
+        }
+      });
+
+      /* Auto-submit on checkbox/radio change */
+      var inputs = container.querySelectorAll('[data-filter-input]');
+      for (const input of inputs) {
+        input.addEventListener('change', function() {
+          submitFilters(container);
+        });
+      }
+    }
+
+    function submitFilters(container) {
+      var form = container.closest('form');
+      if (!form) return;
+
+      var params = new URLSearchParams();
+
+      /* Collect checked filters */
+      var checkboxes = form.querySelectorAll('input[type="checkbox"]:checked');
+      for (const cb of checkboxes) {
+        params.append(cb.name, cb.value);
+      }
+
+      /* Collect sort */
+      var sortRadio = form.querySelector('input[name="sort_by"]:checked');
+      if (sortRadio) {
+        params.set('sort_by', sortRadio.value);
+      }
+
+      /* Collect price range */
+      var priceInputs = form.querySelectorAll('.collection-page__price-input');
+      for (const input of priceInputs) {
+        if (input.value !== '' && input.name) {
+          params.set(input.name, input.value);
+        }
+      }
+
+      /* Navigate */
+      var navUrl = new URL(window.location.pathname, window.location.origin);
+      for (const [key, value] of params.entries()) {
+        navUrl.searchParams.append(key, value);
+      }
+      window.location.href = navUrl.toString();
+    }
+
+    initCollectionFilters(section);
+
+    /* Support Shopify theme editor */
+    document.addEventListener('shopify:section:load', function(event) {
+      var newSection = event.target.querySelector('[data-collection-filters]');
+      if (newSection) {
+        initCollectionFilters(newSection);
+      }
+    });
+  })();
+{% endjavascript %}
+
 {% schema %}
 {
-  "name": "t:general.collection",
-  "settings": []
+  "name": "t:sections.collection_page.name",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tag_text",
+      "label": "t:labels.tag",
+      "default": "Collections"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "t:labels.description",
+      "info": "t:sections.collection_page.description_info"
+    },
+    {
+      "type": "collection_list",
+      "id": "collection_list",
+      "label": "t:sections.collection_page.collection_list"
+    },
+    {
+      "type": "color",
+      "id": "card_image_bg",
+      "label": "t:sections.collection_page.card_image_bg",
+      "default": "#F5E6A3"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "t:sections.collection_page.show_filters",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "label": "t:sections.collection_page.columns_desktop",
+      "min": 2,
+      "max": 5,
+      "step": 1,
+      "default": 4
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "t:sections.collection_page.columns_mobile",
+      "options": [
+        { "value": "1", "label": "1" },
+        { "value": "2", "label": "2" }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "label": "t:sections.collection_page.products_per_page",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "default": 20
+    }
+  ]
 }
 {% endschema %}

@@ -1,0 +1,117 @@
+{% comment %}
+  Soft scroll-triggered reveal animations powered by GSAP + ScrollTrigger.
+
+  Usage:
+    data-animate="fade-up"         fade + slide up (default)
+    data-animate="fade-in"         pure opacity fade
+    data-animate="slide-left"      fade + slide from left
+    data-animate="slide-right"     fade + slide from right
+
+  Stagger children:
+    data-animate-stagger           animate direct children sequentially
+
+  Modifiers:
+    data-animate-delay="0.2"       additional delay (seconds)
+{% endcomment %}
+
+<style>
+  [data-animate]:not([data-animate-stagger]) {
+    opacity: 0;
+  }
+  [data-animate-stagger] > * {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate]:not([data-animate-stagger]),
+    [data-animate-stagger] > * {
+      opacity: 1 !important;
+    }
+  }
+</style>
+<noscript>
+  <style>
+    [data-animate]:not([data-animate-stagger]),
+    [data-animate-stagger] > * {
+      opacity: 1 !important;
+    }
+  </style>
+</noscript>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12/dist/ScrollTrigger.min.js" defer></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    if (typeof gsap === 'undefined') return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    gsap.registerPlugin(ScrollTrigger);
+
+    var EASE = 'power3.out';
+    var DURATION = 0.9;
+    var STAGGER = 0.15;
+
+    function getFrom(type) {
+      switch (type) {
+        case 'fade-in':      return { opacity: 0 };
+        case 'slide-left':   return { opacity: 0, x: -40 };
+        case 'slide-right':  return { opacity: 0, x: 40 };
+        default:             return { opacity: 0, y: 30 };
+      }
+    }
+
+    function getTo(type) {
+      switch (type) {
+        case 'slide-left':
+        case 'slide-right':  return { opacity: 1, x: 0 };
+        case 'fade-in':      return { opacity: 1 };
+        default:             return { opacity: 1, y: 0 };
+      }
+    }
+
+    function initAnimations(scope) {
+      scope = scope || document;
+
+      /* Single elements */
+      scope.querySelectorAll('[data-animate]:not([data-animate-stagger])').forEach(function (el) {
+        if (el._gsapScrollInit) return;
+        el._gsapScrollInit = true;
+
+        var type  = el.getAttribute('data-animate') || 'fade-up';
+        var delay = parseFloat(el.getAttribute('data-animate-delay')) || 0;
+
+        gsap.fromTo(el, getFrom(type), Object.assign({}, getTo(type), {
+          duration: DURATION,
+          delay: delay,
+          ease: EASE,
+          scrollTrigger: { trigger: el, start: 'top 90%', once: true }
+        }));
+      });
+
+      /* Stagger groups */
+      scope.querySelectorAll('[data-animate-stagger]').forEach(function (parent) {
+        if (parent._gsapScrollInit) return;
+        parent._gsapScrollInit = true;
+
+        var type     = parent.getAttribute('data-animate') || 'fade-up';
+        var children = parent.children;
+        if (!children.length) return;
+
+        gsap.fromTo(children, getFrom(type), Object.assign({}, getTo(type), {
+          duration: DURATION,
+          ease: EASE,
+          stagger: STAGGER,
+          scrollTrigger: { trigger: parent, start: 'top 90%', once: true }
+        }));
+      });
+    }
+
+    initAnimations();
+
+    /* Shopify theme-editor support */
+    document.addEventListener('shopify:section:load', function (e) {
+      ScrollTrigger.refresh();
+      initAnimations(e.target);
+    });
+  });
+</script>

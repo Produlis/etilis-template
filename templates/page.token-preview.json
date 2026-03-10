@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "token-preview": {
+      "type": "token-preview",
+      "settings": {}
+    }
+  },
+  "order": ["token-preview"]
+}

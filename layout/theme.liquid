@@ -1,36 +1,52 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
   <head>
-    {% # Inlined CSS Variables %}
+    {% # Design tokens (static defaults for spacing, sizing, motion, etc.) %}
+    {{ 'tokens.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {% # Dynamic CSS variables — color scheme, typography, radius %}
     {% render 'css-variables' %}
 
     {% comment %}
       Font preloading:
-      1. Preconnect to font CDN for faster connection
-      2. Preload only the critical font variant (base weight)
-      3. Additional variants load on-demand via @font-face
+      Preload the critical Inter font weights (Regular + SemiBold) to
+      avoid layout shift. Other weights load on-demand via @font-face.
     {% endcomment %}
-    {% unless settings.type_primary_font.system? %}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-
-      {% comment %} Preload the base font variant for initial page render {% endcomment %}
-      {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
+    <link rel="preload" href="{{ 'Inter-Regular.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="{{ 'Inter-SemiBold.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
 
+    {% # Global component styles %}
+    {{ 'components.css' | asset_url | stylesheet_tag }}
+
+    {% # Style guide layout (conditional) %}
+    {% if template.suffix == 'style-guide' %}
+      {{ 'style-guide.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+
+    {% # Favicon %}
+    {% render 'favicon' %}
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
+
+    {% # Block indexing for internal pages %}
+    {% if template.suffix == 'style-guide' %}
+      <meta name="robots" content="noindex,nofollow">
+    {% endif %}
 
     {{ content_for_header }}
   </head>
 
-  <body>
+  <body data-scheme="nature">
     {% sections 'header-group' %}
 
     {{ content_for_layout }}
 
     {% sections 'footer-group' %}
+
+    {% render 'gsap-scroll-animations' %}
   </body>
 </html>

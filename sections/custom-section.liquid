@@ -1,7 +1,7 @@
 <div class="custom-section full-width">
   {% if section.settings.background_image %}
     <div class="custom-section__background">
-      {{ section.settings.background_image | image_url: width: 2000 | image_tag }}
+      {{ section.settings.background_image | image_url: width: 2000 | image_tag: loading: 'lazy' }}
     </div>
   {% endif %}
 
@@ -27,8 +27,8 @@
     position: absolute;
     width: 100%;
     height: auto;
-    top: 50%;
-    left: 50%;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
     transform: translate(-50%, -50%);
   }
   .custom-section__content {
