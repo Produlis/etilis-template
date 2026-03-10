@@ -17,11 +17,20 @@
           <ul class="comparison-table__badges" role="list">
             {% for block in trust_badges %}
               <li class="comparison-table__badge" {{ block.shopify_attributes }}>
-                {% if block.settings.icon %}
-                  <span class="comparison-table__badge-icon">
+                <span class="comparison-table__badge-icon">
+                  {% if block.settings.icon %}
                     {{ block.settings.icon | image_url: width: 32 | image_tag: loading: 'lazy' }}
-                  </span>
-                {% endif %}
+                  {% else %}
+                    {% case forloop.index %}
+                      {% when 1 %}
+                        {{ 'icon-clock.svg' | inline_asset_content }}
+                      {% when 2 %}
+                        {{ 'icon-box.svg' | inline_asset_content }}
+                      {% when 3 %}
+                        {{ 'icon-guarantee.svg' | inline_asset_content }}
+                    {% endcase %}
+                  {% endif %}
+                </span>
                 {% if block.settings.text != blank %}
                   <span class="comparison-table__badge-text">{{ block.settings.text }}</span>
                 {% endif %}
@@ -38,7 +47,10 @@
             href="{{ section.settings.button_url }}"
           {% endif %}
         >
-          {{ section.settings.button_text }}
+          <span class="comparison-table__cta-text-mask">
+            <span class="comparison-table__cta-text">{{ section.settings.button_text }}</span>
+          </span>
+          <span class="comparison-table__cta-bg"></span>
         </a>
       {% endif %}
     </div>
@@ -126,7 +138,7 @@
   .comparison-table__container {
     display: flex;
     gap: var(--space-6);
-    max-width: var(--container-max, 1200px);
+    max-width: var(--container-max, 80rem);
     margin: 0 auto;
     padding: 0 var(--container-padding, 16px);
     align-items: flex-start;
@@ -193,15 +205,17 @@
   }
 
   .comparison-table__badge-icon {
-    width: 16px;
-    height: 16px;
+    width: 1rem;
+    height: 1rem;
     flex-shrink: 0;
   }
 
-  .comparison-table__badge-icon img {
+  .comparison-table__badge-icon img,
+  .comparison-table__badge-icon svg {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    display: block;
   }
 
   .comparison-table__badge-text {
@@ -226,11 +240,42 @@
     letter-spacing: -0.32px;
     border-radius: 48px;
     text-decoration: none;
-    transition: opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
+    position: relative;
+    overflow: hidden;
   }
 
-  .comparison-table__cta:hover {
-    opacity: 0.9;
+  .comparison-table__cta-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .comparison-table__cta-text {
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .comparison-table__cta-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--theme-text-on-primary) 75%, var(--theme-primary));
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .comparison-table__cta:hover .comparison-table__cta-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .comparison-table__cta:hover .comparison-table__cta-bg {
+      transform: translateY(0) rotate(0deg);
+    }
   }
 
   /* ── Right glass card ── */
@@ -423,13 +468,13 @@
       "type": "textarea",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "How DS-01® Compares:"
+      "default": "How we compare"
     },
     {
       "type": "text",
       "id": "brand_name",
       "label": "t:sections.comparison_table.settings.brand_name",
-      "default": "DS-01®"
+      "default": "Ours"
     },
     {
       "type": "text",
@@ -441,7 +486,7 @@
       "type": "text",
       "id": "button_text",
       "label": "t:labels.button_text",
-      "default": "Get your bottle"
+      "default": "Shop now"
     },
     {
       "type": "url",
@@ -491,42 +536,42 @@
         {
           "type": "comparison_row",
           "settings": {
-            "label": "24 clinically studied probiotic strains",
-            "competitor_text": "5 or less strains"
+            "label": "Premium quality materials",
+            "competitor_text": "Standard materials"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
-            "label": "Engineered for precision delivery",
-            "competitor_text": "Rarely validated to reach the gut"
+            "label": "Designed for long-lasting durability",
+            "competitor_text": "Limited lifespan"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
-            "label": "Proven in 4 placebo-controlled trials",
-            "competitor_text": "Rare"
+            "label": "Backed by independent testing",
+            "competitor_text": "Rarely tested"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
-            "label": "Third-party tested for pesticides, allergens, and heavy metals",
-            "competitor_text": "Rare"
+            "label": "Ethically sourced and sustainably made",
+            "competitor_text": "Rarely verified"
           }
         },
         {
           "type": "comparison_row",
           "settings": {
-            "label": "Vegan, gluten and nut tested, low FODMAP",
-            "competitor_text": "Rare"
+            "label": "Satisfaction guarantee included",
+            "competitor_text": "Limited or none"
           }
         },
         {
           "type": "trust_badge",
           "settings": {
-            "text": "16 orders at this price remaining"
+            "text": "Limited stock available"
           }
         },
         {
@@ -538,7 +583,7 @@
         {
           "type": "trust_badge",
           "settings": {
-            "text": "30 day money-back guarantee"
+            "text": "Money-back guarantee"
           }
         }
       ]

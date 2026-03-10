@@ -21,7 +21,10 @@
             href="{{ section.settings.button_url }}"
             class="twi__button"
           >
-            {{ section.settings.button_text }}
+            <span class="twi__button-text-mask">
+              <span class="twi__button-text">{{ section.settings.button_text }}</span>
+            </span>
+            <span class="twi__button-bg"></span>
           </a>
         {% endif %}
       </div>
@@ -80,7 +83,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--space-4);
-    max-width: var(--container-max, 1200px);
+    max-width: var(--container-max, 80rem);
     margin: 0 auto;
   }
 
@@ -142,7 +145,9 @@
   }
 
   .twi__button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     align-self: flex-start;
     background-color: var(--theme-text-on-primary);
     color: var(--theme-primary);
@@ -154,11 +159,42 @@
     text-align: center;
     padding: var(--space-3) var(--space-6);
     border-radius: var(--theme-radius-button);
-    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
+    position: relative;
+    overflow: hidden;
   }
 
-  .twi__button:hover {
-    opacity: 0.85;
+  .twi__button-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .twi__button-text {
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .twi__button-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--theme-text-on-primary) 75%, var(--theme-primary));
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .twi__button:hover .twi__button-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .twi__button:hover .twi__button-bg {
+      transform: translateY(0) rotate(0deg);
+    }
   }
 
   .twi__button:focus-visible {
@@ -368,13 +404,13 @@
       "type": "textarea",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "Feel the difference of a truly healthy gut."
+      "default": "Experience the difference quality makes."
     },
     {
       "type": "textarea",
       "id": "body_text",
       "label": "t:labels.body_text",
-      "default": "From digestion and immunity to skin and heart health, our daily formula helps you feel lighter, healthier, and more in control—every single day."
+      "default": "From materials and craftsmanship to thoughtful design, every detail is made to improve your daily routine and exceed expectations."
     },
     {
       "type": "text",
@@ -405,29 +441,29 @@
         {
           "type": "feature",
           "settings": {
-            "title": "Diverse Probiotic Strains",
-            "description": "24 strains support microbial diversity, the foundation of a healthy gut."
+            "title": "Premium Ingredients",
+            "description": "Carefully sourced materials ensure the highest quality in every product."
           }
         },
         {
           "type": "feature",
           "settings": {
-            "title": "Engineered to Survive",
-            "description": "ViaCap® delivery system safeguards probiotics all the way to the colon."
+            "title": "Expert Craftsmanship",
+            "description": "Designed and built by experts who care about every detail."
           }
         },
         {
           "type": "feature",
           "settings": {
-            "title": "Feeds Good Gut Microbes",
-            "description": "Antioxidant-promoting prebiotic feeds beneficial gut microbes."
+            "title": "Sustainable Practices",
+            "description": "Responsibly made with the environment and future generations in mind."
           }
         },
         {
           "type": "feature",
           "settings": {
-            "title": "Proven in 4 Clinical Trials",
-            "description": "Scientifically validated in four, gold-standard clinical trials."
+            "title": "Tested & Proven",
+            "description": "Rigorously tested to meet the highest standards of performance and reliability."
           }
         }
       ]
