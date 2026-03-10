@@ -79,7 +79,7 @@
   --space-20: 80px;
 
   /* Layout — defaults, overridden by css-variables.liquid */
-  --container-max: 1200px;
+  --container-max: 80rem;
   --container-padding: 24px;
   --section-padding-y: 48px;
   --grid-gap: 24px;

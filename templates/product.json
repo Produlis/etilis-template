@@ -19,17 +19,15 @@
           "type": "accordions",
           "settings": {
             "title_1": "Benefits",
-            "content_1": "<ul><li>Relieves bloating and gas</li><li>Supports regular digestion</li><li>Strengthens immune health</li><li>Promotes clear, healthy skin</li><li>Supports heart health</li></ul>",
-            "title_2": "Ingredients",
-            "content_2": "<p>24 clinically studied probiotic strains with prebiotic fiber blend.</p>"
+            "content_1": "<ul><li>Premium quality materials</li><li>Thoughtful, functional design</li><li>Built for everyday durability</li><li>Easy to use and maintain</li><li>Satisfaction guaranteed</li></ul>",
+            "title_2": "Details",
+            "content_2": "<p>Crafted with care using responsibly sourced materials and expert craftsmanship.</p>"
           }
         }
       },
       "block_order": ["buy-buttons", "accordions"],
       "settings": {
-        "review_count": "10,078+",
-        "review_rating": "4.9",
-        "shipping_estimate_text": "Get it between Monday, February 2nd and Thursday, February 5th."
+        "badge_text": "2,500+ FIVE-STAR REVIEWS"
       }
     },
     "product-logo-marquee": {
@@ -44,37 +42,37 @@
         "feature-1": {
           "type": "feature",
           "settings": {
-            "title": "Diverse Probiotic Strains",
-            "description": "24 strains support microbial diversity, the foundation of a healthy gut."
+            "title": "Premium Ingredients",
+            "description": "Carefully sourced materials ensure the highest quality in every product."
           }
         },
         "feature-2": {
           "type": "feature",
           "settings": {
-            "title": "Engineered to Survive",
-            "description": "ViaCap® delivery system safeguards probiotics all the way to the colon."
+            "title": "Expert Craftsmanship",
+            "description": "Designed and built by experts who care about every detail."
           }
         },
         "feature-3": {
           "type": "feature",
           "settings": {
-            "title": "Feeds Good Gut Microbes",
-            "description": "Antioxidant-promoting prebiotic feeds beneficial gut microbes."
+            "title": "Sustainable Practices",
+            "description": "Responsibly made with the environment and future generations in mind."
           }
         },
         "feature-4": {
           "type": "feature",
           "settings": {
-            "title": "Proven in 4 Clinical Trials",
-            "description": "Scientifically validated in four, gold-standard clinical trials."
+            "title": "Tested & Proven",
+            "description": "Rigorously tested to meet the highest standards of performance and reliability."
           }
         }
       },
       "block_order": ["feature-1", "feature-2", "feature-3", "feature-4"],
       "settings": {
-        "tag_text": "Try today",
-        "heading": "Feel the difference of a truly healthy gut.",
-        "body_text": "From digestion and immunity to skin and heart health, our daily formula helps you feel lighter, healthier, and more in control—every single day.",
+        "tag_text": "Why choose us",
+        "heading": "Experience the difference quality makes.",
+        "body_text": "From materials and craftsmanship to thoughtful design, every detail is made to improve your daily routine and exceed expectations.",
         "button_text": "Learn more",
         "button_url": "#"
       }
@@ -85,41 +83,41 @@
         "milestone-1": {
           "type": "milestone",
           "settings": {
-            "time_label": "Days 7",
-            "title": "Reduces bloating and gas",
-            "benefits": "<ul><li>Clinically proven to reduce bloating</li><li>Alleviates excess gas</li><li>Eases digestive discomfort</li></ul>"
+            "time_label": "Week 1",
+            "title": "First impressions",
+            "benefits": "<ul><li>Unbox your new product</li><li>Easy setup in minutes</li><li>Notice the quality difference right away</li></ul>"
           }
         },
         "milestone-2": {
           "type": "milestone",
           "settings": {
             "time_label": "2 Weeks",
-            "title": "Supports healthy regularity",
-            "benefits": "<ul><li>Promotes daily regularity</li><li>Reduces occasional constipation</li><li>Makes digestion easier</li></ul>"
+            "title": "Part of your routine",
+            "benefits": "<ul><li>Seamlessly fits your daily life</li><li>Consistent performance every day</li><li>Start seeing real results</li></ul>"
           }
         },
         "milestone-3": {
           "type": "milestone",
           "settings": {
-            "time_label": "4 Weeks",
-            "title": "Smooths + clears skin",
-            "benefits": "<ul><li>Supports clear, healthy skin</li><li>Reduces wrinkles and signs of aging</li><li>Enhances the skin barrier</li></ul>"
+            "time_label": "1 Month",
+            "title": "Lasting value",
+            "benefits": "<ul><li>Built to stand the test of time</li><li>Maintains like-new quality</li><li>Exceeds your expectations</li></ul>"
           }
         },
         "milestone-4": {
           "type": "milestone",
           "settings": {
             "time_label": "3 Months",
-            "title": "Immune + heart support",
-            "benefits": "<ul><li>Promotes immune system resilience</li><li>Balances healthy cholesterol</li><li>Supports healthy aging</li></ul>"
+            "title": "Long-term satisfaction",
+            "benefits": "<ul><li>Proven durability over time</li><li>A product you can rely on</li><li>Worth every penny</li></ul>"
           }
         }
       },
       "block_order": ["milestone-1", "milestone-2", "milestone-3", "milestone-4"],
       "settings": {
-        "tag_text": "HOW IT WORK",
-        "heading": "The DS-01® difference: Benefits that build over time",
-        "description": "Results you can feel in as little as 7 days"
+        "tag_text": "HOW IT WORKS",
+        "heading": "Results that build over time",
+        "description": "See how our product works for you, step by step"
       }
     },
     "product-benefits": {
@@ -128,51 +126,51 @@
         "benefit-1": {
           "type": "benefit",
           "settings": {
-            "title": "Relieves Bloating & Gas",
-            "description": "Clinically proven probiotic and prebiotic strains work together to reduce bloating, gas, and digestive discomfort—so you feel lighter and more comfortable after every meal."
+            "title": "Premium Materials",
+            "description": "Crafted from high-quality, carefully sourced materials that ensure durability and a refined feel you'll notice from the first use."
           }
         },
         "benefit-2": {
           "type": "benefit",
           "settings": {
-            "title": "Supports Regular Digestion",
-            "description": "Helps restore balance in your gut microbiome, promoting smoother digestion and consistent bowel movements without harsh laxatives or cleanses."
+            "title": "Thoughtful Design",
+            "description": "Every detail has been considered to create a product that is both functional and beautiful, fitting seamlessly into your daily routine."
           }
         },
         "benefit-3": {
           "type": "benefit",
           "settings": {
-            "title": "Strengthens Immune Health",
-            "description": "A healthy gut supports a stronger immune system. Our formula helps reinforce your body's natural defenses from the inside out."
+            "title": "Lasting Durability",
+            "description": "Built to withstand everyday use without compromising on quality, so you can count on consistent performance over time."
           }
         },
         "benefit-4": {
           "type": "benefit",
           "settings": {
-            "title": "Promotes Clear, Healthy Skin",
-            "description": "By improving gut balance and nutrient absorption, this daily supplement supports clearer skin and a healthier-looking complexion."
+            "title": "Easy to Use",
+            "description": "Designed with simplicity in mind, our product works effortlessly so you can focus on what matters most to you."
           }
         },
         "benefit-5": {
           "type": "benefit",
           "settings": {
-            "title": "Supports Heart Health",
-            "description": "A balanced gut microbiome plays a role in cardiovascular wellness, helping support long-term heart health as part of a daily routine."
+            "title": "Sustainable & Responsible",
+            "description": "We are committed to ethical sourcing and sustainable practices, so you can feel good about every purchase you make."
           }
         }
       },
       "block_order": ["benefit-1", "benefit-2", "benefit-3", "benefit-4", "benefit-5"],
       "settings": {
         "tag_text": "BENEFITS",
-        "heading": "Clinically Proven Benefits You Can Feel"
+        "heading": "Key benefits you'll love"
       }
     },
     "product-guarantee": {
       "type": "guarantee-banner",
       "settings": {
-        "tag_text": "BENEFITS",
-        "heading": "Improve Gut Balance & Reduce Digestive Discomfort",
-        "body_text": "<p>Backed by clinical research, our daily probiotic + prebiotic formula supports a healthier gut microbiome by relieving bloating, gas, and irregular digestion—while helping beneficial bacteria thrive.</p><p>Clinical studies show that consistent daily use of probiotics and prebiotics can significantly improve digestive regularity, reduce inflammation in the gut, and support overall immune function over time.</p>"
+        "tag_text": "OUR PROMISE",
+        "heading": "Quality you can trust, results you can feel",
+        "body_text": "<p>Every product is crafted with care using premium materials and rigorous quality standards. We stand behind everything we make with a satisfaction guarantee.</p><p>Our commitment to excellence means you can shop with confidence, knowing each item is designed to deliver lasting value and performance you can count on.</p>"
       }
     },
     "product-comparison": {
@@ -181,42 +179,42 @@
         "row-1": {
           "type": "comparison_row",
           "settings": {
-            "label": "24 clinically studied probiotic strains",
-            "competitor_text": "5 or less strains"
+            "label": "Premium quality materials",
+            "competitor_text": "Standard materials"
           }
         },
         "row-2": {
           "type": "comparison_row",
           "settings": {
-            "label": "Engineered for precision delivery",
-            "competitor_text": "Rarely validated to reach the gut"
+            "label": "Designed for long-lasting durability",
+            "competitor_text": "Limited lifespan"
           }
         },
         "row-3": {
           "type": "comparison_row",
           "settings": {
-            "label": "Proven in 4 placebo-controlled trials",
-            "competitor_text": "Rare"
+            "label": "Backed by independent testing",
+            "competitor_text": "Rarely tested"
           }
         },
         "row-4": {
           "type": "comparison_row",
           "settings": {
-            "label": "Third-party tested for pesticides, allergens, and heavy metals",
-            "competitor_text": "Rare"
+            "label": "Ethically sourced and sustainably made",
+            "competitor_text": "Rarely verified"
           }
         },
         "row-5": {
           "type": "comparison_row",
           "settings": {
-            "label": "Vegan, gluten and nut tested, low FODMAP",
-            "competitor_text": "Rare"
+            "label": "Satisfaction guarantee included",
+            "competitor_text": "Limited or none"
           }
         },
         "badge-1": {
           "type": "trust_badge",
           "settings": {
-            "text": "16 orders at this price remaining"
+            "text": "Limited stock available"
           }
         },
         "badge-2": {
@@ -228,17 +226,17 @@
         "badge-3": {
           "type": "trust_badge",
           "settings": {
-            "text": "30 day money-back guarantee"
+            "text": "Money-back guarantee"
           }
         }
       },
       "block_order": ["row-1", "row-2", "row-3", "row-4", "row-5", "badge-1", "badge-2", "badge-3"],
       "settings": {
         "tag_text": "COMPARISON",
-        "heading": "How DS-01® Compares:",
-        "brand_name": "DS-01®",
+        "heading": "How we compare",
+        "brand_name": "Ours",
         "competitor_name": "Other",
-        "button_text": "Get your bottle",
+        "button_text": "Shop now",
         "button_url": "#"
       }
     },
@@ -248,34 +246,34 @@
         "testimonial-1": {
           "type": "testimonial",
           "settings": {
-            "quote": "\"We have been using SEED for over three years now, and we feel a significant difference. My husband especially, always notes how bloating is non-existent for him while taking this. I know most take it at night, but we take it on an empty stomach 1-2 hours before breakfast and it's very helpful\"",
+            "quote": "\"This product exceeded my expectations in every way. The quality is outstanding and I can tell it was made with real care and attention to detail.\"",
             "author_name": "Bobby",
-            "author_role": "Influencer"
+            "author_role": "Verified Buyer"
           }
         },
         "testimonial-2": {
           "type": "testimonial",
           "settings": {
-            "quote": "\"As I was approaching my mid 40's, maintaining good health was essential, and this has been a key player in improving my gut health and overall well-being. I can't imagine going back to life without it.\"",
+            "quote": "\"I've been using this for months now and it still looks and performs like new. Definitely worth the investment.\"",
             "author_name": "James T.",
-            "author_role": "Verified buyer"
+            "author_role": "Verified Buyer"
           }
         },
         "testimonial-3": {
           "type": "testimonial",
           "settings": {
-            "quote": "\"I've tried many probiotics, but this is the first one that actually made a difference. Within two weeks I felt lighter and more energized. My digestion has improved dramatically.\"",
+            "quote": "\"I've tried many alternatives, but nothing compares. The craftsmanship and quality are truly in a league of their own.\"",
             "author_name": "Maria L.",
-            "author_role": "Verified buyer"
+            "author_role": "Verified Buyer"
           }
         }
       },
       "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"],
       "settings": {
         "tag_text": "Testimonials",
-        "heading": "What our customer say?",
+        "heading": "What our customers say",
         "rating": "4.9",
-        "review_count": "10,078+"
+        "review_count": "2,500+"
       }
     },
     "product-faq": {
@@ -284,43 +282,43 @@
         "faq-1": {
           "type": "faq_item",
           "settings": {
-            "question": "When will I feel something?",
-            "answer": "<p>It is normal to feel effects in the digestive tract in as little as 24-48 hours. Other longer term benefits like cardiovascular health and gut immune function may take longer. As long as you continue your daily intake, those beneficial microbes are doing their work inside to program, sustain, and enhance your health.</p>"
+            "question": "What makes your product different?",
+            "answer": "<p>We use premium materials and rigorous quality standards to deliver a product that exceeds expectations. Every detail is thoughtfully designed for durability and performance.</p>"
           }
         },
         "faq-2": {
           "type": "faq_item",
           "settings": {
-            "question": "How should I store DS-01®?",
-            "answer": "<p>Store your DS-01® at room temperature, away from direct sunlight and moisture. No refrigeration required thanks to our ViaCap® technology.</p>"
+            "question": "How do I get started?",
+            "answer": "<p>Simply choose the product that fits your needs and place your order. We'll handle the rest with fast, free shipping.</p>"
           }
         },
         "faq-3": {
           "type": "faq_item",
           "settings": {
-            "question": "Can I take DS-01® with other supplements?",
-            "answer": "<p>Yes, DS-01® can be taken alongside other supplements. We recommend taking it with or without food, whichever is most convenient for your routine.</p>"
+            "question": "What is your return policy?",
+            "answer": "<p>We offer a hassle-free return policy. If you're not completely satisfied, contact us for a full refund.</p>"
           }
         },
         "faq-4": {
           "type": "faq_item",
           "settings": {
-            "question": "Is DS-01® suitable for vegans?",
-            "answer": "<p>Yes, DS-01® is 100% vegan, gluten-free, nut-free, and low FODMAP. It is also third-party tested for allergens and heavy metals.</p>"
+            "question": "Do you offer international shipping?",
+            "answer": "<p>Yes, we ship worldwide. Shipping times vary by location but we always strive for the fastest delivery possible.</p>"
           }
         },
         "faq-5": {
           "type": "faq_item",
           "settings": {
-            "question": "What is the recommended dosage?",
-            "answer": "<p>Take 2 capsules daily, preferably in the morning. Each bottle contains a 30-day supply.</p>"
+            "question": "How can I contact customer support?",
+            "answer": "<p>You can reach our support team via email or through the contact form on our website. We typically respond within 24 hours.</p>"
           }
         }
       },
       "block_order": ["faq-1", "faq-2", "faq-3", "faq-4", "faq-5"],
       "settings": {
         "tag_text": "FAQs",
-        "heading": "Frequently ask questions"
+        "heading": "Frequently asked questions"
       }
     }
   },
