@@ -219,7 +219,7 @@
     background-color: var(--color-overlay);
     z-index: var(--z-modal, 300);
     opacity: 0;
-    transition: opacity var(--duration-medium, 300ms) var(--ease-standard, ease);
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .cart-drawer__overlay.is-open {
@@ -236,7 +236,7 @@
     background-color: var(--theme-surface);
     z-index: var(--z-modal, 300);
     transform: translateX(100%);
-    transition: transform var(--duration-medium, 300ms) var(--ease-emphasized, cubic-bezier(0.2, 0, 0, 1));
+    transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1);
     display: flex;
     flex-direction: column;
   }

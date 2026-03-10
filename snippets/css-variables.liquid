@@ -13,15 +13,45 @@
 
 <style>
   /*
-   * Font face declarations — loaded for heading and body fonts
-   * selected by the merchant in Theme Settings > Typography.
+   * Self-hosted Inter font — loaded from theme assets for
+   * consistent typography across the entire site.
    * font-display: swap avoids invisible text during load.
    */
-  {{ settings.type_heading_font | font_face: font_display: 'swap' }}
-  {{ settings.type_heading_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_body_font | font_face: font_display: 'swap' }}
-  {{ settings.type_body_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_body_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'Inter-Regular.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url({{ 'Inter-Italic.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url({{ 'Inter-Medium.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url({{ 'Inter-SemiBold.woff2' | asset_url }}) format('woff2');
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url({{ 'Inter-Bold.woff2' | asset_url }}) format('woff2');
+  }
 
   {%- comment -%}
     Brand color scheme — Navy blue with golden yellow accents.
@@ -117,8 +147,8 @@
 
   :root {
     /* ===== Typography ===== */
-    --font-heading: {{ settings.type_heading_font.family }}, {{ settings.type_heading_font.fallback_families }};
-    --font-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+    --font-heading: 'Inter', sans-serif;
+    --font-body: 'Inter', sans-serif;
     --font-sans: var(--font-body);
 
     /* ===== Layout ===== */

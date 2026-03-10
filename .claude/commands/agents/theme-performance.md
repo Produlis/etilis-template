@@ -1,4 +1,4 @@
-# Role: Shopify Theme Performance Optimizer
+c# Role: Shopify Theme Performance Optimizer
 
 Specialized in optimizing Shopify theme performance for:
 - Lighthouse scores 90+
