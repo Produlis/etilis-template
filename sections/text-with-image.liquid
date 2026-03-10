@@ -1,7 +1,7 @@
 <section class="twi full-width">
   <div class="twi__container">
     <div class="twi__top">
-      <div class="twi__card">
+      <div class="twi__card" data-animate="fade-up">
         <div class="twi__card-text">
           {% if section.settings.tag_text != blank %}
             <span class="twi__tag">{{ section.settings.tag_text }}</span>
@@ -29,7 +29,7 @@
         {% endif %}
       </div>
 
-      <div class="twi__side-image">
+      <div class="twi__side-image" data-animate="fade-in">
         {% if section.settings.side_image %}
           {{ section.settings.side_image | image_url: width: 800 | image_tag: loading: 'lazy' }}
         {% else %}
@@ -39,7 +39,7 @@
     </div>
 
     <div class="twi__bottom">
-      <div class="twi__bottom-image">
+      <div class="twi__bottom-image" data-animate="fade-in">
         {% if section.settings.bottom_image %}
           {{ section.settings.bottom_image | image_url: width: 2400 | image_tag: loading: 'lazy' }}
         {% else %}
@@ -49,7 +49,7 @@
 
       {% assign features = section.blocks | where: 'type', 'feature' %}
       {% if features.size > 0 %}
-        <div class="twi__overlay">
+        <div class="twi__overlay" data-animate="fade-up" data-animate-stagger>
           {% for block in features %}
             <div class="twi__feature" {{ block.shopify_attributes }}>
               {% if block.settings.icon %}

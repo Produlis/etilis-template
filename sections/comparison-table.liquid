@@ -1,6 +1,6 @@
 <section class="comparison-table full-width">
   <div class="comparison-table__container">
-    <div class="comparison-table__left">
+    <div class="comparison-table__left" data-animate="fade-up">
       <div class="comparison-table__left-content">
         <div class="comparison-table__left-header">
           {% if section.settings.tag_text != blank %}
@@ -58,7 +58,7 @@
     {%- assign meta_comparison = product.metafields.custom.comparison_rows.value -%}
     {% assign comparison_rows = section.blocks | where: 'type', 'comparison_row' %}
 
-    <div class="comparison-table__right">
+    <div class="comparison-table__right" data-animate="fade-up">
       <div class="comparison-table__glass">
         <div class="comparison-table__labels">
           <div class="comparison-table__cell comparison-table__cell--header">

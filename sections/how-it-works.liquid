@@ -1,5 +1,5 @@
 <section class="how-it-works full-width">
-  <div class="how-it-works__header">
+  <div class="how-it-works__header" data-animate="fade-up">
     {% if section.settings.tag_text != blank %}
       <span class="how-it-works__tag">{{ section.settings.tag_text }}</span>
     {% endif %}
@@ -14,7 +14,7 @@
   </div>
 
   <div class="how-it-works__body">
-    <div class="how-it-works__steps">
+    <div class="how-it-works__steps" data-animate="fade-up" data-animate-stagger>
       {% for block in section.blocks %}
         {% if block.type == 'step' %}
           <div class="how-it-works__step" {{ block.shopify_attributes }}>
@@ -43,7 +43,7 @@
       {% endfor %}
     </div>
 
-    <div class="how-it-works__aside">
+    <div class="how-it-works__aside" data-animate="fade-up">
       {% if section.settings.side_image %}
         <div class="how-it-works__image">
           {{ section.settings.side_image | image_url: width: 800 | image_tag: loading: 'lazy' }}

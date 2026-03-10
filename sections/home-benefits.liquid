@@ -1,6 +1,6 @@
 <div class="home-benefits full-width">
   <div class="home-benefits__container">
-  <div class="home-benefits__left">
+  <div class="home-benefits__left" data-animate="fade-up" data-animate-stagger>
     {% if section.settings.tag_text != blank %}
       <span class="home-benefits__tag">{{ section.settings.tag_text }}</span>
     {% endif %}
@@ -29,7 +29,7 @@
   </div>
 
   <div class="home-benefits__right">
-    <div class="home-benefits__top-row">
+    <div class="home-benefits__top-row" data-animate="fade-up" data-animate-stagger>
       {% for block in section.blocks %}
         {% if forloop.index <= 2 %}
           <div class="home-benefits__card" {{ block.shopify_attributes }}>
@@ -57,7 +57,7 @@
 
     {% for block in section.blocks %}
       {% if forloop.index > 2 %}
-        <div class="home-benefits__featured-card" {{ block.shopify_attributes }}>
+        <div class="home-benefits__featured-card" data-animate="fade-up" {{ block.shopify_attributes }}>
           <div class="home-benefits__featured-bg">
             {% if section.settings.featured_image != blank %}
               {{ section.settings.featured_image | image_url: width: 1200 | image_tag: loading: 'lazy' }}

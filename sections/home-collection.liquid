@@ -2,7 +2,7 @@
 
 <div class="home-collection full-width">
   <div class="home-collection__container">
-    <div class="home-collection__header">
+    <div class="home-collection__header" data-animate="fade-up" data-animate-stagger>
       {% if section.settings.tag_text != blank %}
         <span class="home-collection__tag">{{ section.settings.tag_text }}</span>
       {% endif %}
@@ -25,7 +25,7 @@
       {% endif %}
     </div>
 
-    <div class="home-collection__slider">
+    <div class="home-collection__slider" data-animate="fade-up">
       <div
         class="swiper home-collection__swiper"
         data-section-id="{{ section.id }}"

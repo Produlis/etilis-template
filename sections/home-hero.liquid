@@ -1,7 +1,7 @@
 <div class="home-hero full-width">
   <div class="home-hero__container">
     <div class="home-hero__left">
-      <div class="home-hero__top-content">
+      <div class="home-hero__top-content" data-animate="fade-up" data-animate-stagger>
         <div class="home-hero__text-group">
           {%- if section.settings.review_text != blank -%}
             <div class="home-hero__review-badge">
@@ -58,7 +58,7 @@
 
       {%- assign bundle_product = section.settings.bundle_product -%}
       {%- if bundle_product != blank -%}
-      <div class="home-hero__bundle">
+      <div class="home-hero__bundle" data-animate="fade-up">
         <div class="home-hero__bundle-card">
           <div class="home-hero__bundle-image">
             {%- if bundle_product.featured_image != blank -%}
@@ -133,11 +133,11 @@
 
     <div class="home-hero__right">
       {%- if section.settings.image != blank -%}
-        <div class="home-hero__image">
+        <div class="home-hero__image" data-animate="fade-in">
           {{ section.settings.image | image_url: width: 1224 | image_tag: loading: 'eager' }}
         </div>
       {%- else -%}
-        <div class="home-hero__image home-hero__image--placeholder">
+        <div class="home-hero__image home-hero__image--placeholder" data-animate="fade-in">
           {% render 'placeholder-image' %}
         </div>
       {%- endif -%}

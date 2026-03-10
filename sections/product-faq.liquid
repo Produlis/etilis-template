@@ -1,12 +1,12 @@
 <section class="faq full-width" aria-label="{{ 'faq.section_label' | t }}">
   <div class="faq__container">
-    <div class="faq__left">
+    <div class="faq__left" data-animate="fade-up" data-animate-stagger>
       <span class="faq__tag">{{ section.settings.tag_text }}</span>
       <h2 class="faq__heading">{{ section.settings.heading }}</h2>
     </div>
 
     {%- assign meta_faqs = product.metafields.custom.faqs.value -%}
-    <div class="faq__right">
+    <div class="faq__right" data-animate="fade-up" data-animate-stagger>
       {%- if meta_faqs and meta_faqs.size > 0 -%}
         {%- for faq in meta_faqs -%}
           <details

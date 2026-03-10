@@ -1,7 +1,7 @@
 {%- assign meta_benefits = product.metafields.custom.benefits.value -%}
 <section class="product-benefits full-width">
   <div class="product-benefits__container">
-    <div class="product-benefits__sidebar">
+    <div class="product-benefits__sidebar" data-animate="fade-up">
       <div class="product-benefits__sidebar-header">
         {% if section.settings.tag_text != blank %}
           <span class="product-benefits__tag">{{ section.settings.tag_text }}</span>
@@ -52,7 +52,7 @@
       </ul>
     </div>
 
-    <div class="product-benefits__details">
+    <div class="product-benefits__details" data-animate="fade-up" data-animate-stagger>
       {%- if meta_benefits and meta_benefits.size > 0 -%}
         {%- for benefit in meta_benefits -%}
           <div class="product-benefits__detail">

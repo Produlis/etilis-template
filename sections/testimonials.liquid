@@ -1,6 +1,6 @@
 <section class="testimonials full-width" aria-label="{{ 'testimonials.section_label' | t }}">
   <div class="testimonials__container">
-    <div class="testimonials__header">
+    <div class="testimonials__header" data-animate="fade-up">
       <div class="testimonials__header-left">
         <span class="testimonials__tag">{{ section.settings.tag_text }}</span>
         <h2 class="testimonials__heading">{{ section.settings.heading }}</h2>
@@ -37,7 +37,7 @@
   </div>
 
   {%- assign meta_testimonials = product.metafields.custom.testimonials.value -%}
-  <div class="testimonials__cards" role="list">
+  <div class="testimonials__cards" role="list" data-animate="fade-up">
     {%- if meta_testimonials and meta_testimonials.size > 0 -%}
       {%- for testimonial in meta_testimonials -%}
         <article class="testimonials__card" role="listitem">

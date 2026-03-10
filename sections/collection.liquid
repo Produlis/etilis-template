@@ -12,7 +12,7 @@
 
 <div class="collection-page full-width" data-section-id="{{ section.id }}">
   <div class="collection-page__container">
-    <div class="collection-page__header">
+    <div class="collection-page__header" data-animate="fade-up">
       {% if section.settings.tag_text != blank %}
         <span class="collection-page__tag">{{ section.settings.tag_text }}</span>
       {% endif %}
@@ -275,6 +275,8 @@
           style="--columns-desktop: {{ section.settings.columns_desktop }}; --columns-mobile: {{ section.settings.columns_mobile }};"
           role="list"
           aria-label="{{ 'sections.collection.products_label' | t }}"
+          data-animate="fade-up"
+          data-animate-stagger
         >
           {% for product in collection.products %}
             {% render 'product-card', product: product, image_bg: section.settings.card_image_bg %}
@@ -610,6 +612,14 @@
     color: var(--theme-text);
     background: var(--theme-surface);
     box-sizing: border-box;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .collection-page__price-input::-webkit-outer-spin-button,
+  .collection-page__price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 
   .collection-page__price-input:focus {

@@ -3,7 +3,7 @@
   Logos auto-animate with CSS for an infinite scroll effect.
 {% endcomment %}
 
-<div class="logo-marquee full-width" style="--marquee-speed: {{ section.settings.speed }}s">
+<div class="logo-marquee full-width" style="--marquee-speed: {{ section.settings.speed }}s" data-animate="fade-in">
   {% if section.blocks.size > 0 %}
     <div class="logo-marquee__track" aria-label="{{ 'sections.logo_marquee.aria_label' | t }}">
       <div class="logo-marquee__slides">

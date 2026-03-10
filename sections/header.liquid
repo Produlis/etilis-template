@@ -263,6 +263,7 @@
 
   .site-header__nav-item {
     position: relative;
+    transition: opacity var(--duration-medium, 300ms) cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   .site-header__nav-link {
@@ -284,8 +285,13 @@
     white-space: nowrap;
   }
 
-  .site-header__nav-link:hover {
-    background-color: var(--color-hover-subtle);
+  .site-header__nav-list:hover .site-header__nav-item {
+    opacity: 0.5;
+    transition: opacity var(--duration-medium, 300ms) cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .site-header__nav-list:hover .site-header__nav-item:hover {
+    opacity: 1;
   }
 
   .site-header__nav-link:focus-visible {

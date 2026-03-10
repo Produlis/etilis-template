@@ -13,7 +13,7 @@
 <div class="product-hero full-width" data-money-format="{{ shop.money_format | escape }}">
   <div class="product-hero__inner">
     {%- comment -%} ===== Left column: Image gallery ===== {%- endcomment -%}
-    <div class="product-hero__gallery">
+    <div class="product-hero__gallery" data-animate="fade-in">
       {%- if featured_image -%}
         <div class="product-hero__main-image" aria-live="polite">
           {{
@@ -78,7 +78,7 @@
     </div>
 
     {%- comment -%} ===== Right column: Product details ===== {%- endcomment -%}
-    <div class="product-hero__details">
+    <div class="product-hero__details" data-animate="fade-up">
 
       {%- comment -%} Review badge + Title + Description + Price {%- endcomment -%}
       <div class="product-hero__info-group">

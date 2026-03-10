@@ -1,5 +1,5 @@
 <section class="product-timeline full-width">
-  <div class="product-timeline__header">
+  <div class="product-timeline__header" data-animate="fade-up">
     {% if section.settings.tag_text != blank %}
       <span class="product-timeline__tag">{{ section.settings.tag_text }}</span>
     {% endif %}
@@ -15,7 +15,7 @@
 
   <div class="product-timeline__body">
     {%- assign meta_milestones = product.metafields.custom.timeline_milestones.value -%}
-    <div class="product-timeline__steps">
+    <div class="product-timeline__steps" data-animate="fade-up" data-animate-stagger>
       {%- if meta_milestones and meta_milestones.size > 0 -%}
         {%- for milestone in meta_milestones -%}
           <div class="product-timeline__step">
@@ -83,7 +83,7 @@
       {%- endif -%}
     </div>
 
-    <div class="product-timeline__aside">
+    <div class="product-timeline__aside" data-animate="fade-up">
       <div class="product-timeline__image">
         {%- liquid
           assign timeline_image = product.metafields.custom.timeline_image.value

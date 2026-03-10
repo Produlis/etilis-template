@@ -6,7 +6,7 @@
   {% endif %}
 
   <div class="home-comparison__inner">
-    <div class="home-comparison__header">
+    <div class="home-comparison__header" data-animate="fade-up" data-animate-stagger>
       {% if section.settings.tag_text != blank %}
         <span class="home-comparison__tag">{{ section.settings.tag_text }}</span>
       {% endif %}
@@ -20,7 +20,7 @@
       {% endif %}
     </div>
 
-    <div class="home-comparison__table-area">
+    <div class="home-comparison__table-area" data-animate="fade-up">
       {%- assign comparison_rows = section.blocks | where: 'type', 'comparison_row' -%}
       {%- assign trust_badges = section.blocks | where: 'type', 'trust_badge' -%}
 
@@ -78,7 +78,7 @@
       </div>
 
       {% if trust_badges.size > 0 %}
-        <div class="home-comparison__badges">
+        <div class="home-comparison__badges" data-animate="fade-up" data-animate-stagger>
           {%- for block in trust_badges -%}
             <div class="home-comparison__badge" {{ block.shopify_attributes }}>
               <div class="home-comparison__badge-icon">

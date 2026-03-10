@@ -1,6 +1,6 @@
 <section class="contact-form full-width">
   <div class="contact-form__container">
-    <div class="contact-form__header">
+    <div class="contact-form__header" data-animate="fade-up" data-animate-stagger>
       {% if section.settings.tag_text != blank %}
         <span class="contact-form__tag">{{ section.settings.tag_text }}</span>
       {% endif %}
@@ -14,7 +14,7 @@
       {% endif %}
     </div>
 
-    {% form 'contact', class: 'contact-form__form' %}
+    {% form 'contact', class: 'contact-form__form', data-animate: 'fade-up' %}
       {% if form.posted_successfully? %}
         <div class="contact-form__success">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
