@@ -20,7 +20,10 @@
           href="{{ section.settings.button_url }}"
         {% endif %}
       >
-        {{- section.settings.button_text -}}
+        <span class="home-benefits__button-text-mask">
+          <span class="home-benefits__button-text">{{- section.settings.button_text -}}</span>
+        </span>
+        <span class="home-benefits__button-bg"></span>
       </a>
     {% endif %}
   </div>
@@ -99,7 +102,7 @@
   .home-benefits__container {
     display: flex;
     gap: var(--space-12);
-    max-width: var(--container-max, 1200px);
+    max-width: var(--container-max, 80rem);
     margin: 0 auto;
   }
 
@@ -156,11 +159,42 @@
     font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-tight);
     text-decoration: none;
-    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
+    position: relative;
+    overflow: hidden;
   }
 
-  .home-benefits__button:hover {
-    opacity: 0.85;
+  .home-benefits__button-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .home-benefits__button-text {
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .home-benefits__button-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-text) 85%, white);
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .home-benefits__button:hover .home-benefits__button-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .home-benefits__button:hover .home-benefits__button-bg {
+      transform: translateY(0) rotate(0deg);
+    }
   }
 
   .home-benefits__right {
@@ -340,13 +374,13 @@
       "type": "text",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "Real benefits you can feel"
+      "default": "Benefits that make a difference"
     },
     {
       "type": "textarea",
       "id": "body_text",
       "label": "t:labels.body_text",
-      "default": "Designed to support your gut microbiome with clinically studied strains—helping your body function better, every day."
+      "default": "Thoughtfully designed with quality materials and expert craftsmanship to enhance your everyday routine."
     },
     {
       "type": "text",
@@ -397,22 +431,22 @@
         {
           "type": "benefit",
           "settings": {
-            "title": "Digestive comfort",
-            "description": "Reduce bloating, gas, and discomfort with strains that support a balanced gut."
+            "title": "Premium quality",
+            "description": "Made with carefully selected materials that meet the highest standards of excellence."
           }
         },
         {
           "type": "benefit",
           "settings": {
-            "title": "Immune support",
-            "description": "Strengthen your body's natural defenses with a healthier microbiome."
+            "title": "Built to last",
+            "description": "Designed for durability so you can enjoy lasting value from every purchase."
           }
         },
         {
           "type": "benefit",
           "settings": {
-            "title": "Clinically studied strains",
-            "description": "Backed by science. Our probiotic formula uses strains with proven results."
+            "title": "Satisfaction guaranteed",
+            "description": "We stand behind every product with our commitment to your complete satisfaction."
           }
         }
       ]

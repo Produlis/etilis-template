@@ -103,7 +103,10 @@
       </button>
 
       <a href="{{ routes.cart_url }}" class="site-header__cart" data-cart-drawer-trigger>
-        <span class="site-header__cart-text">{{ 'header.cart' | t }}</span>
+        <span class="site-header__cart-text-mask">
+          <span class="site-header__cart-text">{{ 'header.cart' | t }}</span>
+        </span>
+        <span class="site-header__cart-bg"></span>
         <span
           class="site-header__cart-count"
           {%- if cart.item_count == 0 %} hidden{% endif %}
@@ -204,8 +207,9 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--space-3) var(--space-4);
-    max-width: none;
+    max-width: var(--container-max, 80rem);
     width: 100%;
+    margin-inline: auto;
   }
 
   /* --- Logo --- */
@@ -361,11 +365,7 @@
     text-decoration: none;
     border-radius: 40px;
     white-space: nowrap;
-    transition: opacity var(--duration-fast, 150ms) var(--ease-standard, ease);
-  }
-
-  .site-header__cart:hover {
-    opacity: 0.85;
+    overflow: hidden;
   }
 
   .site-header__cart:focus-visible {
@@ -373,8 +373,39 @@
     outline-offset: 2px;
   }
 
+  .site-header__cart-text-mask {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+  }
+
   .site-header__cart-text {
     color: inherit;
+    --text-shift: 1.5em;
+    text-shadow: 0 var(--text-shift) currentColor;
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+  }
+
+  .site-header__cart-bg {
+    position: absolute;
+    inset: 0;
+    background-color: color-mix(in srgb, var(--color-text) 85%, white);
+    border-radius: inherit;
+    transform: translateY(175%) rotate(15deg);
+    transition: transform 0.525s cubic-bezier(0.625, 0.05, 0, 1);
+    z-index: 0;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .site-header__cart:hover .site-header__cart-text {
+      transform: translateY(calc(-1 * var(--text-shift)));
+    }
+
+    .site-header__cart:hover .site-header__cart-bg {
+      transform: translateY(0) rotate(0deg);
+    }
   }
 
   .site-header__cart-count {
@@ -606,7 +637,7 @@
   /* --- Desktop breakpoint --- */
   @media (min-width: 750px) {
     .site-header__inner {
-      padding: var(--space-4) var(--space-6) var(--space-4) var(--space-10);
+      padding: var(--space-4) var(--space-6);
     }
 
     .site-header__nav {
