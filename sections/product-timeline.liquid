@@ -203,15 +203,15 @@
   /* ── Body ── */
   .product-timeline__body {
     display: flex;
-    gap: var(--space-6);
+    gap: 1.5rem;
     max-width: var(--container-max, 80rem);
     margin: var(--space-13) auto 0;
     padding: 0 var(--container-padding, 16px);
   }
 
   .product-timeline__steps {
-    flex: 0 0 576px;
-    max-width: 576px;
+    flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
   }
@@ -484,8 +484,8 @@
     cursor: not-allowed;
   }
 
-  /* ── Mobile ── */
-  @media screen and (max-width: 749px) {
+  /* ── Mobile / Tablet ── */
+  @media screen and (max-width: 850px) {
     .product-timeline {
       padding: var(--space-6) 0;
     }
@@ -524,6 +524,12 @@
     .product-timeline__upsell {
       flex-direction: column;
       padding: var(--space-2);
+    }
+
+    .product-timeline__upsell-body {
+      width: 100%;
+      padding: 0 var(--space-2);
+      box-sizing: border-box;
     }
 
     .product-timeline__upsell-thumb {
@@ -626,7 +632,7 @@
           "settings": {
             "time_label": "Week 1",
             "title": "First impressions",
-            "benefits": "<ul><li>Unbox your new product</li><li>Easy setup in minutes</li><li>Notice the quality difference right away</li></ul>"
+            "benefits": "<p>Get started quickly and notice the difference from day one.</p>"
           }
         },
         {
@@ -634,7 +640,7 @@
           "settings": {
             "time_label": "2 Weeks",
             "title": "Part of your routine",
-            "benefits": "<ul><li>Seamlessly fits your daily life</li><li>Consistent performance every day</li><li>Start seeing real results</li></ul>"
+            "benefits": "<p>Fits naturally into your everyday routine with consistent results.</p>"
           }
         },
         {
@@ -642,7 +648,7 @@
           "settings": {
             "time_label": "1 Month",
             "title": "Lasting value",
-            "benefits": "<ul><li>Built to stand the test of time</li><li>Maintains like-new quality</li><li>Exceeds your expectations</li></ul>"
+            "benefits": "<p>Quality that holds up over time and exceeds expectations.</p>"
           }
         },
         {
@@ -650,7 +656,7 @@
           "settings": {
             "time_label": "3 Months",
             "title": "Long-term satisfaction",
-            "benefits": "<ul><li>Proven durability over time</li><li>A product you can rely on</li><li>Worth every penny</li></ul>"
+            "benefits": "<p>A reliable product you can count on, month after month.</p>"
           }
         }
       ]

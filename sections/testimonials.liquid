@@ -1,3 +1,5 @@
+{% render 'swiper-loader' %}
+
 <section class="testimonials full-width" aria-label="{{ 'testimonials.section_label' | t }}">
   <div class="testimonials__container">
     <div class="testimonials__header" data-animate="fade-up">
@@ -36,68 +38,78 @@
     </div>
   </div>
 
-  {%- assign meta_testimonials = product.metafields.custom.testimonials.value -%}
-  <div class="testimonials__cards" role="list" data-animate="fade-up">
-    {%- if meta_testimonials and meta_testimonials.size > 0 -%}
-      {%- for testimonial in meta_testimonials -%}
-        <article class="testimonials__card" role="listitem">
-          <div class="testimonials__card-avatar">
-            {%- if testimonial.image -%}
-              <img src="{{ testimonial.image }}" loading="lazy" alt="{{ testimonial.author_name | escape }}">
-            {%- else -%}
-              {% render 'placeholder-image' %}
-            {%- endif -%}
-          </div>
-
-          <div class="testimonials__card-content">
-            <blockquote class="testimonials__card-quote">
-              {{ testimonial.quote }}
-            </blockquote>
-            <div class="testimonials__card-author">
-              <span class="testimonials__card-name">{{ testimonial.author_name }}</span>
-              {%- if testimonial.author_role != blank -%}
-                <span class="testimonials__card-role">{{ testimonial.author_role }}</span>
-              {%- endif -%}
+  <div class="testimonials__slider" data-animate="fade-up">
+    <div
+      class="swiper testimonials__swiper"
+      data-section-id="{{ section.id }}"
+      data-autoplay="{{ section.settings.autoplay }}"
+      data-autoplay-speed="{{ section.settings.autoplay_speed }}"
+      data-loop="{{ section.settings.loop }}"
+    >
+      <div class="swiper-wrapper">
+        {%- assign meta_testimonials = product.metafields.custom.testimonials.value -%}
+        {%- if meta_testimonials and meta_testimonials.size > 0 -%}
+          {%- for testimonial in meta_testimonials -%}
+            <div class="swiper-slide testimonials__slide">
+              <article class="testimonials__card">
+                <div class="testimonials__card-avatar">
+                  {%- if testimonial.image -%}
+                    <img src="{{ testimonial.image }}" loading="lazy" alt="{{ testimonial.author_name | escape }}">
+                  {%- else -%}
+                    {% render 'placeholder-image' %}
+                  {%- endif -%}
+                </div>
+                <div class="testimonials__card-content">
+                  <blockquote class="testimonials__card-quote">
+                    {{ testimonial.quote }}
+                  </blockquote>
+                  <div class="testimonials__card-author">
+                    <span class="testimonials__card-name">{{ testimonial.author_name }}</span>
+                    {%- if testimonial.author_role != blank -%}
+                      <span class="testimonials__card-role">{{ testimonial.author_role }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+              </article>
             </div>
-          </div>
-        </article>
-      {%- endfor -%}
-    {%- else -%}
-      {% for block in section.blocks %}
-        <article
-          class="testimonials__card"
-          role="listitem"
-          {{ block.shopify_attributes }}
-        >
-          <div class="testimonials__card-avatar">
-            {% if block.settings.author_image %}
-              {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
-            {% else %}
-              {% render 'placeholder-image' %}
-            {% endif %}
-          </div>
-
-          <div class="testimonials__card-content">
-            <blockquote class="testimonials__card-quote">
-              {{ block.settings.quote }}
-            </blockquote>
-            <div class="testimonials__card-author">
-              <span class="testimonials__card-name">{{ block.settings.author_name }}</span>
-              {% if block.settings.author_role != blank %}
-                <span class="testimonials__card-role">{{ block.settings.author_role }}</span>
-              {% endif %}
+          {%- endfor -%}
+        {%- else -%}
+          {% for block in section.blocks %}
+            <div class="swiper-slide testimonials__slide" {{ block.shopify_attributes }}>
+              <article class="testimonials__card">
+                <div class="testimonials__card-avatar">
+                  {% if block.settings.author_image %}
+                    {{ block.settings.author_image | image_url: width: 200, height: 192, crop: 'center' | image_tag: loading: 'lazy' }}
+                  {% else %}
+                    {% render 'placeholder-image' %}
+                  {% endif %}
+                </div>
+                <div class="testimonials__card-content">
+                  <blockquote class="testimonials__card-quote">
+                    {{ block.settings.quote }}
+                  </blockquote>
+                  <div class="testimonials__card-author">
+                    <span class="testimonials__card-name">{{ block.settings.author_name }}</span>
+                    {% if block.settings.author_role != blank %}
+                      <span class="testimonials__card-role">{{ block.settings.author_role }}</span>
+                    {% endif %}
+                  </div>
+                </div>
+              </article>
             </div>
-          </div>
-        </article>
-      {% endfor %}
-    {%- endif -%}
+          {% endfor %}
+        {%- endif -%}
+      </div>
+    </div>
   </div>
 </section>
+
+<script src="{{ 'testimonials-swiper.js' | asset_url }}" defer></script>
 
 {% stylesheet %}
   .testimonials {
     background-color: var(--theme-surface);
-    padding: var(--space-13) 0;
+    padding: 3.25rem 0;
     overflow: hidden;
   }
 
@@ -127,7 +139,7 @@
   .testimonials__tag {
     display: inline-flex;
     align-self: flex-start;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
     color: var(--theme-primary);
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-medium);
@@ -188,31 +200,27 @@
     line-height: normal;
   }
 
-  .testimonials__cards {
-    display: flex;
-    gap: var(--space-6);
+  .testimonials__slider {
     margin-top: var(--space-13);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 0 var(--space-13) var(--space-2);
   }
 
-  .testimonials__cards::-webkit-scrollbar {
-    display: none;
+  .testimonials__swiper {
+    padding: 0 var(--space-13);
+    overflow: hidden;
+  }
+
+  .testimonials__swiper .swiper-slide {
+    width: 576px;
+    max-width: 85%;
   }
 
   .testimonials__card {
     display: flex;
     align-items: flex-start;
-    background-color: var(--theme-surface-alt);
+    background-color: var(--color-surface-card);
     border-radius: var(--radius-3xl);
     padding: var(--space-2) var(--space-4) var(--space-2) var(--space-2);
-    min-width: 576px;
-    max-width: 576px;
-    scroll-snap-align: start;
-    flex-shrink: 0;
+    width: 100%;
   }
 
   .testimonials__card-avatar {
@@ -275,7 +283,7 @@
 
   @media screen and (max-width: 749px) {
     .testimonials {
-      padding: var(--space-6) 0;
+      padding: 3.25rem 0;
     }
 
     .testimonials__container {
@@ -301,13 +309,12 @@
       font-size: var(--font-size-3xl);
     }
 
-    .testimonials__cards {
-      padding: 0 var(--space-5) var(--space-2);
+    .testimonials__swiper {
+      padding: 0 var(--space-5);
     }
 
-    .testimonials__card {
-      min-width: 300px;
-      max-width: 300px;
+    .testimonials__swiper .swiper-slide {
+      width: 300px;
     }
 
     .testimonials__card-avatar {
@@ -337,6 +344,28 @@
       "id": "heading",
       "label": "t:sections.testimonials.settings.heading",
       "default": "What our customers say"
+    },
+    {
+      "type": "checkbox",
+      "id": "autoplay",
+      "label": "t:labels.autoplay",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "autoplay_speed",
+      "label": "t:labels.autoplay_speed",
+      "min": 2000,
+      "max": 9000,
+      "step": 500,
+      "unit": "ms",
+      "default": 5000
+    },
+    {
+      "type": "checkbox",
+      "id": "loop",
+      "label": "t:labels.loop",
+      "default": true
     }
   ],
   "blocks": [
