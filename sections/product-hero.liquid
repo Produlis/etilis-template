@@ -213,8 +213,10 @@
                         </svg>
                       </span>
                     </summary>
-                    <div class="product-hero__accordion-content">
-                      {{ acc.content }}
+                    <div class="product-hero__accordion-body">
+                      <div class="product-hero__accordion-content">
+                        {{ acc.content }}
+                      </div>
                     </div>
                   </details>
                 {%- endif -%}
@@ -254,8 +256,10 @@
                         </svg>
                       </span>
                     </summary>
-                    <div class="product-hero__accordion-content">
-                      {{ acc_content }}
+                    <div class="product-hero__accordion-body">
+                      <div class="product-hero__accordion-content">
+                        {{ acc_content }}
+                      </div>
                     </div>
                   </details>
                 {%- endif -%}
@@ -367,8 +371,8 @@
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-1) var(--space-4) var(--space-1) var(--space-2);
-    background-color: var(--theme-accent);
-    color: var(--theme-text-on-accent);
+    background-color: #E8EBEC;
+    color: var(--theme-text);
     border-radius: var(--theme-radius-badge);
   }
 
@@ -577,11 +581,22 @@
     transform: scaleY(0);
   }
 
+  .product-hero__accordion-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+  }
+
+  .product-hero__accordion[open] .product-hero__accordion-body {
+    grid-template-rows: 1fr;
+  }
+
   .product-hero__accordion-content {
-    padding: 0 0 var(--space-4) 0;
+    overflow: hidden;
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
     color: var(--theme-text-secondary);
+    padding-bottom: var(--space-4);
   }
 
   .product-hero__accordion-content ul {
@@ -753,6 +768,28 @@
             : atcButton.getAttribute('data-sold-text');
         }
       });
+    }
+
+    /* Smooth accordion close — opening is handled by CSS transition */
+    var accordions = section.querySelectorAll('.product-hero__accordion');
+    for (const details of accordions) {
+      var summary = details.querySelector('.product-hero__accordion-header');
+      if (!summary) continue;
+
+      (function(det, sum) {
+        sum.addEventListener('click', function(e) {
+          if (det.open) {
+            e.preventDefault();
+            var body = det.querySelector('.product-hero__accordion-body');
+            body.style.gridTemplateRows = '0fr';
+            body.addEventListener('transitionend', function handler() {
+              body.removeEventListener('transitionend', handler);
+              det.removeAttribute('open');
+              body.style.gridTemplateRows = '';
+            });
+          }
+        });
+      })(details, summary);
     }
   })();
 {% endjavascript %}
