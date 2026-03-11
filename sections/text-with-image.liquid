@@ -52,11 +52,13 @@
         <div class="twi__overlay" data-animate="fade-up" data-animate-stagger>
           {% for block in features %}
             <div class="twi__feature" {{ block.shopify_attributes }}>
-              {% if block.settings.icon %}
-                <div class="twi__feature-icon">
+              <div class="twi__feature-icon">
+                {% if block.settings.icon %}
                   {{ block.settings.icon | image_url: width: 80 | image_tag: loading: 'lazy' }}
-                </div>
-              {% endif %}
+                {% else %}
+                  {{ 'icon-benefit-heart.svg' | inline_asset_content }}
+                {% endif %}
+              </div>
 
               {% if block.settings.title != blank %}
                 <h3 class="twi__feature-title">{{ block.settings.title }}</h3>
@@ -211,7 +213,7 @@
 
   /* ── Side image ── */
   .twi__side-image {
-    flex: 1;
+    flex: 1 0 auto;
     border-radius: var(--radius-3xl);
     overflow: hidden;
     min-height: 0;
@@ -249,10 +251,10 @@
     inset-block-end: var(--space-4);
     inset-inline: var(--space-4);
     display: flex;
-    gap: var(--space-2);
+    gap: 1.5rem;
     -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
-    background-color: var(--color-glass-bg);
+    background-color: rgba(19, 19, 19, 0.12);
     border-radius: var(--radius-md);
     padding: var(--space-6);
   }
@@ -269,6 +271,7 @@
     width: 40px;
     height: 40px;
     flex-shrink: 0;
+    color: #fff;
   }
 
   .twi__feature-icon img {
@@ -278,8 +281,8 @@
   }
 
   .twi__feature-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-medium);
+    font-size: 20px;
+    font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
     letter-spacing: var(--letter-spacing-tighter);
     line-height: normal;
@@ -287,7 +290,7 @@
   }
 
   .twi__feature-description {
-    font-size: var(--font-size-base);
+    font-size: 16px;
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-normal);
     color: var(--theme-text-on-primary);
@@ -457,13 +460,6 @@
           "settings": {
             "title": "Sustainable Practices",
             "description": "Responsibly made with the environment and future generations in mind."
-          }
-        },
-        {
-          "type": "feature",
-          "settings": {
-            "title": "Tested & Proven",
-            "description": "Rigorously tested to meet the highest standards of performance and reliability."
           }
         }
       ]
