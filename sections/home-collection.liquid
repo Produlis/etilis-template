@@ -1,3 +1,5 @@
+{% render 'swiper-loader' %}
+
 <div class="home-collection full-width">
   <div class="home-collection__container">
     <div class="home-collection__header" data-animate="fade-up" data-animate-stagger>
@@ -597,98 +599,92 @@
   }
 {% endstylesheet %}
 
-<script>
-  (function() {
-    function initHomeCollectionSwiper(container) {
-      var el = container.querySelector('.home-collection__swiper');
-      if (!el || typeof Swiper === 'undefined') return;
+{% javascript %}
+  function initHomeCollectionSwiper(container) {
+    var el = container.querySelector('.home-collection__swiper');
+    if (!el) return;
 
-      if (el.swiper) el.swiper.destroy(true, true);
+    if (el.swiper) el.swiper.destroy(true, true);
 
-      var autoplay = el.dataset.autoplay === 'true';
-      var autoplaySpeed = parseInt(el.dataset.autoplaySpeed, 10) || 5000;
-      var loop = el.dataset.loop === 'true';
+    var autoplay = el.dataset.autoplay === 'true';
+    var autoplaySpeed = parseInt(el.dataset.autoplaySpeed, 10) || 5000;
+    var loop = el.dataset.loop === 'true';
+    var slidesDesktop = parseInt(el.dataset.slidesDesktop, 10) || 4;
+    var slidesMobile = parseInt(el.dataset.slidesMobile, 10) || 2;
 
-      var parent = el.closest('.home-collection__slider');
-      var prevBtn = parent.querySelector('.home-collection__nav-btn--prev');
-      var nextBtn = parent.querySelector('.home-collection__nav-btn--next');
-      var paginationEl = parent.querySelector('.home-collection__pagination');
+    var parent = el.closest('.home-collection__slider');
+    var prevBtn = parent.querySelector('.home-collection__nav-btn--prev');
+    var nextBtn = parent.querySelector('.home-collection__nav-btn--next');
+    var paginationEl = parent.querySelector('.home-collection__pagination');
 
-      new Swiper(el, {
-        slidesPerView: 'auto',
-        spaceBetween: 20,
-        centeredSlides: true,
-        loop: loop,
-        grabCursor: true,
-        autoplay: autoplay ? { delay: autoplaySpeed, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
-        pagination: {
-          el: paginationEl,
-          clickable: true
-        },
-        navigation: {
-          prevEl: prevBtn,
-          nextEl: nextBtn
-        },
-        breakpoints: {
-          750: {
-            slidesPerView: 'auto',
-            centeredSlides: true,
-            spaceBetween: 16
-          }
+    new Swiper(el, {
+      slidesPerView: 'auto',
+      spaceBetween: 20,
+      centeredSlides: true,
+      loop: loop,
+      grabCursor: true,
+      autoplay: autoplay ? { delay: autoplaySpeed, disableOnInteraction: false, pauseOnMouseEnter: true } : false,
+      pagination: {
+        el: paginationEl,
+        clickable: true
+      },
+      navigation: {
+        prevEl: prevBtn,
+        nextEl: nextBtn
+      },
+      breakpoints: {
+        750: {
+          slidesPerView: 'auto',
+          centeredSlides: true,
+          spaceBetween: 16
         }
-      });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.home-collection').forEach(function(el) {
-          initHomeCollectionSwiper(el);
-        });
-      });
-    } else {
-      document.querySelectorAll('.home-collection').forEach(function(el) {
-        initHomeCollectionSwiper(el);
-      });
-    }
-
-    document.addEventListener('shopify:section:load', function (event) {
-      var section = event.target;
-      if (section.querySelector('.home-collection__swiper')) {
-        initHomeCollectionSwiper(section);
       }
     });
+  }
 
-    document.addEventListener('click', async function (e) {
-      var btn = e.target.closest('[data-add-to-cart]');
-      if (!btn) return;
+  document.addEventListener('DOMContentLoaded', function () {
+    for (const el of document.querySelectorAll('.home-collection')) {
+      initHomeCollectionSwiper(el);
+    }
+  });
 
-      var variantId = btn.dataset.addToCart;
-      var textEl = btn.querySelector('[data-btn-text]') || btn;
-      var originalText = textEl.textContent;
-      btn.disabled = true;
-      textEl.textContent = '...';
+  document.addEventListener('shopify:section:load', function (event) {
+    var section = event.target;
+    if (section.querySelector('.home-collection__swiper')) {
+      initHomeCollectionSwiper(section);
+    }
+  });
 
-      try {
-        var res = await fetch('/cart/add.js', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id: variantId, quantity: 1 })
-        });
-        if (!res.ok) throw new Error('Add to cart failed');
-        await res.json();
+  document.addEventListener('click', async function (e) {
+    var btn = e.target.closest('[data-add-to-cart]');
+    if (!btn) return;
 
-        textEl.textContent = originalText;
-        btn.disabled = false;
+    var variantId = btn.dataset.addToCart;
+    var textEl = btn.querySelector('[data-btn-text]') || btn;
+    var originalText = textEl.textContent;
+    btn.disabled = true;
+    textEl.textContent = '...';
 
-        var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
-        if (cartTrigger) cartTrigger.click();
-      } catch (err) {
-        textEl.textContent = originalText;
-        btn.disabled = false;
-      }
-    });
-  })();
-</script>
+    try {
+      var res = await fetch('/cart/add.js', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: variantId, quantity: 1 })
+      });
+      if (!res.ok) throw new Error('Add to cart failed');
+      await res.json();
+
+      textEl.textContent = originalText;
+      btn.disabled = false;
+
+      var cartTrigger = document.querySelector('[data-cart-drawer-trigger]');
+      if (cartTrigger) cartTrigger.click();
+    } catch (err) {
+      textEl.textContent = originalText;
+      btn.disabled = false;
+    }
+  });
+{% endjavascript %}
 
 {% schema %}
 {
