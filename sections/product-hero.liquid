@@ -203,7 +203,7 @@
             {%- if meta_accordions and meta_accordions.size > 0 -%}
               {%- for acc in meta_accordions -%}
                 {%- if acc.title != blank -%}
-                  <details class="product-hero__accordion">
+                  <details class="product-hero__accordion" data-accordion data-accordion-group="product-hero">
                     <summary class="product-hero__accordion-header">
                       <span class="product-hero__accordion-title">{{ acc.title }}</span>
                       <span class="product-hero__accordion-icon" aria-hidden="true">
@@ -213,8 +213,10 @@
                         </svg>
                       </span>
                     </summary>
-                    <div class="product-hero__accordion-content">
-                      {{ acc.content }}
+                    <div class="product-hero__accordion-body" data-accordion-body>
+                      <div class="product-hero__accordion-content">
+                        {{ acc.content }}
+                      </div>
                     </div>
                   </details>
                 {%- endif -%}
@@ -244,7 +246,7 @@
                   endcase
                 -%}
                 {%- if acc_title != blank -%}
-                  <details class="product-hero__accordion">
+                  <details class="product-hero__accordion" data-accordion data-accordion-group="product-hero">
                     <summary class="product-hero__accordion-header">
                       <span class="product-hero__accordion-title">{{ acc_title }}</span>
                       <span class="product-hero__accordion-icon" aria-hidden="true">
@@ -254,8 +256,10 @@
                         </svg>
                       </span>
                     </summary>
-                    <div class="product-hero__accordion-content">
-                      {{ acc_content }}
+                    <div class="product-hero__accordion-body" data-accordion-body>
+                      <div class="product-hero__accordion-content">
+                        {{ acc_content }}
+                      </div>
                     </div>
                   </details>
                 {%- endif -%}
@@ -367,8 +371,8 @@
     align-items: center;
     gap: var(--space-2);
     padding: var(--space-1) var(--space-4) var(--space-1) var(--space-2);
-    background-color: var(--theme-accent);
-    color: var(--theme-text-on-accent);
+    background-color: #E8EBEC;
+    color: var(--theme-text);
     border-radius: var(--theme-radius-badge);
   }
 
@@ -569,7 +573,7 @@
   }
 
   .product-hero__accordion-icon-v {
-    transition: transform var(--duration-fast) var(--ease-standard);
+    transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
     transform-origin: center;
   }
 
@@ -577,11 +581,20 @@
     transform: scaleY(0);
   }
 
+  .product-hero__accordion.is-closing .product-hero__accordion-icon-v {
+    transform: scaleY(1);
+  }
+
+  .product-hero__accordion-body {
+    overflow: hidden;
+  }
+
   .product-hero__accordion-content {
-    padding: 0 0 var(--space-4) 0;
+    overflow: hidden;
     font-size: var(--font-size-sm);
     line-height: var(--line-height-snug);
     color: var(--theme-text-secondary);
+    padding-bottom: var(--space-4);
   }
 
   .product-hero__accordion-content ul {
@@ -754,8 +767,11 @@
         }
       });
     }
+
   })();
 {% endjavascript %}
+
+<script src="{{ 'accordion-animations.js' | asset_url }}" defer></script>
 
 {% schema %}
 {

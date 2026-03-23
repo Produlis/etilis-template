@@ -1,9 +1,5 @@
-{%- liquid
-  if settings.favicon != blank
-    assign favicon_url = settings.favicon | image_url: width: 32, height: 32
-  else
-    assign favicon_url = 'favicon.png' | asset_url
-  endif
--%}
-
-<link rel="icon" type="image/png" href="{{ favicon_url }}">
+{%- if settings.favicon != blank -%}
+  <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+{%- else -%}
+  <link rel="icon" type="image/svg+xml" href="{{ 'favicon-converlis.svg' | asset_url }}">
+{%- endif -%}

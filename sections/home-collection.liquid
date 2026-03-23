@@ -555,11 +555,11 @@
     }
 
     .home-collection__slider {
-      padding-left: var(--space-4);
+      padding-left: 0;
     }
 
     .home-collection__nav-btn {
-      display: none;
+      display: flex;
     }
 
     .home-collection__swiper {
@@ -634,11 +634,6 @@
       },
       breakpoints: {
         750: {
-          slidesPerView: Math.min(slidesDesktop, 3),
-          centeredSlides: false,
-          spaceBetween: 12
-        },
-        1000: {
           slidesPerView: 'auto',
           centeredSlides: true,
           spaceBetween: 16

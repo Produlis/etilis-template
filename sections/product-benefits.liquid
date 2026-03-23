@@ -30,17 +30,19 @@
           {% for block in section.blocks %}
             {% if block.type == 'benefit' %}
               <li class="product-benefits__item" {{ block.shopify_attributes }}>
-                {% if block.settings.icon %}
-                  <div class="product-benefits__icon">
+                <div class="product-benefits__icon">
+                  {% if block.settings.icon %}
                     {{ block.settings.icon | image_url: width: 48 | image_tag: loading: 'lazy' }}
-                  </div>
-                {% endif %}
-
+                  {% elsif block.settings.icon_name != blank %}
+                    {{ block.settings.icon_name | append: '.svg' | inline_asset_content }}
+                  {% else %}
+                    {{ 'icon-benefit-quality.svg' | inline_asset_content }}
+                  {% endif %}
+                </div>
                 <div class="product-benefits__item-text">
                   {% if block.settings.title != blank %}
                     <h3 class="product-benefits__item-title">{{ block.settings.title }}</h3>
                   {% endif %}
-
                   {% if block.settings.description != blank %}
                     <p class="product-benefits__item-desc">{{ block.settings.description }}</p>
                   {% endif %}
@@ -152,8 +154,8 @@
   }
 
   .product-benefits__heading {
-    font-size: var(--font-size-4xl);
-    line-height: var(--line-height-tight);
+    font-size: 3.25rem;
+    line-height: 4rem;
     font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
     letter-spacing: var(--letter-spacing-tighter);
@@ -164,7 +166,7 @@
   .product-benefits__list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
+    gap: 1.5rem;
     list-style: none;
     padding: 0;
     margin: 0;
@@ -172,16 +174,24 @@
 
   .product-benefits__item {
     display: flex;
-    gap: var(--space-3);
+    flex-direction: row;
     align-items: flex-start;
+    gap: var(--space-3);
     padding: var(--space-3);
+  }
+
+  .product-benefits__item-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    flex: 1;
+    min-width: 0;
   }
 
   .product-benefits__icon {
     width: 24px;
     height: 24px;
     flex-shrink: 0;
-    margin-top: 2px;
     color: var(--theme-text-on-primary);
   }
 
@@ -193,32 +203,20 @@
     object-fit: contain;
   }
 
-  .product-benefits__item-text {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    flex: 1;
-    min-width: 0;
-  }
-
   .product-benefits__item-title {
-    font-size: var(--font-size-xl);
+    font-size: 1.25rem;
     font-weight: var(--font-weight-regular);
     color: var(--theme-text-on-primary);
-    line-height: 28px;
+    line-height: 1.75rem;
     margin: 0;
   }
 
   .product-benefits__item-desc {
-    font-size: var(--font-size-base);
+    font-size: 1rem;
     font-weight: var(--font-weight-regular);
-    color: var(--theme-text-on-dark);
-    line-height: 24px;
+    color: var(--color-text-on-dark-muted);
+    line-height: 1.5rem;
     margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
 
   /* ── Detail panels (right column) ── */
@@ -226,7 +224,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: var(--space-10);
+    gap: 1.5rem;
   }
 
   .product-benefits__detail {
@@ -298,9 +296,16 @@
     }
 
     .product-benefits__sidebar {
+      flex: none;
+      width: 100%;
       position: static;
       padding: var(--space-6);
       gap: var(--space-6);
+      box-sizing: border-box;
+    }
+
+    .product-benefits__details {
+      width: 100%;
     }
 
     .product-benefits__heading {
@@ -338,7 +343,7 @@
       "type": "textarea",
       "id": "heading",
       "label": "t:labels.heading",
-      "default": "Key benefits you'll love"
+      "default": "Thoughtfully designed product"
     }
   ],
   "blocks": [
@@ -350,6 +355,12 @@
           "type": "image_picker",
           "id": "icon",
           "label": "t:labels.icon"
+        },
+        {
+          "type": "text",
+          "id": "icon_name",
+          "label": "Icon SVG name",
+          "info": "Asset filename without .svg (e.g. icon-benefit-quality). Used when no image icon is set."
         },
         {
           "type": "text",
@@ -376,36 +387,33 @@
         {
           "type": "benefit",
           "settings": {
-            "title": "Premium Materials",
-            "description": "Crafted from high-quality, carefully sourced materials that ensure durability and a refined feel you'll notice from the first use."
+            "icon_name": "icon-benefit-quality",
+            "title": "Quality-focused design",
+            "description": "Built with attention to detail and carefully selected components."
           }
         },
         {
           "type": "benefit",
           "settings": {
-            "title": "Thoughtful Design",
-            "description": "Every detail has been considered to create a product that is both functional and beautiful, fitting seamlessly into your daily routine."
+            "icon_name": "icon-benefit-expert",
+            "title": "Developed with expert input",
+            "description": "Created with guidance from experienced designers and product specialists."
           }
         },
         {
           "type": "benefit",
           "settings": {
-            "title": "Lasting Durability",
-            "description": "Built to withstand everyday use without compromising on quality, so you can count on consistent performance over time."
+            "icon_name": "icon-benefit-innovation",
+            "title": "Innovative construction",
+            "description": "Engineered with modern materials and techniques for reliable performance."
           }
         },
         {
           "type": "benefit",
           "settings": {
-            "title": "Easy to Use",
-            "description": "Designed with simplicity in mind, our product works effortlessly so you can focus on what matters most to you."
-          }
-        },
-        {
-          "type": "benefit",
-          "settings": {
-            "title": "Sustainable & Responsible",
-            "description": "We are committed to ethical sourcing and sustainable practices, so you can feel good about every purchase you make."
+            "icon_name": "icon-benefit-convenience",
+            "title": "Convenient for everyday use",
+            "description": "Designed to fit easily into your daily routine without extra steps."
           }
         }
       ]

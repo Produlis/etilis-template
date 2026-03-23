@@ -59,16 +59,9 @@
             "title": "Sustainable Practices",
             "description": "Responsibly made with the environment and future generations in mind."
           }
-        },
-        "feature-4": {
-          "type": "feature",
-          "settings": {
-            "title": "Tested & Proven",
-            "description": "Rigorously tested to meet the highest standards of performance and reliability."
-          }
         }
       },
-      "block_order": ["feature-1", "feature-2", "feature-3", "feature-4"],
+      "block_order": ["feature-1", "feature-2", "feature-3"],
       "settings": {
         "tag_text": "Why choose us",
         "heading": "Experience the difference quality makes.",
@@ -85,7 +78,7 @@
           "settings": {
             "time_label": "Week 1",
             "title": "First impressions",
-            "benefits": "<ul><li>Unbox your new product</li><li>Easy setup in minutes</li><li>Notice the quality difference right away</li></ul>"
+            "benefits": "<p>Get started quickly and notice the difference from day one.</p>"
           }
         },
         "milestone-2": {
@@ -93,7 +86,7 @@
           "settings": {
             "time_label": "2 Weeks",
             "title": "Part of your routine",
-            "benefits": "<ul><li>Seamlessly fits your daily life</li><li>Consistent performance every day</li><li>Start seeing real results</li></ul>"
+            "benefits": "<p>Fits naturally into your everyday routine with consistent results.</p>"
           }
         },
         "milestone-3": {
@@ -101,7 +94,7 @@
           "settings": {
             "time_label": "1 Month",
             "title": "Lasting value",
-            "benefits": "<ul><li>Built to stand the test of time</li><li>Maintains like-new quality</li><li>Exceeds your expectations</li></ul>"
+            "benefits": "<p>Quality that holds up over time and exceeds expectations.</p>"
           }
         },
         "milestone-4": {
@@ -109,7 +102,7 @@
           "settings": {
             "time_label": "3 Months",
             "title": "Long-term satisfaction",
-            "benefits": "<ul><li>Proven durability over time</li><li>A product you can rely on</li><li>Worth every penny</li></ul>"
+            "benefits": "<p>A reliable product you can count on, month after month.</p>"
           }
         }
       },
@@ -126,43 +119,40 @@
         "benefit-1": {
           "type": "benefit",
           "settings": {
-            "title": "Premium Materials",
-            "description": "Crafted from high-quality, carefully sourced materials that ensure durability and a refined feel you'll notice from the first use."
+            "icon_name": "icon-benefit-quality",
+            "title": "Quality-focused design",
+            "description": "Built with attention to detail and carefully selected components."
           }
         },
         "benefit-2": {
           "type": "benefit",
           "settings": {
-            "title": "Thoughtful Design",
-            "description": "Every detail has been considered to create a product that is both functional and beautiful, fitting seamlessly into your daily routine."
+            "icon_name": "icon-benefit-expert",
+            "title": "Developed with expert input",
+            "description": "Created with guidance from experienced designers and product specialists."
           }
         },
         "benefit-3": {
           "type": "benefit",
           "settings": {
-            "title": "Lasting Durability",
-            "description": "Built to withstand everyday use without compromising on quality, so you can count on consistent performance over time."
+            "icon_name": "icon-benefit-innovation",
+            "title": "Innovative construction",
+            "description": "Engineered with modern materials and techniques for reliable performance."
           }
         },
         "benefit-4": {
           "type": "benefit",
           "settings": {
-            "title": "Easy to Use",
-            "description": "Designed with simplicity in mind, our product works effortlessly so you can focus on what matters most to you."
-          }
-        },
-        "benefit-5": {
-          "type": "benefit",
-          "settings": {
-            "title": "Sustainable & Responsible",
-            "description": "We are committed to ethical sourcing and sustainable practices, so you can feel good about every purchase you make."
+            "icon_name": "icon-benefit-convenience",
+            "title": "Convenient for everyday use",
+            "description": "Designed to fit easily into your daily routine without extra steps."
           }
         }
       },
-      "block_order": ["benefit-1", "benefit-2", "benefit-3", "benefit-4", "benefit-5"],
+      "block_order": ["benefit-1", "benefit-2", "benefit-3", "benefit-4"],
       "settings": {
         "tag_text": "BENEFITS",
-        "heading": "Key benefits you'll love"
+        "heading": "Thoughtfully designed product"
       }
     },
     "product-guarantee": {
@@ -266,14 +256,39 @@
             "author_name": "Maria L.",
             "author_role": "Verified Buyer"
           }
+        },
+        "testimonial-4": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "\"Simple, effective, and well-made. It does exactly what it promises and fits perfectly into my routine.\"",
+            "author_name": "Sarah K.",
+            "author_role": "Verified Buyer"
+          }
+        },
+        "testimonial-5": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "\"Bought this as a gift and ended up getting one for myself. The quality speaks for itself.\"",
+            "author_name": "David R.",
+            "author_role": "Verified Buyer"
+          }
+        },
+        "testimonial-6": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "\"Great customer service and an even better product. I've already recommended it to friends and family.\"",
+            "author_name": "Emily W.",
+            "author_role": "Verified Buyer"
+          }
         }
       },
-      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3"],
+      "block_order": ["testimonial-1", "testimonial-2", "testimonial-3", "testimonial-4", "testimonial-5", "testimonial-6"],
       "settings": {
         "tag_text": "Testimonials",
         "heading": "What our customers say",
-        "rating": "4.9",
-        "review_count": "2,500+"
+        "autoplay": true,
+        "autoplay_speed": 5000,
+        "loop": true
       }
     },
     "product-faq": {

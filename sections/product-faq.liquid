@@ -12,6 +12,8 @@
           <details
             class="faq__item{% if forloop.last %} faq__item--last{% endif %}"
             data-faq-item
+            data-accordion
+            data-accordion-group="faq"
             {% if forloop.first %}open{% endif %}
           >
             <summary class="faq__question">
@@ -20,7 +22,7 @@
                 {{ 'icon-plus.svg' | inline_asset_content }}
               </span>
             </summary>
-            <div class="faq__answer">
+            <div class="faq__answer" data-accordion-body>
               <div class="faq__answer-inner">
                 {{ faq.answer }}
               </div>
@@ -32,6 +34,8 @@
           <details
             class="faq__item{% if forloop.last %} faq__item--last{% endif %}"
             data-faq-item
+            data-accordion
+            data-accordion-group="faq"
             {% if forloop.first %}
               open
             {% endif %}
@@ -43,7 +47,7 @@
                 {{ 'icon-plus.svg' | inline_asset_content }}
               </span>
             </summary>
-            <div class="faq__answer">
+            <div class="faq__answer" data-accordion-body>
               <div class="faq__answer-inner">
                 {{ block.settings.answer }}
               </div>
@@ -127,6 +131,7 @@
     gap: var(--space-4);
     font-family: inherit;
     list-style: none;
+    transition: padding 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   .faq__question::-webkit-details-marker {
@@ -157,7 +162,7 @@
     height: 24px;
     flex-shrink: 0;
     color: var(--theme-text);
-    transition: transform var(--duration-medium, 300ms) var(--ease-standard, ease);
+    transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
   }
 
   .faq__icon svg {
@@ -170,8 +175,16 @@
     transform: rotate(45deg);
   }
 
+  .faq__item.is-closing .faq__icon {
+    transform: rotate(0deg);
+  }
+
   .faq__item[open] .faq__question {
     padding-bottom: var(--space-4);
+  }
+
+  .faq__item.is-closing .faq__question {
+    padding-bottom: var(--space-6);
   }
 
   .faq__answer {
@@ -179,6 +192,7 @@
   }
 
   .faq__answer-inner {
+    overflow: hidden;
     font-size: var(--font-size-sm);
     font-weight: var(--font-weight-regular);
     color: var(--theme-text-secondary);
@@ -192,7 +206,7 @@
 
   @media screen and (max-width: 749px) {
     .faq {
-      padding: var(--space-8) 0;
+      padding: var(--space-8) 0 3.25rem;
     }
 
     .faq__container {
@@ -204,6 +218,10 @@
       width: 100%;
     }
 
+    .faq__right {
+      width: 100%;
+    }
+
     .faq__heading {
       font-size: var(--font-size-3xl);
       line-height: var(--line-height-tight);
@@ -212,26 +230,7 @@
   }
 {% endstylesheet %}
 
-{% javascript %}
-  (function () {
-    var section = document.querySelector('.faq');
-    if (!section) return;
-
-    var items = section.querySelectorAll('[data-faq-item]');
-
-    for (const item of items) {
-      item.addEventListener('toggle', function () {
-        if (!item.open) return;
-
-        for (const other of items) {
-          if (other !== item && other.open) {
-            other.removeAttribute('open');
-          }
-        }
-      });
-    }
-  })();
-{% endjavascript %}
+<script src="{{ 'accordion-animations.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
